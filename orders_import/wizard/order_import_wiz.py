@@ -120,7 +120,7 @@ class OrdersImport(models.TransientModel):
                     else:
                         payment_term_id = payment_term_obj.search([('name', '=', val.get('payment_terms'))])
                         user_id = user_obj.search([('name', '=', val.get('rep'))])
-                        date_order = datetime.strptime(val.get('order_date'), '%d-%m-%Y')
+                        date_order = datetime.strptime(val.get('order_date'), '%d/%m/%Y')
                         sale_order_dict.update(
                             {val.get('orderID'): {'partner_id': partner_id and partner_id.id or False,
                                                   'date_order': date_order,
