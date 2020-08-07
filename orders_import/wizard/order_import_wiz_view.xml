@@ -49,7 +49,7 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <p style="color:red">Select CSV file to import sale orders.
+                        <p style="color:red">Select .xlsx file to import.
                         </p>
                         <group>
                             <group>

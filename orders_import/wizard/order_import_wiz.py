@@ -220,8 +220,8 @@ class OrdersImport(models.TransientModel):
                             )
                         else:
                             values.append(cell.value)
-                    if values[7] and values[11]:
-                        inv_lines = False
+                    if values[7] and float(values[11]):
+                        inv_lines = []
                         if values[9]:
                             acc_code = values[9].split(' ')[0]
                             account_id = account_obj.search([('code', '=', acc_code)], limit=1)
@@ -240,13 +240,26 @@ class OrdersImport(models.TransientModel):
                                                                  'customer_rank': 1})
                             journal_id = journal_obj.search(
                                 [('name', '=', 'Customer Invoices'), ('type', '=', 'sale')], limit=1)
+                            inv_type = False
+                            if values[6] == 'Invoice':
+                                inv_type = 'out_invoice'
+                            elif values[6] == 'Credit Memo':
+                                inv_type = 'out_refund'
+                            elif values[6] == 'Vendor Bill':
+                                inv_type = 'in_invoice'
+                            elif values[6] == 'Vendor Credit Note':
+                                inv_type = 'in_refund'
+                            elif values[6] == 'Sales Receipt':
+                                inv_type = 'out_receipt'
+                            elif values[6] == 'Purchase Receipt':
+                                inv_type = 'in_receipt'
                             inv_dict.update(
                                 {values[7]: {'partner_id': partner_id and partner_id.id or False,
                                              'invoice_date': values[2],
                                              'invoice_date_due': values[2],
                                              'invoice_origin': values[7],
-                                             'invoice_line_ids': [inv_lines],
-                                             'type': 'out_invoice',
+                                             'invoice_line_ids': inv_lines and [inv_lines] or inv_lines,
+                                             'type': inv_type,
                                              'journal_id': journal_id and journal_id.id or False,
                                              }
                                  })
