@@ -9,8 +9,21 @@ from odoo import models, fields, api, _
 import base64
 import io
 from odoo.exceptions import Warning
-from odoo.tools import pycompat
+from odoo.tools import pycompat, DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime
+import logging
+
+logger = logging.getLogger('Import Log')
+
+try:
+    import xlrd
+
+    try:
+        from xlrd import xlsx
+    except ImportError:
+        xlsx = None
+except ImportError:
+    xlrd = xlsx = None
 
 
 class OrdersImport(models.TransientModel):
@@ -22,7 +35,7 @@ class OrdersImport(models.TransientModel):
 
     def import_orders(self):
         """
-        Upload xlsx file data into multiple objects.
+        Upload csv file data into multiple objects.
         :return:
         """
         payment_term_obj = self.env['account.payment.term']
@@ -80,11 +93,14 @@ class OrdersImport(models.TransientModel):
             partner_id = False
             try:
                 if val.get('customer'):
-                    partner_id = partner_obj.search([('email', '=', val.get('email'))])
+                    if val.get('email'):
+                        partner_id = partner_obj.search([('email', '=', val.get('email'))], limit=1)
+                    if not partner_id and val.get('customer'):
+                        partner_id = partner_obj.search([('name', '=', val.get('customer'))], limit=1)
                     if not partner_id:
-                        country_id = self.env['res.country'].search([('name', '=', val.get('bill_country'))])
+                        country_id = self.env['res.country'].search([('name', '=', val.get('bill_country'))], limit=1)
                         state_id = self.env['res.country.state'].search([('code', '=', val.get('bill_state')),
-                                                                         ('country_id', '=', country_id.id)])
+                                                                         ('country_id', '=', country_id.id)], limit=1)
                         partner_id = partner_obj.create({'name': val.get('customer'),
                                                          'street': val.get('bill_street'),
                                                          'street2': val.get('bill_street2'),
@@ -93,6 +109,7 @@ class OrdersImport(models.TransientModel):
                                                          'country_id': country_id and country_id.id or False,
                                                          'zip': val.get('bill_postcode'),
                                                          'type': 'contact',
+                                                         'customer_rank': 1,
                                                          'phone': val.get('phone'),
                                                          # 'fax': val.get('fax'),
                                                          'email': val.get('email')})
@@ -100,7 +117,7 @@ class OrdersImport(models.TransientModel):
                     if val.get('sku'):
                         product_code = val.get('sku').strip()
                         product_data = product_obj.search_read([('default_code', '=', product_code)],
-                                                               ['id', 'uom_id'])
+                                                               ['id', 'uom_id'], limit=1)
                         qty = float(val.get('qty'))
                         uom_id = product_data[0].get('uom_id')[0] if product_data \
                             else False
@@ -118,8 +135,8 @@ class OrdersImport(models.TransientModel):
                     if val.get('orderID') in sale_order_dict.keys():
                         sale_order_dict.get(val.get('orderID')).get('order_line').append(order_lines)
                     else:
-                        payment_term_id = payment_term_obj.search([('name', '=', val.get('payment_terms'))])
-                        user_id = user_obj.search([('name', '=', val.get('rep'))])
+                        payment_term_id = payment_term_obj.search([('name', '=', val.get('payment_terms'))], limit=1)
+                        user_id = user_obj.search([('name', '=', val.get('rep'))], limit=1)
                         date_order = datetime.strptime(val.get('order_date'), '%d/%m/%Y')
                         sale_order_dict.update(
                             {val.get('orderID'): {'partner_id': partner_id and partner_id.id or False,
@@ -136,5 +153,102 @@ class OrdersImport(models.TransientModel):
                 raise Warning(_(e))
 
         for order in sale_order_dict.values():
-            sale_obj.create(order)
+            sale_id = sale_obj.create(order)
+        logger.info("Import Order Done!")
+        return True
+
+    def import_invoice(self):
+        """
+        Upload xlsx file data into objects.
+        :return:
+        """
+        logger.info("Import Start!")
+        partner_obj = self.env['res.partner']
+        invoice_obj = self.env['account.move']
+        journal_obj = self.env['account.journal']
+        account_obj = self.env['account.account']
+        if not self.import_file:
+            raise Warning(_("Please attach file then Upload"))
+        if not self.import_file_name.endswith('.xlsx'):
+            raise Warning(_("Please upload file only of '.csv' format!"))
+        try:
+            excel_sheet_file = self.import_file
+            decoded_data = base64.b64decode(excel_sheet_file)
+            book = xlrd.open_workbook(file_contents=decoded_data or b'')
+            sheet = book.sheet_by_index(0)
+            inv_dict = {}
+            for rowx, row in enumerate(map(sheet.row, range(sheet.nrows)), 1):
+                if rowx != 1:
+                    values = []
+                    for colx, cell in enumerate(row, 1):
+                        if cell.ctype is xlrd.XL_CELL_NUMBER:
+                            is_float = cell.value % 1 != 0.0
+                            values.append(
+                                str(cell.value)
+                                if is_float
+                                else str(int(cell.value))
+                            )
+                        elif cell.ctype is xlrd.XL_CELL_DATE:
+                            is_datetime = cell.value % 1 != 0.0
+                            # emulate xldate_as_datetime for pre-0.9.3
+                            dt = datetime(*xlrd.xldate.xldate_as_tuple(cell.value, book.datemode))
+                            values.append(
+                                dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+                                if is_datetime
+                                else dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
+                            )
+                        elif cell.ctype is xlrd.XL_CELL_BOOLEAN:
+                            values.append(u'True' if cell.value else u'False')
+                        elif cell.ctype is xlrd.XL_CELL_ERROR:
+                            raise ValueError(
+                                _("Invalid cell value at row %(row)s, column %(col)s: %(cell_value)s") % {
+                                    'row': rowx,
+                                    'col': colx,
+                                    'cell_value': xlrd.error_text_from_code.get(cell.value,
+                                                                                _("unknown error code %s") % cell.value)
+                                }
+                            )
+                        else:
+                            values.append(cell.value)
+                    if values[7]:
+                        inv_lines = False
+                        if values[9]:
+                            acc_code = values[9].split(' ')[0]
+                            account_id = account_obj.search([('code', '=', acc_code)], limit=1)
+                            if account_id.user_type_id.type not in ('receivable', 'payable'):
+                                inv_lines = (0, 0, {'account_id': account_id and account_id.id or False,
+                                                    'name': values[10],
+                                                    'quantity': 1,
+                                                    'tax_ids': [],
+                                                    'price_unit': values[11],
+                                                    })
+                        if values[7] not in inv_dict.keys():
+                            partner_id = partner_obj.search([('name', '=', values[8])], limit=1)
+                            if not partner_id:
+                                partner_id = partner_obj.create({'name': values[8],
+                                                                 'type': 'contact',
+                                                                 'customer_rank': 1})
+                            journal_id = journal_obj.search(
+                                [('name', '=', 'Customer Invoices'), ('type', '=', 'sale')], limit=1)
+                            inv_dict.update(
+                                {values[7]: {'partner_id': partner_id and partner_id.id or False,
+                                             'invoice_date': values[2],
+                                             'invoice_date_due': values[2],
+                                             'invoice_origin': values[7],
+                                             'invoice_line_ids': [inv_lines],
+                                             'type': 'out_invoice',
+                                             'journal_id': journal_id and journal_id.id or False,
+                                             }
+                                 })
+                        else:
+                            if inv_lines:
+                                inv_dict.get(values[7]).get('invoice_line_ids').append(inv_lines)
+        except Exception as e:
+            raise Warning(_(e))
+        total_inv = len(inv_dict.keys())
+        for vals in inv_dict.values():
+            logger.info("INV Count! %s" % total_inv)
+            invoice_obj.create(vals)
+            total_inv -= 1
+        logger.info("Import Done!")
         return True

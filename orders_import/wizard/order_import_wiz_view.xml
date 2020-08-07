@@ -43,5 +43,48 @@
         <menuitem name="Orders Import" id="menu_orders_import" parent="sale.menu_sales_config"
                   action="action_orders_import_wiz" sequence="7"/>
 
+        <record id="invoice_import_form_view" model="ir.ui.view">
+            <field name="name">orders.import.form</field>
+            <field name="model">orders.import</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <p style="color:red">Select CSV file to import sale orders.
+                        </p>
+                        <group>
+                            <group>
+                                <field name="import_file"
+                                       filename="import_file_name"/>
+                            </group>
+                            <group>
+                                <field name="import_file_name" invisible="1"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="import_invoice"
+                                    string="Import"
+                                    type="object" class="btn-primary"/>
+                            <button string="Cancel" class="btn-default" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_invoice_import_wiz" model="ir.actions.act_window">
+            <field name="name">Invoice Import</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">orders.import</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="invoice_import_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_import" name="Imports" parent="base.menu_custom" groups="base.group_no_one"/>
+
+        <menuitem name="Invoice Import" id="menu_invoice_import" parent="menu_import"
+                  action="action_invoice_import_wiz" sequence="7"/>
+
     </data>
 </odoo>
