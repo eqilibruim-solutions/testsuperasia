@@ -32,6 +32,7 @@ class OrdersImport(models.TransientModel):
 
     import_file = fields.Binary('File', help="Select file for import orders.")
     import_file_name = fields.Char('File Name')
+    is_paid_invoice = fields.Boolean("Is historical invoices?")
 
     def import_orders(self):
         """
@@ -265,6 +266,9 @@ class OrdersImport(models.TransientModel):
                                              'invoice_line_ids': inv_lines and [inv_lines] or inv_lines,
                                              'type': inv_type,
                                              'journal_id': journal_id and journal_id.id or False,
+                                             'state': 'draft',
+                                             'invoice_payment_state': 'not_paid',
+                                             'name': values[5] if self.is_paid_invoice else '/'
                                              }
                                  })
                         else:
@@ -273,9 +277,14 @@ class OrdersImport(models.TransientModel):
         except Exception as e:
             raise Warning(_(e))
         total_inv = len(inv_dict.keys())
+        inv_ids = []
         for vals in inv_dict.values():
             logger.info("INV Count ! %s" % total_inv)
-            invoice_obj.create(vals)
+            inv_id = invoice_obj.create(vals)
+            inv_ids.append(inv_id.id)
             total_inv -= 1
+        if self.is_paid_invoice:
+            self._cr.execute("UPDATE account_move set state='posted',invoice_payment_state='paid' where id in %s" % str(
+                tuple(inv_ids)))
         logger.info("Import Done!")
         return True
