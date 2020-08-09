@@ -51,6 +51,10 @@
                     <sheet>
                         <p style="color:red">Select .xlsx file to import.
                         </p>
+                        <div name="options">
+                            <label for="is_paid_invoice"/>
+                            <field name="is_paid_invoice"/>
+                        </div>
                         <group>
                             <group>
                                 <field name="import_file"
