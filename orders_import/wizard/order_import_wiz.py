@@ -172,7 +172,7 @@ class OrdersImport(models.TransientModel):
         Upload xlsx file data into objects.
         :return:
         """
-        logger.info("Import Start!")
+        logger.info("Invoice Import Start!")
         partner_obj = self.env['res.partner']
         invoice_obj = self.env['account.move']
         journal_obj = self.env['account.journal']
@@ -220,44 +220,48 @@ class OrdersImport(models.TransientModel):
                             )
                         else:
                             values.append(cell.value)
-                    if values[7] and float(values[11]):
+                    if values[5] and float(values[7]):
                         inv_lines = []
-                        if values[9]:
-                            acc_code = values[9].split(' ')[0]
+                        if values[8]:
+                            acc_code = values[8].split(' ')[0]
                             account_id = account_obj.search([('code', '=', acc_code)], limit=1)
                             if account_id.user_type_id.type not in ('receivable', 'payable'):
                                 inv_lines = (0, 0, {'account_id': account_id and account_id.id or False,
-                                                    'name': values[10],
+                                                    'name': values[9],
                                                     'quantity': 1,
                                                     'tax_ids': [],
-                                                    'price_unit': values[11],
+                                                    'price_unit': values[7],
                                                     })
-                        if values[7] not in inv_dict.keys():
-                            partner_id = partner_obj.search([('name', '=', values[8])], limit=1)
+                        if values[5] not in inv_dict.keys():
+                            partner_id = partner_obj.search([('name', '=', values[2])], limit=1)
                             if not partner_id:
-                                partner_id = partner_obj.create({'name': values[8],
+                                partner_id = partner_obj.create({'name': values[2],
                                                                  'type': 'contact',
                                                                  'customer_rank': 1})
+                            if values[0]:
+                                journal = values[0]
+                            else:
+                                journal = 'Customer Invoices'
                             journal_id = journal_obj.search(
-                                [('name', '=', 'Customer Invoices'), ('type', '=', 'sale')], limit=1)
+                                [('name', '=', journal), ('type', '=', 'sale')], limit=1)
                             inv_type = False
-                            if values[6] == 'Invoice':
+                            if values[3] == 'Invoice':
                                 inv_type = 'out_invoice'
-                            elif values[6] == 'Credit Memo':
+                            elif values[3] == 'Credit Memo':
                                 inv_type = 'out_refund'
-                            elif values[6] == 'Vendor Bill':
+                            elif values[3] == 'Vendor Bill':
                                 inv_type = 'in_invoice'
-                            elif values[6] == 'Vendor Credit Note':
+                            elif values[3] == 'Vendor Credit Note':
                                 inv_type = 'in_refund'
-                            elif values[6] == 'Sales Receipt':
+                            elif values[3] == 'Sales Receipt':
                                 inv_type = 'out_receipt'
-                            elif values[6] == 'Purchase Receipt':
+                            elif values[3] == 'Purchase Receipt':
                                 inv_type = 'in_receipt'
                             inv_dict.update(
-                                {values[7]: {'partner_id': partner_id and partner_id.id or False,
-                                             'invoice_date': values[2],
-                                             'invoice_date_due': values[2],
-                                             'invoice_origin': values[7],
+                                {values[5]: {'partner_id': partner_id and partner_id.id or False,
+                                             'invoice_date': values[4],
+                                             'invoice_date_due': values[6],
+                                             'ref': values[5],
                                              'invoice_line_ids': inv_lines and [inv_lines] or inv_lines,
                                              'type': inv_type,
                                              'journal_id': journal_id and journal_id.id or False,
@@ -265,12 +269,12 @@ class OrdersImport(models.TransientModel):
                                  })
                         else:
                             if inv_lines:
-                                inv_dict.get(values[7]).get('invoice_line_ids').append(inv_lines)
+                                inv_dict.get(values[5]).get('invoice_line_ids').append(inv_lines)
         except Exception as e:
             raise Warning(_(e))
         total_inv = len(inv_dict.keys())
         for vals in inv_dict.values():
-            logger.info("INV Count! %s" % total_inv)
+            logger.info("INV Count ! %s" % total_inv)
             invoice_obj.create(vals)
             total_inv -= 1
         logger.info("Import Done!")
