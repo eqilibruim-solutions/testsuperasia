@@ -7,7 +7,7 @@
 ##############################################################################
 {
     'name': 'Orders Import',
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Sales',
     'description': """
    Import Bulk Sale Order Using from Excel or CSV File.

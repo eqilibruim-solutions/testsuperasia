@@ -30,9 +30,16 @@ class OrdersImport(models.TransientModel):
     _name = 'orders.import'
     _description = "Import Orders from files"
 
+    def _get_default_date_format(self):
+        date_format = self.env['ir.config_parameter'].sudo().get_param('date_format')
+        if not date_format:
+            date_format = '%y-%m-%d'
+        return date_format
+
     import_file = fields.Binary('File', help="Select file for import orders.")
     import_file_name = fields.Char('File Name')
     is_paid_invoice = fields.Boolean("Is historical invoices?")
+    date_format = fields.Char('Date Format', default=_get_default_date_format)
 
     def import_orders(self):
         """
@@ -104,10 +111,9 @@ class OrdersImport(models.TransientModel):
             partner_id = False
             try:
                 if val.get('customer'):
-                    if val.get('email'):
-                        partner_id = partner_obj.search([('email', '=', val.get('email'))], limit=1)
-                    if not partner_id and val.get('customer'):
-                        partner_id = partner_obj.search([('name', '=', val.get('customer'))], limit=1)
+                    # if val.get('email'):
+                    #     partner_id = partner_obj.search([('email', '=', val.get('email'))], limit=1)
+                    partner_id = partner_obj.search([('name', '=', val.get('customer'))], limit=1)
                     if not partner_id:
                         country_id = self.env['res.country'].search([('name', '=', val.get('bill_country'))], limit=1)
                         state_id = self.env['res.country.state'].search([('code', '=', val.get('bill_state')),
@@ -148,7 +154,7 @@ class OrdersImport(models.TransientModel):
                     else:
                         payment_term_id = payment_term_obj.search([('name', '=', val.get('payment_terms'))], limit=1)
                         user_id = user_obj.search([('name', '=', val.get('rep'))], limit=1)
-                        date_order = datetime.strptime(val.get('order_date'), '%d/%m/%Y')
+                        date_order = datetime.strptime(val.get('order_date'), self.date_format)
                         sale_order_dict.update(
                             {val.get('orderID'): {'partner_id': partner_id and partner_id.id or False,
                                                   'date_order': date_order,
