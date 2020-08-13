@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_picking_view_form_inherit_change_location" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit.change.location</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="location_id" position="replace">
+                    <label for="location_id" attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
+                    <div class="o_row">
+<!--                        options="{'always_reload': True,'no_open':True,'no_create_edit':True,'no_create':True}"-->
+                        <field name="location_id"
+                               string="Source Location"
+                               groups="stock.group_stock_multi_locations"
+                               attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
+                        <button type="action"
+                                name="%(action_view_change_location_wiz)d"
+                                class="oe_read_only oe_default" colspan="1"
+                                context="{'location':'source'}"
+                                attrs="{'invisible': ['|',('picking_type_code', 'not in', ('outgoing')),('state','not in',('confirmed','assigned'))]}">
+                                <i class="fa fa-arrow-right mr-1"/>Change
+                        </button>
+                    </div>
+                </field>
+<!--                <field name="location_dest_id" position="replace">-->
+<!--                    <label for="location_dest_id" attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>-->
+<!--                    <div class="o_row">-->
+<!--&lt;!&ndash;                        options="{'always_reload': True,'no_open':True,'no_create_edit':True,'no_create':True}"&ndash;&gt;-->
+<!--                        <field name="location_dest_id"-->
+<!--                               string="Destination Location"-->
+<!--                               groups="stock.group_stock_multi_locations"-->
+<!--                               attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>-->
+<!--                        <button type="action"-->
+<!--                                name="%(action_view_change_location_wiz)d"-->
+<!--                                class="oe_read_only oe_default" colspan="1"-->
+<!--                                context="{'location':'destination'}"-->
+<!--                                attrs="{'invisible': ['|',('picking_type_code', 'not in', ('internal','incoming')),('state','not in',('confirmed','assigned'))]}">-->
+<!--                                <i class="fa fa-arrow-right mr-1"/>Change-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </field>-->
+            </field>
+        </record>
+    </data>
+</odoo>
