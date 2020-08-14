@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_../superasia_test/delivery_change_location_../superasia_test/delivery_change_location,../superasia_test/delivery_change_location.../superasia_test/delivery_change_location,model_../superasia_test/delivery_change_location_../superasia_test/delivery_change_location,base.group_user,1,1,1,1
