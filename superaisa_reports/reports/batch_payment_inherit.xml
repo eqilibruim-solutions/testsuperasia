@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<template id="print_batch_payment_inherit_custom" inherit_id="account_batch_payment.print_batch_payment">
+        <xpath expr="//table" position="replace">
+
+<!--            Just some table styling... right here within the XML :) -->
+            <style>
+            table, th, td {
+              border-bottom: 1.5px solid #ddd;
+              padding: 12px;
+            }
+            table.center {
+              margin-left: auto;
+              margin-right: auto;
+            }
+            </style>
+
+            <table class="table table-bordered table-sm" >
+                    <thead><tr>
+                        <th class="text-left">Customer</th>
+                        <th class="text-left">Date</th>
+                        <th class="text-left">Memo</th>
+                        <th class="text-right">Amount</th>
+                    </tr></thead>
+                    <!--Counter:-->
+                    <t t-set="counter" t-value="0"/>
+                    <tr t-foreach="page['payments']" t-as="payment">
+                        <td class="text-left"><t t-esc="payment.partner_id.name"/></td>
+                        <td class="text-left"><t t-esc="payment.payment_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></td>
+                        <td class="text-left"><t t-esc="payment.communication"/></td>
+                        <td class="text-right"><t t-esc="payment.amount" t-options="{'widget': 'monetary', 'display_currency': payment.currency_id}"/></td>
+                        <!--Append Counter:-->
+                        <t  t-set="counter" t-value="counter + 1"/>
+                    </tr>
+                    <tfoot t-if="page['total_amount']">
+                        <tr>
+                            <td/>
+                            <td/>
+                            <td/>
+                            <td class="text-right"><t t-esc="page['total_amount']" t-options="{'widget': 'monetary', 'display_currency': page['currency']}"/></td>
+                        </tr>
+                    </tfoot>
+
+                    <!--Print total quantity:-->
+                    <p>Total Checks: <t t-esc="counter"/></p>
+            </table>
+
+        </xpath>
+	</template>
+
+</odoo>
