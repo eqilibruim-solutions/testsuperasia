@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="view_internal_stock_orderpoint_tree" model="ir.ui.view">
+            <field name="name">stock.internal.stock.orderpoint.tree</field>
+            <field name="model">internal.stock.orderpoint</field>
+            <field name="arch" type="xml">
+                <tree string="Internal Stock Reordering Rules" multi_edit="1">
+                    <field name="name"/>
+                    <field name="active" invisible="1"/>
+                    <field name="warehouse_id" readonly="1" groups="stock.group_stock_multi_locations"/>
+                    <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations"/>
+                    <field name="product_id" readonly="1"/>
+                    <field name="company_id" readonly="1" groups="base.group_multi_company"/>
+                    <field name="product_min_qty"/>
+                    <field name="product_max_qty"/>
+                    <field name="product_uom" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_internal_stock_orderpoint_search">
+            <field name="name">internal.stock.orderpoint.search</field>
+            <field name="model">internal.stock.orderpoint</field>
+            <field name="arch" type="xml">
+                <search string="Reordering Rules Search">
+                    <field name="name" string="Reordering Rule"/>
+                    <field name="product_id"/>
+                    <field name="warehouse_id" groups="stock.group_stock_multi_warehouses"/>
+                    <field name="location_id" groups="stock.group_stock_multi_locations"/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Warehouse" name="warehouse" domain="[]"  context="{'group_by': 'warehouse_id'}" groups="stock.group_stock_multi_warehouses"/>
+                        <filter string="Location" name="location" domain="[]" context="{'group_by': 'location_id'}" groups="stock.group_stock_multi_locations"/>
+                        <filter string="Product" name="product" domain="[]" context="{'group_by': 'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_internal_stock_orderpoint_form" model="ir.ui.view">
+            <field name="name">internal.stock.orderpoint.form</field>
+            <field name="model">internal.stock.orderpoint</field>
+            <field name="arch" type="xml">
+                <form string="Internal Reordering Rules">
+                    <header>
+                        <button name="run_rule" type="object" string="Run Manually" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="product_id"/>
+                                <label for="product_min_qty"/>
+                                <div class="o_row">
+                                    <field name="product_min_qty"/>
+                                    <field name="product_uom_name"/>
+                                </div>
+                                <label for="product_max_qty"/>
+                                <div class="o_row">
+                                    <field name="product_max_qty"/>
+                                    <field name="product_uom_name"/>
+                                </div>
+                                <field name="qty_multiple" string="Quantity Multiple"/>
+                            </group>
+                            <group>
+                                <field name="allowed_location_ids" invisible="1"/>
+                                <field name="warehouse_id" widget="selection" groups="stock.group_stock_multi_locations"/>
+                                <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" domain="[('id', 'in', allowed_location_ids)]"/>
+<!--                                <label for="group_id" groups="base.group_no_one"/>-->
+<!--                                <div groups="base.group_no_one">-->
+<!--                                    <field name="group_id" groups="stock.group_adv_location"/>-->
+<!--                                </div>-->
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_internal_stock_orderpoint_form" model="ir.actions.act_window">
+            <field name="name">Reordering Rules</field>
+            <field name="res_model">internal.stock.orderpoint</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="view_internal_stock_orderpoint_tree"/>
+            <field name="search_view_id" ref="view_internal_stock_orderpoint_search" />
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a reordering rule
+              </p><p>
+                Define a minimum stock rule so that Odoo creates automatically requests for internal transfer to resupply your stock.
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_internal_stock_reordering_rules_config"
+            action="action_internal_stock_orderpoint_form"
+            name="Internal Reordering Rules" parent="stock.menu_stock_inventory_control" sequence="20"/>
+
+
+    </data>
+</odoo>
