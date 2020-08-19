@@ -27,6 +27,8 @@
         # 'security/ir.model.access.csv',
         'reports/batch_payment_inherit.xml',
         'reports/invoice_report_inherit.xml',
+        'reports/picking_report_inherit.xml',
+        'reports/report_picking_template.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
