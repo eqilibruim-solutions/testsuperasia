@@ -11,8 +11,8 @@
     'author': "Shawaz Jahangiri",
     'website': "http://www.bistasolutions.com",
     'category': 'Product',
-    'version': '1.0',
-    'depends': ['base', 'product'],
+    'version': '1.1',
+    'depends': ['base', 'product', 'stock'],
     # always loaded
     'data': [
         'views/product_view.xml',

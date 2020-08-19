@@ -8,8 +8,19 @@
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <field name="barcode" position="after">
-                    <field name="unit_barcode"/>
+                    <field name="unit_barcode" string="Unit Barcode"/>
                 </field>
+            </field>
+        </record>
+
+        <record id="stock_production_lot_form_view_inherit_notebook_visible" model="ir.ui.view">
+            <field name="name">stock.production.lot.form.view.inherit.notebook.visible</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form" />
+            <field name="arch" type="xml">
+                <notebook position="attributes">
+                    <attribute name="attrs"></attribute>
+                </notebook>
             </field>
         </record>
 
