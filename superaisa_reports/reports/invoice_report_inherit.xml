@@ -6,7 +6,7 @@
     <!--    This applies to all reports HOWEVER. From the Odoo docs-->
     <template id="report_assets_common_custom_fonts" name="Custom QWeb fonts" inherit_id="web.report_assets_common">
         <xpath expr="." position="inside">
-            <link href="/font_reduce/static/src/less/fonts.less" rel="stylesheet" type="text/less"/>
+            <link href="/superaisa_reports/static/src/less/fonts.less" rel="stylesheet" type="text/less"/>
         </xpath>
     </template>
 
