@@ -89,10 +89,12 @@ class WizVendorStockReport(models.TransientModel):
             #                                                     ('state', 'in', ('purchase', 'done'))
             #                                                     ], order='id')
             for pl in purchase_order.mapped('move_lines'):
-                if pl.picking_id.purchase_id not in data.get(vendor).keys():
-                    data.get(vendor).update({pl.picking_id.purchase_id: {pl.product_id: pl.product_uom_qty}})
-                else:
-                    data.get(vendor).get(pl.picking_id.purchase_id).update({pl.product_id: pl.product_uom_qty})
+                if pl.picking_id.purchase_id:
+                    if pl.picking_id not in data.get(vendor).keys():
+                        data.get(vendor).update({pl.picking_id: {pl.product_id: pl.product_uom_qty}})
+                    else:
+                        data.get(vendor).get(pl.picking_id).update({pl.product_id: pl.product_uom_qty})
+
         for vendor, value in data.items():
             if not value:
                 continue
@@ -117,10 +119,10 @@ class WizVendorStockReport(models.TransientModel):
             rows += 1
             for po, val in value.items():
                 po_cols += 1
-                sheet.write(po_rows, po_cols, po.name, value_format)
-                expected_date = datetime.strftime(po.date_order.date(), '%m/%d/%Y')
+                sheet.write(po_rows, po_cols, po.purchase_id.name, value_format)
+                expected_date = datetime.strftime(po.scheduled_date.date(), '%m/%d/%Y')
                 sheet.write(po_rows + 1, po_cols, expected_date, value_format)
-                sheet.write(po_rows + 1, po_cols - 1, 'Expected Date', only_bold)
+                # sheet.write(po_rows + 1, po_cols - 1, 'Expected Date', only_bold)
                 if pd:
                     remaining_prod = list(set(pd.keys()) - set(val.keys()))
                     for rem_pd in remaining_prod:
