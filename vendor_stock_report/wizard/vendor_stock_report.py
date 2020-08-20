@@ -174,7 +174,5 @@ class WizVendorStockReport(models.TransientModel):
             'type': 'ir.actions.act_url',
             'url': "web/content/?model=wiz.vendor.stock.report&id=" + str(
                 self.id) + "&filename_field=filename&field=report_data&download=true&filename=" + filename,
-            'target': 'new',
-            # 'type': 'ir.actions.act_window_close'
-
+            'target': 'self',
         }
