@@ -62,7 +62,7 @@ class InternalStockOrderpoint(models.Model):
              "a procurement to bring the forecasted quantity to the Quantity specified as Max Quantity.")
     qty_multiple = fields.Float(
         'Qty Multiple', digits='Product Unit of Measure',
-        default=1, required=True,
+        default=1, required=False,
         help="The procurement quantity will be rounded up to this multiple."
              "If it is 0, the exact quantity will be used.")
     company_id = fields.Many2one(
@@ -95,7 +95,7 @@ class InternalStockOrderpoint(models.Model):
             internal_product_dict = rule.product_id.with_context(
                 {'location': source_location_id})._compute_quantities_dict(None, None, None, from_date=False,
                                                                            to_date=datetime.now())
-            if rule.product_min_qty > product_dict.get(rule.product_id.id)['virtual_available'] and \
+            if rule.product_min_qty >= product_dict.get(rule.product_id.id)['virtual_available'] and \
                     internal_product_dict.get(rule.product_id.id)['free_qty']:
                 move_vals.append((0, 0, {
                     'product_id': rule.product_id.id,
