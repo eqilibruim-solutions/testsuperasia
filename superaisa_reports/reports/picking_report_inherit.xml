@@ -10,66 +10,66 @@
         </xpath>
     </template>
 
-    <!--    Replace body of page-->
-<!--    <template id="report_picking_operation_inherit_custom" inherit_id="web.external_layout_standard">-->
+
+<!--    Change the body-->
     <template id="report_picking_operation_inherit_custom" inherit_id="stock.report_picking">
         <xpath expr="//div[hasclass('page')]" position="replace">
-<!--        <xpath expr="//t-attf-class[@class='header o_company_#{company.id}_layout']" position="replace">-->
 
             <div class="page">
-<!--                <div class="row justify-content-end mb16">-->
-<!--                    <div class="col-4" name="right_box">-->
-<!--                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"-->
-<!--                             style="width:300px;height:50px;" alt="Barcode"/>-->
+                <!--                <div class="row justify-content-end mb16">-->
+                <!--                    <div class="col-4" name="right_box">-->
+                <!--                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"-->
+                <!--                             style="width:300px;height:50px;" alt="Barcode"/>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+
+                <div class="row">
+<!--                    <div class="col-6" name="div_outgoing_address">-->
+<!--                        <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id and o.move_ids_without_package[0].partner_id.id != o.partner_id.id">-->
+<!--                            <span>-->
+<!--                                <strong>Delivery Address:</strong>-->
+<!--                            </span>-->
+<!--                            <div t-field="o.move_ids_without_package[0].partner_id"-->
+<!--                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
+<!--                        </div>-->
+<!--                        <div t-if="o.picking_type_id.code != 'internal' and (not o.move_ids_without_package or not o.move_ids_without_package[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">-->
+<!--                            <span>-->
+<!--                                <strong>Warehouse Address:</strong>-->
+<!--                            </span>-->
+<!--                            <div t-field="o.picking_type_id.warehouse_id.partner_id"-->
+<!--                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
+<!--                        </div>-->
 <!--                    </div>-->
-<!--                </div>-->
 
-                <div class="row" >
-                    <div class="col-6" name="div_outgoing_address">
-                        <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id and o.move_ids_without_package[0].partner_id.id != o.partner_id.id">
-                            <span>
-                                <strong>Delivery Address:</strong>
-                            </span>
-                            <div t-field="o.move_ids_without_package[0].partner_id"
-                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
-                        </div>
-                        <div t-if="o.picking_type_id.code != 'internal' and (not o.move_ids_without_package or not o.move_ids_without_package[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">
-                            <span>
-                                <strong>Warehouse Address:</strong>
-                            </span>
-                            <div t-field="o.picking_type_id.warehouse_id.partner_id"
-                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-5 offset-1" name="div_incoming_address">
-                        <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">
-                            <span>
-                                <strong>Vendor Address:</strong>
-                            </span>
-                        </div>
-                        <div t-if="o.picking_type_id.code=='internal' and o.partner_id">
-                            <span>
-                                <strong>Warehouse Address:</strong>
-                            </span>
-                        </div>
-                        <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">
-                            <span>
-                                <strong>Customer Address:</strong>
-                            </span>
-                        </div>
-                        <div t-if="o.partner_id" name="partner_header">
-                            <div t-field="o.partner_id"
-                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
-                            <p t-if="o.sudo().partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>
-                                :
-                                <span t-field="o.sudo().partner_id.vat"/>
-                            </p>
-                        </div>
-                    </div>
+<!--                    <div class="col-5 offset-1" name="div_incoming_address">-->
+<!--                        <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">-->
+<!--                            <span>-->
+<!--                                <strong>Vendor Address:</strong>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                        <div t-if="o.picking_type_id.code=='internal' and o.partner_id">-->
+<!--                            <span>-->
+<!--                                <strong>Warehouse Address:</strong>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                        <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">-->
+<!--                            <span>-->
+<!--                                <strong>Customer Address:</strong>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                        <div t-if="o.partner_id" name="partner_header">-->
+<!--                            <div t-field="o.partner_id"-->
+<!--                                 t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
+<!--                            <p t-if="o.sudo().partner_id.vat">-->
+<!--                                <t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>-->
+<!--                                :-->
+<!--                                <span t-field="o.sudo().partner_id.vat"/>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
 
-<!--                <br/>-->
+                <!--                <br/>-->
 
                 <h1 t-field="o.name" class="mt0 float-left"/>
                 <div class="row mt48 mb32">
@@ -110,12 +110,12 @@
                                 groups="stock.group_stock_multi_locations">
                                 <strong>To</strong>
                             </th>
-<!--                            <th name="th_serial_number" class="text-center" t-if="has_serial_number">-->
-<!--                                <strong>Lot/Serial Number</strong>-->
-<!--                            </th>-->
-<!--                            <th name="th_barcode" class="text-center" t-if="has_barcode">-->
-<!--                                <strong>Product Barcode</strong>-->
-<!--                            </th>-->
+                            <!--                            <th name="th_serial_number" class="text-center" t-if="has_serial_number">-->
+                            <!--                                <strong>Lot/Serial Number</strong>-->
+                            <!--                            </th>-->
+                            <!--                            <th name="th_barcode" class="text-center" t-if="has_barcode">-->
+                            <!--                                <strong>Product Barcode</strong>-->
+                            <!--                            </th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -127,13 +127,14 @@
                                         <span t-if="o.state == 'done'" t-field="ml.qty_done"/>
                                     </td>
                                     <td>
-<!--                                        <span t-field="ml.product_id.display_name"/>-->
-                                        <span t-field="ml.product_id.name"/><br/>
-<!--                                        <span t-field="ml.product_id.description_picking"/>-->
+                                        <!--                                        <span t-field="ml.product_id.display_name"/>-->
+                                        <span t-field="ml.product_id.name"/>
+                                        <br/>
+                                        <!--                                        <span t-field="ml.product_id.description_picking"/>-->
                                     </td>
                                     <td>
-<!--                                        <span t-if="o.state != 'done'" t-field="ml.product_uom_qty"/>-->
-<!--                                        <span t-if="o.state == 'done'" t-field="ml.qty_done"/>-->
+                                        <!--                                        <span t-if="o.state != 'done'" t-field="ml.product_uom_qty"/>-->
+                                        <!--                                        <span t-if="o.state == 'done'" t-field="ml.qty_done"/>-->
                                         <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
 
                                     </td>
@@ -153,29 +154,29 @@
                                             </t>
                                         </div>
                                     </td>
-<!--                                    <td class=" text-center h6" t-if="has_serial_number">-->
-<!--                                        <img t-if="has_serial_number and (ml.lot_id or ml.lot_name)"-->
-<!--                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', ml.lot_id.name or ml.lot_name, 400, 100)"-->
-<!--                                             style="width:100%;height:35px;" alt="Barcode"/>-->
+                                    <!--                                    <td class=" text-center h6" t-if="has_serial_number">-->
+                                    <!--                                        <img t-if="has_serial_number and (ml.lot_id or ml.lot_name)"-->
+                                    <!--                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', ml.lot_id.name or ml.lot_name, 400, 100)"-->
+                                    <!--                                             style="width:100%;height:35px;" alt="Barcode"/>-->
 
-<!--                                    </td>-->
-<!--                                    <td class="text-center" t-if="has_barcode">-->
-<!--                                        <t t-if="product_barcode != move.product_id.barcode">-->
-<!--                                            <span t-if="move.product_id and move.product_id.barcode">-->
-<!--                                                <img t-if="len(move.product_id.barcode) == 13"-->
-<!--                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('EAN13', move.product_id.barcode, 400, 100, 0)"-->
-<!--                                                     style="height:35px" alt="Barcode"/>-->
-<!--                                                <img t-elif="len(move.product_id.barcode) == 8"-->
-<!--                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('EAN8', move.product_id.barcode, 400, 100, 0)"-->
-<!--                                                     style="height:35px" alt="Barcode"/>-->
-<!--                                                <img t-else=""-->
-<!--                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('Code128', move.product_id.barcode, 400, 100, 0)"-->
-<!--                                                     style="height:35px" alt="Barcode"/>-->
+                                    <!--                                    </td>-->
+                                    <!--                                    <td class="text-center" t-if="has_barcode">-->
+                                    <!--                                        <t t-if="product_barcode != move.product_id.barcode">-->
+                                    <!--                                            <span t-if="move.product_id and move.product_id.barcode">-->
+                                    <!--                                                <img t-if="len(move.product_id.barcode) == 13"-->
+                                    <!--                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('EAN13', move.product_id.barcode, 400, 100, 0)"-->
+                                    <!--                                                     style="height:35px" alt="Barcode"/>-->
+                                    <!--                                                <img t-elif="len(move.product_id.barcode) == 8"-->
+                                    <!--                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('EAN8', move.product_id.barcode, 400, 100, 0)"-->
+                                    <!--                                                     style="height:35px" alt="Barcode"/>-->
+                                    <!--                                                <img t-else=""-->
+                                    <!--                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('Code128', move.product_id.barcode, 400, 100, 0)"-->
+                                    <!--                                                     style="height:35px" alt="Barcode"/>-->
 
-<!--                                            </span>-->
-<!--                                            <t t-set="product_barcode" t-value="move.product_id.barcode"/>-->
-<!--                                        </t>-->
-<!--                                    </td>-->
+                                    <!--                                            </span>-->
+                                    <!--                                            <t t-set="product_barcode" t-value="move.product_id.barcode"/>-->
+                                    <!--                                        </t>-->
+                                    <!--                                    </td>-->
                                 </tr>
                             </t>
                         </t>
@@ -223,62 +224,6 @@
 
         </xpath>
     </template>
-
-<!--    &lt;!&ndash;Change the header&ndash;&gt;-->
-<!--    <template priority="100" id="report_picking_operation_inherit_another" inherit_id="web.external_layout_standard">-->
-
-<!--        <xpath expr="//div[contains(@t-attf-class, 'header o_company_#')]" position="after">-->
-
-<!--            <div class="row">-->
-<!--                <div class="col-6" name="div_outgoing_address">-->
-<!--                    <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id and o.move_ids_without_package[0].partner_id.id != o.partner_id.id">-->
-<!--                        <span>-->
-<!--                            <strong>Delivery Address:</strong>-->
-<!--                        </span>-->
-<!--                        <div t-field="o.move_ids_without_package[0].partner_id"-->
-<!--                             t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
-<!--                    </div>-->
-<!--                    <div t-if="o.picking_type_id.code != 'internal' and (not o.move_ids_without_package or not o.move_ids_without_package[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">-->
-<!--                        <span>-->
-<!--                            <strong>Warehouse Address:</strong>-->
-<!--                        </span>-->
-<!--                        <div t-field="o.picking_type_id.warehouse_id.partner_id"-->
-<!--                             t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="col-5 offset-1" name="div_incoming_address">-->
-<!--                    <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">-->
-<!--                        <span>-->
-<!--                            <strong>Vendor Address:</strong>-->
-<!--                        </span>-->
-<!--                    </div>-->
-<!--                    <div t-if="o.picking_type_id.code=='internal' and o.partner_id">-->
-<!--                        <span>-->
-<!--                            <strong>Warehouse Address:</strong>-->
-<!--                        </span>-->
-<!--                    </div>-->
-<!--                    <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">-->
-<!--                        <span>-->
-<!--                            <strong>Customer Address:</strong>-->
-<!--                        </span>-->
-<!--                    </div>-->
-<!--                    <div t-if="o.partner_id" name="partner_header">-->
-<!--                        <div t-field="o.partner_id"-->
-<!--                             t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
-<!--                        <p t-if="o.sudo().partner_id.vat">-->
-<!--                            <t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>-->
-<!--                            :-->
-<!--                            <span t-field="o.sudo().partner_id.vat"/>-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--        </xpath>-->
-
-
-<!--    </template>-->
-
+    
 
 </odoo>
