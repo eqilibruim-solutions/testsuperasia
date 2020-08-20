@@ -25,7 +25,7 @@
             <field name="name">internal.stock.orderpoint.search</field>
             <field name="model">internal.stock.orderpoint</field>
             <field name="arch" type="xml">
-                <search string="Reordering Rules Search">
+                <search string="Internal Reordering Rules Search">
                     <field name="name" string="Reordering Rule"/>
                     <field name="product_id"/>
                     <field name="warehouse_id" groups="stock.group_stock_multi_warehouses"/>
@@ -69,7 +69,7 @@
                                     <field name="product_max_qty"/>
                                     <field name="product_uom_name"/>
                                 </div>
-                                <field name="qty_multiple" string="Quantity Multiple"/>
+                                <field name="qty_multiple" string="Quantity Multiple" invisible="1"/>
                             </group>
                             <group>
                                 <field name="allowed_location_ids" invisible="1"/>
@@ -88,7 +88,7 @@
         </record>
 
         <record id="action_internal_stock_orderpoint_form" model="ir.actions.act_window">
-            <field name="name">Reordering Rules</field>
+            <field name="name">Internal Reordering Rules</field>
             <field name="res_model">internal.stock.orderpoint</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,kanban,form</field>

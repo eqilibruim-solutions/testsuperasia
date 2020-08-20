@@ -15,7 +15,7 @@
                         </div>
                         <div class="content-group">
                             <div class="mt8">
-                                <field name="internal_location_id" class="o_light_label" widget="selection"/>
+                                <field name="internal_location_id" class="o_light_label" widget="selection" required="1"/>
                             </div>
                         </div>
                     </div>
