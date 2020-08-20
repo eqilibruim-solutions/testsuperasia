@@ -17,6 +17,7 @@ class WizVendorStockReport(models.TransientModel):
     def generate_report(self):
         # purchase_order_obj = self.env['purchase.order']
         stock_obj = self.env['stock.picking']
+        move_obj = self.env['stock.move']
         tmp = tempfile.NamedTemporaryFile(prefix="xlsx", delete=False)
         # file_path = tmp.name
         file_name = 'Vendor Stock Report.xlsx'
@@ -127,35 +128,36 @@ class WizVendorStockReport(models.TransientModel):
                 for product, qty in val.items():
                     if product not in pd.keys():
                         rows += 1
-                        sale_order = stock_obj.search([('product_id', '=', product.id),
-                                                       ('picking_type_code', '=', 'outgoing'),
-                                                       ('state', 'not in', ('cancel', 'done'))],
-                                                      order='partner_id')
+                        outgoing_move = move_obj.search([('product_id', '=', product.id),
+                                                         ('location_id.usage', 'in', ('internal', 'transit')),
+                                                         ('location_dest_id.usage', 'not in', ('internal', 'transit')),
+                                                         ('state', 'not in', ('cancel', 'done'))],
+                                                        order='partner_id')
                         # self.env.cr.execute("""select coalesce(sum(product_uom_qty), 0.0)
                         #                        from sale_order_line where state = 'draft'
                         #                        and product_id= %s""" % (product.id))
                         # so_qty = self.env.cr.fetchone()
-                        so_qty = sum(sale_order.mapped('move_lines').mapped('product_uom_qty'))
+                        so_qty = sum(outgoing_move.mapped('product_uom_qty'))
                         pd.update({product: {'rows': rows,
                                              'cols': po_cols,
                                              'subtotal': qty,
                                              'qty_available': product.qty_available,
                                              'virtual_available': product.virtual_available,
-                                             'forcast_qty': qty + product.qty_available - so_qty}})
+                                             'forecast_qty': qty + product.qty_available - so_qty}})
                         sheet.write(pd.get(product).get('rows'), po_len + 2, so_qty or '', right_format)
                     else:
                         pd.get(product)['cols'] += 1
                         pd.get(product)['subtotal'] += qty
-                        pd.get(product)['forcast_qty'] += qty
+                        pd.get(product)['forecast_qty'] += qty
                     sheet.write(pd.get(product).get('rows'), cols, product.name, value_format)
                     sheet.write(pd.get(product).get('rows'), cols + 1, product.qty_available, right_format)
                     sheet.write(pd.get(product).get('rows'), pd.get(product).get('cols'), qty, right_format)
                     sheet.write(pd.get(product).get('rows'), po_len + 1, pd.get(product).get('subtotal'), total_format)
-                    sheet.write(pd.get(product).get('rows'), po_len + 3, pd.get(product).get('forcast_qty'),
+                    sheet.write(pd.get(product).get('rows'), po_len + 3, pd.get(product).get('forecast_qty'),
                                 right_format)
                     if self.odoo_Forecast:
                         sheet.write(pd.get(product).get('rows'), po_len + 4, pd.get(product).get('virtual_available'),
-                                right_format)
+                                    right_format)
             po_rows += 1
             rows += 2
 
