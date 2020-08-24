@@ -78,6 +78,7 @@ class WizVendorStockReport(models.TransientModel):
         # rows += 2
 
         # vendor_list = self.env['res.partner'].search([('name','=','10689068 CANADA INC.')])
+        po_move_ids = []
         for vendor in vendor_list:
             data.update({vendor: {}})
             purchase_order = stock_obj.search([('partner_id', 'in', vendor.ids),
@@ -90,11 +91,11 @@ class WizVendorStockReport(models.TransientModel):
             #                                                     ], order='id')
             for pl in purchase_order.mapped('move_lines'):
                 if pl.picking_id.purchase_id:
+                    po_move_ids.append(pl.id)
                     if pl.picking_id not in data.get(vendor).keys():
                         data.get(vendor).update({pl.picking_id: {pl.product_id: pl.product_uom_qty}})
                     else:
                         data.get(vendor).get(pl.picking_id).update({pl.product_id: pl.product_uom_qty})
-
         for vendor, value in data.items():
             if not value:
                 continue
@@ -113,9 +114,10 @@ class WizVendorStockReport(models.TransientModel):
             po_len = len(value.keys()) + po_cols
             sheet.write(rows, po_len + 1, "Subtotal", only_bold)
             sheet.write(rows, po_len + 2, "Total sales", only_bold)
-            sheet.write(rows, po_len + 3, "Total Forecast", only_bold)
+            sheet.write(rows, po_len + 3, "Return Qty", only_bold)
+            sheet.write(rows, po_len + 4, "Total Forecast", only_bold)
             if self.odoo_Forecast:
-                sheet.write(rows, po_len + 4, "Odoo Forecast", only_bold)
+                sheet.write(rows, po_len + 5, "Odoo Forecast", only_bold)
             rows += 1
             for po, val in value.items():
                 po_cols += 1
@@ -135,18 +137,29 @@ class WizVendorStockReport(models.TransientModel):
                                                          ('location_dest_id.usage', 'not in', ('internal', 'transit')),
                                                          ('state', 'not in', ('cancel', 'done'))],
                                                         order='partner_id')
+                        so_qty = sum(outgoing_move.mapped('product_uom_qty'))
                         # self.env.cr.execute("""select coalesce(sum(product_uom_qty), 0.0)
                         #                        from sale_order_line where state = 'draft'
                         #                        and product_id= %s""" % (product.id))
                         # so_qty = self.env.cr.fetchone()
-                        so_qty = sum(outgoing_move.mapped('product_uom_qty'))
+                        incoming_move = move_obj.search([('product_id', '=', product.id),
+                                                         # ('id', '=', 14569),
+                                                         ('id', 'not in', tuple(po_move_ids)),
+                                                         ('location_id.usage', 'not in', ('internal', 'transit')),
+                                                         ('location_dest_id.usage', 'in', ('internal', 'transit')),
+                                                         ('state', 'not in', ('cancel', 'done'))],
+                                                        order='partner_id')
+                        incoming_qty = sum(incoming_move.mapped('product_uom_qty'))
                         pd.update({product: {'rows': rows,
                                              'cols': po_cols,
                                              'subtotal': qty,
                                              'qty_available': product.qty_available,
                                              'virtual_available': product.virtual_available,
-                                             'forecast_qty': qty + product.qty_available - so_qty}})
+                                             'forecast_qty': qty + product.qty_available + incoming_qty - so_qty,
+                                             'incoming_qty': incoming_qty,
+                                             }})
                         sheet.write(pd.get(product).get('rows'), po_len + 2, so_qty or '', right_format)
+
                     else:
                         pd.get(product)['cols'] += 1
                         pd.get(product)['subtotal'] += qty
@@ -155,10 +168,11 @@ class WizVendorStockReport(models.TransientModel):
                     sheet.write(pd.get(product).get('rows'), cols + 1, product.qty_available, right_format)
                     sheet.write(pd.get(product).get('rows'), pd.get(product).get('cols'), qty, right_format)
                     sheet.write(pd.get(product).get('rows'), po_len + 1, pd.get(product).get('subtotal'), total_format)
-                    sheet.write(pd.get(product).get('rows'), po_len + 3, pd.get(product).get('forecast_qty'),
+                    sheet.write(pd.get(product).get('rows'), po_len + 3, pd.get(product).get('incoming_qty') or '', right_format)
+                    sheet.write(pd.get(product).get('rows'), po_len + 4, pd.get(product).get('forecast_qty'),
                                 right_format)
                     if self.odoo_Forecast:
-                        sheet.write(pd.get(product).get('rows'), po_len + 4, pd.get(product).get('virtual_available'),
+                        sheet.write(pd.get(product).get('rows'), po_len + 5, pd.get(product).get('virtual_available'),
                                     right_format)
             po_rows += 1
             rows += 2
