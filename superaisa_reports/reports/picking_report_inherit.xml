@@ -16,12 +16,12 @@
         <xpath expr="//div[hasclass('page')]" position="replace">
 
             <div class="page">
-                <!--                <div class="row justify-content-end mb16">-->
-                <!--                    <div class="col-4" name="right_box">-->
-                <!--                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"-->
-                <!--                             style="width:300px;height:50px;" alt="Barcode"/>-->
-                <!--                    </div>-->
-                <!--                </div>-->
+<!--                <div class="row justify-content-end mb16">-->
+<!--                    <div class="col-4" name="right_box">-->
+<!--                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"-->
+<!--                             style="width:300px;height:50px;" alt="Barcode"/>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div class="row">
 <!--                    <div class="col-6" name="div_outgoing_address">-->
@@ -86,6 +86,31 @@
                         <p t-field="o.scheduled_date"/>
                     </div>
                 </div>
+
+                <div class="row justify-content-end mb16">
+<!--                <div class="row justify-content-around mb16">-->
+<!--                    <div class="col-4" name="right_box">-->
+                    <div name="right_box">
+                        <table style="text-align: left">
+                            <table>
+                                <tr>
+                                    <th>Picked By: </th>
+                                    <td>________________________</td>
+                                </tr>
+                                <tr>
+                                    <th>Start Time: </th>
+                                    <td>________________________</td>
+                                </tr>
+                                <tr>
+                                    <th>End Time: </th>
+                                    <td>________________________</td>
+                                </tr>
+                            </table>
+                        </table>
+                    </div>
+                </div>
+
+
                 <table class="table table-sm" t-if="o.move_line_ids and o.move_ids_without_package">
                     <t t-set="has_barcode"
                        t-value="any([move_ids_without_package.product_id and move_ids_without_package.product_id.sudo().barcode or move_ids_without_package.package_id for move_ids_without_package in o.move_line_ids])"/>
@@ -98,6 +123,9 @@
                             </th>
                             <th name="th_product">
                                 <strong>Product</strong>
+                            </th>
+                            <th>
+                                <strong>Sales Description</strong>
                             </th>
                             <th>
                                 <strong>U.O.M.</strong>
@@ -132,6 +160,10 @@
                                         <span t-field="ml.product_id.name"/>
                                         <br/>
                                         <!--                                        <span t-field="ml.product_id.description_picking"/>-->
+                                    </td>
+                                    <td>
+<!--                                        Sales Description-->
+                                        <span t-field="ml.product_id.description_sale"/>
                                     </td>
                                     <td>
                                         <!--                                        <span t-if="o.state != 'done'" t-field="ml.product_uom_qty"/>-->
@@ -225,6 +257,5 @@
 
         </xpath>
     </template>
-
-
+    
 </odoo>
