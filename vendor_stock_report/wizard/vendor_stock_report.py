@@ -79,7 +79,7 @@ class WizVendorStockReport(models.TransientModel):
 
         # vendor_list = self.env['res.partner'].search([('name','=','10689068 CANADA INC.')])
         po_move_ids = []
-        for vendor in vendor_list:
+        for vendor in list(set(vendor_list)):
             data.update({vendor: {}})
             purchase_order = stock_obj.search([('partner_id', 'in', vendor.ids),
                                                ('picking_type_code', '=', 'incoming'),
@@ -90,14 +90,27 @@ class WizVendorStockReport(models.TransientModel):
             #                                                     ('state', 'in', ('purchase', 'done'))
             #                                                     ], order='id')
             for pl in purchase_order.mapped('move_lines'):
-                if pl.picking_id.purchase_id:
+                if pl.picking_id.purchase_id and not pl.origin_returned_move_id:
                     po_move_ids.append(pl.id)
                     if pl.picking_id not in data.get(vendor).keys():
                         data.get(vendor).update({pl.picking_id: {pl.product_id: pl.product_uom_qty}})
                     else:
                         data.get(vendor).get(pl.picking_id).update({pl.product_id: pl.product_uom_qty})
+            if not data.get(vendor):
+                product_tmpl_ids = self.env['product.supplierinfo'].search([('name', '=', vendor.id),
+                                                                            ('product_tmpl_id.qty_available', '!=',
+                                                                             0.0)],
+                                                                           order='name').mapped('product_tmpl_id')
+                product_ids = self.env['product.product'].search([('product_tmpl_id', 'in', product_tmpl_ids.ids),
+                                                                  ('product_tmpl_id.qty_available', '!=', 0.0)],
+                                                                 order='name')
+                data.get(vendor).update({stock_obj: {}})
+                for prod in product_ids:
+                    data.get(vendor).get(stock_obj).update({prod: 0.0})
+
         for vendor, value in data.items():
-            if not value:
+            is_val = len(list([v for v in value.values() if v]))
+            if not is_val:
                 continue
             # sheet.write(rows, cols, 'Vendor', title_format)
             # sheet.merge_range(rows, cols, rows, cols + 5,
@@ -111,19 +124,23 @@ class WizVendorStockReport(models.TransientModel):
             po_rows = rows
             po_cols = cols + 1
             pd = {}
-            po_len = len(value.keys()) + po_cols
-            sheet.write(rows, po_len + 1, "Subtotal", only_bold)
-            sheet.write(rows, po_len + 2, "Total sales", only_bold)
-            sheet.write(rows, po_len + 3, "Return Qty", only_bold)
+            po_count = len([pick.purchase_id for pick in value.keys() if pick.purchase_id])
+            po_len = po_count + po_cols
+            sheet.write(rows, po_len + 1, "PO Subtotal", only_bold)
+            sheet.write(rows, po_len + 2, "Total Sales / Outgoing", only_bold)
+            sheet.write(rows, po_len + 3, "Incoming Return Qty", only_bold)
             sheet.write(rows, po_len + 4, "Total Forecast", only_bold)
             if self.odoo_Forecast:
                 sheet.write(rows, po_len + 5, "Odoo Forecast", only_bold)
             rows += 1
             for po, val in value.items():
-                po_cols += 1
-                sheet.write(po_rows, po_cols, po.purchase_id.name, value_format)
-                expected_date = datetime.strftime(po.scheduled_date.date(), '%m/%d/%Y')
-                sheet.write(po_rows + 1, po_cols, expected_date, value_format)
+                if po:
+                    po_cols += 1
+                    sheet.write(po_rows, po_cols, po.purchase_id.name, value_format)
+                    expected_date = datetime.strftime(po.scheduled_date.date(), '%m/%d/%Y')
+                    sheet.write(po_rows + 1, po_cols, expected_date, value_format)
+                else:
+                    po_cols -= 1
                 # sheet.write(po_rows + 1, po_cols - 1, 'Expected Date', only_bold)
                 if pd:
                     remaining_prod = list(set(pd.keys()) - set(val.keys()))
@@ -149,14 +166,14 @@ class WizVendorStockReport(models.TransientModel):
                                                          ('location_dest_id.usage', 'in', ('internal', 'transit')),
                                                          ('state', 'not in', ('cancel', 'done'))],
                                                         order='partner_id')
-                        incoming_qty = sum(incoming_move.mapped('product_uom_qty'))
+                        rtn_incoming_qty = sum(incoming_move.mapped('product_uom_qty'))
                         pd.update({product: {'rows': rows,
                                              'cols': po_cols,
                                              'subtotal': qty,
                                              'qty_available': product.qty_available,
                                              'virtual_available': product.virtual_available,
-                                             'forecast_qty': qty + product.qty_available + incoming_qty - so_qty,
-                                             'incoming_qty': incoming_qty,
+                                             'forecast_qty': qty + product.qty_available + rtn_incoming_qty - so_qty,
+                                             'rtn_incoming_qty': rtn_incoming_qty,
                                              }})
                         sheet.write(pd.get(product).get('rows'), po_len + 2, so_qty or '', right_format)
 
@@ -166,9 +183,12 @@ class WizVendorStockReport(models.TransientModel):
                         pd.get(product)['forecast_qty'] += qty
                     sheet.write(pd.get(product).get('rows'), cols, product.name, value_format)
                     sheet.write(pd.get(product).get('rows'), cols + 1, product.qty_available, right_format)
-                    sheet.write(pd.get(product).get('rows'), pd.get(product).get('cols'), qty, right_format)
-                    sheet.write(pd.get(product).get('rows'), po_len + 1, pd.get(product).get('subtotal'), total_format)
-                    sheet.write(pd.get(product).get('rows'), po_len + 3, pd.get(product).get('incoming_qty') or '', right_format)
+                    if po:
+                        sheet.write(pd.get(product).get('rows'), pd.get(product).get('cols'), qty, right_format)
+                    sheet.write(pd.get(product).get('rows'), po_len + 1, pd.get(product).get('subtotal'),
+                                total_format)
+                    sheet.write(pd.get(product).get('rows'), po_len + 3, pd.get(product).get('rtn_incoming_qty') or '',
+                                right_format)
                     sheet.write(pd.get(product).get('rows'), po_len + 4, pd.get(product).get('forecast_qty'),
                                 right_format)
                     if self.odoo_Forecast:
