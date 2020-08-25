@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+<!--            Change the header-->
+    <template priority="100" id="report_picking_operation_inherit_another" inherit_id="web.external_layout_standard">
+
+        <xpath expr="//div[contains(@t-attf-class, 'header o_company_#')]" position="replace">
+
+                <div t-attf-class="header o_company_#{company.id}_layout">
+                    <div class="row">
+                        <div class="col-3 mb4">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;"
+                                 alt="Logo"/>
+                        </div>
+                        <div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header"
+                             name="moto"/>
+                    </div>
+                    <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                        <div class="col-12">
+                            <div style="border-bottom: 1px solid black;"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" name="company_address">
+                            <div t-field="company.partner_id"
+                                 t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                            />
+                        </div>
+<!--                        Enter the address on the right of header: -->
+                        <div t-if="o.partner_id" class="col-6" name="div_address" style="text-align:right">
+                            <span><strong>Partner Reference:</strong></span>
+<!--                            <div t-field="o.move_ids_without_package[0].partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
+<!--                            <div t-field="o.picking_type_id.warehouse_id.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>-->
+                            <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: ['name', 'address', 'phone'], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+                        </div>
+                    </div>
+                </div>
+
+<!--            remove address from invoice-->
+            <t t-set="address">
+<!--                <address t-field="o.partner_id"-->
+<!--                         t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>-->
+<!--                <div t-if="o.partner_id.vat" class="mt16">-->
+<!--                    <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label"-->
+<!--                       id="inv_tax_id_label"/>-->
+<!--                    <t t-else="">Tax ID</t>:-->
+<!--                    <span t-field="o.partner_id.vat"/>-->
+<!--                </div>-->
+            </t>
+
+        </xpath>
+
+    </template>
+
+
+</odoo>

@@ -26,7 +26,9 @@
     'data': [
         # 'security/ir.model.access.csv',
         'reports/batch_payment_inherit.xml',
+        'reports/external_layout_template.xml',
         'reports/invoice_report_inherit.xml',
+        'reports/picking_report_inherit.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
