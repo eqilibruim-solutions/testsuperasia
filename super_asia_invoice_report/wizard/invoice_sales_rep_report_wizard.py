@@ -114,41 +114,90 @@ class AccountSalesRepReport(models.TransientModel):
             sheet1.write(0, 7, 'Amount Outstanding', header_format1)
 
             i = 1
+            m1_total = 0
+            m2_total = 0
+            m3_total = 0
+            m4_total = 0
+            m5_total = 0
+            amount_total = 0
             for inv in aged_data:
                 sheet1.write(i, 0, inv.get('rep'), left_format)
                 sheet1.write(i, 1, inv.get('name'), left_format)
                 if inv.get('m1') and inv.get('m1') > 0:
                     sheet1.write(i, 2, inv.get('m1'), yellow_format)
+                    if inv.get('m1') != None:
+                        m1_total += inv.get('m1')
                 elif inv.get('m1') and inv.get('m1') < 0:
                     sheet1.write(i, 2, inv.get('m1'), red_format)
+                    if inv.get('m1') != None:
+                        m1_total += inv.get('m1')
                 else:
                     sheet1.write(i, 2, inv.get('m1'), right_format)
+                    if inv.get('m1') != None:
+                        m1_total += inv.get('m1')
+
                 if inv.get('m2') and inv.get('m2') > 0:
                     sheet1.write(i, 3, inv.get('m2'), yellow_format)
+                    if inv.get('m2') != None:
+                        m2_total += inv.get('m2')
                 elif inv.get('m2') and inv.get('m2') < 0:
                     sheet1.write(i, 3, inv.get('m2'), red_format)
+                    if inv.get('m2') != None:
+                        m2_total += inv.get('m2')
                 else:
                     sheet1.write(i, 3, inv.get('m2'), right_format)
+                    if inv.get('m2') != None:
+                        m2_total += inv.get('m2')
+
                 if inv.get('m3') and inv.get('m3')> 0:
                     sheet1.write(i, 4, inv.get('m3'), yellow_format)
+                    if inv.get('m3') != None:
+                        m3_total += inv.get('m3')
                 elif inv.get('m3') and inv.get('m3') < 0:
                     sheet1.write(i, 4, inv.get('m3'), red_format)
+                    if inv.get('m3') != None:
+                        m3_total += inv.get('m3')
                 else:
                     sheet1.write(i, 4, inv.get('m3'), right_format)
+                    if inv.get('m3') != None:
+                        m3_total += inv.get('m3')
+
                 if inv.get('m4') and inv.get('m4') > 0:
                     sheet1.write(i, 5, inv.get('m4'), yellow_format)
+                    if inv.get('m4') != None:
+                        m4_total += inv.get('m4')
                 elif inv.get('m4') and inv.get('m4') < 0:
                     sheet1.write(i, 5, inv.get('m4'), red_format)
+                    if inv.get('m4') != None:
+                        m4_total += inv.get('m4')
                 else:
                     sheet1.write(i, 5, inv.get('m4'), right_format)
+                    if inv.get('m4') != None:
+                        m4_total += inv.get('m4')
+
                 if inv.get('m5') and inv.get('m5') > 0:
                     sheet1.write(i, 6, inv.get('m5'), yellow_format)
+                    if inv.get('m5') != None:
+                        m5_total += inv.get('m5')
                 elif inv.get('m5') and inv.get('m5') < 0:
                     sheet1.write(i, 6, inv.get('m5'), red_format)
+                    if inv.get('m5') != None:
+                        m5_total += inv.get('m5')
                 else:
                     sheet1.write(i, 6, inv.get('m5'), right_format)
+                    if inv.get('m5') != None:
+                        m5_total += inv.get('m5')
                 sheet1.write(i, 7, inv.get('amt_out_std'), right_format)
+                if inv.get('m1') != None:
+                    amount_total += inv.get('amt_out_std')
                 i = i + 1
+            sheet1.write(i, 0, 'Total', header_format1)
+            sheet1.write(i, 2, m1_total, header_format1)
+            sheet1.write(i, 3, m2_total, header_format1)
+            sheet1.write(i, 4, m3_total, header_format1)
+            sheet1.write(i, 5, m4_total, header_format1)
+            sheet1.write(i, 6, m5_total, header_format1)
+            sheet1.write(i, 7, amount_total, header_format1)
         # End Aged Report
         # Start Closing Report
         closing_data = data.get('closing_data')
