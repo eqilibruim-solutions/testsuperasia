@@ -121,7 +121,7 @@ class AccountSalesRepReport(models.TransientModel):
             m5_total = 0
             amount_total = 0
             for inv in aged_data:
-                sheet1.write(i, 0, inv.get('rep'), left_format)
+                sheet1.write(i, 0, inv.get('sales_name'), left_format)
                 sheet1.write(i, 1, inv.get('name'), left_format)
                 if inv.get('m1') and inv.get('m1') > 0:
                     sheet1.write(i, 2, inv.get('m1'), yellow_format)
@@ -255,9 +255,14 @@ class AccountSalesRepReport(models.TransientModel):
         payment_env = self.env['account.payment']
         # Start Aged Data
         if self.type == 'age_report':
+            user_str = 'in %s' % str(tuple(self.user_id.ids))
+            if len(self.user_id.ids) == 1:
+                user_str = '= %s'% self.user_id.id
             query = """
-                SELECT i.name,sum(m5) as m5, sum(m4) as m4,sum(m3) as m3, sum(m2) as m2, sum(m1) as m1 from
-                    (SELECT cust.name as name,
+                SELECT i.name,sum(m5) as m5, sum(m4) as m4,sum(m3) as m3, sum(m2) as m2, sum(m1) as m1, 
+                (select (select rp.name from res_partner rp where rp.id=ru.partner_id) 
+                from res_users as ru where ru.id = i.sales_name) as sales_name 
+                from(SELECT cust.name as name,
                         CASE 
                             WHEN aml.date_maturity <= current_date - interval '1' day 
                             AND aml.date_maturity >= current_date - interval '30' day
@@ -277,8 +282,8 @@ class AccountSalesRepReport(models.TransientModel):
                         CASE 
                             WHEN aml.date_maturity < current_date - interval '120' day
                             THEN sum(aml.debit-aml.credit)
-                            END as m5
-                
+                            END as m5,
+                            am.invoice_user_id as sales_name
                     FROM 
                         account_move_line aml
                         left join account_move am on aml.move_id=am.id
@@ -286,7 +291,7 @@ class AccountSalesRepReport(models.TransientModel):
                         left join account_account ac on aml.account_id=ac.id
                         left join account_account_type act on ac.user_type_id=act.id
                     WHERE
-                    am.invoice_user_id=%s
+                    am.invoice_user_id %s
                     AND act.type='receivable'
                     AND aml.reconciled=False
                     AND am.company_id=%s
@@ -295,10 +300,11 @@ class AccountSalesRepReport(models.TransientModel):
                     AND aml.date <= '%s'
                     GROUP BY
                         cust.id,
-                        aml.date_maturity) as i
-                GROUP BY
-                    i.name
-                """ % (self.user_id.id, self.company_id.id, self.date_to)
+                        aml.date_maturity, am.invoice_user_id) as i
+                    GROUP BY
+                    i.name,
+                    i.sales_name
+                """ % (user_str, self.company_id.id, self.date_to)
             # query = """
             # SELECT
             #     cust.name
@@ -324,10 +330,11 @@ class AccountSalesRepReport(models.TransientModel):
             self._cr.execute(query)
             aged_data = self._cr.dictfetchall()
             for adata in aged_data:
+
                 amt_out_std = (adata.get('m1') or 0.0) + (adata.get('m2') or 0.0) + \
                               (adata.get('m3') or 0.0) + (adata.get('m4') or 0.0) + \
                               (adata.get('m5') or 0.0)
-                data['aged_data'].append({'rep': self.user_id.name,
+                data['aged_data'].append({'sales_name': adata.get('sales_name'),
                                           'name': adata.get('name'),
                                           'm1': adata.get('m1'),
                                           'm2': adata.get('m2'),
