@@ -10,7 +10,6 @@
                 <p>
                     You have processed less products than the initial demand.
                      <field name="product_name"/>
-                    [<field name="product_qty"/>]
                 </p>
             </xpath>
         </field>

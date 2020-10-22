@@ -109,10 +109,12 @@ class StockPicking(models.Model):
 
     def action_generate_backorder_wizard(self):
         view = self.env.ref('stock.view_backorder_confirmation')
-        product_qty = [p.qty_done for p in self.move_line_ids]
-        product_name = [p.display_name for p in self.move_line_ids.mapped('product_id')]
-        wiz = self.env['stock.backorder.confirmation'].create({'pick_ids': [(4, p.id) for p in self],'product_qty': ",".join(str(x) for x in product_qty),
-                                                               'product_name': ",".join(product_name)})
+        backorder_ml_ids = self.move_line_ids.filtered(lambda m: m.qty_done < m.product_uom_qty)
+        product_name = ''
+        for rec in backorder_ml_ids:
+            product_name += rec.product_id.display_name + ' %s\n' % str(rec.product_uom_qty - rec.qty_done)
+        wiz = self.env['stock.backorder.confirmation'].create({'pick_ids': [(4, p.id) for p in self],
+                                                               'product_name': product_name})
         return {
             'name': _('Create Backorder?'),
             'type': 'ir.actions.act_window',
