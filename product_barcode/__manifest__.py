@@ -18,6 +18,7 @@
         'views/product_view.xml',
         'views/stock_barcode_templates.xml',
         'views/stock_location.xml',
+        'views/stock_picking_views.xml',
         'wizard/stock_backorder_confirmation_views.xml',
     ],
     'qweb': [
