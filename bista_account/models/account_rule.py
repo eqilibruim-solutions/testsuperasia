@@ -17,5 +17,5 @@ class AccountMove(models.Model):
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
         if self.env.user.has_group('bista_account.group_own_customer'):
-            args += [('partner_id.user_id', '=', self.env.user.id)]
+            domain += [('partner_id.user_id', '=', self.env.user.id)]
         return super(AccountMove, self).read_group(domain, fields, groupby, offset, limit, orderby, lazy)
