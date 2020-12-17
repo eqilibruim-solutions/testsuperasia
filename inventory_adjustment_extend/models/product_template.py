@@ -27,6 +27,6 @@ class ProductTemplate(models.Model):
 
         if default_adjustment_account_id and self._context.get('active_model', False) == self._name:
             accounts['stock_output'] = default_adjustment_account_id
-        
+
 
         return accounts

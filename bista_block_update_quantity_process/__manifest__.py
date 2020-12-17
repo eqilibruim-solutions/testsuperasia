@@ -21,6 +21,7 @@
     'data': [
         #'wizard/wizard_confirm_sale_view.xml',
         #'views/sale_view.xml',
+        'views/stock_quant.xml',
     ],
     'installable': True,
     'application': False,
