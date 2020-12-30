@@ -81,6 +81,10 @@ self.addEventListener('fetch', function(evt) {
                     cache.put(evt.request.url, fetchRes.clone());
                     return fetchRes;
                 });
+            })
+            .catch(() => {
+                console.log('[ServiceWorker] Offline fetch event')
+                return caches.match('/offline-fallback');
             });
         })
     );

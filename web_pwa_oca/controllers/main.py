@@ -1,4 +1,5 @@
 from odoo.http import Controller, request, route
+from odoo import http
 
 
 class PWA(Controller):
@@ -33,6 +34,7 @@ class PWA(Controller):
             "/",
             "/web_pwa_oca/static/img/online.png",
             "/web_pwa_oca/static/img/offline.png",
+            "/offline-fallback",
         ])
 
         content = qweb.render(
@@ -86,3 +88,7 @@ class PWA(Controller):
             },
         )
         return request.make_response(content, [("Content-Type", mimetype)])
+
+    @route("/offline-fallback", type="http", auth="public", website=True)
+    def offline_fallback(self, **kw):
+        return http.request.render('web_pwa_oca.offline_fallback_page', {})
