@@ -38,7 +38,7 @@ insPwaBtn.addEventListener('click', (e) => {
     });
 });
 
-odoo.define("web_pwa_oca.systray.install", function(require) {
+odoo.define("bista_web_pwa.systray.install", function(require) {
     "use strict";
 
     var UserMenu = require("web.UserMenu");

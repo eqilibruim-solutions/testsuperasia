@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* web_pwa_oca
+# 	* bista_web_pwa
 #
 msgid ""
 msgstr ""
@@ -13,8 +13,8 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "      \"sizes\": \"128x128\",\n"
@@ -23,8 +23,8 @@ msgid ""
 "      \"src\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "      \"sizes\": \"144x144\",\n"
@@ -33,8 +33,8 @@ msgid ""
 "      \"src\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "      \"sizes\": \"152x152\",\n"
@@ -43,8 +43,8 @@ msgid ""
 "      \"src\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "      \"sizes\": \"192x192\",\n"
@@ -53,8 +53,8 @@ msgid ""
 "      \"src\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "      \"sizes\": \"256x256\",\n"
@@ -63,8 +63,8 @@ msgid ""
 "      \"src\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "      \"sizes\": \"512x512\",\n"
@@ -75,51 +75,51 @@ msgid ""
 "  \"background_color\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "  \"icons\": [{\n"
 "    \"src\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "  \"short_name\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "\",\n"
 "  \"theme_color\": \""
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.service_worker
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.service_worker
 msgid ""
 "';\n"
 "const FILES_TO_CACHE = ["
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.service_worker
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.service_worker
 msgid ""
 "'use strict';\n"
 "const CACHE_NAME = '"
 msgstr ""
 
-#. module: web_pwa_oca
+#. module: bista_web_pwa
 #. openerp-web
-#: code:addons/web_pwa_oca/static/src/xml/pwa_install.xml:0
+#: code:addons/bista_web_pwa/static/src/xml/pwa_install.xml:0
 #, python-format
 msgid "Install PWA"
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.service_worker
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.service_worker
 msgid ""
 "];\n"
 "self.addEventListener('install', function (evt) {\n"
@@ -162,8 +162,8 @@ msgid ""
 "});"
 msgstr ""
 
-#. module: web_pwa_oca
-#: model_terms:ir.ui.view,arch_db:web_pwa_oca.manifest
+#. module: bista_web_pwa
+#: model_terms:ir.ui.view,arch_db:bista_web_pwa.manifest
 msgid ""
 "{\n"
 "  \"name\": \""

@@ -1,4 +1,4 @@
-# Copyright 2020 Lorenzo Battistini @ TAKOBI
+# Copyright 2020 Bista Solutions
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 {
