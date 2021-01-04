@@ -3,14 +3,14 @@
     <template id="web_layout_pwa" name="Web layout PWA" inherit_id="web.layout">
         <xpath expr="//meta[@name='viewport']" position="after">
             <!-- Add link rel manifest -->
-            <link rel="manifest" href="/web_pwa_oca/manifest.json" />
+            <link rel="manifest" href="/bista_web_pwa/manifest.json" />
             <!-- Add iOS meta tags and icons -->
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-status-bar-style" content="black" />
             <meta name="apple-mobile-web-app-title" content="Super Asia" />
             <link
                 rel="apple-touch-icon"
-                href="/web_pwa_oca/static/img/icons/icon-152x152.png"
+                href="/bista_web_pwa/static/img/icons/icon-152x152.png"
             />
             <!-- Add meta theme-color -->
             <meta name="theme-color" content="#2E69B5" />
@@ -20,7 +20,7 @@
         <xpath expr="." position="inside">
             <script
                 type="text/javascript"
-                src="/web_pwa_oca/static/src/js/pwa_install.js"
+                src="/bista_web_pwa/static/src/js/pwa_install.js"
             />
         </xpath>
     </template>
@@ -28,7 +28,7 @@
         <xpath expr="." position="inside">
             <script
                 type="text/javascript"
-                src="/web_pwa_oca/static/src/js/pwa_install.js"
+                src="/bista_web_pwa/static/src/js/pwa_install.js"
             />
         </xpath>
     </template>
@@ -41,6 +41,17 @@ const FILES_TO_CACHE = [
       '<t t-esc="file_to_cache" />',
   </t><![CDATA[
 ];
+
+// cache size limit function
+const limitCacheSize = (name, size) => {
+    caches.open(name).then(cache => {
+        cache.keys().then(keys => {
+            if(keys.length > size){
+                cache.delete(keys[0]).then(limitCacheSize(name, size));
+            }
+        });
+    });
+};
 
 self.addEventListener('install', function (evt) {
   console.log('[ServiceWorker] Install');
@@ -79,6 +90,8 @@ self.addEventListener('fetch', function(evt) {
             return cacheRes || fetch(evt.request).then(fetchRes => {
                 return caches.open(DYNAMIC_CACHE_NAME).then(cache => {
                     cache.put(evt.request.url, fetchRes.clone());
+                    // check cached items size
+                    limitCacheSize(DYNAMIC_CACHE_NAME, 15);
                     return fetchRes;
                 });
             })

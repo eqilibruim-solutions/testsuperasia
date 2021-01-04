@@ -32,40 +32,41 @@ class PWA(Controller):
 
         urls.extend([
             "/",
-            "/web_pwa_oca/static/img/online.png",
-            "/web_pwa_oca/static/img/offline.png",
+            "/bista_web_pwa/static/img/online.png",
+            "/bista_web_pwa/static/img/offline.png",
             "/offline-fallback",
+            "https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i&display=swap",
         ])
 
         content = qweb.render(
-            "web_pwa_oca.service_worker",
+            "bista_web_pwa.service_worker",
             {"pwa_cache_name": cache_version, "pwa_files_to_cache": urls},
         )
         return request.make_response(content, [("Content-Type", mimetype)])
 
-    @route("/web_pwa_oca/manifest.json", type="http", auth="public")
+    @route("/bista_web_pwa/manifest.json", type="http", auth="public")
     def manifest(self):
         qweb = request.env["ir.qweb"].sudo()
         config_param = request.env["ir.config_parameter"].sudo()
         pwa_name = config_param.get_param("pwa.manifest.name", "Super Asia")
         pwa_short_name = config_param.get_param("pwa.manifest.short_name", "Super Asia")
         icon128x128 = config_param.get_param(
-            "pwa.manifest.icon128x128", "/web_pwa_oca/static/img/icons/icon-128x128.png"
+            "pwa.manifest.icon128x128", "/bista_web_pwa/static/img/icons/icon-128x128.png"
         )
         icon144x144 = config_param.get_param(
-            "pwa.manifest.icon144x144", "/web_pwa_oca/static/img/icons/icon-144x144.png"
+            "pwa.manifest.icon144x144", "/bista_web_pwa/static/img/icons/icon-144x144.png"
         )
         icon152x152 = config_param.get_param(
-            "pwa.manifest.icon152x152", "/web_pwa_oca/static/img/icons/icon-152x152.png"
+            "pwa.manifest.icon152x152", "/bista_web_pwa/static/img/icons/icon-152x152.png"
         )
         icon192x192 = config_param.get_param(
-            "pwa.manifest.icon192x192", "/web_pwa_oca/static/img/icons/icon-192x192.png"
+            "pwa.manifest.icon192x192", "/bista_web_pwa/static/img/icons/icon-192x192.png"
         )
         icon256x256 = config_param.get_param(
-            "pwa.manifest.icon256x256", "/web_pwa_oca/static/img/icons/icon-256x256.png"
+            "pwa.manifest.icon256x256", "/bista_web_pwa/static/img/icons/icon-256x256.png"
         )
         icon512x512 = config_param.get_param(
-            "pwa.manifest.icon512x512", "/web_pwa_oca/static/img/icons/icon-512x512.png"
+            "pwa.manifest.icon512x512", "/bista_web_pwa/static/img/icons/icon-512x512.png"
         )
         background_color = config_param.get_param(
             "pwa.manifest.background_color", "#bf372b"
@@ -73,7 +74,7 @@ class PWA(Controller):
         theme_color = config_param.get_param("pwa.manifest.theme_color", "#bf372b")
         mimetype = "application/json;charset=utf-8"
         content = qweb.render(
-            "web_pwa_oca.manifest",
+            "bista_web_pwa.manifest",
             {
                 "pwa_name": pwa_name,
                 "pwa_short_name": pwa_short_name,
@@ -91,4 +92,4 @@ class PWA(Controller):
 
     @route("/offline-fallback", type="http", auth="public", website=True)
     def offline_fallback(self, **kw):
-        return http.request.render('web_pwa_oca.offline_fallback_page', {})
+        return http.request.render('bista_web_pwa.offline_fallback_page', {})
