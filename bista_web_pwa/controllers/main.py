@@ -53,20 +53,38 @@ class PWA(Controller):
         icon128x128 = config_param.get_param(
             "pwa.manifest.icon128x128", "/bista_web_pwa/static/img/icons/icon-128x128.png"
         )
+        maskable_icon_x128 = config_param.get_param(
+            "pwa.manifest.maskable_icon_x128", "/bista_web_pwa/static/img/icons/maskable_icon_x128.png"
+        )
         icon144x144 = config_param.get_param(
             "pwa.manifest.icon144x144", "/bista_web_pwa/static/img/icons/icon-144x144.png"
+        )
+        maskable_icon_x144 = config_param.get_param(
+            "pwa.manifest.maskable_icon_x144", "/bista_web_pwa/static/img/icons/maskable_icon_x144.png"
         )
         icon152x152 = config_param.get_param(
             "pwa.manifest.icon152x152", "/bista_web_pwa/static/img/icons/icon-152x152.png"
         )
+        maskable_icon_x152 = config_param.get_param(
+            "pwa.manifest.maskable_icon_x152", "/bista_web_pwa/static/img/icons/maskable_icon_x152.png"
+        )
         icon192x192 = config_param.get_param(
             "pwa.manifest.icon192x192", "/bista_web_pwa/static/img/icons/icon-192x192.png"
+        )
+        maskable_icon_x192 = config_param.get_param(
+            "pwa.manifest.maskable_icon_x192", "/bista_web_pwa/static/img/icons/maskable_icon_x192.png"
         )
         icon256x256 = config_param.get_param(
             "pwa.manifest.icon256x256", "/bista_web_pwa/static/img/icons/icon-256x256.png"
         )
+        maskable_icon_x256 = config_param.get_param(
+            "pwa.manifest.maskable_icon_x256", "/bista_web_pwa/static/img/icons/maskable_icon_x256.png"
+        )
         icon512x512 = config_param.get_param(
             "pwa.manifest.icon512x512", "/bista_web_pwa/static/img/icons/icon-512x512.png"
+        )
+        maskable_icon_x512 = config_param.get_param(
+            "pwa.manifest.maskable_icon_x512", "/bista_web_pwa/static/img/icons/maskable_icon_x512.png"
         )
         background_color = config_param.get_param(
             "pwa.manifest.background_color", "#bf372b"
@@ -79,11 +97,17 @@ class PWA(Controller):
                 "pwa_name": pwa_name,
                 "pwa_short_name": pwa_short_name,
                 "icon128x128": icon128x128,
+                "maskable_icon_x128": maskable_icon_x128,
                 "icon144x144": icon144x144,
+                "maskable_icon_x144": maskable_icon_x144,
                 "icon152x152": icon152x152,
+                "maskable_icon_x152": maskable_icon_x152,
                 "icon192x192": icon192x192,
+                "maskable_icon_x192": maskable_icon_x192,
                 "icon256x256": icon256x256,
+                "maskable_icon_x256": maskable_icon_x256,
                 "icon512x512": icon512x512,
+                "maskable_icon_x512": maskable_icon_x512,
                 "background_color": background_color,
                 "theme_color": theme_color,
             },
@@ -93,3 +117,11 @@ class PWA(Controller):
     @route("/offline-fallback", type="http", auth="public", website=True)
     def offline_fallback(self, **kw):
         return http.request.render('bista_web_pwa.offline_fallback_page', {})
+
+    # @route('/bista_web_pwa/firebase/senderid', type="json", auth="public")
+    # def firebase_sender_id(self):
+    #     req = request
+    #     print(req)
+    #     sender_id = self.env['res.config.settings'].sudo().search([('firebase_sender_id')])
+    #     print(sender_id)
+    #     return str(sender_id)

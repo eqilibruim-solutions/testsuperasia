@@ -38,10 +38,11 @@ insPwaBtn.addEventListener('click', (e) => {
     });
 });
 
-odoo.define("bista_web_pwa.systray.install", function(require) {
+odoo.define("bista_web_pwa.systray.install", ['web.UserMenu', 'web.ajax'], function(require) {
     "use strict";
 
     var UserMenu = require("web.UserMenu");
+    // const ajax = require('web.ajax');
 
     // if ("serviceWorker" in navigator) {
     //     console.log("Service Worker found in navigator.")
@@ -82,4 +83,19 @@ odoo.define("bista_web_pwa.systray.install", function(require) {
             });
         },
     });
+
+    // ajax.jsonRpc("/bista_web_pwa/firebase/senderid", "call")
+    //     .then(
+    //         data => {
+    //             if(data) {
+    //                 console.log(data);
+    //                 let firebaseConfig = {
+    //                     messagingSenderId: String(data)
+    //                 }
+    //             }
+    //         }
+    //     )
+    //     .catch(function(err) {
+    //         console.log('---------err-------%r', err);
+    //     });
 });
