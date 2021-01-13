@@ -10,12 +10,12 @@
                     <group>
                         <field name="date_of_birth" />
                         <field name="signup_refer"/>
-                        <field name="company_name" attrs="{'invisible': [('customer_type', '=', 'individual')]}"/>
+                        <field name="company_name" attrs="{'invisible': [('customer_type', '=', 'person')]}"/>
                     </group>
                     <group>
                         <field name="customer_type"/>
                         <field name="news_letter_check"/>
-                        <field name="tax_hst_num" attrs="{'invisible': [('customer_type', '=', 'individual')]}"/>
+                        <field name="tax_hst_num" attrs="{'invisible': [('customer_type', '=', 'person')]}"/>
                     </group>
                 </group>
             </xpath>
@@ -29,7 +29,7 @@
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='no_share']" position="after">
                 <separator/>
-                <filter name="individual_customer_filter" string="Individual Customers" domain="[('customer_type','=','individual')]"/>
+                <filter name="individual_customer_filter" string="Individual Customers" domain="[('customer_type','=','person')]"/>
                 <filter name="company_customer_filter" string="Company Customers" domain="[('customer_type','=','company')]"/>
             </xpath>
         </field>
@@ -42,7 +42,7 @@
         <field name="view_mode">tree,form</field>
 <!--        <field name="view_id" ref="view_users_tree"/>-->
         <field name="search_view_id" ref="view_users_search_extension"/>
-        <field name="context">{'search_default_individual_customer_filter': 'individual'}</field>
+        <field name="context">{'search_default_individual_customer_filter': 'person'}</field>
     </record>
     <menuitem action="action_res_users_indv_cust" id="menu_action_res_users_indv_cust" parent="base.menu_users" sequence="1"/>
 

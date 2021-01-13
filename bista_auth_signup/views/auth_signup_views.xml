@@ -1,14 +1,14 @@
 <odoo>
-    <template id="auth_signup_address.signup_hide" inherit_id="auth_signup.signup" name="OAuth Signup buttons">
+    <template id="bista_auth_signup.signup_hide" inherit_id="auth_signup.signup" name="OAuth Signup buttons">
         <xpath expr="//button[@type='submit']" position="replace">
             <div class="clearfix oe_login_buttons">
                 <button id="signupButton" type="submit" class="btn btn-primary">Sign up</button>
             </div>
         </xpath>
     </template>
-    <template id="auth_signup_address.signup" inherit_id="auth_signup.fields" name="sign up layout">
+    <template id="bista_auth_signup.signup" inherit_id="auth_signup.fields" name="sign up layout">
         <xpath expr="." position="inside">
-            <script type="text/javascript" src="/auth_signup_address/static/src/js/captcha_index.js"/>
+            <script type="text/javascript" src="/bista_auth_signup/static/src/js/captcha_index.js"/>
             <script src="/web/static/lib/jquery/jquery.js" type="text/javascript"/>
             <script type="text/javascript">
                 $(document).ready(function () {
@@ -61,11 +61,11 @@
                     // }).change();
                 });
             </script>
-            <link rel="stylesheet" href="/auth_signup_address/static/src/css/index.css"/>
+            <link rel="stylesheet" href="/bista_auth_signup/static/src/css/index.css"/>
             <div class="form-group form-customer_type">
                 <label class="control-label">Signup As</label>
                 <select id="customer_type" name="customer_type">
-                    <option value="individual">Individual</option>
+                    <option value="person">Individual</option>
                     <option value="company">Company</option>
                 </select>
             </div>
