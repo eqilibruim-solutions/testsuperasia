@@ -9,8 +9,10 @@ if ("serviceWorker" in navigator) {
 }
 
 let deferredPrompt;
-const insPwaBtn = document.querySelector('.install_pwa_btn');
-insPwaBtn.style.display = 'none';
+// const insPwaBtn = document.querySelector('.install_pwa_btn');
+// insPwaBtn.style.display = 'none';
+const insPwaBtn = document.querySelectorAll('.install_pwa_btn');
+insPwaBtn.forEach(item => {item.style.display = 'none'});
 
 window.addEventListener('beforeinstallprompt', (e) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -18,24 +20,31 @@ window.addEventListener('beforeinstallprompt', (e) => {
       // Stash the event so it can be triggered later.
       deferredPrompt = e;
       // Update UI to notify the user they can add to home screen
-      insPwaBtn.style.display = 'block';
+      // insPwaBtn.style.display = 'block';
+      insPwaBtn.forEach(item => {item.style.display = 'block'});
+      // floatingInsPwaBtn.style.display = 'block';
 });
-insPwaBtn.addEventListener('click', (e) => {
+
+// insPwaBtn.addEventListener('click', (e) => {
+insPwaBtn.forEach(item => {
+    item.addEventListener('click', (e) => {
         // hide our user interface that shows our A2HS button
-    insPwaBtn.style.display = 'none';
-    // Show the prompt
-    deferredPrompt.prompt()
-        .then(res => console.log(res))
-        .catch(error => console.log(error));
-    // Wait for the user to respond to the prompt
-    deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the A2HS prompt');
-        } else {
-            console.log('User dismissed the A2HS prompt');
-        }
-        deferredPrompt = null;
-    });
+        // insPwaBtn.style.display = 'none';
+        insPwaBtn.forEach(item => {item.style.display = 'none'});
+        // Show the prompt
+        deferredPrompt.prompt()
+            .then(res => console.log(res))
+            .catch(error => console.log(error));
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
+    })
 });
 
 odoo.define("bista_web_pwa.systray.install", ['web.UserMenu', 'web.ajax'], function(require) {

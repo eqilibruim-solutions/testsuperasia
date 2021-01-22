@@ -197,5 +197,48 @@ self.addEventListener('fetch', function(evt) {
                 </a>
             </li>
         </xpath>
+
+        <xpath expr="//div[@id='wrapwrap']/main" position="inside">
+            <style>
+                .icon-bar {
+                  position: fixed;
+                  top: 50%;
+                  -webkit-transform: translateY(-50%);
+                  -ms-transform: translateY(-50%);
+                  transform: translateY(-50%);
+                  z-index: 1000;
+                }
+
+                .icon-bar a {
+                  display: block;
+                  text-align: center;
+                  padding: 16px;
+                  transition: all 0.3s ease;
+                  color: white;
+                  font-size: 20px;
+                }
+
+                .icon-bar a:hover {
+                  background-color: #000;
+                }
+
+                .download-btn {
+                  background: #bb0000;
+                  color: white;
+                }
+                </style>
+            <div groups="base.group_public" class="icon-bar">
+                <a t-attf-href="#"
+                   class="download-btn install_pwa_btn"
+                   role="menuitem"
+                   id="pwa_install_download_button"
+                   data-menu="installpwa"
+                >
+<!--                    Download-->
+                    <i class="fa fa-download"></i>
+                </a>
+            </div>
+        </xpath>
+
     </template>
 </odoo>
