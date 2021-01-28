@@ -3,7 +3,10 @@
     'name': "req_field",
 
     'summary': """
-        Change attrs of fields
+        Multi-purpose module for superasia housekeeping
+        """,
+    'description': """
+        Make fiew fields mandatory, default filter for users logged in to only see their orders.
         """,
 
     'author': "My Company",

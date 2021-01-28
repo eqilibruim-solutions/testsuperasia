@@ -11,4 +11,27 @@
       </field>
     </record>
 
+<!--    Make a new Filter called "My Orders" for Inventory OVerview-->
+<!--    <record id="view_picking_internal_search_user_id_filter_defaulted" model="ir.ui.view">-->
+<!--        <field name="name">stock.picking.internal.search.user_id.filter.defaulted</field>-->
+<!--        <field name="model">stock.picking</field>-->
+<!--        <field name="inherit_id" ref="stock.view_picking_internal_search" />-->
+<!--        <field name="arch" type="xml">-->
+<!--            <filter name="my_transfers" position="after">-->
+<!--                <filter name="my_orders" string="My Orders" domain="[('user_id', '=', uid)]"/>-->
+<!--            </filter>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    Inherit and apply filter for "My Order" to apply by default for Inventory OVerview-->
+    <record id="stock.stock_picking_action_picking_type" model="ir.actions.act_window">
+        <field name="context">{'contact_display': 'partner_address', 'search_default_my_transfers': 1}</field>
+    </record>
+
+
+<!--    Inherit and apply filter for "My Order" to apply by default for Transfers-->
+    <record id="stock.action_picking_tree_all" model="ir.actions.act_window">
+        <field name="context">{'contact_display': 'partner_address', 'default_company_id': allowed_company_ids[0], 'search_default_my_transfers': 1}</field>
+    </record>
+
 </odoo>
