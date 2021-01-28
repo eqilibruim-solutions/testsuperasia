@@ -1,97 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-<!--  <data>-->
-    <!-- explicit list view definition -->
-
     <record model="ir.ui.view" id="req_field_list_stock_prod_lot">
       <field name="name">product.expiry.prod.lot.removal.date</field>
       <field name="model">stock.production.lot</field>
-<!--      <field name="inherit_id" ref="stock.view_production_lot_form"/>-->
       <field name="inherit_id" ref="product_expiry.view_move_form_expiry"/>
-
       <field name="arch" type="xml">
-        <xpath expr="//page[@name='description']" position="before">
-              <page string="Strategy" autofocus="autofocus">
-                  <group>
-                      <group>
-                          <field name="use_date" />
-                          <field name="removal_date" required="1"/>
-                      </group>
-                      <group>
-                          <field name="life_date" />
-                          <field name="alert_date" />
-                      </group>
-                  </group>
-              </page>
-          </xpath>
-      </field>
-
-    </record>
-
-
-<!--    <record id="view_move_form_expiry_inherited" model="ir.ui.view">-->
-<!--        <field name="name">stock.production.lot.inherit.form.inherited</field>-->
-<!--        <field name="model">stock.production.lot</field>-->
-<!--        <field name="inherit_id" ref="stock.view_production_lot_form" />-->
-<!--        <field name="arch" type="xml">-->
-<!--        <xpath expr="//page[@name='description']" position="before">-->
-<!--            <page string="Dates">-->
-<!--                <group>-->
-<!--                    <group>-->
-<!--                        <field name="use_date" />-->
-<!--                        <field name="removal_date" />-->
-<!--                    </group>-->
-<!--                    <group>-->
-<!--                        <field name="life_date" />-->
-<!--                        <field name="alert_date" />-->
-<!--                    </group>-->
-<!--                </group>-->
-<!--            </page>-->
-<!--        </xpath>-->
-<!--        </field>-->
-<!--    </record>-->
-
-
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="req_field.action_window">
-      <field name="name">req_field window</field>
-      <field name="res_model">req_field.req_field</field>
-      <field name="view_mode">tree,form</field>
-    </record>
--->
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="req_field.action_server">
-      <field name="name">req_field server</field>
-      <field name="model_id" ref="model_req_field_req_field"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
+          <field name="removal_date" position="attributes" >
+              <attribute name="required">1</attribute>
+          </field>
       </field>
     </record>
--->
 
-    <!-- Top menu item -->
-<!--
-    <menuitem name="req_field" id="req_field.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="req_field.menu_1" parent="req_field.menu_root"/>
-    <menuitem name="Menu 2" id="req_field.menu_2" parent="req_field.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="req_field.menu_1_list" parent="req_field.menu_1"
-              action="req_field.action_window"/>
-    <menuitem name="Server to list" id="req_field" parent="req_field.menu_2"
-              action="req_field.action_server"/>
--->
-<!--  </data>-->
 </odoo>
