@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
-# from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
-# class req_field(models.Model):
-#     _name = 'req_field.req_field'
-#     _description = 'req_field.req_field'
+class StockPickingReqField(models.Model):
+    _inherit = 'stock.picking'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    def button_validate(self):
+        if any(self.move_ids_without_package.filtered(lambda n:not n.expiry_date)):
+            raise UserError(_('Please fill out all the Expiry dates under the operations tab!'))
+        res = super(StockPickingReqField, self).button_validate()
+        return res
+
+
+
+
+
+
