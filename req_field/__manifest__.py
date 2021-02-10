@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'stock', 'product_expiry'],
+    'depends': ['base', 'stock', 'product_expiry', 'stock_barcode'],
 
     # always loaded
     'data': [
