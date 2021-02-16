@@ -13,12 +13,14 @@
 
 <!--    Inherit and apply filter for "My Transfer" to apply by default for Inventory OVerview-->
     <record id="stock.stock_picking_action_picking_type" model="ir.actions.act_window">
-        <field name="context">{'contact_display': 'partner_address', 'search_default_my_transfers': 1}</field>
+        <field name="context">{'contact_display': 'partner_address', 'search_default_available': 1,
+            'search_default_my_transfers': 1, 'search_default_ready': 1, 'search_default_waiting': 1}</field>
     </record>
 
 <!--    Inherit and apply filter for "My Transfer" to apply by default for "__ TO PROCESS"-->
     <record id="stock.action_picking_tree_ready" model="ir.actions.act_window">
-        <field name="context">{'contact_display': 'partner_address', 'search_default_available': 1, 'search_default_my_transfers': 1}</field>
+        <field name="context">{'contact_display': 'partner_address', 'search_default_available': 1,
+            'search_default_my_transfers': 1, 'search_default_ready': 1, 'search_default_waiting': 1}</field>
     </record>
 
     <!--    Inherit and apply filter for "My Transfer" to apply by default for Waiting-->
@@ -49,7 +51,8 @@
             'contact_display': 'partner_address',
             'search_default_available': 1,
             'force_detailed_view': True,
-            'search_default_my_transfers': 1
+            'search_default_my_transfers': 1,
+            'search_default_waiting': 1
         }</field>
     </record>
 
