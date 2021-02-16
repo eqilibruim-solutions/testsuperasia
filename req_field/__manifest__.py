@@ -19,11 +19,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'stock', 'product_expiry', 'stock_barcode'],
+    'depends': ['base', 'stock', 'product_expiry', 'stock_barcode', 'stock_landed_costs'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
         'views/views.xml',
+        'views/stock_landed_cost.xml',
     ],
 }
