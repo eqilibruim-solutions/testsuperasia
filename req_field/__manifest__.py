@@ -25,7 +25,7 @@
     'data': [
         # 'security/ir.model.access.csv',
         'views/views.xml',
-        'views/stock_landed_cost.xml',
+        # 'views/stock_landed_cost.xml',
         'views/prevent_product_creation.xml',
     ],
 }
