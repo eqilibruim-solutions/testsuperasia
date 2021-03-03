@@ -55,13 +55,13 @@ class AccountFollowupReport(models.AbstractModel):
             total_issued = 0
             balance = 0
             for aml in aml_recs:
-                amount = -aml.price_total or 0
+                amount = -aml.credit or aml.debit or aml.amount_residual_currency or 0
                 date_due = format_date(self.env, aml.date_maturity or aml.date, lang_code=lang_code)
                 total += not aml.blocked and amount or 0
                 balance += not aml.blocked and amount or 0
                 is_overdue = today > aml.date_maturity if aml.date_maturity else today > aml.date
                 is_payment = aml.payment_id
-                if is_overdue or is_payment:
+                if is_overdue or is_payment or aml.credit:
                     total_issued += not aml.blocked and amount or 0
                 if is_overdue:
                     date_due = {'name': date_due, 'class': 'color-red date', 'style': 'white-space:nowrap;text-align:center;color: red;'}
@@ -94,11 +94,11 @@ class AccountFollowupReport(models.AbstractModel):
                     'unfoldable': False,
                     'columns': [type(v) == dict and v or {'name': v} for v in columns],
                 })
-                payments = json.loads(aml.move_id.invoice_payments_widget) or False
-                if payments:
-                    for payment in payments['content']:
-                        amount = payment['amount']
-                        date_due = format_date(self.env, payment['date'], lang_code=lang_code)
+
+                if aml.matched_credit_ids:
+                    for credit in aml.matched_credit_ids:
+                        amount = credit.amount
+                        date_due = format_date(self.env, credit.credit_move_id.date, lang_code=lang_code)
                         total -= amount or 0
                         total_issued -= amount or 0
                         balance -= amount or 0
@@ -118,13 +118,17 @@ class AccountFollowupReport(models.AbstractModel):
                         ]
                         if self.env.context.get('print_mode'):
                             columns = columns[:2] + columns[4:]
+                        try:
+                            credit_name = credit.credit_move_id.name.split(' ', 1)[1]
+                        except:
+                            credit_name = 'Payment'
                         lines.append({
                             'id': aml.id,
                             'account_move': aml.move_id,
-                            'name': payment['name'].split(' ', 1)[1],
+                            'name': credit_name,
                             'caret_options': 'followup',
                             'style': 'color: red',
-                            'move_id': aml.move_id.id,
+                            'move_id': credit.credit_move_id.id,
                             'type': is_payment and 'payment' or 'unreconciled_aml',
                             'unfoldable': False,
                             'columns': [type(v) == dict and v or {'name': v} for v in columns],
@@ -194,7 +198,7 @@ class AccountFollowupReport(models.AbstractModel):
                 amount = aml.amount_residual_currency if aml.currency_id else aml.amount_residual  
                 date_due = aml.date_maturity or aml.date
                 is_overdue = today > aml.date_maturity if aml.date_maturity else today > aml.date
-                if is_overdue:
+                if is_overdue or aml.credit:
                     days_overdue = today - date_due
                     if days_overdue <= datetime.timedelta(days = 29):
                         days_0_29 += amount
@@ -215,7 +219,7 @@ class AccountFollowupReport(models.AbstractModel):
                 'values': [days_0_29, days_30_39, days_40_49, days_50_59, days_60_plus],
                 'columns': ['0 - 29', '30 - 39', '40 - 49', '50 - 59', '60+'],
                 }
-        return line
+            return line
 
     def get_html(self, options, line_id=None, additional_context={}):
         
