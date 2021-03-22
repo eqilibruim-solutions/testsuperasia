@@ -1,7 +1,7 @@
 if ("serviceWorker" in navigator) {
-    console.log("Service Worker found in navigator.")
+    console.log("Service Worker found in navigator.");
     window.addEventListener("load", function() {
-        console.log("Attempting Service Worker registration")
+        console.log("Attempting Service Worker registration");
         navigator.serviceWorker.register("/service-worker.js").then(function(reg) {
             console.log("Service worker registered.", reg);
         }).catch((err) => console.log("Service Worker not registered.", err));
@@ -75,7 +75,12 @@ odoo.define("bista_web_pwa.systray.install", ['web.UserMenu', 'web.ajax'], funct
         },
         saveBeforeInstallPromptEvent: function(evt) {
             deferredInstallPrompt = evt;
-            this.$.find("#pwa_install_button")[0].removeAttribute("hidden");
+            try {
+                this.$.find("#pwa_install_button")[0].removeAttribute("hidden");
+            }
+            catch (e) {
+                console.log('[ServiceWorker] ERROR ', e);
+            }
         },
         _onMenuInstallpwa: function() {
             deferredInstallPrompt.prompt();

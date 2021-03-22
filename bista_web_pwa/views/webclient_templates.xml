@@ -35,13 +35,13 @@
     <template id="service_worker" name="PWA service worker">
 'use strict';
 const CACHE_NAME = '<t t-esc="pwa_cache_name" />';
-        const DYNAMIC_CACHE_NAME = 'dynamic-' + '<t t-esc="pwa_cache_name" />';
+const DYNAMIC_CACHE_NAME = 'dynamic-' + '<t t-esc="pwa_cache_name" />';
 const FILES_TO_CACHE = [
   <t t-foreach="pwa_files_to_cache" t-as="file_to_cache">
       '<t t-esc="file_to_cache" />',
   </t><![CDATA[
 ];
-
+FILES_TO_CACHE.push("https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i&display=swap");
 // cache size limit function
 const limitCacheSize = (name, size) => {
     caches.open(name).then(cache => {
@@ -78,7 +78,8 @@ self.addEventListener('activate', function(evt) {
    );
   self.clients.claim();
 });
-
+const regex = new RegExp("(editor)");
+const fileTypesToCacheRegex = new RegExp("/\.(gif|jpe?g|tiff?|png|webp|bmp|xml|woff|eot|woff2|ttf|svg)$/i")
 self.addEventListener('fetch', function(evt) {
     // if (evt.request.cache === 'only-if-cached' && evt.request.mode !== 'same-origin') {
     //   return;
@@ -89,9 +90,13 @@ self.addEventListener('fetch', function(evt) {
         .then(cacheRes => {
             return cacheRes || fetch(evt.request).then(fetchRes => {
                 return caches.open(DYNAMIC_CACHE_NAME).then(cache => {
-                    cache.put(evt.request.url, fetchRes.clone());
-                    // check cached items size
-                    limitCacheSize(DYNAMIC_CACHE_NAME, 50);
+                    // if (!regex.test(evt.request.url)) {
+                        if((/\.(gif|jpe?g|tiff?|png|webp|bmp|xml|woff|eot|woff2|ttf|svg)$/i).test(evt.request.url)){
+                            cache.put(evt.request.url, fetchRes.clone());
+                            // check cached items size
+                            limitCacheSize(DYNAMIC_CACHE_NAME, 50);
+                        }
+                    // }
                     return fetchRes;
                 });
             })
@@ -185,24 +190,25 @@ self.addEventListener('fetch', function(evt) {
 }
     </template>
     <template id="pwa_frontend_layout" name="PWA Frontend Layout" inherit_id="portal.frontend_layout">
-        <xpath expr="//ul[@id='top_menu']" position="inside">
-            <li class="nav-item divider" groups="base.group_public"/>
-            <li groups="base.group_public" class="nav-item">
-                <a t-attf-href="#"
-                   class="nav-link install_pwa_btn" role="menuitem"
-                   id="pwa_install_button_header"
-                   data-menu="installpwa"
-                >
-                    Install
-                </a>
-            </li>
-        </xpath>
+<!--        <xpath expr="//ul[@id='top_menu']" position="inside">-->
+<!--            <li class="nav-item divider" groups="base.group_public"/>-->
+<!--            <li groups="base.group_public" class="nav-item">-->
+<!--                <a t-attf-href="#"-->
+<!--                   class="nav-link install_pwa_btn" role="menuitem"-->
+<!--                   id="pwa_install_button_header"-->
+<!--                   data-menu="installpwa"-->
+<!--                >-->
+<!--                    Install-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </xpath>-->
 
         <xpath expr="//div[@id='wrapwrap']/main" position="inside">
             <style>
                 .icon-bar {
                   position: fixed;
                   top: 50%;
+                  right: 0%;
                   -webkit-transform: translateY(-50%);
                   -ms-transform: translateY(-50%);
                   transform: translateY(-50%);
@@ -227,14 +233,13 @@ self.addEventListener('fetch', function(evt) {
                   color: white;
                 }
                 </style>
-            <div groups="base.group_public" class="icon-bar">
+            <div class="icon-bar">
                 <a t-attf-href="#"
                    class="download-btn install_pwa_btn"
                    role="menuitem"
                    id="pwa_install_download_button"
                    data-menu="installpwa"
                 >
-<!--                    Download-->
                     <i class="fa fa-download"></i>
                 </a>
             </div>

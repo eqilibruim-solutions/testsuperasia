@@ -21,6 +21,9 @@ class PWA(Controller):
 
         urls.extend(self.get_asset_urls("web.assets_common"))
         urls.extend(self.get_asset_urls("web.assets_common_minimal_js"))
+        urls.extend(self.get_asset_urls("web.assets_common_lazy"))
+        urls.extend(self.get_asset_urls("web.assets_frontend"))
+        # urls.extend(self.get_asset_urls("web.assets_frontend_lazy"))
         urls.extend(self.get_asset_urls("web.assets_frontend_minimal_js"))
         urls.extend(self.get_asset_urls("web.assets_backend"))
         version_list = []
@@ -31,11 +34,9 @@ class PWA(Controller):
         mimetype = "text/javascript;charset=utf-8"
 
         urls.extend([
-            "/",
             "/bista_web_pwa/static/img/online.png",
             "/bista_web_pwa/static/img/offline.png",
             "/offline-fallback",
-            "https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i&display=swap",
         ])
 
         content = qweb.render(
