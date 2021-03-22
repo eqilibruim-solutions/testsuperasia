@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <record id="view_res_users_form" model="ir.ui.view">
+       <field name="name">res.users.b2b</field>
+       <field name="model">res.users</field>
+       <field name="inherit_id" ref="base.view_users_form"/>
+       <field name="arch" type="xml">
+          <xpath expr="//header" position="inside">
+
+<button name="approveuser" type="object" string="Approve" class="btn-primary" attrs="{'invisible': [('active', '=', True)]}"/>
+        	 </xpath>
+       </field>
+   </record>
+
+
+<record id="product_prod_b2bform_view" model="ir.ui.view">
+    <field name="name">product.product.b2b.form</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <field name="arch" type="xml">
+     
+        <xpath expr="//field[@name='uom_id']" position="after">
+<field name="b2buom_id"/>
+      </xpath>
+
+    </field>
+</record>
+
+
+</odoo>
