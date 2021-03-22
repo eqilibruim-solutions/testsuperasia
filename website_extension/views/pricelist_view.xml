@@ -6,8 +6,7 @@
         <field name="model">product.pricelist</field>
         <field name="arch" type="xml">
             <xpath expr='//field[@name="company_id"]' position='after'>
-                <field name="customer_type"/>
-                <field name="group_id"/>
+                <field name="group_id" widget="many2many_tags"/>
             </xpath>
           </field>
     </record>
