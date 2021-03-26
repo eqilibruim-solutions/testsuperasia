@@ -106,7 +106,7 @@ class AccountSalesRepReport(models.TransientModel):
             sheet1.set_column('H:H', 20)
             sheet1.write(0, 0, 'Sales Rep', header_format1)
             sheet1.write(0, 1, 'Name', header_format1)
-            sheet1.write(0, 2, '1-30 Days', header_format1)
+            sheet1.write(0, 2, '0-30 Days', header_format1)
             sheet1.write(0, 3, '31-60 Days', header_format1)
             sheet1.write(0, 4, '61-90 Days', header_format1)
             sheet1.write(0, 5, '> 90 Days', header_format1)
@@ -264,7 +264,7 @@ class AccountSalesRepReport(models.TransientModel):
                 from res_users as ru where ru.id = i.sales_name) as sales_name 
                 from(SELECT cust.name as name,
                         CASE 
-                            WHEN aml.date_maturity <= current_date - interval '1' day 
+                            WHEN aml.date_maturity <= current_date - interval '0' day 
                             AND aml.date_maturity >= current_date - interval '30' day
                             THEN sum(am.amount_residual_signed) END as m1,
                         CASE 
