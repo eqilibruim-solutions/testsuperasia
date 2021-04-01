@@ -73,11 +73,15 @@
                     <tr>
                         <!-- TODO: remove in master -->
                         <t t-set="colspan" t-value="6"/>
-                        <th name="th_quantity_shipped" class="text-center" >
-                            <span>Quantity<br/> Ordered</span>
-                        </th>
+<!--                        <th name="th_quantity_shipped" class="text-center" >-->
+<!--                            <span>Quantity<br/> Ordered</span>-->
+<!--                        </th>-->
+<!--                        <th name="th_quantity" class="text-center">-->
+<!--                            <span>Quantity<br/> Shipped</span>-->
+<!--                        </th>-->
+
                         <th name="th_quantity" class="text-center">
-                            <span>Quantity<br/> Shipped</span>
+                            <span>Quantity</span>
                         </th>
 
                         <!-- TODO: remove in master -->
@@ -148,17 +152,18 @@
                         <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
                             <t t-if="not line.display_type" name="account_invoice_line_accountable">
 <!--                                Quant ordered-->
-                                <td class="text-center">
-                                    <span>
-                                       <t t-set="quantity_ordered" t-value="0" />
-                                       <t t-foreach="line.sale_line_ids " t-as="sli">
-                                           <t t-if="sli.product_id.id == line.product_id.id">
-                                               <t t-set="quantity_ordered" t-value="sli.product_uom_qty" />
-                                               <t t-esc="'%.0f'% quantity_ordered" />
-                                           </t>
-                                       </t>
-                                    </span>
-                                </td>
+<!--                                <td class="text-center">-->
+<!--                                    <span>-->
+<!--                                       <t t-set="quantity_ordered" t-value="0" />-->
+<!--                                       <t t-foreach="line.sale_line_ids " t-as="sli">-->
+<!--                                           <t t-if="sli.product_id.id == line.product_id.id">-->
+<!--                                               <t t-set="quantity_ordered" t-value="sli.product_uom_qty" />-->
+<!--                                               <t t-esc="'%.0f'% quantity_ordered" />-->
+<!--                                           </t>-->
+<!--                                       </t>-->
+<!--                                    </span>-->
+<!--                                </td>-->
+
                                 <td class="text-center">
 <!--                                    <span t-esc="'%.0f'% line.quantity"/>-->
                                     <t t-if="round(line.quantity) == line.quantity">
@@ -174,13 +179,17 @@
                                     <t t-set="quantity_total" t-value="quantity_total+line.quantity"/>
                                 </td>
 <!--                                Description-->
+<!--                                <td name="account_invoice_line_name">-->
+<!--                                    <span t-if="(line.quantity != quantity_ordered) and (line.discount > 0)" style="text-decoration:underline; background:yellow" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}" />-->
+<!--                                    <span t-elif="line.discount > 0" style="background:yellow" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}" />-->
+<!--                                    <span t-elif="(line.quantity != quantity_ordered)" style="background:aquamarine" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}" />-->
+<!--                                    <span t-elif="line.discount == 0" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}"/>-->
+<!--                                </td>-->
                                 <td name="account_invoice_line_name">
-                                    <span t-if="(line.quantity != quantity_ordered) and (line.discount > 0)" style="text-decoration:underline; background:yellow" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}" />
-                                    <span t-elif="line.discount > 0" style="background:yellow" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}" />
-                                    <span t-elif="(line.quantity != quantity_ordered)" style="background:aquamarine" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}" />
+                                    <span t-if="line.discount > 0" style="background:yellow" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}" />
                                     <span t-elif="line.discount == 0" t-field="line.product_id.description_sale" t-options="{'widget': 'text'}"/>
                                 </td>
-<!--                                <td name="account_invoice_line_name">-->
+
 
 <!--                                Insert the UPC here-->
                                 <td class="text-center" style="min-width:40mm">
