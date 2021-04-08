@@ -26,4 +26,5 @@
     'installable': True,
     'application': False,
     'auto_install': False,
+#This is a comment!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
