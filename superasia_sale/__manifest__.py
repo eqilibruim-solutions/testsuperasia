@@ -8,7 +8,17 @@
 
     'description': """
         CIC - Task ID: 2287562
-        The client is a food distributor of various grocery items. The client uses HandShake, a sales order management app for wholesale. HandShake’s front-end is used by the client’s salesperson on a mobile device to place orders while visiting a retail store and thereby making an order in the back-end system. HandShake’s backend has the following information - Quotations, Customer details, Product details. The client wants to integrate HandShake with Odoo, by doing an import/export of csv files from a network folder for data update between the systems. 
+
+        The client is a food distributor of various grocery items. 
+        The client uses HandShake, a sales order management app for wholesale. 
+        HandShake’s front-end is used by the client’s salesperson on a mobile 
+        device to place orders while visiting a retail store and thereby making
+        an order in the back-end system. HandShake’s backend has the following
+        information - Quotations, Customer details, Product details. 
+        The client wants to integrate HandShake with Odoo, by doing an 
+        import/export of csv files from a network folder for data update 
+        between the systems. 
+
     """,
 
     'author': "PS-US Odoo",
