@@ -30,17 +30,43 @@ from odoo.http import request
 from odoo.tools import pycompat, OrderedSet
 from odoo.addons.http_routing.models.ir_http import slug, _guess_mimetype
 from odoo.addons.web.controllers.main import Binary
-from odoo.addons.web.controllers.main import *
-from odoo.addons.portal.controllers.portal import pager as portal_pager
-from odoo.addons.portal.controllers.web import Home
-# from twilio.rest import Client
-# import xlwt
-# from xlwt import easyxf
-# import socket
-# import urllib
+from odoo.addons.web.controllers.main import Home
+
 import urllib.request
 _logger = logging.getLogger(__name__)
 
+
+def redirect_with_hash(*args, **kw):
+    """
+        .. deprecated:: 8.0
+
+        Use the ``http.redirect_with_hash()`` function instead.
+    """
+    return http.redirect_with_hash(*args, **kw)
+
+
+class Extension_Home(Home):
+    @http.route()
+    def web_login(self, redirect=None, **kw):
+        _logger.info('========kw=========== %s' % kw)   
+        response = super(Extension_Home, self).web_login()             
+        _logger.info('========kw=========== %s' % kw)                
+        _logger.info('========request.uid=========== %s' % request.uid)                
+
+        user_obj=request.env['res.users']
+
+        b2bid = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+        portalid = request.env['ir.model.data'].get_object('base','group_portal')
+
+        group_list = [b2bid.id,portalid.id]
+
+        user_data=user_obj.search([('id','=',request.uid),('groups_id','in',group_list)])
+
+
+        if user_data:
+            return werkzeug.utils.redirect('/shop')
+
+        return response
 
 class superasiab2b_b2c(http.Controller):
     
@@ -168,17 +194,18 @@ class superasiab2b_b2c(http.Controller):
             if partner_id:
                 ir_mail_server = request.env['ir.mail_server']
                 mail_server_id = ir_mail_server.search([('name','=','Superasia')])
+                smtp_user = str(mail_server_id.smtp_user)
                 temp_obj = request.env['mail.template']
-                template_data = temp_obj.search([('name','=','B2B Account Activation')])
+                template_data = temp_obj.search([('name','=','Account Activation')])
                 if template_data:
-                    replaced_data= template_data.body_html.replace('${object.contact_name}',contact_name)
+                    replaced_data= template_data.body_html.replace('${object.company_name}',company_name)
                     replaced_dataone= replaced_data.replace('${object.email}',email)
-                    replaced_datatwo= replaced_dataone.replace('${object.company_name}',company_name)
+                    # replaced_datatwo= replaced_dataone.replace('${object.company_name}',company_name)
                     msg = ir_mail_server.build_email(
-                    email_from=mail_server_id.smtp_user,     
+                    email_from=smtp_user,     
                     email_to=[email],
-                    subject="B2B Account Activation",
-                    body=replaced_datatwo,
+                    subject="Account Activation",
+                    body=replaced_dataone,
                     body_alternative="",
                     object_id=1,
                     subtype='html'
@@ -223,6 +250,8 @@ class superasiab2b_b2c(http.Controller):
                 mobile = '+1' + mobile
             password = post.get('password')
             confirmpassword = post.get('confirmpassword')
+            _logger.info('========password=========== %s' % password)                
+            _logger.info('========confirmpassword=========== %s' % confirmpassword)                
             if password != confirmpassword:
                 return request.render('superasiab2b_b2c.confirmpassword',{
                     })
@@ -282,15 +311,16 @@ class superasiab2b_b2c(http.Controller):
             if partner_id:
                 ir_mail_server = request.env['ir.mail_server']
                 mail_server_id = ir_mail_server.search([('name','=','Superasia')])
+                smtp_user = str(mail_server_id.smtp_user)
                 temp_obj = request.env['mail.template']
-                template_data = temp_obj.search([('name','=','B2C Account Activation')])
+                template_data = temp_obj.search([('name','=','Account Activation')])
                 if template_data:
                     replaced_data= template_data.body_html.replace('${object.company_name}',company_name)
                     replaced_dataone= replaced_data.replace('${object.email}',email)
                     msg = ir_mail_server.build_email(
-                    email_from=mail_server_id.smtp_user,     
+                    email_from=smtp_user,     
                     email_to=[email],
-                    subject="B2C Account Activation",
+                    subject="Account Activation",
                     body=replaced_dataone,
                     body_alternative="",
                     object_id=1,

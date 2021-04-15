@@ -43,6 +43,53 @@ $(window).scroll(function() {
 
 $(document).ready(function(){
 
+/* Mobile menu toggle click */
+var nav_links = $(".navbar-links");
+//var nav_items = $(".nav-item");
+//var nav_items = $(".nav-menus");
+var nav_items = $(".nav-menus");
+$("#toggle_menu").on("click", function(){
+    for(var i=0; i<nav_links.length; i++)
+    nav_links[i].classList.toggle('show');
+    for(var i=0; i<nav_items.length; i++)
+    nav_items[i].classList.toggle('show');
+})
+/* Mobile menu toggle click */
+
+
+
+
+/* Collapse Keep Open For Products Category And Brand  */
+ var collapseStatus = JSON.parse(localStorage.getItem('collapseStatus'));
+  if(collapseStatus === null) {
+    collapseStatus = {};
+  }
+
+    $(".show_category").on("click", function(){
+        var products_categories = $('#wsale_products_categories_collapse').attr('class');
+        products_categories == "collapse" ? collapseStatus['wsale_products_categories_collapse'] = "open" : collapseStatus['wsale_products_categories_collapse'] = "closed";
+
+        localStorage.setItem('collapseStatus', JSON.stringify(collapseStatus));
+    });
+    $(".show_brands").on("click", function(){
+        var products_categories = $('#wsale_products_attributes_collapse').attr('class');
+        products_categories == "collapse" ? collapseStatus['wsale_products_attributes_collapse'] = "open" : collapseStatus['wsale_products_attributes_collapse'] = "closed";
+
+        localStorage.setItem('collapseStatus', JSON.stringify(collapseStatus));
+    });
+    var collapseKeys = Object.keys(collapseStatus);
+    var collapseValues = Object.values(collapseStatus);
+    for(i = 0;i<collapseKeys.length;i++) {
+        if(collapseKeys[i] === "wsale_products_categories_collapse"){
+            collapseValues[i] == 'open' ? $('div[id="' + collapseKeys[i] + '"]').addClass("show") : $('div[id="' + collapseKeys[i] + '"]').removeClass("show");
+        }else if(collapseKeys[i] === "wsale_products_attributes_collapse"){
+            collapseValues[i] == 'open' ? $('div[id="' + collapseKeys[i] + '"]').addClass("show") : $('div[id="' + collapseKeys[i] + '"]').removeClass("show");
+        }
+
+    }
+
+
+/* Top HomePage Search Box */
 $(".top_search").change(function(){
   if ($(this).val()){
    var redirect_link = '/shop/product/'
@@ -57,33 +104,31 @@ $(".top_search").select2({
         formatResult: function (opt) {
         var opt_text = opt.text;
         var opt_thumb_image = $(opt.element).attr('src');
-        var $res = opt_thumb_image ? $('<span><img src="' + opt_thumb_image + '" width="33px" /> ' + opt.text + '</span>') : opt_text;
+        var $res = opt_thumb_image ? $('<span><img src="' + opt_thumb_image + '" width="auto" height="50px" /><span id="p_txt"> ' + opt.text + '</span></span>') : opt_text;
         return $res;
 },});
+/* Top HomePage Search Box */
 
 
-
+/* Auto Typing on Hompage Top Banner */
 if ($('.typing').length){
-
-
 var typed = new Typed(".typing", {
-    strings: ["Hello.!!!","Welcome to SuperAsia Food."],
+//    strings: ["Hello.!!!","Super Asia Foods."],
+    strings: ["Hello.!!!","Super Asia Foods."],
     typeSpeed: 100,
     backSpeed: 60,
     loop: false,
-  });
-  console.log(":::::::::::::::::::::v::::::::",typed)
+    });
 // setTimeout(function () {
 //           $('.catalogue_btn').removeClass('d-none');
 //          }, 10000);
 }
+/* Auto Typing on Hompage Top Banner */
 
-
-
-      $('[data-toggle="tooltip"]').tooltip();
     });
 
     $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
         $(".hover-flag-dropdown").hover(function(){
             var dropdownMenu = $(this).children(".dropdown-menu-toggle");
             if(dropdownMenu.is(":visible")){

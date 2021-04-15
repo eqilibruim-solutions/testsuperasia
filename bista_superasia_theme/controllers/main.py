@@ -174,7 +174,7 @@ class WebsiteSale(ws):
                 layout_mode = 'list'
             else:
                 layout_mode = 'grid'
-        # ppr = 6
+        ppr = 6
         values = {
             'search': search,
             'category': category,

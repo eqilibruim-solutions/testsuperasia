@@ -3,6 +3,7 @@
 
 
 from . import portal_manager
+from . import ir_ui_menu_inherit
 
 # ****************
 
@@ -11,3 +12,7 @@ from . import portal_manager
 
 # record rules
 # Public product template --- remove websitepublished domain and give all access
+# respartner-public in internal user
+# rescompany -- add public  in admin
+
+# in public customer add email address in db

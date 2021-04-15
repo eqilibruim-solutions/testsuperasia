@@ -50,8 +50,8 @@
 <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
                 <tr><td valign="top" style="font-size: 13px;">
                     <div>
-                        Dear <span t-esc="user_data.name"/>,<br/><br/>
-                          <p> Successful Authentication</p>
+                        <b>Dear <span t-esc="user_data.name"/>,<br/><br/>
+                          <p> Successful Authentication</p></b>
                 <br></br>
      
 Your Account is not active yet.You can login to your account, once your account is approved by Administrator. <br/>
@@ -117,8 +117,8 @@ Thanks
 <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
                 <tr><td valign="top" style="font-size: 13px;">
                     <div>
-                        Dear <span t-esc="user_data.name"/>,<br/><br/>
-                          <p> Successful Authentication - Completed Activation</p>
+                        <b>Dear <span t-esc="user_data.name"/>,<br/><br/>
+                          <p> Successful Authentication - Completed Activation</p></b>
                 <br></br>
                     </div>
                 </td></tr>
@@ -166,112 +166,120 @@ Thanks
                                         margin: 0 auto;
                                     }
                                 </style>
-                                
-<div class="opportunitylinadd_details row">                
 
-<div class="row-md-2 row-centered col-md-12">
-    <form class="b2b_acc_signup_form mx-auto" method="POST" action="/b2baccountactivation" enctype="multipart/form-data">
 
-        <div class="form-row">
-            <div class="name">Business Name*</div>
-            <div class="value">
-                <div class="input-group-desc">
-                    <input class="input--style-5" type="text" name="company_name" required="1"/>
-<!--                    <label class="label&#45;&#45;desc">required</label>-->
-                </div>
-            </div>
-        </div>
+                                <div class="justify-content-center opportunitylinadd_details row">
 
-        <div class="form-row">
-            <div class="name">Your Name*</div>
-            <div class="value">
-                <div class="input-group-desc">
-                    <input class="input--style-5" type="text" name="contact_name" required="1"/>
-<!--                    <label class="label&#45;&#45;desc">required</label>-->
-                </div>
-            </div>
-        </div>
+                                    <div class="col-md-8 col-sm-12 d-md-flex justify-content-end">
+                                        <form class="b2b_acc_signup_form mx-auto w-md-50" method="POST" action="/b2baccountactivation" enctype="multipart/form-data">
 
-        <div class="form-row">
-            <div class="name">Address</div>
-            <div class="value">
-                <div class="input-group-desc">
-                    <input class="input--style-5" type="text" name="street"/>
-                </div>
-            </div>
-        </div>
+                                            <div class="form-row">
+                                                <div class="name">Business Name*</div>
+                                                <div class="value">
+                                                    <div class="input-group-desc">
+                                                        <input class="input--style-5" type="text" name="company_name" required="1"/>
+                                                        <!--                    <label class="label&#45;&#45;desc">required</label>-->
+                                                    </div>
+                                                </div>
+                                            </div>
 
-        <div class="form-row" style="align-items: baseline;">
-            <div class="name">Mobile Number</div>
-            <div class="value">
-                <div class="row row-refine">
-                    <div class="col-3">
-                        <div class="input-group-desc">
-                            <input class="input--style-5" type="text" name="area_code" id="b" value="+1"
-                                readonly="1"/>
-<!--                            <label class="label&#45;&#45;desc">Country Code</label>-->
-                        </div>
-                    </div>
-                    <div class="col-9 pl-1">
-                        <div class="input-group-desc">
-                            <input class="input--style-5" type="text" name="mobile"
-                                placeholder="xxxxxxxxxx"/>
-<!--                            <label class="label&#45;&#45;desc">Phone Number</label>-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                            <div class="form-row">
+                                                <div class="name">Your Name*</div>
+                                                <div class="value">
+                                                    <div class="input-group-desc">
+                                                        <input class="input--style-5" type="text" name="contact_name" required="1"/>
+                                                        <!--                    <label class="label&#45;&#45;desc">required</label>-->
+                                                    </div>
+                                                </div>
+                                            </div>
 
-        <div class="form-row">
-            <div class="name">Email*</div>
-            <div class="value">
-                <div class="input-group-desc">
-                    <input class="input--style-5" type="email" name="email" required="1"/>
-<!--                    <label class="label&#45;&#45;desc">required</label>-->
-                </div>
-            </div>
-        </div>
+                                            <div class="form-row">
+                                                <div class="name">Address</div>
+                                                <div class="value">
+                                                    <div class="input-group-desc">
+                                                        <input class="input--style-5" type="text" name="street"/>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-        <div class="form-row">
-            <div class="name">Website</div>
-            <div class="value">
-                <div class="input-group-desc">
-                    <input class="input--style-5" type="text" name="website"/>
-                </div>
-            </div>
-        </div>
+                                            <div class="form-row" style="align-items: baseline;">
+                                                <div class="name">Mobile Number</div>
+                                                <div class="value">
+                                                    <div class="row row-refine">
+                                                        <div class="col-3">
+                                                            <div class="input-group-desc">
+                                                                <input class="input--style-5" type="text" name="area_code" id="b" value="+1"
+                                                                       readonly="1"/>
+                                                                <!--                            <label class="label&#45;&#45;desc">Country Code</label>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-9 pl-1">
+                                                            <div class="input-group-desc">
+                                                                <input class="input--style-5" type="text" name="mobile"
+                                                                       placeholder="xxxxxxxxxx"/>
+                                                                <!--                            <label class="label&#45;&#45;desc">Phone Number</label>-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-        <div class="form-row">
-            <div class="name"></div>
-            <div class="value">
-                <script src='https://www.google.com/recaptcha/api.js'></script>
-                <div id="captcha" class="imageContainer">
-                    <div class="g-recaptcha" data-sitekey="6LcJIG0aAAAAAAYBZqdacaPRl9Ca3Yr-s5YyVRu2"
-                        data-callback="verifyRecaptchaCallback"
-                        data-expired-callback="expiredRecaptchaCallback"></div>
-                    <input class="form-control d-none" data-recaptcha="true" />
-                    <div class="help-block with-errors" id="err" style='color: red' required="required"></div>
-                </div>
-            </div>
-        </div>
+                                            <div class="form-row">
+                                                <div class="name">Email*</div>
+                                                <div class="value">
+                                                    <div class="input-group-desc">
+                                                        <input class="input--style-5" type="email" name="email" required="1"/>
+                                                        <!--                    <label class="label&#45;&#45;desc">required</label>-->
+                                                    </div>
+                                                </div>
+                                            </div>
 
-        <div class="row row-space mt-3">
-            <div class="col-6 text-left pl-1">
-                <button class="btn btn-primary btn--radius-2 btn--red buttoncreateaccount" type="submit">Register</button>
-            </div>
-            <div class="col-6 text-right pr-1">
-                <button class="btn btn-primary btn--radius-2 btn--red buttonlogin"
-                        type="button" onclick="location.href='/web/login';">
-                    Login
-<!--                    method="post" href="/web/login"-->
-                </button>
-            </div>
-        </div>
-    </form>
+                                            <div class="form-row">
+                                                <div class="name">Website</div>
+                                                <div class="value">
+                                                    <div class="input-group-desc">
+                                                        <input class="input--style-5" type="text" name="website"/>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-</div>
+                                            <div class="form-row">
+                                                <div class="name"></div>
+                                                <div class="value">
+                                                    <script src='https://www.google.com/recaptcha/api.js'></script>
+                                                    <div id="captcha" class="imageContainer">
+                                                        <div class="g-recaptcha" data-sitekey="6Ldbe4waAAAAAM26blpmW9f7AxmUATGv9ebhkYHZ"
+                                                             data-callback="verifyRecaptchaCallback"
+                                                             data-expired-callback="expiredRecaptchaCallback"></div>
+                                                        <input class="form-control d-none" data-recaptcha="true" />
+                                                        <div class="help-block with-errors" id="err" style='color: red' required="required"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <div class="row row-space mt-3">
+                                            <div class="col-12 text-center">
+
+      <button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit">Submit</button>
+          
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="align-items-center d-flex flex-column my-md-auto">
+                                            <a href="/web/login" style="color: #ac1520;font-size: calc(1em + 5px);" class="pb-2 text-sm-center"> Already an existing user? </a>
+
+                                            <p><b>OR</b></p>
+                                            <br/>
+
+        <button class="btn custom_them_primary font-weight-bold text-white" onclick="location.href='/shop';">Checkout as Guest</button>
+
+                                        
+                                        </div>
+                                    </div>
+
                                 </div>
+
+
                             </div>
                     </div>
                 </div>
@@ -314,10 +322,10 @@ Thanks
                         }
                     </style>
 
-                    <div class="opportunitylinadd_details row">
+<div class="justify-content-center opportunitylinadd_details row">
 
-                        <div class="row-md-2 row-centered col-md-12">
-                            <form class="b2c_acc_signup_form mx-auto" method="POST" action="/b2caccountactivation" enctype="multipart/form-data">
+        <div class="col-md-8 col-sm-12 d-md-flex justify-content-end">
+            <form class="b2b_acc_signup_form mx-auto w-md-50" method="POST" action="/b2caccountactivation" enctype="multipart/form-data">
 
                                 <div class="form-row">
                                     <div class="name">Name*</div>
@@ -379,29 +387,33 @@ Thanks
                                     </div>
                                 </div>
 
-                                <div class="row row-space mt-3">
-                                    <div class="col-6 text-left pl-1">
-                                        <button class="btn btn-primary btn--radius-2 btn--red buttoncreateaccount" type="submit">Register</button>
+                        <div class="row row-space mt-3">
+                        <div class="col-12 text-center">
+
+      <button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit">Submit</button>
+          
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="align-items-center d-flex flex-column my-md-auto">
+                                            <a href="/web/login" style="color: #ac1520;font-size: calc(1em + 5px);" class="pb-2 text-sm-center"> Already an existing user? </a>
+
+                                            <p><b>OR</b></p>
+                                            <br/>
+
+        <button class="btn custom_them_primary font-weight-bold text-white" onclick="location.href='/shop';">Checkout as Guest</button>
+                                        </div>
                                     </div>
-                                    <div class="col-6 text-right pr-1">
-                                        <button class="btn btn-primary btn--radius-2 btn--red buttonlogin"
-                                                type="button" onclick="location.href='/web/login';">
-                                            Login
-<!--                                            method="post" href="/web/login"-->
-                                        </button>
-                                    </div>
+
                                 </div>
-                            </form>
-                        </div>
+
+
+                            </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </t>
- </template>
+            </t>
+             </template>
         
-        
-
 
 <template id="repeat_user">
     <t t-call="website.layout">
@@ -423,7 +435,8 @@ Thanks
                     </p>
                     
       <div class="col-md-6 col-sm-4 col-centered">
-                      <button class="btn btn-primary" onclick="goBack()">Go Back</button>
+<button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit" onclick="goBack()">Go Back</button>
+
                   </div>         
                    
                     
@@ -450,7 +463,7 @@ Thanks
                     </p>
                     <br/>
       <div class="col-md-6 col-sm-4 col-centered">
-                      <button class="btn btn-primary" onclick="goBack()">Go Back</button>
+<button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit" onclick="goBack()">Go Back</button>
                   </div>         
                    
                     
@@ -477,7 +490,7 @@ Thanks
                     </p>
                     <br/>
       <div class="col-md-6 col-sm-4 col-centered">
-                      <button class="btn btn-primary" onclick="goBack()">Go Back</button>
+<button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit" onclick="goBack()">Go Back</button>
                   </div>         
                    
                     
@@ -504,7 +517,7 @@ Thanks
                     </p>
                     <br/>
       <div class="col-md-6 col-sm-4 col-centered">
-                      <button class="btn btn-primary" onclick="goBack()">Go Back</button>
+<button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit" onclick="goBack()">Go Back</button>
                   </div>         
                    
                     
@@ -531,7 +544,7 @@ Thanks
                     </p>
                     <br/>
       <div class="col-md-6 col-sm-4 col-centered">
-                      <button class="btn btn-primary" onclick="goBack()">Go Back</button>
+<button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit" onclick="goBack()">Go Back</button>
                   </div>         
                    
                     

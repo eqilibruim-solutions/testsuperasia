@@ -22,14 +22,15 @@
     'version': '13.0.1.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['website', 'website_sale'],
+    'depends': ['website', 'website_sale', 'sale'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        # 'views/views.xml',
-        # 'views/templates.xml',
         'views/pricelist_view.xml',
+        'data/data.xml',
+        'views/brands_page.xml',
+        'views/product_attribute.xml',
     ],
     # only loaded in demonstration mode
     # 'demo': [

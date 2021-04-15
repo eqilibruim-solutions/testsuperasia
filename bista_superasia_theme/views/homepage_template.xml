@@ -37,11 +37,11 @@
                                     <div class="carousel-container">
                                         <div class="carousel-content container text-left">
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <h4 id="superasia_heading" class="banner-heading-mali typing">
+                                                <div class="head_banner_text col-md-6">
+                                                    <h4 id="superasia_heading" class="banner-heading-mali typing" style="font-family: 'Raleway', sans-serif;">
                                                     </h4>
                                                 </div><div class="col-md-9"></div>
-                                                <div class="col-md-6">
+                                                <div class="head_banner_text_2 col-md-6">
                                                     <h5 id="superasia_heading2" class="banner-subheading-mali ">Super Asia Foods &amp; Spices is a wholesale company of quality and trusted products located in Toronto Canada.</h5>
                                                 </div>
                                             </div><!-- row -->
@@ -52,11 +52,8 @@
                         </div>
                     </section><!-- End Hero -->
 
-
-
-                    <main id="main" t-att-class="'mt-n6' if request.env.user.id == request.env.ref('base.public_user').id else False">
-
-                        <t t-if="request.env.user.id == request.env.ref('base.public_user').id">
+                    <main id="main" t-att-class="'mt-n6' if request.env.user.id == request.env.ref('base.public_user').id or request.env.user.has_group('base.user_admin') else False">
+                        <t t-if="request.env.user.has_group('base.user_admin') or                                                               request.env.user.id == request.env.ref('base.public_user').id">
                             <!-- ======= About Us Section ======= -->
                             <section id="about" class="about mt-4">
                                 <div class="container">
@@ -102,7 +99,7 @@
                                     <div class="row no-gutters">
                                         <div class="col-lg-12">
                                             <div class="section-how-it-works-title text-center pb-5">
-                                                <h1 class="text-uppercase">How It Works? </h1>
+                                                <h1 class="text-uppercase h1_replace">How It Works? </h1>
                                                 <p class="">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                             </div>
                                             <div class="howItWork-content-wrap">
@@ -279,7 +276,7 @@
 
                             <!-- ======= Bussiness Section Start ======= -->
 <!--                            <section class="range section-bg">-->
-                                <div class="c-no container-fluid pb-5 pt-5" style="background: #91291D;">
+                                <div class="c-no container-fluid pb-5 pt-5" style="background: #ac1520;">
                                     <div class="container-fluid">
                                         <h1 class="row text-uppercase" id="counter">
                                             <div class="container">
@@ -289,7 +286,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="container-fluid d-flex text-white" style="background-color:#91291D">
+                                            <div class="container-fluid d-flex text-white" style="background-color:#ac1520">
                                                 <div class="col-sm-4 counter-Txt" style="border-right: solid;">
                                                     <span class="counter-value" data-count="15">0</span>
                                                     YEARS IN BUSINESS<br/><span style="font-size:15px">(Serving canada since 1990’s)</span>
@@ -315,7 +312,7 @@
                             <!-- ======= Business Section End======= -->
 
                             <!-- ======= Range Section ======= -->
-                            <section class="range section-bg pb-0">
+                            <section class="range section-bg pb-0" style="background:#F5F5F5">
                                 <div class="container section-title pb-0">
                                     <h1 class="h1_replace">Our Range</h1>
                                     <div class="row">
@@ -341,7 +338,7 @@
 
 
                             <!-- ======= Products Catalog Section ======= -->
-                            <section class="products-catalog">
+                            <section class="products-catalog" style="background:#F5F5F5">
                                 <div class="container section-title pb-0">
                                     <h1 class="h1_replace pt-4 testimonials-title text-center text-uppercase"><a href=""><i class="far fa-file-pdf"></i> Click Here For Super Asia Foods Product Catalog</a></h1>
                                     <div class="row">
@@ -425,7 +422,7 @@
                                 </div><!-- end container -->
                             </section><!-- End Clients Section -->
                         </t>
-                        <t t-else="">
+                        <t t-if="request.env.user.has_group('base.user_admin') or request.env.user.id != request.env.ref('base.public_user').id">
 
                             <!-- ======= Featured Products Section ======= -->
                             <section class="range section-bg featured_products">
@@ -452,12 +449,16 @@
                                                     </a>
 <!--                                                    <h5 class="text-center text-uppercase">Royalty Ginger</h5>-->
 <!--                                                    <h5 class="text-center text-uppercase pb-2">Nut Cookie <span class="text-lowercase">(100 g)</span></h5>-->
-
                                                     <h4 class="text-center text-uppercase pb-2">
-                                                        <t t-set="combination_info" t-value="sub_loop._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
-                                                        <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
-                                                        <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
-                                                        <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+<!--                                                        <t t-set="combination" t-value="sub_loop._get_first_possible_combination()"/>-->
+<!--                                                        <t t-set="combination_info" t-value="sub_loop._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist,product_id=sub_loop.product_variant_id.id)"/>-->
+<!--                                                        <t t-set="product_variant" t-value="sub_loop.env['product.product'].browse(combination_info['product_id'])"/>-->
+                                                        <t t-set="variant_combination_info" t-value="sub_loop._get_combination_info(only_template=False, add_qty=add_qty or 1, pricelist=pricelist,product_id=sub_loop.product_variant_id.id)"/>
+                                                        <del t-attf-class="text-danger mr-2 {{'' if variant_combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="variant_combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+
+                                                        <span t-if="variant_combination_info['price']" t-esc="variant_combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                        <span itemprop="price" style="display:none;" t-esc="variant_combination_info['price']" />
+
                                                     </h4>
 
                                                     <t t-set="combination" t-value="sub_loop._get_first_possible_combination()"/>

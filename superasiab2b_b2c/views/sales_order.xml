@@ -11,20 +11,4 @@
         	 </xpath>
        </field>
    </record>
-
-
-<record id="product_prod_b2bform_view" model="ir.ui.view">
-    <field name="name">product.product.b2b.form</field>
-    <field name="model">product.product</field>
-    <field name="inherit_id" ref="product.product_normal_form_view"/>
-    <field name="arch" type="xml">
-     
-        <xpath expr="//field[@name='uom_id']" position="after">
-<field name="b2buom_id"/>
-      </xpath>
-
-    </field>
-</record>
-
-
 </odoo>
