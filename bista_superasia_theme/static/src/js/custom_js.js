@@ -3,9 +3,8 @@ odoo.define('bista_superasia_theme.recent_product', function (require) {
 var ajax = require('web.ajax');
 var core = require('web.core');
 var qweb = core.qweb;
-
 ajax.loadXML('/bista_superasia_theme/static/src/xml/website_sale_recent_product_inherit.xml', qweb);
-})
+});
 var a = 0;
 $(window).scroll(function() {
 

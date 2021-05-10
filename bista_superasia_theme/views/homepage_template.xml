@@ -340,7 +340,9 @@
                             <!-- ======= Products Catalog Section ======= -->
                             <section class="products-catalog">
                                 <div class="d-grid gap-2">
-                                    <a href="/bista_superasia_theme/static/src/Super_Asia_Cat_1.pdf"
+                                    <t t-esc="res_company.product_catalog.url"/>
+<!--                                    <a href="/bista_superasia_theme/static/src/Super_Asia_Cat_1.pdf"-->
+                                    <a t-attf-href="/web/content/#{res_company.product_catalog.id}"
                                        class="btn custom_them_primary font-weight-bold text-white" style="font-size: 36px;
     letter-spacing: 0px;" target="_blank"><i class="far fa-file-pdf"></i> Click Here for The Product Catalog
                                         </a>

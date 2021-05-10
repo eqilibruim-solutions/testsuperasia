@@ -8,6 +8,10 @@ from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.controllers.main import QueryURL
 import json
 from odoo import api, fields, models, _, registry, SUPERUSER_ID
+from odoo.addons.payment.controllers.portal import PaymentProcessing
+
+import logging
+_logger = logging.getLogger(__name__)
 
 class TableCompute(object):
 
@@ -198,6 +202,63 @@ class WebsiteSale(ws):
             values['main_object'] = category
         return request.render("website_sale.products", values)
 
+
+
+    @http.route('/shop/payment/validate', type='http', auth="public", website=True, sitemap=False)
+    def payment_validate(self, transaction_id=None, sale_order_id=None, **post):
+        """ Method that should be called by the server when receiving an update
+        for a transaction. State at this point :
+
+         - UDPATE ME
+        """
+        if sale_order_id is None:
+            order = request.website.sale_get_order()
+        else:
+            order = request.env['sale.order'].sudo().browse(sale_order_id)
+            assert order.id == request.session.get('sale_last_order_id')
+
+        user_obj=request.env['res.users']
+
+        b2bid = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+        group_list = [b2bid.id]
+
+        comments = post.get('comments')
+
+        _logger.info('========comments=========== %s' % comments)
+        order.write({'note':comments})  
+
+        user_data=user_obj.search([('id','=',request.uid),('groups_id','in',group_list)])
+        if user_data:
+            order.action_quotation_sent()
+            mail_template = request.env.ref('sale.mail_template_sale_confirmation')
+            mail_template.send_mail(order.id, force_send=True)
+
+            return request.redirect('/shop/confirmation')
+
+
+        if transaction_id:
+            tx = request.env['payment.transaction'].sudo().browse(transaction_id)
+            assert tx in order.transaction_ids()
+        elif order:
+            tx = order.get_portal_last_transaction()
+        else:
+            tx = None
+
+        if not order or (order.amount_total and not tx):
+            return request.redirect('/shop')
+
+        if order and not order.amount_total and not tx:
+            order.with_context(send_email=True).action_confirm()
+            return request.redirect(order.get_portal_url())
+
+        # clean context and session, then redirect to the confirmation page
+        request.website.sale_reset()
+        if tx and tx.state == 'draft':
+            return request.redirect('/shop')
+
+        _logger.info('========PaymentProcessing=========== %s' % PaymentProcessing)   
+        PaymentProcessing.remove_payment_transaction(tx)
+        return request.redirect('/shop/confirmation')
 
 
 

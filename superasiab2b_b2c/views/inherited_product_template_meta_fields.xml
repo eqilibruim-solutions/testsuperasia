@@ -27,5 +27,15 @@
 				</xpath>
 			</field>
 		</record>
+		<record id="res_company_catalog_field" model="ir.ui.view">
+            <field name="name">res.company.catalog.field</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <field name="favicon" position="after">
+                    <field name="product_catalog" widget="many2one_barcode"/>
+                </field>
+            </field>
+        </record>
 	</data>
 </odoo>
