@@ -15,6 +15,7 @@ class PricelistExtension(models.Model):
 
     def b2c_pricelist_price_calc(self):
         _logger.info("b2c_pricelist_price_calc cron job function")
+        b2c_pricelist = self.env['product.pricelist'].search([('name', 'ilike', 'B2C')], limit=1)
         pricelist_items = self.env['product.pricelist'].search([('name', 'ilike', 'B2C')], limit=1).item_ids
         # pricelist_product_products = pricelist_items.product_id
         pricelist_product_templates = pricelist_items.product_tmpl_id
@@ -44,7 +45,7 @@ class PricelistExtension(models.Model):
                     'fixed_price': b2c_price,
                     'base': 'list_price',
                     'compute_price': 'fixed',
-                    'pricelist_id': pricelist_items.pricelist_id.id
+                    'pricelist_id': b2c_pricelist.id
                 })
 
 
