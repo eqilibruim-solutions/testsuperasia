@@ -216,7 +216,7 @@
             <t t-else="">
                 <div class="col-12 col-xl-5 offset-xl-2 order-xl-1 oe_cart">
                     <div class="card">
-                        <div class="card-body" id="shipping_and_billing">
+                        <div class="card-body b2c_all" id="shipping_and_billing">
                             <a class='float-right no-decoration' href='/shop/checkout'><i class="fa fa-edit"/> Edit</a>
                             <t t-set="same_shipping" t-value="bool(order.partner_shipping_id==order.partner_id or only_services)" />
                             <div><b>Billing<t t-if="same_shipping and not only_services"> &amp; Shipping</t>: </b><span t-esc='order.partner_id' t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')" class="address-inline"/></div>
@@ -273,12 +273,13 @@
 
     <template id="bista_superasia_theme_payment_delivery" name="Delivery Costs"
               inherit_id="bista_superasia_theme.payment_inherite">
-        <xpath expr="//div[@id='shipping_and_billing']" position="inside">
+<!--        <xpath expr="//div[@id='shipping_and_billing']" position="inside">-->
+        <xpath expr="//div[hasclass('card-body','b2c_all')]" position="inside">
             <t t-set="delivery_nb" t-value="deliveries and len(deliveries)"/>
             <div t-if="delivery_nb == 1" id="delivery_carrier" class="mt4">
                 <b>Shipping Method: </b>
                 <t t-foreach="deliveries" t-as="delivery">
-                    <t t-call="website_sale_delivery.payment_delivery_methods"/>
+                        <t t-call="website_sale_delivery.payment_delivery_methods"/>
                 </t>
             </div>
         </xpath>
