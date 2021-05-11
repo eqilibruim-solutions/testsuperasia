@@ -333,14 +333,18 @@ class sale_order_line(models.Model):
         partner_id = self.order_id.partner_id
 
 
-        b2buser = userobj.search([('partner_id','=',partner_id.id),('groups_id','in',superasiaid.id)])
+        user_id = userobj.search([('partner_id','=',partner_id.id)])
+        if user_id:
+            b2buser = userobj.search([('partner_id','=',partner_id.id),('groups_id','in',superasiaid.id)])
 
-        if b2buser:
-            product_uom = self.product_id.uom_id
-            # vals['price_unit'] = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
+            if b2buser:
+                product_uom = self.product_id.uom_id
+                # vals['price_unit'] = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
+            else:
+                product_uom = self.product_id.b2buom_id
+            _logger.info('========product_uom========= %s' % product_uom)
         else:
-            product_uom = self.product_id.b2buom_id
-        _logger.info('========product_uom========= %s' % product_uom)
+            product_uom = self.product_id.uom_id
 
 
         valid_values = self.product_id.product_tmpl_id.valid_product_template_attribute_line_ids.product_template_value_ids
@@ -387,6 +391,8 @@ class sale_order_line(models.Model):
             vals['price_unit'] = priceitemid[0].fixed_price
         else:
             if self.order_id.pricelist_id and self.order_id.partner_id:
+                pricee= self._get_display_price(product)
+                _logger.info('========pricee========= %s' % pricee)
                 vals['price_unit'] = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
 
         _logger.info('========price_unit========= %s' % vals['price_unit'])
