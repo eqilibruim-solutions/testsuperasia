@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="view_hide_dates_from_lot_serial" model="ir.ui.view">
+        <field name="name">view.hide.dates.from.lot.serial</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='use_date']" position="attributes" >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='life_date']" position="attributes" >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='alert_date']" position="attributes" >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
