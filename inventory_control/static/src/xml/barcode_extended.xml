@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+<t t-extend="stock_barcode_summary_template">
+    <t t-jquery="div.o_barcode_product_line" t-operation="replace">
+        <div class="o_barcode_product_line d-flex justify-content-between align-items-center">
+            <span t-if="model == 'stock.picking'" class="o_barcode_locations">
+                <div class="d-inline-block font-weight-bold text-right">
+                    <span class="o_barcode_location_label">From: </span> <span class="o_barcode_summary_location_src" t-esc="locationName"/>
+                    <span t-if="mode !== 'delivery'" class="o_barcode_location_label">Stock Bin: </span> <span t-if="mode !== 'delivery'" class="o_barcode_summary_location_dest" t-esc="locationBin"/>
+                </div>
+            </span>
+            <span t-if="model == 'stock.inventory'" class="o_barcode_locations">
+                <span class="o_barcode_summary_location_src"><t t-esc="locationName"/></span>
+            </span>
+            <t t-if="nbPages">
+                <span class="o_barcode_move_number font-weight-bold"><t t-esc="pageIndex"></t>/<t t-esc="nbPages"></t></span>
+            </t>
+        </div>
+    </t>
+</t>
+</templates>
