@@ -35,7 +35,7 @@
                 <span style="font-size:3rem; display:block; width:70%; text-align:center; margin:auto; padding-top: 10px">
 <!--                Expiry Date:-->
                 <t t-if="o.removal_date">
-                    <span t-field="o.removal_date"/>
+                    <span t-field="o.removal_date" t-options='{"widget": "date"}'/>
                 </t>
                 </span>
 
