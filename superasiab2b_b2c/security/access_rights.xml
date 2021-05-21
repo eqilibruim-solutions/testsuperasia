@@ -9,10 +9,14 @@
 </record>
        
  <record model="res.groups" id="group_b2baccount">
-        <field name="name">B2B User</field>
+        <field name="name">B2B</field>
     <field name="category_id" ref="module_account_type"/>
 </record>
 
+<record model="res.groups" id="group_b2cuser">
+        <field name="name">B2C</field>
+    <field name="category_id" ref="module_account_type"/>
+</record>
 
 </data>
 </odoo>

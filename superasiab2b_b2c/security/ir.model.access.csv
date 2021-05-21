@@ -2,7 +2,6 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 acess_ir_mail_server,acess.ir_mail_server,base.model_ir_mail_server,base.group_system,1,1,1,1
 acess_ir_mail_server_pub,acess.ir_mail_server.pub,base.model_ir_mail_server,base.group_public,1,1,1,1
 acess_ir_mail_server_port,acess.ir_mail_server.usr,base.model_ir_mail_server,base.group_portal,1,1,1,1
-acess_ir_mail_server_b2b,acess.ir_mail_server.b2b,base.model_ir_mail_server,superasiab2b_b2c.group_b2baccount,1,1,1,1
 acess_mail_mail_pub,acess.mail_mail.pub,mail.model_mail_mail,base.group_public,1,1,1,1
 acess_mail_message_pub,acess.mail_message.pub,mail.model_mail_message,base.group_public,1,1,1,1
 acess_mail_template_pub,acess.mail_template.pub,mail.model_mail_template,base.group_public,1,1,1,1
@@ -11,7 +10,17 @@ acess_res_users_pub,acess.res_users.pub,mail.model_res_users,base.group_public,1
 acess_res_partner_pub,acess.res_partner.pub,mail.model_res_partner,base.group_public,1,1,1,1
 acess_mail_followers_pub,acess.mail_followers.pub,mail.model_mail_followers,base.group_public,1,1,1,1
 acess_snailmail_letter_pub,acess.snailmail_letter.pub,snailmail.model_snailmail_letter,base.group_public,1,1,1,1
-
-
+acess_mail_mail_port,acess.mail_mail.port,mail.model_mail_mail,base.group_portal,1,1,1,1
+acess_mail_message_port,acess.mail_message.port,mail.model_mail_message,base.group_portal,1,1,1,1
+acess_mail_template_port,acess.mail_template.port,mail.model_mail_template,base.group_portal,1,1,1,1
+acess_sale_coupon_port,acess.sale_coupon.port,sale_coupon.model_sale_coupon,base.group_portal,1,1,1,1
+acess_sale_coupon_program_port,acess.sale_coupon_program.port,sale_coupon.model_sale_coupon_program,base.group_portal,1,1,1,1
+acess_delivery_carrier_port,acess.delivery_carrier.port,delivery.model_delivery_carrier,base.group_portal,1,1,1,1
+acess_account_tax_port,acess.account_tax.port,account.model_account_tax,base.group_portal,1,1,1,1
+acess_account_tax_repartition_line_port,acess.account_tax_repartition_line.port,account.model_account_tax_repartition_line,base.group_portal,1,1,1,1
+acess_account_tax_group_port,acess.account_tax_group.port,account.model_account_tax_group,base.group_portal,1,1,1,1
+acess_sale_order_port,acess.sale_order.port,sale.model_sale_order,base.group_portal,1,1,1,1
+acess_sale_order_line_port,acess.sale_order_line.port,sale.model_sale_order_line,base.group_portal,1,1,1,1
+acess_attachment_port,acess.attachment.port,mail.model_ir_attachment,base.group_portal,1,1,1,1
 
 

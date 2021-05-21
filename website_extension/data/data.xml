@@ -15,12 +15,12 @@
             <field name="code">
                 model.b2c_pricelist_price_calc()
             </field>
-            <field name="user_id" ref="base.user_root"/>
+            <field name="user_id" ref="base.user_admin"/>
             <field name="interval_number">999</field>
             <field name="interval_type">months</field>
             <field name="numbercall">-1</field>
             <field name="doall" eval="False"/>
-            <field name="priority">1000</field>
+            <field name="priority">1</field>
             <field name="active" eval="False"/>
         </record>
 

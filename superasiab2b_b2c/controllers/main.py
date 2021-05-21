@@ -56,9 +56,9 @@ class Extension_Home(Home):
         user_obj=request.env['res.users']
 
         b2bid = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
-        portalid = request.env['ir.model.data'].get_object('base','group_portal')
+        b2c = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
 
-        group_list = [b2bid.id,portalid.id]
+        group_list = [b2bid.id,b2c.id]
 
         user_data=user_obj.search([('id','=',request.uid),('groups_id','in',group_list)])
 
@@ -124,12 +124,10 @@ class superasiab2b_b2c(http.Controller):
                 return request.redirect('/repeat_user')
 
 
-            internalid = request.env['ir.model.data'].get_object('base','group_user')
-            saleid = request.env['ir.model.data'].get_object('sales_team','group_sale_salesman')
-            accountid = request.env['ir.model.data'].get_object('account','group_account_invoice')
             superasiaid = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+            internalid = request.env['ir.model.data'].get_object('base','group_portal')
 
-            group_list = [internalid.id,saleid.id,accountid.id,superasiaid.id]
+            group_list = [superasiaid.id,internalid.id]
 
             _logger.info('========group_list=========== %s' % group_list)                
 
@@ -268,8 +266,9 @@ class superasiab2b_b2c(http.Controller):
 
 
             internalid = request.env['ir.model.data'].get_object('base','group_portal')
+            b2c = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
 
-            group_list = [internalid.id]
+            group_list = [internalid.id,b2c.id]
             _logger.info('========group_list=========== %s' % group_list)                
 
             pricelistid = request.env['product.pricelist'].search([('group_id','in',internalid.id)])

@@ -7,7 +7,7 @@
     'summary': '',
     'author':'Bista Solutions - Archana Prasad',
     'depends': [
-        'base','portal','sale','product','website','website_sale',
+        'base','portal','sale','product','website','website_sale','sale_coupon'
     ],
     'data': [
             'security/access_rights.xml',

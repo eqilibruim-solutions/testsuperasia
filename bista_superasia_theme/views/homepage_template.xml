@@ -7,6 +7,9 @@
         <field name="arch" type="xml">
             <t t-name="website.homepage">
                 <t t-call="website.layout">
+                    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJGST5W"
+                                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
                 <div id="wrap" class="oe_structure oe_empty">
                     <section id="hero">
                         <div class="hero-container">
@@ -182,7 +185,8 @@
                                                                     <img alt="signup" width="35" data-src="/bista_superasia_theme/static/src/img/print-labels.png" class="mb-3" src="/bista_superasia_theme/static/src/img/print-labels.png"/><noscript><img  src="/bista_superasia_theme/static/src/img/print-labels.png" alt="Print Labels" width="35"/></noscript>
                                                                 </div>
                                                                 <h4 class="headingText mb-1">Print Labels</h4>
-                                                                <p>Print and stick the shipping lable on your package</p>
+                                                                <p>Print and stick the shipping label on your
+                                                                    package</p>
                                                             </div>
                                                         </div><!-- end howItWork-block -->
                                                     </div><!-- end col-sm-2 howItWork-block-col -->

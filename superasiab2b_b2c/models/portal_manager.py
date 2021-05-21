@@ -329,6 +329,7 @@ class sale_order_line(models.Model):
             return
         userobj = self.env['res.users']
         superasiaid = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+        b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
 
         partner_id = self.order_id.partner_id
 
@@ -336,15 +337,22 @@ class sale_order_line(models.Model):
         user_id = userobj.search([('partner_id','=',partner_id.id)])
         if user_id:
             b2buser = userobj.search([('partner_id','=',partner_id.id),('groups_id','in',superasiaid.id)])
+            b2cusers = userobj.search([('partner_id','=',partner_id.id),('groups_id','in',b2c.id)])
 
             if b2buser:
                 product_uom = self.product_id.uom_id
                 # vals['price_unit'] = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
-            else:
+            
+            if b2cusers:
                 product_uom = self.product_id.b2buom_id
-            _logger.info('========product_uom========= %s' % product_uom)
+
+            if not b2buser and not b2cusers:
+                product_uom = self.product_id.uom_id
+
         else:
             product_uom = self.product_id.uom_id
+
+        _logger.info('========product_uom========= %s' % product_uom)
 
 
         valid_values = self.product_id.product_tmpl_id.valid_product_template_attribute_line_ids.product_template_value_ids

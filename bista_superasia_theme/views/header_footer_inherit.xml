@@ -4,6 +4,23 @@
         <xpath expr="//div[@id='wrapwrap']/header" position="replace">
 <!--            <header id="header" class="header-align">-->
             <header id="header">
+
+                <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','GTM-PJGST5W');</script>
+
+
+                <script type="application/ld+json">
+                    {
+                    "@context" : "http://schema.org",
+                    "@type" : "Website",
+                    "name" : "Super Asia",
+                    "image" : "https://www.superasia.ca/assets/images/logo-3.png",
+                    "telephone" : "416-746-5550"
+                    }
+                </script>
                 <nav class="navbar h-100">
                     <div class="col-md-12 col-sm-12 col-lg-10">
                     <ul class="mt-n1">
@@ -222,15 +239,6 @@
 <!--                    </div>&lt;!&ndash; container &ndash;&gt;-->
 <!--                </div>-->
             </header><!-- End Header -->
-
-
-
-
-
-
-
-
-
 
         </xpath>
     </template>

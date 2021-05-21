@@ -11,10 +11,11 @@ class Website(models.Model):
         req = request
         group_list = []
         grouppub_id = request.env['ir.model.data'].get_object('base', 'group_public')
-        groupport_id = request.env['ir.model.data'].get_object('base', 'group_portal')
-        group_list = [grouppub_id.id,groupport_id.id]
+        # groupport_id = request.env['ir.model.data'].get_object('base', 'group_portal')
+        b2c = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+        group_list = [grouppub_id.id,b2c.id]
 
-        if self.env.user.user_has_groups('base.group_public') or self.env.user.user_has_groups('base.group_portal'):
+        if self.env.user.user_has_groups('base.group_public') or self.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
             print(dep.search([('group_id', 'in', group_list)]))
             return dep.search([('group_id', 'in', group_list)])
         else:
