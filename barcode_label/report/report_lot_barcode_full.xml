@@ -6,14 +6,14 @@
 <!--            <xpath expr="//table[@class='table table-condensed']" position="replace">-->
                 <xpath expr="//div"  position="replace">
 
-                <div style="width: 100%; display: inline-table; ">
+                <div style="width: 95%; display: inline-table; margin:auto; ">
                 <table class="table table-bordered mb-0" style="border: 2px solid black; ">
-                    <tr style="">
-                        <th class="table-active text-left" style="">
-                            <span style="font-size:5rem; display:block; width:100%; text-align:center; margin:auto"
+                    <tr style="line-height: 1">
+                        <td class="table-active text-left" style="max-width:5ch">
+                            <span style="font-size:5.5rem; display:block; width:100%; text-align:center; margin:auto; "
                                   t-field="o.product_id.display_name"
                                   />
-                        </th>
+                        </td>
                     </tr>
                     <tr style="">
                         <td class="text-center align-middle" style="">
@@ -29,14 +29,17 @@
                     </tr>
                 </table>
 
-                <span style="font-size:3rem; display:block; width:70%; text-align:center; margin:auto">
+                <span style="font-size:4.5rem; display:block; width:70%; text-align:center; margin:auto">
                     LN/SN: <span t-field="o.name"/>
                 </span>
-                <span style="font-size:4.5rem; display:block; width:70%; text-align:center; margin:auto; padding-top: 10px">
-<!--                Expiry Date:-->
-                <t t-if="o.removal_date">
-                    <span t-field="o.removal_date" t-options='{"widget": "date"}'/>
-                </t>
+
+                <span style="font-size:9rem; display:block; width:95%;
+                text-align:center; margin-left: auto; margin-right: auto;
+                    position:static; top: 550px;" >
+                    <t t-if="o.removal_date">
+                        <span style="padding-top:0px; padding-bottom:0px; border: 1px solid black;"
+                              t-field="o.removal_date" t-options='{"widget": "date"}'/>
+                    </t>
                 </span>
 
 
