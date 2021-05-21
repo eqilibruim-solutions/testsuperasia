@@ -10,7 +10,7 @@
                 <table class="table table-bordered mb-0" style="border: 2px solid black; ">
                     <tr style="">
                         <th class="table-active text-left" style="">
-                            <span style="font-size:5rem; display:block; width:90%; text-align:center; margin:auto"
+                            <span style="font-size:5rem; display:block; width:100%; text-align:center; margin:auto"
                                   t-field="o.product_id.display_name"
                                   />
                         </th>
@@ -32,7 +32,7 @@
                 <span style="font-size:3rem; display:block; width:70%; text-align:center; margin:auto">
                     LN/SN: <span t-field="o.name"/>
                 </span>
-                <span style="font-size:3rem; display:block; width:70%; text-align:center; margin:auto; padding-top: 10px">
+                <span style="font-size:4.5rem; display:block; width:70%; text-align:center; margin:auto; padding-top: 10px">
 <!--                Expiry Date:-->
                 <t t-if="o.removal_date">
                     <span t-field="o.removal_date" t-options='{"widget": "date"}'/>
