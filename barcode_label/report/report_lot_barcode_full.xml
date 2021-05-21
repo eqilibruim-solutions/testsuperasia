@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_barcode_label" inherit_id="stock.report_lot_label">
+<!--            <xpath expr="//table[@class='table table-condensed']" position="replace">-->
+                <xpath expr="//div"  position="replace">
+
+                <div style="width: 100%; display: inline-table; ">
+                <table class="table table-bordered mb-0" style="border: 2px solid black; ">
+                    <tr style="">
+                        <th class="table-active text-left" style="">
+                            <span style="font-size:5rem; display:block; width:90%; text-align:center; margin:auto"
+                                  t-field="o.product_id.display_name"
+                                  />
+                        </th>
+                    </tr>
+                    <tr style="">
+                        <td class="text-center align-middle" style="">
+<!--                                <img alt="Barcode" t-if="len(product.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(product.barcode or ''), 600, 150)" style="width:100%;"/>-->
+<!--                                <img alt="Barcode" t-elif="len(product.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', quote_plus(product.barcode or ''), 600, 150)" style="width:100%;"/>-->
+<!--                                <img alt="Barcode" t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(product.barcode or ''), 600, 150)" style="width:100%;"/>-->
+<!--                                <span style="font-size:1.5rem" t-field="product.barcode"/>-->
+                                <img t-if="o.name" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 150)" style="width:40%;"/>
+                        </td>
+<!--                        <td>-->
+<!--                                        -->
+<!--                        </td>-->
+                    </tr>
+                </table>
+
+                <span style="font-size:3rem; display:block; width:70%; text-align:center; margin:auto">
+                    LN/SN: <span t-field="o.name"/>
+                </span>
+                <span style="font-size:3rem; display:block; width:70%; text-align:center; margin:auto; padding-top: 10px">
+<!--                Expiry Date:-->
+                <t t-if="o.removal_date">
+                    <span t-field="o.removal_date"/>
+                </t>
+                </span>
+
+
+            </div>
+
+            </xpath>
+        </template>
+
+
+
+<!--        <record id="stock.action_report_lot_label" model="ir.actions.report">-->
+<!--&lt;!&ndash;            <field name="name"></field>&ndash;&gt;-->
+<!--            <field name="model">stock.production.lot</field>-->
+<!--            <field name="report_name">barcode_label.report_barcode_label</field>-->
+<!--            <field name="paperformat_id" ref="barcode_label.lot_report_custom_format"/>-->
+<!--        </record>-->
+    </data>
+</odoo>
+
+
+
+
+

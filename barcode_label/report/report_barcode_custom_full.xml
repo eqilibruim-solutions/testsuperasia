@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_simple_barcode_product_pdf_full"  inherit_id="product.report_simple_barcode">
+            <xpath expr="//div"  position="replace">
+
+            <div style="width: 100%; display: inline-table; height: 30rem; ">
+                <table class="table table-bordered mb-0" style="border: 2px solid black; ">
+                    <tr style="">
+                        <th class="table-active text-left" style="background-color:aqua; ">
+                            <span style="background-color: yellow; font-size:4rem; display:block; width:70%; text-align:center; margin:auto"
+                                  t-field="product.display_name"
+                                  />
+                        </th>
+                    </tr>
+                    <tr style="">
+                        <td class="text-center align-middle" style="">
+                            <t t-if="product.barcode" style="">
+                                <img alt="Barcode" t-if="len(product.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(product.barcode or ''), 600, 150)" style="width:100%;"/>
+                                <img alt="Barcode" t-elif="len(product.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', quote_plus(product.barcode or ''), 600, 150)" style="width:100%;"/>
+                                <img alt="Barcode" t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(product.barcode or ''), 600, 150)" style="width:100%;"/>
+                                <span style="font-size:1.5rem" t-field="product.barcode"/>
+                            </t>
+                            <t t-else=""><span class="text-muted">No barcode available</span></t>
+                        </td>
+                    </tr>
+                </table>
+
+                <span style="background-color: teal; font-size:3rem; display:block; width:70%; text-align:center; margin:auto">
+                Expiry Date: xx xxxx, xxxx</span>
+
+            </div>
+
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
+
+
+
+
+

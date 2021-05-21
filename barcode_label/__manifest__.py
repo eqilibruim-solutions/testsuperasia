@@ -16,8 +16,10 @@
     # always loaded
     'data': [
         'data/lot_report_paperformat.xml',
-        'report/report_lot_barcode.xml',
+        # 'report/report_lot_barcode.xml',
+        'report/report_lot_barcode_full.xml',
         'report/report_barcode_custom.xml',
+        # 'report/report_barcode_custom_full.xml',
     ],
     # only loaded in demonstration mode
     'demo': [],
