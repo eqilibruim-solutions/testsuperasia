@@ -60,7 +60,7 @@ client_action_custom.include({
 
         if (pages.length === 0) {
             pages.push(defaultPage);
-        }
+        }_step_product: function (barcode, linesActions) {
 
         return pages;
     },
@@ -153,11 +153,11 @@ client_action_custom.include({
             'isNewLine': isNewLine,
         };
     },
-    _step_product: function (barcode, linesActions) {
+    _step_product: async function (barcode, linesActions) {
         var self = this;
         this.currentStep = 'product';
         var errorMessage;
-        var product = this._isProduct(barcode);
+        var product = await this._isProduct(barcode);
         if (product){
             return this._rpc({
                         model: 'stock.picking',
