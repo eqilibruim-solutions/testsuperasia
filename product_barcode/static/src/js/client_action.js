@@ -60,7 +60,7 @@ client_action_custom.include({
 
         if (pages.length === 0) {
             pages.push(defaultPage);
-        }_step_product: function (barcode, linesActions) {
+        }
 
         return pages;
     },
