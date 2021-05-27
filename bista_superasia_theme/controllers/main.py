@@ -138,6 +138,11 @@ class WebsiteSale(ws):
 
         domain = self._get_search_domain(search, category, attrib_values)
 
+        if request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
+            domain.append(('is_hide_b2c', '=', False))
+        elif request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount'):
+            domain.append(('is_hide_b2b', '=', False))
+
         keep = QueryURL('/shop', category=category and int(category), search=search, attrib=attrib_list,
                         order=post.get('order'))
 
