@@ -42,8 +42,8 @@
 
 <!--        Top Menu-->
         <menuitem id="menu_custom_report_super_asia_reports" name="SuperAsia Reports" parent="account_accountant.menu_accounting" sequence="19"
-                  />
-<!--                  groups="account.group_account_manager"/>-->
+            groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
+        />
 
         <record id="action_invoice_sales_rep_menu1" model="ir.actions.act_window">
             <field name="name">Sales Rep Wise Invoice Report</field>
