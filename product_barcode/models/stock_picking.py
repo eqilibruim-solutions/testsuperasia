@@ -23,6 +23,7 @@ class StockPicking(models.Model):
                 'product_id',
                 'location_id',
                 'location_dest_id',
+                'location_bin',
                 'qty_done',
                 'display_name',
                 'product_uom_qty',
