@@ -58,6 +58,8 @@ class product_template(models.Model):
 class SaleOrdersuperaisa(models.Model):
     _inherit = 'sale.order'
 
+    account_type = fields.Selection([('b2c_account', 'B2C'), ('b2b_account', 'B2B')],
+                                    string='Account Type', readonly=True)
 
     def _website_product_id_change(self, order_id, product_id, qty=0):
 
@@ -346,7 +348,7 @@ class sale_order_line(models.Model):
             if b2buser:
                 product_uom = self.product_id.uom_id
                 # vals['price_unit'] = self.env['account.tax']._fix_tax_included_price_company(self._get_display_price(product), product.taxes_id, self.tax_id, self.company_id)
-            
+
             if b2cusers:
                 product_uom = self.product_id.b2buom_id
 
