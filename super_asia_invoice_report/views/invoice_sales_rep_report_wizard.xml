@@ -40,6 +40,11 @@
             </field>
         </record>
 
+<!--        Top Menu-->
+        <menuitem id="menu_custom_report_super_asia_reports" name="SuperAsia Reports" parent="account_accountant.menu_accounting" sequence="19"
+                  />
+<!--                  groups="account.group_account_manager"/>-->
+
         <record id="action_invoice_sales_rep_menu1" model="ir.actions.act_window">
             <field name="name">Sales Rep Wise Invoice Report</field>
             <field name="res_model">account.invoice.sales.rep.report</field>
@@ -50,14 +55,14 @@
             <field name="target">new</field>
         </record>
         <!--Super Asia Report report parent menu -->
-        <menuitem id="account_sales_rep_reports_menu1" name="Super Asia Report"
-                  parent="account.menu_finance_reports" sequence="5"/>
+<!--        <menuitem id="account_sales_rep_reports_menu1" name="Super Asia Report"-->
+<!--                  parent="menu_custom_report_SA" sequence="5"/>-->
         <!--Invoice report action-->
         <menuitem id="menuitem_sales_rep_invoice_report1"
                       action="action_invoice_sales_rep_menu1"
                       name="Sales Rep Wise Invoice Report"
                       groups="account.group_account_manager"
-                      parent="account_sales_rep_reports_menu1"
+                      parent="menu_custom_report_super_asia_reports"
                       sequence="1"/>
         <!--aging report action-->
         <record id="action_invoice_sales_rep_aging_menu1" model="ir.actions.act_window">
@@ -74,7 +79,7 @@
                       action="action_invoice_sales_rep_aging_menu1"
                       name="Sales Rep Wise Aging Report"
                       groups="account.group_account_manager"
-                      parent="account_sales_rep_reports_menu1"
+                      parent="menu_custom_report_super_asia_reports"
                       sequence="2"/>
         <!--Closing report action-->
         <record id="action_invoice_sales_rep_closing_menu1" model="ir.actions.act_window">
@@ -91,7 +96,7 @@
                   action="action_invoice_sales_rep_closing_menu1"
                   name="Sales Rep Wise Closing Report"
                   groups="account.group_account_manager"
-                  parent="account_sales_rep_reports_menu1"
+                  parent="menu_custom_report_super_asia_reports"
                   sequence="3"/>
     </data>
 </odoo>
