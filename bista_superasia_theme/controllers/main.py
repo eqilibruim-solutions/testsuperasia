@@ -97,6 +97,13 @@ class WebsiteSale(ws):
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
 
+    def _get_search_order(self, post):
+        # OrderBy will be parsed in orm and so no direct sql injection
+        # id is added to be sure that order is a unique sort key
+        order = post.get('order') or 'website_sequence ASC'
+        return 'name asc,is_published desc, %s, id desc' % order
+
+
     @http.route([
         '''/shop''',
         '''/shop/page/<int:page>''',
@@ -120,9 +127,9 @@ class WebsiteSale(ws):
             except ValueError:
                 ppg = False
         if not ppg:
-            ppg = request.env['website'].get_current_website().shop_ppg or 20
-
-        ppr = request.env['website'].get_current_website().shop_ppr or 4
+            # ppg = request.env['website'].get_current_website().shop_ppg or 90
+            ppg = 90
+        # ppr = request.env['website'].get_current_website().shop_ppr or 90
 
         attrib_list = request.httprequest.args.getlist('attrib')
         attrib_values = [[int(x) for x in v.split("-")] for v in attrib_list if v]
@@ -145,7 +152,7 @@ class WebsiteSale(ws):
             post['attrib'] = attrib_list
 
         Product = request.env['product.template'].with_context(bin_size=True)
-
+        print(":::::::::::self._get_search_order(post):::::::::::::::",self._get_search_order(post))
         search_product = Product.search(domain, order=self._get_search_order(post))
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
@@ -164,7 +171,8 @@ class WebsiteSale(ws):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
         products = search_product[offset: offset + ppg]
-
+        print("::::::::::::::::::::::::ppg::::::::::::::::",ppg)
+        print("::::::::::::::::::::::::products::::::::::::::::",products)
         ProductAttribute = request.env['product.attribute']
         if products:
             # get all products without limit
@@ -189,8 +197,8 @@ class WebsiteSale(ws):
             'add_qty': add_qty,
             'products': products,
             'search_count': product_count,  # common for all searchbox
-            'bins': TableCompute().process(products, 24, ppr),
-            'ppg': 24,
+            'bins': TableCompute().process(products, 90, ppr),
+            'ppg': 90,
             'ppr': ppr,
             'categories': categs,
             'attributes': attributes,

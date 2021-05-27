@@ -142,8 +142,7 @@
     </template>
     <template id="shop_page_products_inherite" inherit_id="website_sale.products"  name="Shop Page Product Inherit">
         <xpath expr="//div[hasclass('container', 'oe_website_sale')]" position="attributes">
-                <attribute name="class">oe_website_sale</attribute>
-<!--            <attribute name="style">padding-right:5%;padding-left:10%</attribute>-->
+            <attribute name="class">oe_website_sale</attribute>
             <attribute name="t-att-style">'padding-right:5%;padding-left:10%' if request.env.user.id == request.env.ref('base.public_user').id else 'padding-right:1%;padding-left:1%'</attribute>
         </xpath>
 
@@ -317,7 +316,7 @@
                                     </select>
                                 </t>
                                 <t t-if="a.display_type == 'radio'">
-                                    <ul class="nav nav-pills flex-column ml-n4 pt-lg-3">
+                                    <ul class="nav-pills flex-column ml-n4 pt-lg-3">
                                         <t t-foreach="a.value_ids" t-as="v">
                                             <li class="nav-item">
 <!--                                                <div t-attf-class="form-check#{' active d-flex flex-row-reverse justify-content-center row' if v.id in attrib_set else ' d-flex flex-row-reverse justify-content-center row'}">-->
@@ -325,12 +324,12 @@
 <!--                                                    <label class="form-check-label" for="flexCheckDefault" t-field="v.name"/>-->
 <!--                                                </div>-->
 
-                                                <label style="margin: 0 20px;" t-attf-class="nav-link#{' active' if v.id in attrib_set else ''}">
+                                                <label t-attf-class="nav-link#{' active' if v.id in attrib_set else ''}">
                                                     <div class="row w-100">
-                                                        <div class="col-6">
+                                                        <div class="col-3 offset-1">
                                                             <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None" />
                                                         </div>
-                                                        <div class="col-6">
+                                                        <div class="col-2">
                                                             <span style="font-weight: bold" t-field="v.name" />
                                                         </div>
                                                     </div>
