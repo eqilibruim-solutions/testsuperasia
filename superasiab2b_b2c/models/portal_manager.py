@@ -27,10 +27,14 @@ class product_template(models.Model):
     default=_get_default_uom_id, required=True,
     help="Default unit of measure used for all stock operations.")
 
-
-
     is_featured_product = fields.Boolean(string="Feature Product?",
                                          help="Check true if you want this product to be in Featured Products on E-commerce homepage.")
+
+    is_hide_b2b = fields.Boolean(string="Hide from B2B Users?",
+                                         help="Check true if you want this product to be hidden from B2B users in E-commerce.")
+
+    is_hide_b2c = fields.Boolean(string="Hide from B2C Users?",
+                                 help="Check true if you want this product to be hidden from B2C users in E-commerce.")
 
 
     def featured_products(self):

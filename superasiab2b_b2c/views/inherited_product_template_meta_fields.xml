@@ -24,6 +24,8 @@
 				</xpath>
 				<xpath expr="//field[@name='public_categ_ids']" position="after">
 					<field name="is_featured_product"/>
+					<field name="is_hide_b2b"/>
+					<field name="is_hide_b2c"/>
 				</xpath>
 			</field>
 		</record>
