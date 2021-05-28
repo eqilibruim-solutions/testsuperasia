@@ -316,7 +316,7 @@
                                     </select>
                                 </t>
                                 <t t-if="a.display_type == 'radio'">
-                                    <ul class="nav-pills flex-column ml-n4 pt-lg-3">
+                                    <ul class="nav-pills flex-column ml-n4 pt-lg-3 list-unstyled">
                                         <t t-foreach="a.value_ids" t-as="v">
                                             <li class="nav-item">
 <!--                                                <div t-attf-class="form-check#{' active d-flex flex-row-reverse justify-content-center row' if v.id in attrib_set else ' d-flex flex-row-reverse justify-content-center row'}">-->

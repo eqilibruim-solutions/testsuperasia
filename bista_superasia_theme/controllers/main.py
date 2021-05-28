@@ -100,8 +100,8 @@ class WebsiteSale(ws):
     def _get_search_order(self, post):
         # OrderBy will be parsed in orm and so no direct sql injection
         # id is added to be sure that order is a unique sort key
-        order = post.get('order') or 'website_sequence ASC'
-        return 'name asc,is_published desc, %s, id desc' % order
+        order = post.get('order') or 'name ASC,website_sequence ASC'
+        return 'is_published desc, %s, id desc' % order
 
 
     @http.route([
