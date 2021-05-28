@@ -154,6 +154,9 @@ client_action_custom.include({
         };
     },
     _step_product: async function (barcode, linesActions) {
+        if (this.actionParams.model !== 'stock.picking') {
+            return this._super.apply(this, arguments);
+        }
         var self = this;
         this.currentStep = 'product';
         var errorMessage;
@@ -300,6 +303,9 @@ client_action_custom.include({
         }
         },
     _step_lot: function (barcode, linesActions) {
+        if (this.actionParams.model !== 'stock.picking') {
+            return this._super.apply(this, arguments);
+        }
         if (! this.groups.group_production_lot) {
             return Promise.reject();
         }
