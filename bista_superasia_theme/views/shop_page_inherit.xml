@@ -67,7 +67,9 @@
         <xpath expr="//div[hasclass('dropdown_sorty_by')]" position="attributes">
             <attribute name="class">d-none</attribute>
         </xpath>
+
     </template>
+
     <template id="products_items_inherite" inherit_id="website_sale.products_item" name="Product Item Inherit">
         <xpath expr="//form/div/a[@t-att-href='product_href']" position="attributes">
             <attribute name="class">d-block h-100 img-box</attribute>
@@ -210,7 +212,6 @@
         <xpath expr="//div[@id='product_details']" position="attributes">
             <attribute name="class">col-md-6 col-xl-4 pl-lg-5 pl-md-5</attribute>
         </xpath>
-
         <xpath expr="//div[@id='product_details']/hr" position="attributes">
             <attribute name="class">d-none</attribute>
         </xpath>
@@ -239,6 +240,10 @@
                     </t>
                 </p>
             </div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('form-inline', 'justify-content-end')]" position="attributes">
+            <attribute name="class">form-inline justify-content-end d-none</attribute>
         </xpath>
     </template>
 
