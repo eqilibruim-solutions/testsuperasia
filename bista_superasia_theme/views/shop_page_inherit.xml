@@ -56,29 +56,22 @@
 
     </template>
     <template id="product_pricelist_dropdown_inherite" inherit_id="website_sale.pricelist_list"  name="Product PriceList Dropdown">
-        <xpath expr="//a[@role='button']" position="attributes">
-            <attribute name="class">border btn-primary dropdown-toggle d-none</attribute>
+        <xpath expr="//div" position="attributes">
+            <attribute name="t-attf-class">d-none</attribute>
         </xpath>
         <xpath expr="//a[@role='menuitem']" position="attributes">
             <attribute name="class">dropdown-item text-dark</attribute>
         </xpath>
     </template>
     <template id="product_shortby_dropdown_inherite" inherit_id="website_sale.sort"  name="Product Short By Dropdown inherit">
-        <xpath expr="//div[hasclass('dropdown_sorty_by')]" position="replace">
-            <div class="flex-fill">
-                <t t-call="website_sale.search">
-                            <t t-set="_classes">mt-2 d-block</t>
-                </t>
-                <br/>
-                <span style="font-size: calc(15px + 0.6vw); color:gray;">FILTERS</span>
-            </div>
+        <xpath expr="//div[hasclass('dropdown_sorty_by')]" position="attributes">
+            <attribute name="class">d-none</attribute>
         </xpath>
     </template>
     <template id="products_items_inherite" inherit_id="website_sale.products_item" name="Product Item Inherit">
         <xpath expr="//form/div/a[@t-att-href='product_href']" position="attributes">
             <attribute name="class">d-block h-100 img-box</attribute>
         </xpath>
-
         <xpath expr="//div[hasclass('o_wsale_product_information')]" position="replace">
             <div class="p-0 text-center">
                 <div class="p-2 o_wsale_product_information_text">
@@ -96,14 +89,12 @@
                         <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
                     </h6>
 
-
                     <t t-set="combination" t-value="product._get_first_possible_combination()"/>
                     <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist)"/>
                     <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
 
                     <t t-set="in_cart_lines" t-value="request.website.sale_get_order().order_line"/>
 
-<!--                    <form t-if="product._is_add_to_cart_possible()" action="/shop/cart/update" method="POST" class="dddddd">-->
                     <form method="POST">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                         <div class="js_product js_main_product mt-1">
@@ -129,15 +120,9 @@
                             </div>
                         </div>
                     </form>
-
-
-
-
-
                 </div>
                 <div class="o_wsale_product_btn"/>
             </div>
-
         </xpath>
     </template>
     <template id="shop_page_products_inherite" inherit_id="website_sale.products"  name="Shop Page Product Inherit">
@@ -158,22 +143,19 @@
                 <attribute name="t-attf-class">col-lg-2 d-flex flex-column pt-lg-2</attribute>
         </xpath>
 
-        <xpath expr="//div[hasclass('products_pager', 'form-inline', 'justify-content-center', 'mt-3')]" position="inside">
-            <ul t-if="pager['page_count'] > 1" t-attf-class="#{ classname or '' } pagination m-0 #{_classes}" t-att-style="style or None">
-                <li t-attf-class="page-item #{'disabled' if pager['page']['num'] == 1 else ''}">
-                    <a t-att-href=" pager['page_previous']['url'] if pager['page']['num'] != 1 else None" class="page-link">Prev</a>
-                </li>
-                <t t-foreach="pager['pages']" t-as="page">
-                    <li t-attf-class="page-item #{'active' if page['num'] == pager['page']['num'] else ''}"> <a t-att-href="page['url']" class="page-link" t-raw="page['num']"></a></li>
-                </t>
-                <li t-attf-class="page-item #{'disabled' if pager['page']['num'] == pager['page_count'] else ''}">
-                    <a t-att-href="pager['page_next']['url'] if pager['page']['num'] != pager['page_count'] else None" class="page-link">Next</a>
-                </li>
-            </ul>
-
-        </xpath>
-
-
+<!--        <xpath expr="//div[hasclass('products_pager', 'form-inline', 'justify-content-center', 'mt-3')]" position="inside">-->
+<!--            <ul t-if="pager['page_count'] > 1" t-attf-class="#{ classname or '' } pagination m-0 #{_classes}" t-att-style="style or None">-->
+<!--                <li t-attf-class="page-item #{'disabled' if pager['page']['num'] == 1 else ''}">-->
+<!--                    <a t-att-href=" pager['page_previous']['url'] if pager['page']['num'] != 1 else None" class="page-link">Prev</a>-->
+<!--                </li>-->
+<!--                <t t-foreach="pager['pages']" t-as="page">-->
+<!--                    <li t-attf-class="page-item #{'active' if page['num'] == pager['page']['num'] else ''}"> <a t-att-href="page['url']" class="page-link" t-raw="page['num']"></a></li>-->
+<!--                </t>-->
+<!--                <li t-attf-class="page-item #{'disabled' if pager['page']['num'] == pager['page_count'] else ''}">-->
+<!--                    <a t-att-href="pager['page_next']['url'] if pager['page']['num'] != pager['page_count'] else None" class="page-link">Next</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </xpath>-->
 
         <xpath expr="//div[hasclass('o_wsale_products_grid_table_wrapper')]" position="replace">
             <div t-if="bins" class="o_wsale_products_grid_table_wrapper">
@@ -205,13 +187,10 @@
         </xpath>
 
         <xpath expr="//div[hasclass('products_pager', 'form-inline', 'flex-md-nowrap', 'justify-content-between','justify-content-md-center')]" position="attributes">
-<!--            <attribute name="class">form-inline pt-3</attribute>-->
-            <attribute name="class">border-bottom d-flex flex-row-reverse form-inline pb-3 pt-3</attribute>
+            <attribute name="class">border-bottom d-flex form-inline justify-content-lg-between pb-3 pt-3</attribute>
         </xpath>
         <xpath expr="//div[hasclass('js_sale')]" position="before">
-<!--            <section id="hero">-->
             <section id="hero" class="d-flex justify-content-center">
-<!--                <img class="carousel-item active" src="/bista_superasia_theme/static/src/img/slide/banner2.jpg"/>-->
                 <img class="img-fluid" src="/bista_superasia_theme/static/src/img/slide/banner2.jpg"/>
             </section><!-- End Hero -->
         </xpath>
@@ -247,13 +226,6 @@
                 </p>
             </t>
         </xpath>
-<!--        <xpath expr="//span[@t-field='attribute.name']" position="attributes">-->
-<!--            <attribute name="class">font-weight-bold text-black</attribute>-->
-<!--        </xpath>-->
-<!--&lt;!&ndash;        <xpath expr="//div[@id='product_attributes_simple']/p" position="attributes">&ndash;&gt;-->
-<!--&lt;!&ndash;                <attribute name="style">font-weight: unset !important;color: #343a40 !important;</attribute>&ndash;&gt;-->
-<!--&lt;!&ndash;        </xpath>&ndash;&gt;-->
-
         <xpath expr="//div[@id='product_attributes_simple']" position="replace">
             <div id="product_attributes_simple" class="pt-2">
                 <p class="text-muted">
@@ -304,9 +276,6 @@
                     <ul class="nav nav-pills flex-column">
                         <t t-foreach="attributes" t-as="a">
                             <li t-if="a.value_ids and len(a.value_ids) &gt; 1" class="nav-item">
-<!--                                <div>-->
-<!--                                    <strong t-field="a.name" />-->
-<!--                                </div>-->
                                 <t t-if="a.display_type == 'select'">
                                     <select class="form-control" name="attrib">
                                         <option value="" />
@@ -319,22 +288,15 @@
                                     <ul class="nav-pills flex-column ml-n4 pt-lg-3 list-unstyled">
                                         <t t-foreach="a.value_ids" t-as="v">
                                             <li class="nav-item">
-<!--                                                <div t-attf-class="form-check#{' active d-flex flex-row-reverse justify-content-center row' if v.id in attrib_set else ' d-flex flex-row-reverse justify-content-center row'}">-->
-<!--                                                    <input class="form-check-input" type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None"/>-->
-<!--                                                    <label class="form-check-label" for="flexCheckDefault" t-field="v.name"/>-->
-<!--                                                </div>-->
-
                                                 <label t-attf-class="nav-link#{' active' if v.id in attrib_set else ''}">
                                                     <div class="row w-100">
                                                         <div class="col-3 offset-1">
                                                             <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None" />
                                                         </div>
-                                                        <div class="col-2">
+                                                        <div class="col-8">
                                                             <span style="font-weight: bold" t-field="v.name" />
                                                         </div>
                                                     </div>
-<!--                                                    <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None" />-->
-<!--                                                    <span style="font-weight: normal" t-field="v.name" />-->
                                                 </label>
                                             </li>
                                         </t>
@@ -367,19 +329,7 @@
     </template>
 
     <template id="eCommerce_categories_inherit" name="eCommerce Categories Inherit" inherit_id="website_sale.products_categories">
-<!--        <xpath expr="//ul[@id='o_shop_collapse_category']/li" position="replace">-->
-<!--            <li class="mt-3 nav-item font-weight-bold">-->
-<!--                <a href="/shop" t-attf-class="nav-link #{'' if category else 'active'} o_not_editable">All Products</a>-->
-<!--            </li>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//ul[@id='o_shop_collapse_category']" position="attributes">-->
-<!--            <attribute name="class">flex-column ml-n4 mr-lg-n3 nav nav-pills</attribute>-->
-<!--        </xpath>-->
-
-
         <xpath expr="//div[@id='wsale_products_categories_collapse']" position="attributes">
-<!--            <attribute name="class">border-right collapse</attribute>-->
             <attribute name="class">collapse show</attribute>
         </xpath>
         <xpath expr="//button[hasclass('btn', 'btn-link', 'd-lg-none')]" position="attributes">
@@ -387,23 +337,14 @@
         </xpath>
     </template>
 
-
-    <template id="pager_inherit" name="Pager Inherit" inherit_id="portal.pager">
-        <xpath expr="//ul[contains(@t-attf-class, 'pagination')]" position="attributes">
-            <attribute name="t-attf-class">#{ classname or '' } pagination d-none m-0 #{_classes}</attribute>
-        </xpath>
-    </template>
     <template id="website_sale_products_search_box_inherit" name="website_sale_products_search_box Inherit" inherit_id="website_sale.website_sale_products_search_box">
-        <xpath expr="//form[contains(@t-attf-class, 'o_wsale_products_searchbar_form')]" position="attributes">
-                <attribute name="t-attf-class">o_wsale_products_searchbar_form o_wait_lazy_js #{_classes} d-none</attribute>
+        <xpath expr="//form//div"
+               position="after">
+            <br/>
+            <span style="font-size: calc(15px + 0.6vw); color:gray;">FILTERS</span>
         </xpath>
     </template>
 
-    <template id="product_price_inherit" name="website_sale_product_price Inherit" inherit_id="website_sale.product_price">
-        <xpath expr="//h4[hasclass('oe_price_h4', 'css_editable_mode_hidden')]" position="attributes">
-                <attribute name="class">oe_price_h4 css_editable_mode_hidden text-black mb-3 font-weight-bold</attribute>
-        </xpath>
-    </template>
     <!-- Login Page button color changes-->
     <template id="login_inherit" name="website login Inherit" inherit_id="web.login">
         <xpath expr="//button[hasclass('btn', 'btn-primary', 'btn-block')]" position="attributes">
@@ -412,7 +353,6 @@
     </template>
     <template id="reset_login_inherit" name="website Reset login Inherit" inherit_id="auth_signup.login">
         <xpath expr="//div[hasclass('justify-content-between', 'mt-2', 'd-flex', 'small')]" position="replace">
-<!--            <attribute name="style">color:#ac1520</attribute>-->
             <div class="pull-right mt-2 d-flex small">
                     <a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}" style="color:#ac1520">Don't have an account?</a>
                     <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}" style="color:#ac1520">Reset Password</a>
