@@ -27,5 +27,6 @@
         'views/views.xml',
         # 'views/stock_landed_cost.xml',
         'views/prevent_product_creation.xml',
+        'views/dashboard_responsible.xml',
     ],
 }
