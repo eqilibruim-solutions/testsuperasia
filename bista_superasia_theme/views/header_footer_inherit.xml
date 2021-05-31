@@ -40,6 +40,12 @@
                         <li class="navbar-links">
                             <div class="form-outline">
                                 <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([])"/>
+                                <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
+                                    <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([('is_hide_b2c', '=', False)])"/>
+                                </t>
+                                <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount')">
+                                    <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([('is_hide_b2b', '=', False)])"/>
+                                </t>
                                 <select id="search-input" placeholder="Search Products.." class="top_search" style="width: 85% !important;">
                                     <option value=""></option>
                                     <t t-foreach="ci_rec" t-as="ci">

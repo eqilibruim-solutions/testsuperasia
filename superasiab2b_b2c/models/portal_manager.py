@@ -40,8 +40,17 @@ class product_template(models.Model):
     def featured_products(self):
         main_list = []
         temp_list=[]
-        prodids = self.env['product.template'].sudo().search([('is_featured_product', '=', True)])
+
+        domain = [('is_featured_product', '=', True)]
+
+        if request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
+            domain.append(('is_hide_b2c', '=', False))
+        elif request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount'):
+            domain.append(('is_hide_b2b', '=', False))
+
+        prodids = self.env['product.template'].sudo().search(domain)
         _logger.info('========prodids========= %s' % prodids)
+
         for prod in prodids:
             if len(temp_list) < 6:
                 temp_list.append(prod)
