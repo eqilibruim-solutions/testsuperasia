@@ -67,8 +67,66 @@ class product_template(models.Model):
 class SaleOrdersuperaisa(models.Model):
     _inherit = 'sale.order'
 
-    account_type = fields.Selection([('b2c_account', 'B2C'), ('b2b_account', 'B2B')],
-                                    string='Account Type', readonly=True)
+    account_type = fields.Selection([('B2C', 'B2C'), ('B2B', 'B2B')],
+                                    string='Account Type')
+
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        """
+        Update the following fields when the partner is changed:
+        - Pricelist
+        - Account Type
+        - Payment terms
+        - Invoice address
+        - Delivery address
+        """
+        if not self.partner_id:
+            self.update({
+                'partner_invoice_id': False,
+                'partner_shipping_id': False,
+                'fiscal_position_id': False,
+            })
+            return
+
+        userobj = self.env['res.users']
+        b2buser = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+        b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+
+        partner_id = self.partner_id
+        b2busergroup = userobj.search([('partner_id','=',partner_id.id),('groups_id','in',b2buser.id)])
+        b2cusers = userobj.search([('partner_id','=',partner_id.id),('groups_id','in',b2c.id)])
+        _logger.info('========b2busergroup========= %s' % b2busergroup)
+        _logger.info('========b2cusers========= %s' % b2cusers)
+        account_type = ''
+        if b2busergroup:
+            account_type = 'B2B'
+        if b2cusers:
+            account_type = 'B2C'
+        _logger.info('========account_type========= %s' % account_type)
+
+        addr = self.partner_id.address_get(['delivery', 'invoice'])
+        partner_user = self.partner_id.user_id or self.partner_id.commercial_partner_id.user_id
+        values = {
+            'pricelist_id': self.partner_id.property_product_pricelist and self.partner_id.property_product_pricelist.id or False,
+            'payment_term_id': self.partner_id.property_payment_term_id and self.partner_id.property_payment_term_id.id or False,
+            'partner_invoice_id': addr['invoice'],
+            'partner_shipping_id': addr['delivery'],
+            'account_type': account_type,
+        }
+        user_id = partner_user.id
+        if not self.env.context.get('not_self_saleperson'):
+            user_id = user_id or self.env.uid
+        if user_id and self.user_id.id != user_id:
+            values['user_id'] = user_id
+
+        if self.env['ir.config_parameter'].sudo().get_param('account.use_invoice_terms') and self.env.company.invoice_terms:
+            values['note'] = self.with_context(lang=self.partner_id.lang).env.company.invoice_terms
+        if not self.env.context.get('not_self_saleperson') or not self.team_id:
+            values['team_id'] = self.env['crm.team']._get_default_team_id(domain=['|', ('company_id', '=', self.company_id.id), ('company_id', '=', False)],user_id=user_id)
+        self.update(values)
+
+
+
 
     def _website_product_id_change(self, order_id, product_id, qty=0):
 
@@ -136,10 +194,25 @@ class SaleOrdersuperaisa(models.Model):
         }
 
     def _cart_update(self, product_id=None, line_id=None, add_qty=0, set_qty=0, **kwargs):
+
         userobj = self.env['res.users']
         superasiaid = self.env['ir.model.data'].get_object('superasiab2b_b2c', 'group_b2baccount')
-
         b2buser = userobj.search([('id', '=', self.env.uid), ('groups_id', 'in', superasiaid.id)])
+
+        b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+        b2cusers = userobj.search([('id','=',self.env.uid),('groups_id','in',b2c.id)])
+
+        partner_id = self.partner_id
+
+        account_type = ''
+        if b2buser:
+            account_type = 'B2B'
+        if b2cusers:
+            account_type = 'B2C'
+
+        self.account_type = account_type
+
+
 
         """ Add or set product quantity, add_qty can be negative """
         self.ensure_one()
@@ -149,6 +222,7 @@ class SaleOrdersuperaisa(models.Model):
         # change lang to get correct name of attributes/values
         product_with_context = self.env['product.product'].with_context(product_context)
         product = product_with_context.browse(int(product_id))
+
 
         try:
             if add_qty:

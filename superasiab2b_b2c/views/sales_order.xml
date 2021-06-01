@@ -21,8 +21,38 @@
                 <attribute name="readonly">1</attribute>
             </xpath>
             <xpath expr="//field[@name='pricelist_id']" position="after">
-                <field name="account_type"/>
+                <field name="account_type" readonly="1"/>
             </xpath>
         </field>
     </record>
+
+    <record id="view_sales_order_filter_b2b" model="ir.ui.view">
+        <field name="name">inherit.sale.order.b2b</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='salesperson']" position="before">
+                <filter string="Account Type" name="account_type" domain="[]" context="{'group_by':'account_type'}"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quotation_tree_b2b12" model="ir.ui.view">
+      <field name="name">sale.order.b2b12.tree</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="account_type"/>
+            </xpath>
+
+      <xpath expr="//tree" position="attributes">
+  <attribute name="decoration-success">account_type=='B2C'</attribute>
+</xpath>
+
+            </field>
+        </record>
+
+
 </odoo>
