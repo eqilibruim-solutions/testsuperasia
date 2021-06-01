@@ -41,7 +41,7 @@
         </record>
 
 <!--        Top Menu-->
-        <menuitem id="menu_custom_report_super_asia_reports" name="SuperAsia Reports" parent="account_accountant.menu_accounting" sequence="19"
+        <menuitem id="menu_custom_report_super_asia_reports12" name="SuperAsia Reports" parent="account_accountant.menu_accounting" sequence="19"
             groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
         />
 
@@ -63,8 +63,8 @@
         <menuitem id="menuitem_sales_rep_invoice_report1"
                       action="action_invoice_sales_rep_menu1"
                       name="Sales Rep Wise Invoice Report"
-                      groups="account.group_account_manager"
-                      parent="menu_custom_report_super_asia_reports"
+                      groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
+                      parent="menu_custom_report_super_asia_reports12"
                       sequence="1"/>
         <!--aging report action-->
         <record id="action_invoice_sales_rep_aging_menu1" model="ir.actions.act_window">
@@ -81,7 +81,7 @@
                       action="action_invoice_sales_rep_aging_menu1"
                       name="Sales Rep Wise Aging Report"
                       groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
-                      parent="menu_custom_report_super_asia_reports"
+                      parent="menu_custom_report_super_asia_reports12"
                       sequence="2"/>
         <!--Closing report action-->
         <record id="action_invoice_sales_rep_closing_menu1" model="ir.actions.act_window">
@@ -98,7 +98,7 @@
                   action="action_invoice_sales_rep_closing_menu1"
                   name="Sales Rep Wise Closing Report"
                   groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
-                  parent="menu_custom_report_super_asia_reports"
+                  parent="menu_custom_report_super_asia_reports12"
                   sequence="3"/>
     </data>
 </odoo>
