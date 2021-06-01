@@ -45,6 +45,8 @@
             groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
         />
 
+
+
         <record id="action_invoice_sales_rep_menu1" model="ir.actions.act_window">
             <field name="name">Sales Rep Wise Invoice Report</field>
             <field name="res_model">account.invoice.sales.rep.report</field>
@@ -78,7 +80,7 @@
         <menuitem id="menuitem_sales_rep_invoice_aging_report1"
                       action="action_invoice_sales_rep_aging_menu1"
                       name="Sales Rep Wise Aging Report"
-                      groups="account.group_account_manager"
+                      groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
                       parent="menu_custom_report_super_asia_reports"
                       sequence="2"/>
         <!--Closing report action-->
@@ -95,7 +97,7 @@
         <menuitem id="menuitem_sales_rep_invoice_closing_report1"
                   action="action_invoice_sales_rep_closing_menu1"
                   name="Sales Rep Wise Closing Report"
-                  groups="account.group_account_manager"
+                  groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
                   parent="menu_custom_report_super_asia_reports"
                   sequence="3"/>
     </data>
