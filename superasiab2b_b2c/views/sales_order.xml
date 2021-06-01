@@ -21,7 +21,7 @@
                 <attribute name="readonly">1</attribute>
             </xpath>
             <xpath expr="//field[@name='pricelist_id']" position="after">
-                <field name="account_type" readonly="1"/>
+                <field name="account_type" invisible="1"/>
             </xpath>
         </field>
     </record>
