@@ -7,9 +7,10 @@ from odoo import fields, models
 class AccountMoveLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    brand = fields.Char(string='Brand', related='product_id.x_studio_brand',
+    # brand = fields.Char(string='Brand', related='product_id.x_studio_brand',
+    #                     store=True)
+    brand = fields.Char(string='Brand',
                         store=True)
-
 
 class PurchaseReport(models.Model):
     _inherit = 'purchase.report'

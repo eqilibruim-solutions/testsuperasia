@@ -383,7 +383,7 @@ class AccountSalesRepReport(models.TransientModel):
                         'city': inv.partner_id.city or '',
                         'product': line.product_id.name or '',
                         'category': line.product_id.categ_id.name or '',
-                        'brand': line.product_id.product_tmpl_id.x_studio_brand or '',
+                        # 'brand': line.product_id.product_tmpl_id.x_studio_brand or '',
                         'sku': line.product_id.default_code or '',
                         'qty': line.quantity or '',
                         'size': line.product_id.x_studio_size or '',
