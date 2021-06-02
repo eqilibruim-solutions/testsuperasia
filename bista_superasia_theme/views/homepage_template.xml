@@ -34,15 +34,12 @@
                             </div><!-- carousel-item -->
                         </div>
                     </section><!-- End Hero -->
-
                     <main id="main" t-att-class="'mt-n6' if request.env.user.id == request.env.ref('base.public_user').id or request.env.user.has_group('base.user_admin') else False">
                         <t t-if="request.env.user.has_group('base.user_admin') or                                                               request.env.user.id == request.env.ref('base.public_user').id">
                             <!-- ======= About Us Section ======= -->
                             <section id="about" class="about mt-4">
                                 <div class="container">
-
                                     <div class="row no-gutters">
-
                                         <div class="col-lg-6">
                                             <div class="retailer-login-box">
                                                 <a href="/b2b_activation" class="btn" role="button" aria-pressed="true" style="  background-color: #ac1520;color: white;font-weight: bolder;">Retailer Login</a>
@@ -54,7 +51,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </section><!-- End About Us Section -->
 
@@ -85,15 +81,8 @@
                                                 <h1 class="vision-font-head aos-animate aos-init" data-aos="fade-up">Vision Statement</h1><hr/>
                                                 <p class="text-white vision-font" data-aos="fade-left">Super Asia Foods &amp; Spices is a wholesale company of quality and trusted products located in Toronto Canada.</p>
                                             </div>
-
                                         </div>
                                     </div>
-
-
-
-
-
-
                                 </div>
                             </section><!-- End Services Section -->
                             <!-- ======= How It Works Section ======= -->
@@ -323,16 +312,46 @@
                                         <div id="clients">
                                             <div class="clients-wrap">
                                                 <ul id="clients-list" class="clearfix" style="width: 400% !important;">
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-1.jpg" alt="Black Ace"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-2.jpg" alt="First State Bank"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-3.jpg" alt="Custom Aire"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-4.jpg" alt="First State Bank"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-5.jpg"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-6.jpg"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-7.jpg" alt="First State Bank"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-8.jpg"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-9.jpg"/></li>
-                                                    <li class="range-sliders"><img src="/bista_superasia_theme/static/src/img/BrandLogo/W-10.jpg"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos/logo-1.png" alt="First State Bank"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos/logo-2.png" alt="Custom Aire"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos/logo-3.png" alt="First State Bank"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos/logo-4.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos/logo-5.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-6.png" alt="First State Bank"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-7.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-8.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-9.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-10.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-11.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-12.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-13.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-14.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-15.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-16.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-17.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-19.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-20.png"/></li>
+                                                    <li class="range-sliders"><img
+                                                            src="/bista_superasia_theme/static/src/img/fwbrandlogos//logo-21.png"/></li>
                                                 </ul>
                                             </div><!-- @end .clients-wrap -->
                                         </div>
