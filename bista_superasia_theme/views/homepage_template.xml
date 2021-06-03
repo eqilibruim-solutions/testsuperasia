@@ -422,7 +422,7 @@
 
                                                             </t>
                                                             <t t-set="in_cart_lines" t-value="request.website.sale_get_order().order_line"/>
-                                                            <a t-att-class="'btn btn-cart text-uppercase text-center mb-2 text-white add_to_crt d-none' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'btn btn-cart text-uppercase text-center mb-2 text-white add_to_crt'" role="button">Add</a>
+<!--                                                            <a t-att-class="'btn btn-cart text-uppercase text-center mb-2 text-white add_to_crt d-none' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'btn btn-cart text-uppercase text-center mb-2 text-white add_to_crt'" role="button">Add</a>-->
                                                             <!--                            <br/>-->
                                                             <div id="dynamic_product_qty" t-att-class="'css_quantity input-group input-group-sm mx-auto' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'css_quantity input-group input-group-sm mx-auto d-none'">
                                                                 <div class="input-group-prepend">
