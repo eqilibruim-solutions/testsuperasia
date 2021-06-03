@@ -39,5 +39,25 @@
                 </field>
             </field>
         </record>
+
+		<record id="inherit_website_pages_form_view" model="ir.ui.view">
+			<field name="name">website.page.form</field>
+			<field name="model">website.page</field>
+			<field name="inherit_id" ref="website.website_pages_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='menu_ids']" position="after">
+					<notebook>
+                        <page string="Meta Fields" name="seo_meta_fields">
+	                        <group name="seo_data" string="SEO Data">
+			                    <field name="website_meta_title" />
+			                    <field name="website_meta_keywords" />
+		                        <field name="website_meta_og_img" />
+		                        <field name="website_meta_description" />
+		                    </group>
+                        </page>
+					</notebook>
+				</xpath>
+			</field>
+		</record>
 	</data>
 </odoo>
