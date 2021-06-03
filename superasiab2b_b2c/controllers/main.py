@@ -136,7 +136,7 @@ class superasiab2b_b2c(http.Controller):
             vals = {
             'name':company_name,
             'login' : email,
-            # 'password':'Admin@1234567',
+            'password':'Admin@123',
             'groups_id':[(6,0,group_list)],
             'active':False
             # 'odoobot_state':'disabled'

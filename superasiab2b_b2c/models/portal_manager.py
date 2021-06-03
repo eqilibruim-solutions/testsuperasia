@@ -64,6 +64,44 @@ class product_template(models.Model):
         _logger.info('========main_list========= %s' % main_list)
         return main_list
 
+    def _get_combination_info(self, combination=False, product_id=False, add_qty=1, pricelist=False, parent_combination=False, only_template=False):
+        combination_info = super(ProductTemplate, self)._get_combination_info(
+            combination=combination, product_id=product_id, add_qty=add_qty, pricelist=pricelist,
+            parent_combination=parent_combination, only_template=only_template)
+
+        if not self.env.context.get('website_sale_stock_get_quantity'):
+            return combination_info
+
+        if combination_info['product_id']:
+            product = self.env['product.product'].sudo().browse(combination_info['product_id'])
+            website = self.env['website'].get_current_website()
+            virtual_available = product.with_context(warehouse=website.warehouse_id.id).virtual_available
+            combination_info.update({
+                'virtual_available': int(virtual_available),
+                'virtual_available_formatted': self.env['ir.qweb.field.float'].value_to_html(virtual_available, {'decimal_precision': 'Product Unit of Measure'}),
+                'product_type': product.type,
+                'inventory_availability': product.inventory_availability,
+                'available_threshold': product.available_threshold,
+                'custom_message': product.custom_message,
+                'product_template': product.product_tmpl_id.id,
+                'cart_qty': int(product.cart_qty),
+                'uom_name': product.uom_id.name,
+            })
+        else:
+            product_template = self.sudo()
+            combination_info.update({
+                'virtual_available': 0,
+                'product_type': product_template.type,
+                'inventory_availability': product_template.inventory_availability,
+                'available_threshold': product_template.available_threshold,
+                'custom_message': product_template.custom_message,
+                'product_template': product_template.id,
+                'cart_qty': 0
+            })
+
+        return combination_info
+
+
 class SaleOrdersuperaisa(models.Model):
     _inherit = 'sale.order'
 
