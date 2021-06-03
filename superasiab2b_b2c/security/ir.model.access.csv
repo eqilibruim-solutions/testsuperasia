@@ -22,5 +22,6 @@ acess_account_tax_group_port,acess.account_tax_group.port,account.model_account_
 acess_sale_order_port,acess.sale_order.port,sale.model_sale_order,base.group_portal,1,1,1,1
 acess_sale_order_line_port,acess.sale_order_line.port,sale.model_sale_order_line,base.group_portal,1,1,1,1
 acess_attachment_port,acess.attachment.port,mail.model_ir_attachment,base.group_portal,1,1,1,1
+acess_stock_warehouse,acess.stock_warehouse.port,stock.model_stock_warehouse,base.group_portal,1,1,1,1
 
 
