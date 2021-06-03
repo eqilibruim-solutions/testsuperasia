@@ -133,9 +133,11 @@ class SaleOrdersuperaisa(models.Model):
         userobj = self.env['res.users']
         superasiaid = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
         _logger.info('========superasiaid========= %s' % superasiaid)
-        _logger.info('========uid========= %s' % self.website_id.user_id)
+        _logger.info('========uid========= %s' % self.env.uid)
+        _logger.info('========website====userssssss===== %s' % self.website.user_id.sudo().id)
+        _logger.info('========usersssss========= %s' % self.env.user.id)
 
-        b2buser = userobj.search([('id','=',self.website_id.user_id.id),('groups_id','in',superasiaid.id)])
+        b2buser = userobj.search([('id','=',self.env.uid),('groups_id','in',superasiaid.id)])
 
         _logger.info('========b2buser========= %s' % b2buser)
 
@@ -202,10 +204,10 @@ class SaleOrdersuperaisa(models.Model):
         _logger.info('========superasiaid=11======== %s' % superasiaid)
         _logger.info('========uid=11======== %s' % self.website_id.user_id)
 
-        b2buser = userobj.search([('id', '=', self.website_id.user_id.id), ('groups_id', 'in', superasiaid.id)])
+        b2buser = userobj.search([('id', '=', self.env.uid), ('groups_id', 'in', superasiaid.id)])
 
         b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
-        b2cusers = userobj.search([('id','=',self.website_id.user_id.id),('groups_id','in',b2c.id)])
+        b2cusers = userobj.search([('id','=',self.env.uid),('groups_id','in',b2c.id)])
         _logger.info('========b2buser=11======== %s' % b2buser)
         _logger.info('========b2cusers=11======== %s' % b2buser)
 
