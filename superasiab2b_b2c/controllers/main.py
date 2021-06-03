@@ -213,6 +213,8 @@ class superasiab2b_b2c(http.Controller):
                     subtype='html'
                     )
                     res = mail_server_id.send_email(msg)
+                    admin_mail_template = "B2B Account Activation Request"
+                    self.send_admin_activation_mail(admin_mail_template, company_name, email, user_id)
 
             return request.render('superasiab2b_b2c.reset_password_email', {
                 'user_data': user_data
@@ -330,11 +332,38 @@ class superasiab2b_b2c(http.Controller):
                     subtype='html'
                     )
                     res = mail_server_id.send_email(msg)
+                    admin_mail_template = "New B2C User"
+                    self.send_admin_activation_mail(admin_mail_template, company_name, email, user_id)
 
             return request.render('superasiab2b_b2c.reset_password_emailb2c',{
                 'user_data': user_data
             })
 
+    @staticmethod
+    def send_admin_activation_mail(template_name, company, user_email, partner_id):
+        sa_email = "hello@superasia.ca"
+        base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        usr_url = "{}/web?#id={}&action=74&model=res.users&view_type=form&cids=1&menu_id=4".format(base_url, partner_id)
+
+        ir_mail_server = request.env['ir.mail_server']
+        mail_server_id = ir_mail_server.search([('name', '=', 'Superasia')])
+        smtp_user = str(mail_server_id.smtp_user)
+        temp_obj = request.env['mail.template']
+        template_data = temp_obj.search([('name', '=', template_name)])
+        if template_data:
+            replaced_data = template_data.body_html.replace('${object.company_name}', company)
+            replaced_dataone = replaced_data.replace('${object.signup_url}', usr_url).replace('${object.email}', user_email).replace('${website_url}', base_url)
+            mail_subject = "{} for {}".format(template_name, user_email)
+            msg = ir_mail_server.build_email(
+                email_from=smtp_user,
+                email_to=[sa_email],
+                subject=mail_subject,
+                body=replaced_dataone,
+                body_alternative="",
+                object_id=1,
+                subtype='html'
+            )
+            res = mail_server_id.send_email(msg)
     
     @http.route(['/acceptconditions'], Method=['POST'], type='http', auth="public", website=True)
     def acceptconditions(self, **post):
