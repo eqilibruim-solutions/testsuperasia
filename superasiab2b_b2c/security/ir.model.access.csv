@@ -23,5 +23,13 @@ acess_sale_order_port,acess.sale_order.port,sale.model_sale_order,base.group_por
 acess_sale_order_line_port,acess.sale_order_line.port,sale.model_sale_order_line,base.group_portal,1,1,1,1
 acess_attachment_port,acess.attachment.port,mail.model_ir_attachment,base.group_portal,1,1,1,1
 acess_stock_warehouse,acess.stock_warehouse.port,stock.model_stock_warehouse,base.group_portal,1,1,1,1
-
+acess_stock_location,acess.stock_loc.port,stock.model_stock_location,base.group_portal,1,1,1,1
+acess_stock_move,acess.stock_move.port,stock.model_stock_move,base.group_portal,1,1,1,1
+acess_stock_quant,acess.stock_quant.port,stock.model_stock_quant,base.group_portal,1,1,1,1
+acess_uom_uom,acess.uom_uom.port,uom.model_uom_uom,base.group_portal,1,1,1,1
+acess_stock_warehouse_pub,acess.stock_warehouse.pub,stock.model_stock_warehouse,base.group_public,1,1,1,1
+acess_stock_location_pub,acess.stock_loc.pub,stock.model_stock_location,base.group_public,1,1,1,1
+acess_stock_move_pub,acess.stock_move.pub,stock.model_stock_move,base.group_public,1,1,1,1
+acess_stock_quant_pub,acess.stock_quant.pub,stock.model_stock_quant,base.group_public,1,1,1,1
+acess_uom_uom_pub,acess.uom_uom.pub,uom.model_uom_uom,base.group_public,1,1,1,1
 
