@@ -134,7 +134,6 @@ class SaleOrdersuperaisa(models.Model):
         superasiaid = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
         _logger.info('========superasiaid========= %s' % superasiaid)
         _logger.info('========uid========= %s' % self.env.uid)
-        _logger.info('========website====userssssss===== %s' % self.website.user_id.sudo().id)
         _logger.info('========usersssss========= %s' % self.env.user.id)
 
         b2buser = userobj.search([('id','=',self.env.uid),('groups_id','in',superasiaid.id)])
