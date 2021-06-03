@@ -19,7 +19,7 @@
         </t>
     </t>
 </t>
-    <t t-jquery="t[t-if='cart_qty']"
+    <t t-jquery="div[t-attf-class='availability_message_#{product_template} text-warning mt8']"
    t-operation="replace">
         <div class="d-none">
             <div t-if="cart_qty" t-attf-class="availability_message_#{product_template} text-warning mt8 d-none">
