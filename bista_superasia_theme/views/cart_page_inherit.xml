@@ -16,11 +16,10 @@
         <xpath expr="//td[hasclass('text-center', 'td-price')]" position="attributes">
             <attribute name="class">font-weight-bold</attribute>
         </xpath>
-         <xpath expr="//td[hasclass('td-action')]" position="replace">
-             <td class="td-action">
-                 <a href='#' aria-label="Remove from cart" title="Remove from cart" class='js_delete_product no-decoration link-dark'> <i class='fa fa-trash-o'></i></a>
-             </td>
-         </xpath>
+
+        <xpath expr="//input[hasclass('js_quantity', 'form-control','quantity')]" position="attributes">
+            <attribute name="readonly">True</attribute>
+        </xpath>
 
     </template>
 

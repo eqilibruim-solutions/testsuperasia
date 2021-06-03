@@ -136,8 +136,25 @@ var VariantMixin = {
      * @param {MouseEvent} ev
      */
     onClickAddCartJSON: function (ev) {
-        ev.preventDefault();
+//        ev.preventDefault();
+//        var $link = $(ev.currentTarget);
+//        var $input = $link.closest('.input-group').find("input");
+//        var min = parseFloat($input.data("min") || 0);
+//        var max = parseFloat($input.data("max") || Infinity);
+//        var previousQty = parseFloat($input.val() || 0, 10);
+//        var quantity = ($link.has(".fa-minus").length ? -1 : 1) + previousQty;
+//        var newQty = quantity > min ? (quantity < max ? quantity : max) : min;
+//        console.log("::::::::::::::::::::::::::::newQty::::::::::::::::",newQty)
+//        console.log("::::::::::::::::::::::::::::min::::::::::::::::",min)
+//        console.log("::::::::::::::::::::::::::::max::::::::::::::::",max)
+//        console.log("::::::::::::::::::::::::::::previousQty::::::::::::::::",previousQty)
+//        console.log("::::::::::::::::::::::::::::quantity::::::::::::::::",quantity)
+//        if (newQty !== previousQty) {
+//            $input.val(newQty).trigger('change');
+//        }
+//        return false;
 
+        ev.preventDefault();
         var $link = $(ev.currentTarget);
         var $input = $link.closest('.input-group').find("input");
         var min = parseFloat($input.data("min") || 0);
@@ -150,6 +167,7 @@ var VariantMixin = {
         console.log("::::::::::::::::::::::::::::max::::::::::::::::",max)
         console.log("::::::::::::::::::::::::::::previousQty::::::::::::::::",previousQty)
         console.log("::::::::::::::::::::::::::::quantity::::::::::::::::",quantity)
+
         if (newQty !== previousQty) {
             $input.val(newQty).trigger('change');
         }
