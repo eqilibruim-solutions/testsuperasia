@@ -369,13 +369,6 @@ class SaleOrdersuperaisa(models.Model):
 
         return {'line_id': order_line.id, 'quantity': quantity, 'option_ids': list(set(option_lines.ids))}
 
-class res_users(models.Model):
-	_inherit = 'res.users'
-
-	def approveuser(self):
-		self.active = True
-		self.action_reset_password()
-
 
 class Http(models.AbstractModel):
     _inherit = 'ir.http'
@@ -530,3 +523,36 @@ class res_partner(models.Model):
     signup_token = fields.Char(copy=False)
     signup_type = fields.Char(string='Signup Token Type', copy=False)
     signup_expiration = fields.Datetime(copy=False)
+
+class res_users(models.Model):
+    _inherit = 'res.users'
+
+    def approveuser(self):
+        self.active = True
+
+        template = False
+
+        try:
+            template = self.env.ref('auth_signup.set_password_email', raise_if_not_found=False)
+        except ValueError:
+                pass
+
+
+        assert template._name == 'mail.template'
+
+        template_values = {
+            'email_to': '${object.email|safe}',
+            'email_cc': False,
+            'auto_delete': True,
+            'partner_to': False,
+            'scheduled_date': False,
+        }
+        template.write(template_values)
+
+        for user in self:
+            if not user.email:
+                raise UserError(_("Cannot send email: user %s has no email address.") % user.name)
+            with self.env.cr.savepoint():
+                force_send = not(self.env.context.get('import_file', False))
+                template.with_context(lang=user.lang).send_mail(user.id, force_send=force_send, raise_exception=True)
+            _logger.info("Password reset email sent for user <%s> to <%s>", user.login, user.email)

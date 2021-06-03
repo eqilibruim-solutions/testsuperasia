@@ -48,11 +48,28 @@
             </xpath>
 
       <xpath expr="//tree" position="attributes">
-  <attribute name="decoration-success">account_type=='B2C'</attribute>
+  <attribute name="decoration-danger">account_type=='B2C'</attribute>
 </xpath>
 
             </field>
         </record>
 
+
+
+    <record id="view_order_tree_b2b12" model="ir.ui.view">
+      <field name="name">sale.order.main.b2b12.tree</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="account_type"/>
+            </xpath>
+
+      <xpath expr="//tree" position="attributes">
+  <attribute name="decoration-danger">account_type=='B2C'</attribute>
+</xpath>
+
+            </field>
+        </record>
 
 </odoo>
