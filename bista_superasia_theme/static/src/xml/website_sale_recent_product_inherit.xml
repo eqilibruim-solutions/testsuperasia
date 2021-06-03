@@ -21,8 +21,10 @@
 </t>
     <t t-jquery="t[t-if='cart_qty']"
    t-operation="replace">
-        <div t-if="cart_qty" t-attf-class="availability_message_#{product_template} text-warning mt8 d-none">
+        <div class="d-none">
+            <div t-if="cart_qty" t-attf-class="availability_message_#{product_template} text-warning mt8 d-none">
                 You already added <t t-if="!virtual_available">all</t> <t t-esc="cart_qty" /> <t t-esc="uom_name" /> in your cart.
+            </div>
         </div>
     </t>
     <t t-jquery="div[t-attf-class='availability_message_#{product_template} text-success mt16']"
