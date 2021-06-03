@@ -132,6 +132,8 @@ class SaleOrdersuperaisa(models.Model):
 
         userobj = self.env['res.users']
         superasiaid = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+        _logger.info('========superasiaid========= %s' % superasiaid)
+        _logger.info('========uid========= %s' % self.env.uid)
 
         b2buser = userobj.search([('id','=',self.env.uid),('groups_id','in',superasiaid.id)])
 
@@ -155,7 +157,7 @@ class SaleOrdersuperaisa(models.Model):
         else:
             product_uom = product.b2buom_id
 
-        _logger.info('========product_uom========= %s' % product_uom)
+        _logger.info('========product_uom==111======= %s' % product_uom)
 
 
 
@@ -197,10 +199,15 @@ class SaleOrdersuperaisa(models.Model):
 
         userobj = self.env['res.users']
         superasiaid = self.env['ir.model.data'].get_object('superasiab2b_b2c', 'group_b2baccount')
+        _logger.info('========superasiaid=11======== %s' % superasiaid)
+        _logger.info('========uid=11======== %s' % self.env.uid)
+
         b2buser = userobj.search([('id', '=', self.env.uid), ('groups_id', 'in', superasiaid.id)])
 
         b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
         b2cusers = userobj.search([('id','=',self.env.uid),('groups_id','in',b2c.id)])
+        _logger.info('========b2buser=11======== %s' % b2buser)
+        _logger.info('========b2cusers=11======== %s' % b2buser)
 
         partner_id = self.partner_id
 
@@ -336,8 +343,10 @@ class SaleOrdersuperaisa(models.Model):
                 product = product_with_context.browse(product_id)
                 display_price = 0.0
                 if b2buser:
+                    product_uom = product.uom_id
                     display_price = order_line._get_display_price(product)
                 else:
+                    product_uom = product.b2buom_id
                     display_price = values['price_unit']
                 values['price_unit'] = self.env['account.tax']._fix_tax_included_price_company(
                     display_price,
@@ -345,6 +354,8 @@ class SaleOrdersuperaisa(models.Model):
                     order_line.tax_id,
                     self.company_id
                 )
+                values['product_uom'] = product_uom.id
+                _logger.info('========values["product_uom"]========= %s' % values['product_uom'])
 
                 _logger.info('========values["price_unit"]========= %s' % values['price_unit'])
 
