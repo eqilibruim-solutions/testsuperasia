@@ -107,53 +107,7 @@ class product_template(models.Model):
     # Inherited _get_combination_info for set condition if the recent product view has 0 qty then cart button should be
     # invisible (Added onhand_qty)
     def _get_combination_info(self, combination=False, product_id=False, add_qty=1, pricelist=False, parent_combination=False, only_template=False):
-        """ Return info about a given combination.
-
-        Note: this method does not take into account whether the combination is
-        actually possible.
-
-        :param combination: recordset of `product.template.attribute.value`
-
-        :param product_id: id of a `product.product`. If no `combination`
-            is set, the method will try to load the variant `product_id` if
-            it exists instead of finding a variant based on the combination.
-
-            If there is no combination, that means we definitely want a
-            variant and not something that will have no_variant set.
-
-        :param add_qty: float with the quantity for which to get the info,
-            indeed some pricelist rules might depend on it.
-
-        :param pricelist: `product.pricelist` the pricelist to use
-            (can be none, eg. from SO if no partner and no pricelist selected)
-
-        :param parent_combination: if no combination and no product_id are
-            given, it will try to find the first possible combination, taking
-            into account parent_combination (if set) for the exclusion rules.
-
-        :param only_template: boolean, if set to True, get the info for the
-            template only: ignore combination and don't try to find variant
-
-        :return: dict with product/combination info:
-
-            - product_id: the variant id matching the combination (if it exists)
-
-            - product_template_id: the current template id
-
-            - display_name: the name of the combination
-
-            - price: the computed price of the combination, take the catalog
-                price if no pricelist is given
-
-            - list_price: the catalog price of the combination, but this is
-                not the "real" list_price, it has price_extra included (so
-                it's actually more closely related to `lst_price`), and it
-                is converted to the pricelist currency (if given)
-
-            - has_discounted_price: True if the pricelist discount policy says
-                the price does not include the discount and there is actually a
-                discount applied (price < list_price), else False
-        """
+       
         self.ensure_one()
         # get the name before the change of context to benefit from prefetch
         display_name = self.display_name
@@ -213,6 +167,28 @@ class product_template(models.Model):
 
         price_without_discount = list_price if pricelist and pricelist.discount_policy == 'without_discount' else price
         has_discounted_price = (pricelist or product_template).currency_id.compare_amounts(price_without_discount, price) == 1
+        
+        avail_qty = product.qty_available
+        onhandqty = product.qty_available
+        _logger.info('========onhandqty=========== %s' % onhandqty)   
+
+        b2buser = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+        b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+        userobj = self.env['res.users']
+        b2busergroup = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2buser.id)])
+        b2cusers = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2c.id)])
+
+        product_uom = product.uom_id
+        factor_inv = product_uom.factor_inv
+
+        if b2cusers:
+            
+            product_uom = product.b2buom_id
+            print('===========product_uom================',product_uom)
+            if factor_inv > 0:
+                onhandqty = onhandqty/factor_inv
+        _logger.info('========onhandqty===calc======== %s' % onhandqty)   
+
         return {
             'product_id': product.id,
             'product_template_id': product_template.id,
@@ -221,7 +197,8 @@ class product_template(models.Model):
             'price': price,
             'list_price': list_price,
             'has_discounted_price': has_discounted_price,
-            'onhand_qty': product.qty_available,
+            'onhand_qty': int(onhandqty),
+            'avail_qty':int(avail_qty),
         }
 
 

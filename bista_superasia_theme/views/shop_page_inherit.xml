@@ -119,9 +119,9 @@
                                 </div>
 <!--                                <t t-set="shop_product" -->
 <!--                                   t-value="in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id)"/>-->
-                                <input type="text"
-                                       readonly="True"
-                                       t-att-data-max="product_variant.qty_available"
+                                <input type="text" 
+                                        readonly="True"
+                                       t-att-data-max="combination_info['onhand_qty']"
                                        t-att-data-line-id="in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).id" t-att-data-product-id="product_variant.id"
                                        class="custom_js_quantity form-control quantity text-center bg-danger text-white h-auto" t-att-value="int(in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).product_uom_qty)" />
                                 <div class="input-group-append">
@@ -358,8 +358,11 @@
 
     <template id="website_sale_product_quantity" name="website_sale_product_quantity Inherit"
               inherit_id="website_sale.product_quantity">
-        <xpath expr="//input[hasclass('form-control','quantity')]" position="attributes">
+    <xpath expr="//input[hasclass('form-control','quantity')]" position="attributes">
+
+            <attribute name="t-att-data-max">combination_info['onhand_qty']</attribute>
             <attribute name="readonly">True</attribute>
+
         </xpath>
     </template>
 

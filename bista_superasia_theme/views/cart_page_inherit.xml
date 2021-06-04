@@ -17,8 +17,13 @@
             <attribute name="class">font-weight-bold</attribute>
         </xpath>
 
-        <xpath expr="//input[hasclass('js_quantity', 'form-control','quantity')]" position="attributes">
-            <attribute name="readonly">True</attribute>
+        <xpath expr="//input[hasclass('js_quantity', 'form-control','quantity')]" position="replace">
+
+<t t-set="combination_info" t-value="line.product_id.product_tmpl_id._get_combination_info(only_template=False, add_qty=add_qty or 1, pricelist=pricelist,product_id=line.product_id.id)"/>
+
+ <input type="text" class="js_quantity form-control quantity" t-att-data-line-id="line.id" t-att-data-max="combination_info['onhand_qty']" t-att-data-product-id="line.product_id.id" t-att-value="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" readonly="True"/>
+
+
         </xpath>
 
     </template>
