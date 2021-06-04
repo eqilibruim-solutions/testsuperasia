@@ -45,6 +45,14 @@
     <t t-jquery="div.o_carousel_product_card_footer" t-operation="attributes">
         <attribute name="class" value="o_carousel_product_card_footer card-footer d-flex align-items-center text-black"/>
     </t>
+    <t t-jquery="button.btn.btn-primary.js_add_cart.ml-auto" t-operation="replace">
+        <t t-if="product.onhand_qty">
+            <button type="button" role="button" class="btn btn-primary js_add_cart ml-auto" title="Add to Cart">
+                <i class="fa fa-fw fa-shopping-cart"/>
+            </button>
+        </t>
+    </t>
+
 </t>
     <!-- Product Recent View in Website Form -->
 

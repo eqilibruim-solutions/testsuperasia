@@ -299,6 +299,7 @@ class WebsiteSale(ws):
                 rating = request.website.viewref('website_sale.product_comment').active
                 res = {'products': []}
                 for product in viewed_products:
+
                     combination_info = product._get_combination_info_variant()
                     res_product = product.read(['id', 'name', 'website_url'])[0]
                     res_product.update(combination_info)
