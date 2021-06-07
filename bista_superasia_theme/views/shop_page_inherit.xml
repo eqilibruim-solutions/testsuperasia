@@ -111,16 +111,16 @@
                             <t t-else="">
                                 <div class="availability_message_6 font-weight-bold text-danger"><i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning"></i> Temporarily out of stock</div>
                             </t>
+
+<!--                            <div class="bg-primary" t-esc="combination_info['onhand_qty']"/>-->
                             <div id="dynamic_product_qty" t-att-class="'css_quantity input-group input-group-sm mx-auto p-1' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'css_quantity input-group input-group-sm mx-auto d-none p-1'">
                                 <div class="input-group-prepend">
                                     <a t-attf-href="#" class="btn btn-link js_add_cart_json d-md-inline-block border-danger" aria-label="Remove one" title="Remove one">
                                         <i class="fa fa-minus"></i>
                                     </a>
                                 </div>
-<!--                                <t t-set="shop_product" -->
-<!--                                   t-value="in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id)"/>-->
-                                <input type="text" 
-                                        readonly="True"
+                                <input type="text"
+                                       readonly="True"
                                        t-att-data-max="combination_info['onhand_qty']"
                                        t-att-data-line-id="in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).id" t-att-data-product-id="product_variant.id"
                                        class="custom_js_quantity form-control quantity text-center bg-danger text-white h-auto" t-att-value="int(in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).product_uom_qty)" />
@@ -211,8 +211,8 @@
     </template>
     <template id="add_to_cart_inherite" inherit_id="website_sale.product"  name="Add to Cart Product Inherit">
         <xpath expr="//a[@id='add_to_cart']" position="replace">
-<!--            <attribute name="class">a-submit btn custom_them_primary d-block d-sm-inline-block js_check_product mt-4 text-white</attribute>-->
-            <t t-if="product_variant.qty_available">
+            <t t-set="max_qt" t-value="(round(combination_info['onhand_qty']) - combination_info['updated_cart_qty'])"/>
+            <t t-if="max_qt">
                 <a role="button" id="add_to_cart" class="a-submit btn custom_them_primary d-block d-sm-inline-block js_check_product mt-4 text-white" href="#"><i class="fa fa-shopping-cart"/> Add to Cart</a>
             </t>
         </xpath>
@@ -359,8 +359,7 @@
     <template id="website_sale_product_quantity" name="website_sale_product_quantity Inherit"
               inherit_id="website_sale.product_quantity">
     <xpath expr="//input[hasclass('form-control','quantity')]" position="attributes">
-
-            <attribute name="t-att-data-max">combination_info['onhand_qty']</attribute>
+            <attribute name="t-att-data-max">(round(combination_info['onhand_qty']) - combination_info['updated_cart_qty'])</attribute>
             <attribute name="readonly">True</attribute>
 
         </xpath>

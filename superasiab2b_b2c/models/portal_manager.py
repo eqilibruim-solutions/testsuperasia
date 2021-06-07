@@ -15,7 +15,7 @@ from werkzeug.urls import url_encode
 
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     website_meta_ingredients = fields.Text("Website meta ingredients", translate=True)
@@ -65,7 +65,7 @@ class product_template(models.Model):
         return main_list
 
     # def _get_combination_info(self, combination=False, product_id=False, add_qty=1, pricelist=False, parent_combination=False, only_template=False):
-    #     combination_info = super(product_template, self)._get_combination_info(
+    #     combination_info = super(ProductTemplate, self)._get_combination_info(
     #         combination=combination, product_id=product_id, add_qty=add_qty, pricelist=pricelist,
     #         parent_combination=parent_combination, only_template=only_template)
     #
@@ -74,8 +74,36 @@ class product_template(models.Model):
     #
     #     if combination_info['product_id']:
     #         product = self.env['product.product'].sudo().browse(combination_info['product_id'])
+    #         print (":::::::::::::::::::::::::::::::if product:::::::::::::::",int(product.cart_qty))
     #         website = self.env['website'].get_current_website()
     #         virtual_available = product.with_context(warehouse=website.warehouse_id.id).virtual_available
+    #
+    #
+    #         # Custom Code Start
+    #         avail_qty = product.qty_available
+    #         onhandqty = product.qty_available
+    #         _logger.info('========avail_qty::::::::::::::::::::::::::::::::::=========== %s' % avail_qty)
+    #         _logger.info('========onhandqty=========== %s' % onhandqty)
+    #
+    #         b2buser = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+    #         b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+    #         userobj = self.env['res.users']
+    #         b2busergroup = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2buser.id)])
+    #         b2cusers = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2c.id)])
+    #
+    #         product_uom = product.uom_id
+    #         factor_inv = product_uom.factor_inv
+    #
+    #         if b2cusers:
+    #             product_uom = product.b2buom_id
+    #             print('===========product_uom================',product_uom)
+    #             if factor_inv > 0:
+    #                 onhandqty = onhandqty/factor_inv
+    #         print('========onhandqty===calc======== %s' % onhandqty)
+    #         # Custom code End
+    #
+    #
+    #
     #         combination_info.update({
     #             'virtual_available': int(virtual_available),
     #             'virtual_available_formatted': self.env['ir.qweb.field.float'].value_to_html(virtual_available, {'decimal_precision': 'Product Unit of Measure'}),
@@ -86,9 +114,13 @@ class product_template(models.Model):
     #             'product_template': product.product_tmpl_id.id,
     #             'cart_qty': int(product.cart_qty),
     #             'uom_name': product.uom_id.name,
+    #             'onhand_qty': int(onhandqty),
+    #             'avail_qty':int(avail_qty),
     #         })
     #     else:
     #         product_template = self.sudo()
+    #
+    #         print (":::::::::::::::::::::::::::::::product_template:::::::::::::::",product_template)
     #         combination_info.update({
     #             'virtual_available': 0,
     #             'product_type': product_template.type,
@@ -107,7 +139,6 @@ class product_template(models.Model):
     # Inherited _get_combination_info for set condition if the recent product view has 0 qty then cart button should be
     # invisible (Added onhand_qty)
     def _get_combination_info(self, combination=False, product_id=False, add_qty=1, pricelist=False, parent_combination=False, only_template=False):
-       
         self.ensure_one()
         # get the name before the change of context to benefit from prefetch
         display_name = self.display_name
@@ -128,17 +159,17 @@ class product_template(models.Model):
             product = product_template.env['product.product'].browse(product_id)
         else:
             product = product_template._get_variant_for_combination(combination)
-
         if product:
             # We need to add the price_extra for the attributes that are not
             # in the variant, typically those of type no_variant, but it is
             # possible that a no_variant attribute is still in a variant if
             # the type of the attribute has been changed after creation.
+            print ("::::::::::::::::::::::::::::product.cart_qty::::::::::::::::::",product.cart_qty)
             no_variant_attributes_price_extra = [
                 ptav.price_extra for ptav in combination.filtered(
                     lambda ptav:
-                        ptav.price_extra and
-                        ptav not in product.product_template_attribute_value_ids
+                    ptav.price_extra and
+                    ptav not in product.product_template_attribute_value_ids
                 )
             ]
             if no_variant_attributes_price_extra:
@@ -167,10 +198,11 @@ class product_template(models.Model):
 
         price_without_discount = list_price if pricelist and pricelist.discount_policy == 'without_discount' else price
         has_discounted_price = (pricelist or product_template).currency_id.compare_amounts(price_without_discount, price) == 1
-        
+
         avail_qty = product.qty_available
         onhandqty = product.qty_available
-        _logger.info('========onhandqty=========== %s' % onhandqty)   
+        _logger.info('========avail_qty::::::::::::::::::::::::::::::::::=========== %s' % avail_qty)
+        _logger.info('========onhandqty=========== %s' % onhandqty)
 
         b2buser = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
         b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
@@ -182,12 +214,12 @@ class product_template(models.Model):
         factor_inv = product_uom.factor_inv
 
         if b2cusers:
-            
+
             product_uom = product.b2buom_id
             print('===========product_uom================',product_uom)
             if factor_inv > 0:
                 onhandqty = onhandqty/factor_inv
-        _logger.info('========onhandqty===calc======== %s' % onhandqty)   
+        _logger.info('========onhandqty===calc======== %s' % onhandqty)
 
         return {
             'product_id': product.id,
@@ -199,6 +231,7 @@ class product_template(models.Model):
             'has_discounted_price': has_discounted_price,
             'onhand_qty': int(onhandqty),
             'avail_qty':int(avail_qty),
+            'updated_cart_qty':int(product.cart_qty),
         }
 
 
