@@ -230,7 +230,7 @@ class ProductTemplate(models.Model):
             _logger.info('========pricelist_id========= %s' % pricelist_id)
             _logger.info('========product========= %s' % product)
             pricelist_id = pricelist_id.id
-            priceitemid = self.env['product.pricelist.item'].search([('pricelist_id','=',pricelist_id),('product_id','=',product.id)])
+            priceitemid = self.env['product.pricelist.item'].search([('pricelist_id','=',pricelist_id),('product_id','=',product.product_tmpl_id.id)])
             _logger.info('========priceitemid========= %s' % priceitemid)
             if priceitemid:
                 price = priceitemid[0].fixed_price
