@@ -219,7 +219,6 @@ class ProductTemplate(models.Model):
         product_uom = product.uom_id
         factor_inv = product_uom.factor_inv
 
-<<<<<<< HEAD
         if b2cusers or publicuser:
             
             product_uom = product.b2buom_id
@@ -241,15 +240,6 @@ class ProductTemplate(models.Model):
 
         _logger.info('========onhandqty===calc======== %s' % onhandqty)   
         print('===========price================',price)
-=======
-        if b2cusers:
-
-            product_uom = product.b2buom_id
-            print('===========product_uom================',product_uom)
-            if factor_inv > 0:
-                onhandqty = onhandqty/factor_inv
-        _logger.info('========onhandqty===calc======== %s' % onhandqty)
->>>>>>> 22aa8b717520d8ee1626969ec9369edcc97fec00
 
         return {
             'product_id': product.id,
