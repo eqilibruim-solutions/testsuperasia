@@ -209,10 +209,39 @@ class ProductTemplate(models.Model):
         userobj = self.env['res.users']
         b2busergroup = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2buser.id)])
         b2cusers = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2c.id)])
+        
+        public = self.env.user
+        publicuser = False
+        if public.partner_id.name == 'Public user':
+            publicuser = True
+        print('===========publicuser================',publicuser)
 
         product_uom = product.uom_id
         factor_inv = product_uom.factor_inv
 
+<<<<<<< HEAD
+        if b2cusers or publicuser:
+            
+            product_uom = product.b2buom_id
+            print('===========product_uom================',product_uom)
+            if factor_inv > 0:
+                onhandqty = onhandqty*factor_inv
+
+            pricelist_id = b2cusers.partner_id.property_product_pricelist
+            _logger.info('========pricelist_id========= %s' % pricelist_id)
+            _logger.info('========product========= %s' % product)
+            pricelist_id = pricelist_id.id
+            priceitemid = self.env['product.pricelist.item'].search([('pricelist_id','=',pricelist_id),('product_id','=',product.id)])
+            _logger.info('========priceitemid========= %s' % priceitemid)
+            if priceitemid:
+                price = priceitemid[0].fixed_price
+
+        if b2busergroup:
+                price = product.list_price
+
+        _logger.info('========onhandqty===calc======== %s' % onhandqty)   
+        print('===========price================',price)
+=======
         if b2cusers:
 
             product_uom = product.b2buom_id
@@ -220,6 +249,7 @@ class ProductTemplate(models.Model):
             if factor_inv > 0:
                 onhandqty = onhandqty/factor_inv
         _logger.info('========onhandqty===calc======== %s' % onhandqty)
+>>>>>>> 22aa8b717520d8ee1626969ec9369edcc97fec00
 
         return {
             'product_id': product.id,
