@@ -259,7 +259,7 @@ class ProductTemplate(models.Model):
 class SaleOrdersuperaisa(models.Model):
     _inherit = 'sale.order'
 
-    account_type = fields.Selection([('B2C', 'B2C'), ('B2B', 'B2B')],
+    account_type = fields.Selection([('B2C', 'B2C'), ('B2B', 'B2B'),('Public','Public')],
                                     string='Account Type')
 
     @api.onchange('partner_id')
@@ -294,6 +294,11 @@ class SaleOrdersuperaisa(models.Model):
             account_type = 'B2B'
         if b2cusers:
             account_type = 'B2C'
+
+        public = self.env.user
+        if public.partner_id.name == 'Public user':
+            account_type = 'Public'
+
         _logger.info('========account_type========= %s' % account_type)
 
         addr = self.partner_id.address_get(['delivery', 'invoice'])
@@ -409,6 +414,10 @@ class SaleOrdersuperaisa(models.Model):
             account_type = 'B2B'
         if b2cusers:
             account_type = 'B2C'
+            
+        public = self.env.user
+        if public.partner_id.name == 'Public user':
+            account_type = 'Public'
 
         self.account_type = account_type
 
