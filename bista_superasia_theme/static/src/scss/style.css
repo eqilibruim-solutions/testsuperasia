@@ -1663,10 +1663,13 @@ font-size: 2rem;
     transition: .3s transform cubic-bezier(.215,.61,.355,1),.3s -webkit-transform cubic-bezier(.215,.61,.355,1);
   }
   .address_pg{
-  height:160vh;
+  height:185vh;
   }
   .confirm_pg{
   height: 90vh;
+  }
+  .address_edit_pg{
+  height: 100vh;
   }
 }    
 @media only screen and (min-width: 400px){

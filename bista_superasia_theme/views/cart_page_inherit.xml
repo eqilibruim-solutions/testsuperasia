@@ -146,10 +146,6 @@
         <xpath expr="//a[hasclass('a-submit', 'btn', 'btn-secondary', 'mb16', 'btn-block')]" position="attributes">
             <attribute name="class">a-submit btn mb16 btn-block custom_them_primary text-white</attribute>
         </xpath>
-
-<!--        <xpath expr="//div[hasclass('col-12', 'col-xl-auto', 'order-xl-2', 'd-none', 'd-xl-block')]" position="attributes">-->
-<!--            <attribute name="class">col-12 col-xl-5 d-none d-xl-block offset-xl-2 order-xl-2</attribute>-->
-<!--        </xpath>-->
         <xpath expr="//div[hasclass('col-12', 'col-xl-auto', 'order-xl-2', 'd-none', 'd-xl-block')]" position="attributes">
             <attribute name="class">col-12 col-xl-5 d-none d-xl-block offset-xl-2 order-xl-2</attribute>
         </xpath>
@@ -158,6 +154,9 @@
         </xpath>
         <xpath expr="//div[hasclass('col-md-12', 'col-lg-6', 'one_kanban')]" position="attributes">
             <attribute name="class">col-md-12 one_kanban</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('col-12', 'col-xl', 'order-xl-1', 'oe_cart')]" position="attributes">
+            <attribute name="class">col-12 col-xl order-xl-1 oe_cart address_edit_pg</attribute>
         </xpath>
     </template>
     <template id="extra_info_inherite" inherit_id="website_sale.extra_info" name="Extra_info Inherit">
