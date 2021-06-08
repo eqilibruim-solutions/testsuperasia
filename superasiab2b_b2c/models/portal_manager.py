@@ -212,8 +212,8 @@ class ProductTemplate(models.Model):
         
         public = self.env.user
         publicuser = False
-        if public.partner_id.name == 'Public user':
-            publicuser = True
+        if public.partner_id.name == 'Public user':            
+            publicuser =public
         print('===========publicuser================',publicuser)
 
         product_uom = product.uom_id
