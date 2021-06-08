@@ -55,6 +55,11 @@
         <xpath expr="//a[hasclass('btn', 'btn-primary', 'float-right', 'd-none', 'd-xl-inline-block')]" position="attributes">
             <attribute name="class">btn float-right d-none d-xl-inline-block custom_them_primary text-white</attribute>
         </xpath>
+        <xpath expr="//a[hasclass('btn', 'btn-primary', 'float-right')]" position="attributes">
+            <attribute name="class">btn custom_them_primary float-right text-white</attribute>
+        </xpath>
+
+
     </template>
 
     <template id="short_cart_summary_inherite" inherit_id="website_sale.short_cart_summary" name="short_cart_summary Inherit">
