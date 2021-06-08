@@ -46,6 +46,7 @@
         <attribute name="class" value="o_carousel_product_card_footer card-footer d-flex align-items-center text-black"/>
     </t>
     <t t-jquery="button.js_add_cart" t-operation="replace">
+        <h6 class="bg-primary" t-esc="product.list_price"></h6>
         <t t-if="product.avail_qty">
             <button type="button" role="button" class="btn btn-primary js_add_cart ml-auto" title="Add to Cart">
                 <i class="fa fa-fw fa-shopping-cart"/>
