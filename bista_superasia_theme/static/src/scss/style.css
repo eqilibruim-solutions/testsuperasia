@@ -1665,10 +1665,7 @@ font-size: 2rem;
   .address_pg{
   height:185vh;
   }
-  .confirm_pg{
-  height: 90vh;
-  }
-  .address_edit_pg{
+  .confirm_pg,.address_edit_pg{
   height: 100vh;
   }
 }    
