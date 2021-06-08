@@ -219,7 +219,7 @@ class ProductTemplate(models.Model):
         product_uom = product.uom_id
         factor_inv = product_uom.factor_inv
 
-        if b2cusers or publicuser:
+        if b2cusers:
             
             product_uom = product.b2buom_id
             print('===========product_uom================',product_uom)
@@ -227,6 +227,22 @@ class ProductTemplate(models.Model):
                 onhandqty = onhandqty*factor_inv
 
             pricelist_id = b2cusers.partner_id.property_product_pricelist
+            _logger.info('========pricelist_id========= %s' % pricelist_id)
+            _logger.info('========product========= %s' % product)
+            pricelist_id = pricelist_id.id
+            priceitemid = self.env['product.pricelist.item'].search([('pricelist_id','=',pricelist_id),('product_tmpl_id','=',product.product_tmpl_id.id)])
+            _logger.info('========priceitemid========= %s' % priceitemid)
+            if priceitemid:
+                price = priceitemid[0].fixed_price
+
+        if publicuser:
+            
+            product_uom = product.b2buom_id
+            print('===========product_uom================',product_uom)
+            if factor_inv > 0:
+                onhandqty = onhandqty*factor_inv
+
+            pricelist_id = publicuser.partner_id.property_product_pricelist
             _logger.info('========pricelist_id========= %s' % pricelist_id)
             _logger.info('========product========= %s' % product)
             pricelist_id = pricelist_id.id
