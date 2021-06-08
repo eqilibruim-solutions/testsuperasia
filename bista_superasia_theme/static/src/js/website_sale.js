@@ -910,6 +910,7 @@ publicWidget.registry.productsSearchBar = publicWidget.Widget.extend({
                 widget: this,
             }));
             this.$menu.css('min-width', this.autocompleteMinWidth);
+            this.$menu.css('margin', 0);
             this.$el.append(this.$menu);
         }
         if ($prevMenu) {

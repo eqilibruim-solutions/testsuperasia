@@ -174,7 +174,7 @@
             <attribute name="class">col-12 col-xl-5 d-none d-xl-block mt-xl-5 offset-xl-2 order-xl-2</attribute>
         </xpath>
         <xpath expr="//div[hasclass('col-12', 'col-xl', 'order-xl-1', 'oe_cart')]" position="attributes">
-            <attribute name="class">col-12 col-xl-5 order-xl-1 oe_cart</attribute>
+            <attribute name="class">col-12 col-xl-5 order-xl-1 oe_cart address_pg</attribute>
         </xpath>
         <xpath expr="//a[hasclass('btn', 'btn-primary', 'mb32', 'a-submit', 'a-submit-disable', 'a-submit-loading')]" position="attributes">
             <attribute name="class">a-submit a-submit-disable a-submit-loading btn custom_them_primary mb32 text-white</attribute>
@@ -216,7 +216,7 @@
                 </div>
             </t>
             <t t-else="">
-                <div class="col-12 col-xl-5 offset-xl-2 order-xl-1 oe_cart">
+                <div class="col-12 col-xl-5 offset-xl-2 order-xl-1 oe_cart confirm_pg">
                     <div class="card">
                         <div class="card-body b2c_all" id="shipping_and_billing">
                             <a class='float-right no-decoration' href='/shop/checkout'><i class="fa fa-edit"/> Edit</a>
