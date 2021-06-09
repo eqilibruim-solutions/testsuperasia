@@ -48,6 +48,7 @@ var nav_links = $(".navbar-links");
 //var nav_items = $(".nav-menus");
 var nav_items = $(".nav-menus");
 $("#toggle_menu").on("click", function(){
+//    $('.mobile_ul').toggle('show');
     for(var i=0; i<nav_links.length; i++)
     nav_links[i].classList.toggle('show');
     for(var i=0; i<nav_items.length; i++)

@@ -1,3 +1,7 @@
+#mobile_div{
+display:none;
+}
+
 a.nav-link span{
 font-family: "Raleway", sans-serif !important;
 }
@@ -53,8 +57,6 @@ list-style:none;
 }
 .navbar-toggle{
     display:block;
-    float: right;
-    margin-top: -7%;
 }
 .nav-menus ,.navbar-links{
 width:100%;
@@ -97,8 +99,6 @@ list-style:none;
 }
 .navbar-toggle{
     display:block;
-    float: right;
-    margin-top: -7%;
 }
 .nav-menus ,.navbar-links{
 width:100%;
@@ -833,8 +833,7 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 
 .sticky-wrapper-left-panel {
 position: relative;
-
-    opacity: 0;
+opacity: 0;
 
 }
 .sticky-wrapper {
@@ -1668,6 +1667,59 @@ font-size: 2rem;
   .confirm_pg,.address_edit_pg{
   height: 100vh;
   }
+
+ .header-scrolled{
+  background:white !important;
+  opacity:1 !important;
+  }
+/*.mobile_ul{
+display:none;
+}*/
+.header-scrolled .mobile_ul ul{
+opacity:1 !important;
+background:white;
+  }
+  /*.sticky-wrapper header nav #head_menu_div {
+    opacity: 1 !important;
+  }*/
+  #header{
+  width:100%;
+  }
+  .navbar.h-100{
+        padding: 0 !important;
+  }
+  /*#head_menu_div{
+    padding: 0;
+    margin: 0;
+    background:rgba(46, 68, 83, 1);
+    height: 100vh !important;
+  }*/
+.navbar-logo{
+    display:none;
+}
+.navbar-toggle{
+    display:block;
+    padding: 25px;
+}
+#mobile_div{
+display:block;
+display: flex;
+justify-content: space-between;
+}
+ul.mt-n1{
+/*width:50%;*/
+height: 100% !important;
+}
+
+.mobile_ul ul{
+opacity:1 !important;
+background:white;
+}
+
+nav.navbar{
+height:0% !important;
+}
+
 }    
 @media only screen and (min-width: 400px){
 

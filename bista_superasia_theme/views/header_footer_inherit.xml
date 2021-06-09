@@ -21,15 +21,23 @@
                     "telephone" : "416-746-5550"
                     }
                 </script>
+
+                <div id="mobile_div">
+                        <i id="toggle_menu" class="fas fa-bars fa-2x navbar-toggle"/>
+                        <a href="/">
+                            <img t-att-src="'/logo.png?company=%s' % res_company.id" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                        </a>
+                </div>
+
                 <nav class="navbar h-100">
-                    <div class="col-md-12 col-sm-12 col-lg-10">
+                    <div class="col-md-12 col-sm-12 col-lg-10 mobile_ul" id="head_menu_div">
                     <ul class="mt-n1">
                         <li class="navbar-logo logo">
                             <a href="/">
                                 <img t-att-src="'/logo.png?company=%s' % res_company.id" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
                             </a>
                         </li>
-                        <li class="navbar-toggle" id="toggle_menu"><i class="fas fa-bars fa-2x"/></li>
+<!--                        <li class="navbar-toggle" id="toggle_menu"><i class="fas fa-bars fa-2x"/></li>-->
                         <t t-foreach="website.menu_id.child_id" t-as="submenu">
                             <t t-call="website.submenu">
 <!--                                <t t-set="item_class" t-value="'nav-item'" class="p-2"/>-->
