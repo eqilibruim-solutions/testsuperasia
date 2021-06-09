@@ -4,7 +4,7 @@
     <record id="view_hide_dates_from_lot_serial" model="ir.ui.view">
         <field name="name">view.hide.dates.from.lot.serial</field>
         <field name="model">stock.production.lot</field>
-        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="inherit_id" ref="product_expiry.view_move_form_expiry"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='use_date']" position="attributes" >
                 <attribute name="invisible">1</attribute>
@@ -17,4 +17,26 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_active_from_lot_serial_tree" model="ir.ui.view">
+        <field name="name">view.active.from.lot.serial.tree</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="active" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <record id="view_active_from_lot_serial" model="ir.ui.view">-->
+<!--        <field name="name">view.active.from.lot.serial</field>-->
+<!--        <field name="model">stock.production.lot</field>-->
+<!--        <field name="inherit_id" ref="stock.view_production_lot_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='product_id']" position="before">-->
+<!--                <field name="active"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
 </odoo>

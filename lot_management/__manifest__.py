@@ -12,10 +12,11 @@
     'website': "http://www.bistasolutions.com",
     'category': 'Product',
     'version': '1.1',
-    'depends': ['base', 'stock', ],
+    'depends': ['base', 'stock', 'product_expiry'],
     # always loaded
     'data': [
         'views/lot_management.xml',
+        'data/data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [],
