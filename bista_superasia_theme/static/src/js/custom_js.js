@@ -42,6 +42,7 @@ $(window).scroll(function() {
 
 $(document).ready(function(){
 
+
 /* Mobile menu toggle click */
 var nav_links = $(".navbar-links");
 //var nav_items = $(".nav-item");
