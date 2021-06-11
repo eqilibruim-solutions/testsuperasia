@@ -241,6 +241,10 @@
                 </p>
             </t>
         </xpath>
+        <xpath expr="//h1[@t-field='product.name']" position="attributes">
+            <attribute name="class">prod-details-header</attribute>
+        </xpath>
+        <xpath expr="//p[@t-field='product.description_sale']" position="replace"></xpath>
         <xpath expr="//div[@id='product_attributes_simple']" position="replace">
             <div id="product_attributes_simple" class="pt-2">
                 <p class="text-muted">

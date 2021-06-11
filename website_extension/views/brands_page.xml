@@ -31,7 +31,7 @@
 			<div id="wrap">
 				<div class="oe_structure">
 					<div class="container">
-						<h1 class="text-center mb-3 font-weight-bold text-uppercase">Brands</h1>
+						<h1 class="text-center my-3 font-weight-bold text-uppercase">Brands</h1>
 
 						<div class="row px-3">
 							<t t-set="brands_ids" t-value="request.env['product.attribute.value'].search([('attribute_id.name', 'ilike', '%brand%')])"/>

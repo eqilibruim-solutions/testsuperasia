@@ -2412,6 +2412,9 @@ margin-top: -7rem!important;
   .about-lists .content-item {
     padding: 40px 0;
   }
+  .prod-details-header {
+    font-size: 24px;
+  }
 }
 
 /*--------------------------------------------------------------
