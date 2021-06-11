@@ -1,3 +1,15 @@
+//odoo.define('bista_superasia_theme.custom_header', function (require) {
+//var publicWidget = require('web.public.widget');
+//var VariantMixin = require('sale.VariantMixin');
+//var WebsiteMenu = require('website.content.menu');
+//var publicWidget = require('web.public.widget');
+//publicWidget.registry.menuDirection = publicWidget.Widget.extend({
+//    selector: 'header .navbar .nav',
+//    events: {
+//        'show.bs.dropdown': '_onDropdownShow',
+//    },
+//    })
+//});
 odoo.define('bista_superasia_theme.recent_product', function (require) {
 "use strict";
 var ajax = require('web.ajax');
