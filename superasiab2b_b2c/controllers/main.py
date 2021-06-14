@@ -22,6 +22,8 @@ import unicodedata
 import odoo
 import re
 from odoo.addons.auth_signup.models.res_partner import SignupError, now
+from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.addons.website_sale_stock.controllers.main import WebsiteSaleStock
 
 
 from odoo import http, models, fields, _
@@ -351,3 +353,57 @@ class superasiab2b_b2c(http.Controller):
 
         return request.render('superasiab2b_b2c.portaluserexist',{
                 })
+
+
+
+class WebsiteSaleStocksuperasia(WebsiteSaleStock):
+    @http.route()
+    def payment_transaction(self, *args, **kwargs):
+        """ Payment transaction override to double check cart quantities before
+        placing the order
+        """
+        order = request.website.sale_get_order()
+        values = []
+        for line in order.order_line:
+            if line.product_id.type == 'product' and line.product_id.inventory_availability in ['always', 'threshold']:
+                cart_qty = sum(order.order_line.filtered(lambda p: p.product_id.id == line.product_id.id).mapped('product_uom_qty'))
+                # avl_qty = line.product_id.with_context(warehouse=order.warehouse_id.id).virtual_available
+
+                avl_qty = line.product.qty_available
+                _logger.info('========avl_qty=========== %s' % avl_qty)
+
+                b2buser = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+                b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+                userobj = self.env['res.users']
+                b2busergroup = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2buser.id)])
+                b2cusers = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2c.id)])
+                
+                public = self.env.user
+                publicuser = False
+                if public.partner_id.name == 'Public user':            
+                    publicuser =public
+                print('===========publicuser================',publicuser)
+
+                product_uom = line.product.uom_id
+                factor_inv = line.product_uom.factor_inv
+
+                if b2cusers:
+                    
+                    product_uom = line.product.b2buom_id
+                    print('===========product_uom================',product_uom)
+                    if factor_inv > 0:
+                        avl_qty = avl_qty*factor_inv
+
+                if publicuser:
+                    
+                    product_uom = line.product.b2buom_id
+                    print('===========product_uom================',product_uom)
+                    if factor_inv > 0:
+                        avl_qty = avl_qty*factor_inv
+
+                if cart_qty > avl_qty:
+                    values.append(_('You ask for %s products but only %s is available') % (cart_qty, avl_qty if avl_qty > 0 else 0))
+
+        if values:
+            raise ValidationError('. '.join(values) + '.')
+        return super(WebsiteSaleStocksuperasia, self).payment_transaction(*args, **kwargs)
