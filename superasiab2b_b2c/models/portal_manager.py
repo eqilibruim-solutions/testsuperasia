@@ -217,7 +217,11 @@ class ProductTemplate(models.Model):
         print('===========publicuser================',publicuser)
 
         product_uom = product.uom_id
-        factor_inv = product_uom.factor_inv
+        factor_inv = 0
+        if product_uom.factor_inv:
+            factor_inv = product_uom.factor_inv
+        _logger.info('===========factor_inv======== %s' % factor_inv)
+
 
         if b2cusers:
             

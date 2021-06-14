@@ -389,21 +389,23 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
 
                 product_uom = line.product_id.uom_id
                 _logger.info('===========product_uom======== %s' % product_uom)
-                factor_inv = line.product_uom.factor_inv
+                factor_inv = 0
+                if product_uom.factor_inv:
+                    factor_inv = product_uom.factor_inv
                 _logger.info('===========factor_inv======== %s' % factor_inv)
 
 
                 if b2cusers:
                     
                     product_uom = line.product_id.b2buom_id
-                    if factor_inv > 0.0:
+                    if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv
                     _logger.info('========avl_qty===b2cusers======== %s' % avl_qty)
 
                 if publicuser:
                     
                     product_uom = line.product_id.b2buom_id
-                    if factor_inv > 0.0:
+                    if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv
                     _logger.info('========avl_qty===publicuser======== %s' % avl_qty)
                 _logger.info('========cart_qty=========== %s' % cart_qty)
