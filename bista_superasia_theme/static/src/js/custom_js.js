@@ -1,15 +1,22 @@
-//odoo.define('bista_superasia_theme.custom_header', function (require) {
-//var publicWidget = require('web.public.widget');
-//var VariantMixin = require('sale.VariantMixin');
-//var WebsiteMenu = require('website.content.menu');
-//var publicWidget = require('web.public.widget');
-//publicWidget.registry.menuDirection = publicWidget.Widget.extend({
-//    selector: 'header .navbar .nav',
-//    events: {
-//        'show.bs.dropdown': '_onDropdownShow',
-//    },
-//    })
-//});
+odoo.define('bista_superasia_theme.custom_header', function (require) {
+var publicWidget = require('web.public.widget');
+var VariantMixin = require('sale.VariantMixin');
+var WebsiteMenu = require('website.content.menu');
+var publicWidget = require('web.public.widget');
+
+publicWidget.registry.MobileHeader = publicWidget.Widget.extend(VariantMixin,{
+    selector: '#header #mob_nav',
+    events: _.extend({}, VariantMixin.events || {}, {
+        'change form.js_attributes input, form.js_attributes select': 'branch_checkbox_checked',
+     }),
+      branch_checkbox_checked: function (ev) {
+        if (!ev.isDefaultPrevented()) {
+            ev.preventDefault();
+            $(ev.currentTarget).closest("form").submit();
+        }
+      },
+    })
+});
 odoo.define('bista_superasia_theme.recent_product', function (require) {
 "use strict";
 var ajax = require('web.ajax');

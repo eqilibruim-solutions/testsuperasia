@@ -806,7 +806,7 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 
 }
 #header.header-scrolled {
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+      background: rgb(255 255 255 / 80%);
 }
 
 #header .logo h1 {
@@ -842,7 +842,8 @@ opacity: 0;
     position: relative;
     z-index: 999;
     width: 100%;
-    opacity: 0.8;
+    /*opacity: 0.8;*/
+    background:rgb(255 255 255 / 80%);;
 }
 /*--------------------------------------------------------------
 # Navigation Menu
@@ -1652,17 +1653,6 @@ font-size: 2rem;
   height: 100vh;
   }
 
- .header-scrolled{
-  background:white !important;
-  opacity:1 !important;
-  }
-/*.mobile_ul{
-display:none;
-}*/
-
-
-
-
 .mobile-nav-toggle{
 display:block;
 }
@@ -1686,6 +1676,9 @@ display:none;
 
 .mobile-nav-toggle i {
   color: #ac1520;
+}
+.active, .accordion:hover{
+    background-color: #BE222B !important;
 }
 
 
@@ -1773,11 +1766,11 @@ display:none;
 .mobile-nav-active .mobile-nav-toggle i {
   color: #fff;
 }
-#category_list_slide a{
+.submenu_list_slide a{
     font-size: large;
 }
-#category_list_slide{
-#position: fixed;
+.submenu_list_slide{
+    #position: fixed;
     position: fixed !important;
     will-change: transform;
     transform: none !important;
@@ -1797,15 +1790,12 @@ display:none !important;
 }
 
 
-.header-scrolled .mobile_ul ul{
-opacity:1 !important;
-background:white;
-  }
   /*.sticky-wrapper header nav #head_menu_div {
     opacity: 1 !important;
   }*/
   #header{
   width:100%;
+
   }
   .navbar.h-100{
         padding: 0 !important;

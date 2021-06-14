@@ -164,7 +164,7 @@ class ProductTemplate(models.Model):
             # in the variant, typically those of type no_variant, but it is
             # possible that a no_variant attribute is still in a variant if
             # the type of the attribute has been changed after creation.
-            print ("::::::::::::::::::::::::::::product.cart_qty::::::::::::::::::",product.cart_qty)
+            # print ("::::::::::::::::::::::::::::product.cart_qty::::::::::::::::::",product.cart_qty)
             no_variant_attributes_price_extra = [
                 ptav.price_extra for ptav in combination.filtered(
                     lambda ptav:
@@ -213,8 +213,8 @@ class ProductTemplate(models.Model):
         public = self.env.user
         publicuser = False
         if public.partner_id.name == 'Public user':            
-            publicuser =public
-        print('===========publicuser================',publicuser)
+            publicuser = public
+        # print('===========publicuser================',publicuser)
 
         product_uom = product.uom_id
         factor_inv = 0
@@ -226,28 +226,35 @@ class ProductTemplate(models.Model):
         if b2cusers:
             
             product_uom = product.b2buom_id
-            print('===========product_uom================',product_uom)
+
             if factor_inv > 0:
+                print('========================b2cusers==============================BEFORE onhandqty================',onhandqty)
+
                 onhandqty = onhandqty*factor_inv
+            print('========================b2cusers================product_uom================', product_uom)
+            print('========================b2cusers==============================onhandqty================', onhandqty)
+            print('========================b2cusers==============================factor_inv================', factor_inv)
 
             pricelist_id = b2cusers.partner_id.property_product_pricelist
-            _logger.info('========pricelist_id========= %s' % pricelist_id)
-            _logger.info('========product========= %s' % product)
+            # _logger.info('========pricelist_id========= %s' % pricelist_id)
+            # _logger.info('========product========= %s' % product)
             pricelist_id = pricelist_id.id
             priceitemid = self.env['product.pricelist.item'].search([('pricelist_id','=',pricelist_id),('product_tmpl_id','=',product.product_tmpl_id.id)])
-            _logger.info('========priceitemid========= %s' % priceitemid)
+            # _logger.info('========priceitemid========= %s' % priceitemid)
             if priceitemid:
                 price = priceitemid[0].fixed_price
 
         if publicuser:
             
             product_uom = product.b2buom_id
-            print('===========product_uom================',product_uom)
             if factor_inv > 0:
                 onhandqty = onhandqty*factor_inv
+            print('========publicuser=====================================product_uom================', product_uom)
+            print('========publicuser=====================================onhandqty================', onhandqty)
+            print('========publicuser=====================================factor_inv================', factor_inv)
 
             pricelist_id = publicuser.partner_id.property_product_pricelist
-            _logger.info('========pricelist_id========= %s' % pricelist_id)
+            # _logger.info('========pricelist_id========= %s' % pricelist_id)
             _logger.info('========product========= %s' % product)
             pricelist_id = pricelist_id.id
             priceitemid = self.env['product.pricelist.item'].search([('pricelist_id','=',pricelist_id),('product_tmpl_id','=',product.product_tmpl_id.id)])
@@ -258,8 +265,8 @@ class ProductTemplate(models.Model):
         if b2busergroup:
                 price = product.list_price
 
-        _logger.info('========onhandqty===calc======== %s' % onhandqty)   
-        print('===========price================',price)
+        _logger.info('================================onhandqty===calcccccccccccccccccccccc======== %s' % onhandqty)
+        print('=======================================================price================',price)
 
         return {
             'product_id': product.id,

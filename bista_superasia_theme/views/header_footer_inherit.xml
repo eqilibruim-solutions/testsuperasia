@@ -129,25 +129,111 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="border-right-0 responsive_dynamic_menu">
-                            <div class="col-12 adjust-icon">
-                                <a t-attf-href="/web/login" class="link-light pt-0 text-sm-left custom_nav_a sign_in_link" groups="base.group_public">
-                                    Sign in
-                                </a>
 
-                                <a class="p-0 text-left custom_nav_a" type="button" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false" t-ignore="true"
-                                   t-if="not user_id._is_public()" style="white-space: normal; color:#e3f0fc;">
-                                    <t t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
-
-                                </a>
-                                <div class="dropdown-menu js_usermenu logout_btn_txt btn--red" role="menu" style="height: 85px;">
-                                    <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>
-                                    <a id="o_logout" class="dropdown-item-text dropdown-item"  style="padding: 5px;"
-                                       t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
+                        <!--Categories List slide -->
+                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
+                            <div class="adjust-icon col-12 dropright pl-3">
+                                <button type="button" style="color:#e3f0fc;font-weight:500;padding:10px 5px !important "
+                                        class="custom_nav_a dropdown-toggle link-dark category_list_slide_link"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Categories
+                                </button>
+                                <div class="dropdown-menu submenu_list_slide">
+                                    <t t-if="categories">
+                                        <a class="dropdown-item" href="#" style="background: white;color: black;font-weight: bold;"><i class="far fa-arrow-alt-circle-left"/>
+                                            Back</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a t-att-href="keep('/shop', category=0)"
+                                           t-attf-class="dropdown-item #{'' if category else 'active'} o_not_editable">All Products</a>
+                                        <t t-foreach="categories" t-as="c">
+                                            <a class="dropdown-item" t-att-href="keep('/shop/category/' + slug(c), category=0)"><span t-field="c.name"/> </a>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="categories"
+                                           t-value="request.env['product.public.category'].sudo().search([])"/>
+                                        <a class="dropdown-item" href="#" style="background: white;color: black;font-weight: bold;"><i class="far fa-arrow-alt-circle-left"/>
+                                            Back</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" t-att-href="'/shop/'">All Products</a>
+                                        <t t-foreach="categories" t-as="c">
+<!--                                            <a class="dropdown-item" t-att-href="keep('/shop/category/' + slug(c), category=0)"><span t-field="c.name"/> </a>-->
+                                            <a class="dropdown-item" t-att-href="'/shop/category/%s' % c.id"><span
+                                                    t-field="c.name"/> </a>
+                                        </t>
+                                    </t>
                                 </div>
                             </div>
                         </li>
+
+                        <!--Brands List slide-->
+                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
+                            <div class="adjust-icon col-12 dropright pl-3">
+                                <button type="button" style="color:#e3f0fc;font-weight:500;padding:10px 5px !important"
+                                        class="custom_nav_a dropdown-toggle link-dark category_list_slide_link"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Brands
+                                </button>
+                                <div class="dropdown-menu submenu_list_slide">
+                                    <t t-if="attributes">
+                                        <form class="js_attributes mb-2" method="get">
+                                            <input t-if="category" type="hidden" name="category" t-att-value="category.id" />
+                                            <input type="hidden" name="search" t-att-value="search" />
+                                            <a class="dropdown-item" href="#" style="background: white;color: black;font-weight: bold;"><i
+                                                    class="far fa-arrow-alt-circle-left"/>
+                                                Back</a>
+                                            <div class="dropdown-divider"></div>
+                                            <t t-foreach="attributes" t-as="a">
+                                                <t t-if="a.display_type == 'radio'">
+                                                    <t t-foreach="a.value_ids" t-as="v">
+                                                        <div class="form-check"
+                                                             t-attf-class="form-check#{' active' if v.id in attrib_set else ''}" style="padding-left: 3rem !important;color: #e3f0fc !important;font-weight: 500;padding: 12px 48px !important;">
+                                                            <input type="checkbox" class="form-check-input" name="attrib"
+                                                                   id="exampleCheck1" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None"/>
+                                                            <label class="form-check-label" style="font-weight: normal"
+                                                                   for="exampleCheck1" t-field="v.name"/>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                            </t>
+
+                                        </form>
+                                    </t>
+                                        <t t-else="">
+                                            <t t-set="attrib_set"
+                                               t-value="request.httprequest.args.getlist('attrib')"/>
+                                               <t t-set="attributes" t-value="request.env['product.attribute']
+.sudo().search([])"/>
+                                            <form action="/shop" class="js_attributes mb-2" method="get">
+                                            <input t-if="category" type="hidden" name="category" t-att-value="category.id" />
+                                            <input type="hidden" name="search" t-att-value="search" />
+                                            <a class="dropdown-item" href="#" style="background: white;color: black;font-weight: bold;"><i
+                                                    class="far fa-arrow-alt-circle-left"/>
+                                                Back</a>
+                                            <div class="dropdown-divider"></div>
+                                            <t t-if="attributes">
+                                                <t t-foreach="attributes" t-as="a">
+                                                    <t t-if="a.display_type == 'radio'">
+                                                        <t t-foreach="a.value_ids" t-as="v">
+                                                            <div class="form-check"
+                                                                 t-attf-class="form-check#{' active' if v.id in attrib_set else ''}" style="padding-left: 3rem !important;color: #e3f0fc !important;font-weight: 500;padding: 12px 48px !important;">
+                                                                <input type="checkbox" class="form-check-input" name="attrib"
+                                                                       id="exampleCheck1" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None"/>
+                                                                <label class="form-check-label" style="font-weight: normal"
+                                                                       for="exampleCheck1" t-field="v.name"/>
+                                                            </div>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            </form>
+                                        </t>
+
+                                </div>
+                            </div>
+
+                        </li>
+
                         <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
                             <div class="adjust-icon col-12 text-center">
                                 <a class="p-0 text-left custom_nav_a" href="#">Wishlist</a>
@@ -167,111 +253,25 @@
                                 </t>
                             </div>
                         </li>
+                        <li class="border-right-0 responsive_dynamic_menu">
+                            <div class="col-12 adjust-icon">
+                                <a t-attf-href="/web/login" class="link-light pt-0 text-sm-left custom_nav_a sign_in_link" groups="base.group_public">
+                                    Sign in
+                                </a>
 
-                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
-                            <div class="adjust-icon col-12 dropright pl-3">
-                                <button type="button" style="color:#e3f0fc;font-weight:500;padding-left: 5px;"
-                                        class="custom_nav_a dropdown-toggle link-dark category_list_slide_link"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Categories
-                                </button>
-                                <div class="dropdown-menu" id="category_list_slide">
-                                    <t t-if="categories">
-                                        <a class="dropdown-item" href="#"><i class="far fa-arrow-alt-circle-left"/>
-                                            Back</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a t-att-href="keep('/shop', category=0)"
-                                           t-attf-class="dropdown-item #{'' if category else 'active'} o_not_editable">All Products</a>
-                                        <t t-foreach="categories" t-as="c">
-                                            <a class="dropdown-item" t-att-href="keep('/shop/category/' + slug(c), category=0)"><span t-field="c.name"/> </a>
-                                        </t>
-                                    </t>
-                                    <t t-else="">
-                                        <t t-set="categories"
-                                           t-value="request.env['product.public.category'].sudo().search([])"/>
-                                        <a class="dropdown-item" href="#"><i class="far fa-arrow-alt-circle-left"/>
-                                            Back</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" t-att-href="'/shop/'">All Products</a>
-                                        <t t-foreach="categories" t-as="c">
-<!--                                            <a class="dropdown-item" t-att-href="keep('/shop/category/' + slug(c), category=0)"><span t-field="c.name"/> </a>-->
-                                            <a class="dropdown-item" t-att-href="'/shop/category/%s' % c.id"><span
-                                                    t-field="c.name"/> </a>
-                                        </t>
-                                    </t>
+                                <a class="p-0 text-left custom_nav_a" type="button" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false" t-ignore="true"
+                                   t-if="not user_id._is_public()" style="white-space: normal; color:#e3f0fc;">
+                                    <t t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
+
+                                </a>
+                                <div class="dropdown-menu js_usermenu logout_btn_txt btn--red" role="menu" style="height: 85px;">
+                                    <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>
+                                    <a id="o_logout" class="dropdown-item-text dropdown-item"  style="padding: 5px;"
+                                       t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
                                 </div>
                             </div>
-
                         </li>
-
-                        <!--Brands List slide-->
-<!--                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">-->
-<!--                            <div class="adjust-icon col-12 dropright pl-3">-->
-<!--                                <button type="button" style="color:#e3f0fc;font-weight:500;padding-left: 5px;"-->
-<!--                                        class="custom_nav_a dropdown-toggle link-dark category_list_slide_link"-->
-<!--                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                                    Brands-->
-<!--                                </button>-->
-<!--                                <div class="dropdown-menu" id="category_list_slide">-->
-
-<!--                                    <form class="js_attributes mb-2" method="get">-->
-<!--                                        <input t-if="category" type="hidden" name="category" t-att-value="category.id" />-->
-<!--                                        <input type="hidden" name="search" t-att-value="search" />-->
-<!--                                        <t t-foreach="attributes" t-as="a">-->
-<!--                                            <t t-if="a.display_type == 'radio'">-->
-<!--                                                <t t-foreach="a.value_ids" t-as="v">-->
-<!--                                                    <label style="margin: 0 20px;" t-attf-class="nav-link#{' active' if v.id in attrib_set else ''}">-->
-<!--                                                        <input type="checkbox" class="dk" name="attrib"-->
-<!--                                                               t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None" />-->
-<!--                                                        <span style="font-weight: normal" t-field="v.name" />-->
-<!--                                                    </label>-->
-<!--                                                </t>-->
-<!--                                            </t>-->
-<!--                                        </t>-->
-<!--                                    </form>-->
-
-
-
-
-
-
-
-
-
-<!--&lt;!&ndash;                                    <t t-if="attributes">&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <a class="dropdown-item" href="#"><i class="far fa-arrow-alt-circle-left"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            Back</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <div class="dropdown-divider"></div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <t t-foreach="attributes" t-as="atr">&ndash;&gt;-->
-<!--&lt;!&ndash;                                            <t t-if="atr.display_type == 'radio'">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                <t t-foreach="atr.value_ids" t-as="atr_val">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <label style="margin: 0 20px;" t-attf-class="nav-link#{' active' if atr_val.id in attrib_set else ''}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                            <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (atr.id,atr_val.id)" t-att-checked="'checked' if atr_val.id in attrib_set else None" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                                            <span style="font-weight: normal" t-field="atr_val.name" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        </label>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                </t>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            </t>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        </t>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;                                    </t>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <t t-else="">&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <t t-set="categories"&ndash;&gt;-->
-<!--&lt;!&ndash;                                           t-value="request.env['product.public.category'].sudo().search([])"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <a class="dropdown-item" href="#"><i class="far fa-arrow-alt-circle-left"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            Back</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <div class="dropdown-divider"></div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <a class="dropdown-item" t-att-href="'/shop/'">All Products</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <t t-foreach="categories" t-as="c">&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                                            <a class="dropdown-item" t-att-href="keep('/shop/category/' + slug(c), category=0)"><span t-field="c.name"/> </a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                                            <a class="dropdown-item" t-att-href="'/shop/category/%s' % c.id"><span&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    t-field="c.name"/> </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        </t>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    </t>&ndash;&gt;-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                        </li>-->
 
 
 

@@ -53,7 +53,9 @@
 
         //update height in case of dynamic content
         s.stickyWrapper.css('height', s.stickyElement.outerHeight());
-
+        this.odoo.session_info.share ? false : $('.mobile-nav').css({'top': '47px'});
+        this.odoo.session_info.share ? false : $('.mobile-nav-toggle').css({'top': '80px'});
+        this.odoo.session_info.share ? false : $('.submenu_list_slide').css({'margin-top': '46px'});
         if (scrollTop <= etse) {
           if (s.currentTop !== null) {
             s.stickyElement
@@ -76,6 +78,7 @@
           } else {
             /*newTop = s.topSpacing;*/
             newTop = this.odoo.session_info.share  ? s.topSpacing : '47px';
+
           }
           if (s.currentTop !== newTop) {
             var newWidth;
