@@ -11,13 +11,13 @@ class ProductTemplate(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    brand = fields.Char(string='Brand', related='product_id.x_studio_brand')
+    brand = fields.Char(string='Brand', related='product_id.x_studio_brand',store=True)
 
 
 class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
-    brand = fields.Char(string='Brand')
+    brand = fields.Char(string='Brand',store=True)
 
     def _select(self):
         return super(AccountInvoiceReport,

@@ -7,13 +7,13 @@ from odoo import fields, models
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    brand = fields.Char(string='Brand', related='product_id.x_studio_brand')
+    brand = fields.Char(string='Brand', related='product_id.x_studio_brand',store=True)
 
 
 class SaleReport(models.Model):
     _inherit = 'sale.report'
 
-    brand = fields.Char(string='Brand')
+    brand = fields.Char(string='Brand',store=True)
 
     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
 

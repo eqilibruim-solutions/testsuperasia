@@ -4,15 +4,15 @@
 from odoo import fields, models
 
 
-class AccountMoveLine(models.Model):
+class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    brand = fields.Char(string='Brand', related='product_id.x_studio_brand')
+    brand = fields.Char(string='Brand', related='product_id.x_studio_brand',store=True)
 
 class PurchaseReport(models.Model):
     _inherit = 'purchase.report'
 
-    brand = fields.Char(string='Brand')
+    brand = fields.Char(string='Brand',store=True)
 
     def _select(self):
         return super(PurchaseReport,
