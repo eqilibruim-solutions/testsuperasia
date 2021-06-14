@@ -380,7 +380,7 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                 b2busergroup = userobj.search([('id','=',request.uid),('groups_id','in',b2buser.id)])
                 b2cusers = userobj.search([('id','=',request.uid),('groups_id','in',b2c.id)])
                 
-                public=user_obj.search([('id','=',request.uid)])
+                public=userobj.search([('id','=',request.uid)])
 
                 publicuser = False
                 if public.partner_id.name == 'Public user':            
@@ -405,6 +405,7 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                     if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv
                     _logger.info('========avl_qty===publicuser======== %s' % avl_qty)
+                _logger.info('========cart_qty=========== %s' % cart_qty)
 
                 if cart_qty > avl_qty:
                     values.append(_('You ask for %s products but only %s is available') % (cart_qty, avl_qty if avl_qty > 0 else 0))
