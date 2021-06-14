@@ -369,7 +369,7 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                 cart_qty = sum(order.order_line.filtered(lambda p: p.product_id.id == line.product_id.id).mapped('product_uom_qty'))
                 # avl_qty = line.product_id.with_context(warehouse=order.warehouse_id.id).virtual_available
 
-                avl_qty = line.product.qty_available
+                avl_qty = line.product_id.qty_available
                 _logger.info('========avl_qty=========== %s' % avl_qty)
 
                 b2buser = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
@@ -384,19 +384,19 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                     publicuser =public
                 print('===========publicuser================',publicuser)
 
-                product_uom = line.product.uom_id
+                product_uom = line.product_id.uom_id
                 factor_inv = line.product_uom.factor_inv
 
                 if b2cusers:
                     
-                    product_uom = line.product.b2buom_id
+                    product_uom = line.product_id.b2buom_id
                     print('===========product_uom================',product_uom)
                     if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv
 
                 if publicuser:
                     
-                    product_uom = line.product.b2buom_id
+                    product_uom = line.product_id.b2buom_id
                     print('===========product_uom================',product_uom)
                     if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv
