@@ -33,6 +33,8 @@ from odoo.tools import pycompat, OrderedSet
 from odoo.addons.http_routing.models.ir_http import slug, _guess_mimetype
 from odoo.addons.web.controllers.main import Binary
 from odoo.addons.web.controllers.main import Home
+from odoo.exceptions import ValidationError
+
 
 import urllib.request
 _logger = logging.getLogger(__name__)
