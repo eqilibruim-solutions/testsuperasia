@@ -377,14 +377,15 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                 b2buser = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
                 b2c = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
                 userobj = request.env['res.users']
-                b2busergroup = userobj.search([('id','=',request.env.user.id),('groups_id','in',b2buser.id)])
-                b2cusers = userobj.search([('id','=',request.env.user.id),('groups_id','in',b2c.id)])
+                b2busergroup = userobj.search([('id','=',request.uid),('groups_id','in',b2buser.id)])
+                b2cusers = userobj.search([('id','=',request.uid),('groups_id','in',b2c.id)])
                 
-                public = request.env.user
+                public=user_obj.search([('id','=',request.uid)])
+
                 publicuser = False
                 if public.partner_id.name == 'Public user':            
                     publicuser =public
-                print('===========publicuser================',publicuser)
+                    print('===========publicuser================',publicuser)
 
                 product_uom = line.product_id.uom_id
                 factor_inv = line.product_uom.factor_inv
@@ -395,6 +396,7 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                     print('===========product_uom================',product_uom)
                     if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv
+                    _logger.info('========avl_qty===b2cusers======== %s' % avl_qty)
 
                 if publicuser:
                     
@@ -402,6 +404,7 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                     print('===========product_uom================',product_uom)
                     if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv
+                    _logger.info('========avl_qty===publicuser======== %s' % avl_qty)
 
                 if cart_qty > avl_qty:
                     values.append(_('You ask for %s products but only %s is available') % (cart_qty, avl_qty if avl_qty > 0 else 0))
