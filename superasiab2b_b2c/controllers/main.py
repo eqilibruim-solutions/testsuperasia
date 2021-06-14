@@ -372,13 +372,13 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                 avl_qty = line.product_id.qty_available
                 _logger.info('========avl_qty=========== %s' % avl_qty)
 
-                b2buser = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
-                b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
-                userobj = self.env['res.users']
-                b2busergroup = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2buser.id)])
-                b2cusers = userobj.search([('id','=',self.env.user.id),('groups_id','in',b2c.id)])
+                b2buser = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+                b2c = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+                userobj = request.env['res.users']
+                b2busergroup = userobj.search([('id','=',request.env.user.id),('groups_id','in',b2buser.id)])
+                b2cusers = userobj.search([('id','=',request.env.user.id),('groups_id','in',b2c.id)])
                 
-                public = self.env.user
+                public = request.env.user
                 publicuser = False
                 if public.partner_id.name == 'Public user':            
                     publicuser =public
