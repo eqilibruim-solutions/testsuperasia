@@ -7,9 +7,7 @@ from odoo import fields, models
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    # brand = fields.Char(string='Brand', related='product_id.x_studio_brand',
-    #                     store=True)
-    brand = fields.Char(string='Brand',
+    brand = fields.Char(string='Brand', related='product_id.x_studio_brand',
                         store=True)
 
 

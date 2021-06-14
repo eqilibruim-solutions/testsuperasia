@@ -3,13 +3,16 @@
 
 from odoo import fields, models
 
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    x_studio_brand = fields.Char('Brand')
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    # brand = fields.Char(string='Brand', related='product_id.x_studio_brand',
-    #                     store=True)
-    brand = fields.Char(string='Brand',store=True)
+    brand = fields.Char(string='Brand', related='product_id.x_studio_brand',
+                        store=True)
 
 
 class AccountInvoiceReport(models.Model):
