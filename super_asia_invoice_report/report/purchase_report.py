@@ -7,13 +7,12 @@ from odoo import fields, models
 class AccountMoveLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    brand = fields.Char(string='Brand', related='product_id.x_studio_brand',
-                        store=True)
+    brand = fields.Char(string='Brand', related='product_id.x_studio_brand')
 
 class PurchaseReport(models.Model):
     _inherit = 'purchase.report'
 
-    brand = fields.Char(string='Brand', store=True)
+    brand = fields.Char(string='Brand')
 
     def _select(self):
         return super(PurchaseReport,
