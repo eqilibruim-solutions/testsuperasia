@@ -48,8 +48,7 @@
             </xpath>
 
       <xpath expr="//tree" position="attributes">
-    <attribute name="decoration-danger">account_type=='Public'</attribute>
-    <attribute name="decoration-danger">account_type=='B2C'</attribute>
+    <attribute name="decoration-danger">account_type=='Public' or account_type=='B2C'</attribute>
 </xpath>
 
             </field>
@@ -67,8 +66,7 @@
             </xpath>
 
       <xpath expr="//tree" position="attributes">
-  <attribute name="decoration-danger">account_type=='Public'</attribute>
-    <attribute name="decoration-danger">account_type=='B2C'</attribute>
+  <attribute name="decoration-danger">account_type=='Public' or account_type=='B2C'</attribute>
 
 </xpath>
 
