@@ -415,4 +415,4 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
 
         if values:
             raise ValidationError('. '.join(values) + '.')
-        return super(WebsiteSaleStocksuperasia, self).payment_transaction(*args, **kwargs)
+        return super(WebsiteSaleStock, self).payment_transaction(*args, **kwargs)
