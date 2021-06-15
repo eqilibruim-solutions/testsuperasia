@@ -343,6 +343,44 @@ class SaleOrdersuperaisa(models.Model):
         self.update(values)
 
 
+    def cron_updatecolorcode(self):
+        orderline = self.env['sale.order'].search([('account_type','=',False)])
+        for order in orderline:
+            partner_id = order.partner_id
+            b2buser = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+            b2c = self.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+            userobj = self.env['res.users']
+            b2busergroup = userobj.search([('partner_id','=',partner_id.id),('groups_id','in',b2buser.id)])
+            b2cusers = userobj.search([('partner_id','=',partner_id.id),('groups_id','in',b2c.id)])
+            account_type = ''
+            if b2busergroup:
+                order.account_type = 'B2B'
+            if b2cusers:
+                order.account_type = 'B2C'
+
+            parttype = partner_id.type
+            if parttype == 'contact':
+                order.account_type = 'Public'
+            self._cr.commit()
+
+
+    def cron_updatebrand(self):
+        moveline = self.env['account.move.line'].search([('brand','=',False)])
+        for move in moveline:
+            move.brand = move.product_id.x_studio_brand
+            self._cr.commit()
+        purchaseline = self.env['purchase.move.line'].search([('brand','=',False)])
+        for move in purchaseline:
+            move.brand = move.product_id.x_studio_brand
+            self._cr.commit()
+        saleline = self.env['sale.move.line'].search([('brand','=',False)])
+        for move in saleline:
+            move.brand = move.product_id.x_studio_brand
+            self._cr.commit()
+
+    
+
+
 
 
     def _website_product_id_change(self, order_id, product_id, qty=0):
