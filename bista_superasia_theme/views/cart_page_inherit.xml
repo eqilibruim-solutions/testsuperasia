@@ -28,7 +28,14 @@
                position="attributes">
             <attribute name="class">btn btn-link float_left js_add_cart_json d-md-inline-block</attribute>
         </xpath>
+        <xpath expr="//div[@t-field='product.description_sale']" position="replace"></xpath>
 
+    </template>
+
+    <template id="inherit_cart_line_description_following_lines"
+              name="Inherited Shopping Cart Line Description Following Lines"
+              inherit_id="website_sale.cart_line_description_following_lines">
+        <xpath expr="//div" position="replace"></xpath>
     </template>
 
     <template id="cart_line_product_link_inherite" inherit_id="website_sale.cart_line_product_link" name="Cart Line Inherit">

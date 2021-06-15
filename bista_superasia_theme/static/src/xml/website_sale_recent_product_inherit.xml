@@ -55,10 +55,13 @@
 </t>
     <!-- Product Recent View in Website Form -->
 
-    <!-- Product hide price in shop page searchbox -->
+    <!-- Product hide price & description_sale in shop page searchbox -->
 <t t-extend="website_sale.productsSearchBar.autocomplete">
     <t t-jquery="div.flex-shrink-0" t-operation="attributes">
         <attribute name="class" value="flex-shrink-0 d-none"/>
+    </t>
+    <t t-jquery="p.mb-0" t-operation="attributes">
+        <attribute name="class" value="mb-0 d-none"/>
     </t>
 </t>
     <!-- Product hide price in shop page searchbox -->
