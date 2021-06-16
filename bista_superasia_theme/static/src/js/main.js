@@ -83,6 +83,11 @@
 //    $('body').append('<div class="mobile-nav-overly"></div>');
     $('header').append('<div class="mobile-nav-overly"></div>');
 
+    $(document).on('click', '.cate', function(e) {
+        $('body').removeClass('mobile-nav-active');
+        $('.mobile-nav-overly').toggle();
+    })
+
     $(document).on('click', '.mobile-nav-toggle', function(e) {
       $('body').toggleClass('mobile-nav-active');
       $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');

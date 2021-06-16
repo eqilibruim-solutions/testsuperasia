@@ -14,12 +14,6 @@ video {
   top: 0;
   left: 0;
 }
-
-
-
-
-
-
 .navbar-text{
 font-size: .9rem;
 }
@@ -1140,7 +1134,8 @@ margin-right:0 !important;
 }
 
 .select2-container .select2-choice {
-width: 85% !important;
+width: 100% !important;
+background: red !important;
 }
 .select2-container {
 padding-left: 10% !important;
@@ -1684,6 +1679,7 @@ display:none;
 
 
 
+
 /* Mobile Navigation */
 .mobile-nav {
   position: fixed;
@@ -1774,11 +1770,18 @@ display:none;
     position: fixed !important;
     will-change: transform;
     transform: none !important;
-    width: 260px !important;
+    width: 261px !important;
     height: 100% !important;
     background: #1f3548;
     overflow:auto;
+    margin-left: -1px !important;
 }
+.submenu_list_slide .sticky_div{
+color:white;
+position:scrolled;
+}
+
+
 .logo img {
   padding: 0;
   margin: 0;
@@ -1819,9 +1822,18 @@ display: flex;
 justify-content: space-between;
 }
 ul.mt-n1{
-/*width:50%;*/
 height: 100% !important;
 }
+
+.select2-container{
+width:230px !important;
+}
+#select2-drop{
+    /*width: 260px !important;*/
+    width: 230px !important;
+}
+
+
 
 .mobile_ul ul{
 opacity:1 !important;
