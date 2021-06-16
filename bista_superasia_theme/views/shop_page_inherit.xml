@@ -89,6 +89,16 @@
                         <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
                         <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
                         <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+                        <t t-set="old_price" t-value="0"/>
+                        <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
+                            <t t-set="old_price" t-value="product.b2c_old_price"/>
+                        </t>
+                        <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount')">
+                            <t t-set="old_price" t-value="product.b2b_old_price"/>
+                        </t>
+                        <span t-if="old_price > 0" t-esc="old_price"
+                              t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                              style="text-decoration: line-through; white-space: nowrap; font-weight: bold; color: black; padding-left: 0.2rem;"/>
                     </h6>
 
                     <t t-set="combination" t-value="product._get_first_possible_combination()"/>
@@ -265,6 +275,21 @@
         </xpath>
     </template>
 
+    <template id="inherit_website_sale_product_price" inherit_id="website_sale.product_price" name="Inherit Product Price">
+        <xpath expr="//b[hasclass('oe_price')]" position="after">
+            <t t-set="old_price" t-value="0"/>
+            <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
+                <t t-set="old_price" t-value="product.b2c_old_price"/>
+            </t>
+            <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount')">
+                <t t-set="old_price" t-value="product.b2b_old_price"/>
+            </t>
+            <span t-attf-class="oe_default_price {{'' if old_price > 0 else 'd-none'}}"
+                  style="text-decoration: line-through; white-space: nowrap; font-weight: bold; color: black; padding-left: 0.5rem;"
+                  t-esc="old_price" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+              />
+        </xpath>
+    </template>
     <template id="add_to_cart_product_image_inherite" inherit_id="website_sale.shop_product_carousel"  name="Add to Cart Product Image Inherit">
         <xpath expr="//t[@t-foreach='product_images']" position="replace">
             <t t-foreach="product_images" t-as="product_image">

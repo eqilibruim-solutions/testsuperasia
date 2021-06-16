@@ -36,6 +36,9 @@ class ProductTemplate(models.Model):
     is_hide_b2c = fields.Boolean(string="Hide from B2C Users?",
                                  help="Check true if you want this product to be hidden from B2C users in E-commerce.")
 
+    b2b_old_price = fields.Float(string="Old Price for B2B")
+    b2c_old_price = fields.Float(string="Old Price for B2C")
+
 
     def featured_products(self):
         main_list = []
