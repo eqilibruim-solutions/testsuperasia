@@ -1135,7 +1135,6 @@ margin-right:0 !important;
 
 .select2-container .select2-choice {
 width: 100% !important;
-background: red !important;
 }
 .select2-container {
 padding-left: 10% !important;
@@ -1672,7 +1671,7 @@ display:none;
 .mobile-nav-toggle i {
   color: #ac1520;
 }
-.active, .accordion:hover{
+.dropdown-item.cate.active{
     background-color: #BE222B !important;
 }
 

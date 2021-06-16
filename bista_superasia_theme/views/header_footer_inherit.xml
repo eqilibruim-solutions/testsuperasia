@@ -155,8 +155,7 @@
                                         <a t-att-href="keep('/shop', category=0)"
                                            t-attf-class="dropdown-item cate #{'' if category else 'active'} o_not_editable">All Products</a>
                                         <t t-foreach="categories" t-as="c">
-                                            <a t-attf-class="dropdown-item cate #{'active' if c.id == category.id else ''}"
-                                               t-att-href="keep('/shop/category/' + slug(c), category=0)"><span
+                                            <a t-attf-class="dropdown-item cate #{'active' if c == category else ''}" t-att-href="keep('/shop/category/' + slug(c), category=0)"><span
                                                     t-field="c.name"/> </a>
                                         </t>
                                     </t>
