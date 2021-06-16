@@ -93,7 +93,7 @@
                         <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
                             <t t-set="old_price" t-value="product.b2c_old_price"/>
                         </t>
-                        <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount')">
+                        <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system')">
                             <t t-set="old_price" t-value="product.b2b_old_price"/>
                         </t>
                         <span t-if="old_price > 0" t-esc="old_price"
@@ -281,7 +281,7 @@
             <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
                 <t t-set="old_price" t-value="product.b2c_old_price"/>
             </t>
-            <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount')">
+            <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system')">
                 <t t-set="old_price" t-value="product.b2b_old_price"/>
             </t>
             <span t-attf-class="oe_default_price {{'' if old_price > 0 else 'd-none'}}"
