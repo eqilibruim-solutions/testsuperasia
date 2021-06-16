@@ -232,7 +232,11 @@
 <!--                                    <span>$</span><span t-esc="total_sans_discount"/>-->
 
                                     <!--Per unit price:-->
-                                    <span t-set="per_unit_price" t-value="net_prices / (line.product_uom_id.factor_inv)" />
+                                    <span t-if="line.product_uom_id.factor_inv != 0"
+                                          t-set="per_unit_price" t-value="net_prices / (line.product_uom_id.factor_inv)" />
+                                    <span t-if="line.product_uom_id.factor_inv == 0"
+                                          t-set="per_unit_price" t-value="net_prices" />
+
                                     <span>$</span><span t-esc="'%.2f'% per_unit_price" />
 
                                 </td>
@@ -240,7 +244,12 @@
                                 <td class="text-right" t-if="not display_discount">
                                     <!--Per unit price:-->
                                     <span t-set="net_prices_no_disc" t-value="line.price_unit - (line.price_unit * line.discount/100)" />
-                                    <span t-set="per_unit_price_no_disc" t-value="net_prices_no_disc / (line.product_uom_id.factor_inv)" />
+
+                                    <span t-if="line.product_uom_id.factor_inv != 0"
+                                          t-set="per_unit_price_no_disc" t-value="net_prices_no_disc / (line.product_uom_id.factor_inv)" />
+                                    <span t-if="line.product_uom_id.factor_inv == 0"
+                                          t-set="per_unit_price_no_disc" t-value="net_prices_no_disc" />
+
                                     <span>$</span><span t-esc="'%.2f'% per_unit_price_no_disc" />
 
                                 </td>
