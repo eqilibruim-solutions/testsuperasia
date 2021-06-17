@@ -280,6 +280,7 @@ class ProductTemplate(models.Model):
             'list_price': list_price,
             'has_discounted_price': has_discounted_price,
             'onhand_qty': int(onhandqty),
+            'product_uom':product_uom.name,
             'avail_qty':int(avail_qty),
             'updated_cart_qty':int(product.cart_qty),
         }

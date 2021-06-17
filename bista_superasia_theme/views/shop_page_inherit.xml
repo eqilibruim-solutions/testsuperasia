@@ -219,7 +219,13 @@
 
     </template>
     <template id="add_to_cart_inherite" inherit_id="website_sale.product"  name="Add to Cart Product Inherit">
-        <xpath expr="//a[@id='add_to_cart']" position="replace">
+    <xpath expr="//a[@id='add_to_cart']" position="replace">
+    <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system')">
+
+            <t t-if="combination_info['product_uom']">
+                 <div class="mt16"><h3 class="text-dark"><t t-esc="combination_info['product_uom']"/></h3></div>
+            </t>
+        </t>
             <t t-if="combination_info['onhand_qty'] >= 1">
                 <t t-set="max_qt" t-value="(round(combination_info['onhand_qty']) - combination_info['updated_cart_qty'])"/>
                 <t t-if="max_qt">
@@ -254,8 +260,9 @@
         <xpath expr="//h1[@t-field='product.name']" position="attributes">
             <attribute name="class">prod-details-header</attribute>
         </xpath>
-        <xpath expr="//p[@t-field='product.description_sale']" position="replace"></xpath>
-        <xpath expr="//div[@id='product_attributes_simple']" position="replace">
+<!--         <xpath expr="//p[@t-field='product.description_sale']" position="replace"></xpath>
+ -->        
+ <xpath expr="//div[@id='product_attributes_simple']" position="replace">
             <div id="product_attributes_simple" class="pt-2">
                 <p class="text-muted">
                     <t t-set="single_value_attributes" t-value="product.valid_product_template_attribute_line_ids._prepare_single_value_for_display()"/>
