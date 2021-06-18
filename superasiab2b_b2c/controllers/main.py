@@ -408,11 +408,11 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
                 userobj = request.env['res.users']
                 b2busergroup = userobj.search([('id','=',request.uid),('groups_id','in',b2buser.id)])
                 b2cusers = userobj.search([('id','=',request.uid),('groups_id','in',b2c.id)])
-                
+
                 public=userobj.search([('id','=',request.uid)])
 
                 publicuser = False
-                if public.partner_id.name == 'Public user':            
+                if public.partner_id.name == 'Public user':
                     publicuser =public
                     _logger.info('===========publicuser======== %s' % publicuser)
 
@@ -425,14 +425,14 @@ class WebsiteSaleStocksuperasia(WebsiteSaleStock):
 
 
                 if b2cusers:
-                    
+
                     product_uom = line.product_id.b2buom_id
                     if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv
                     _logger.info('========avl_qty===b2cusers======== %s' % avl_qty)
 
                 if publicuser:
-                    
+
                     product_uom = line.product_id.b2buom_id
                     if factor_inv > 0:
                         avl_qty = avl_qty*factor_inv

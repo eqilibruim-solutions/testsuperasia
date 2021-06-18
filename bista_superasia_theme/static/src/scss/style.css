@@ -67,11 +67,6 @@ font-weight: bold;
 .profile_icon{
 width:4%;
 }
-
-.select2-container {
-width: 80% !important;
-border: solid 2px;
-}
 .my_cart_quantity{
 font-size: calc(12px);
 width: 4vw !important;
@@ -111,13 +106,9 @@ font-weight: bold;
 .profile_icon{
 width:4%;
 }
-.select2-container {
-width: 80% !important;
-border: solid 2px;
-}
 .my_cart_quantity{
 font-size: calc(12px);
-    width: 5vw !important;
+    width: 3vw !important;
 }
 /*.dropdown-menu.show {
 margin-left: 40%;
@@ -1654,8 +1645,7 @@ display:block;
 display:none;
 }
 .mobile-nav-toggle {
-  position: fixed;
-  right: 15px;
+  /*position: fixed;
   top: 35px;
   z-index: 9998;
   border: 0;
@@ -1665,16 +1655,30 @@ display:none;
   outline: none !important;
   line-height: 1;
   cursor: pointer;
-  text-align: right;
+  text-align: left;*/
+}
+.mobile-nav-active .mobile-nav-toggle i {
+    color: #fff;
+    position: fixed;
+    right: 5%;
+    z-index: 10000;
+    font-size: xx-large;
 }
 
 .mobile-nav-toggle i {
   color: #ac1520;
 }
+
+#mob_nav ul li.nav-item a.nav-link, .category_list_slide_link, .custom_nav_a, .cate{
+    text-transform: uppercase !important;
+}
 .dropdown-item.cate.active{
     background-color: #BE222B !important;
 }
-
+.whatsappapi__button{
+bottom: 5px !important;
+right: 300px !important;
+}
 
 
 
@@ -1758,14 +1762,10 @@ display:none;
 .mobile-nav-active .mobile-nav {
   left: 0;
 }
-.mobile-nav-active .mobile-nav-toggle i {
-  color: #fff;
-}
 .submenu_list_slide a{
     font-size: large;
 }
 .submenu_list_slide{
-    #position: fixed;
     position: fixed !important;
     will-change: transform;
     transform: none !important;
@@ -1779,6 +1779,7 @@ display:none;
 color:white;
 position:scrolled;
 }
+
 
 
 .logo img {
@@ -1817,23 +1818,35 @@ display:none !important;
 }
 #mobile_div{
 display:block;
-display: flex;
-justify-content: space-between;
+/*display: flex;
+justify-content: space-between;*/
 }
 ul.mt-n1{
 height: 100% !important;
 }
+#header {
+  padding: 5px 0 0;
+  height:110px;
+  }
 
 .select2-container{
-width:230px !important;
+width:96% !important;
+box-sizing: border-box;
+border: 2px solid #ad3021;
+border-radius: 4px;
+font-size: 16px;
+background-color: white;
 }
 #select2-drop{
     /*width: 260px !important;*/
-    width: 230px !important;
+    width: 100% !important;
+    left : auto !important;
 }
 
 
-
+.left-fixed-sidebar{
+display:none !important;
+}
 .mobile_ul ul{
 opacity:1 !important;
 background:white;
@@ -1994,10 +2007,6 @@ body[data-aos-duration="400"] [data-aos] {
 @media only screen and (max-width: 1199px){
 .howItWork-block-col .arrow-box, #top_menu {
     display: none;
-  }
-#header {
-  padding: 10px 0 0;
-  background: none; 
   }
 }
 /*--------------------------------------------------------------

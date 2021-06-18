@@ -1,43 +1,35 @@
 <templates>
 <!-- Product Details page [Display Product Units and] -->
-<t t-extend="website_sale_stock.product_availability">
-<t t-jquery="t[t-if='virtual_available gt 0']"
-   t-operation="replace">
-   <h6 class="bg-danger" t-esc="virtual_available"/>
-    <!-- <t t-if="virtual_available gt 0"> -->
-    <t>
-        <div t-if="inventory_availability == 'always'"
-             t-attf-class="availability_message_#{product_template} text-success mt16 d-none">
-            <t t-esc="virtual_available_formatted" /> <t t-esc="uom_name" /> available
-        </div>
-        <t t-if="inventory_availability == 'threshold'">
-            <div t-if="virtual_available lte available_threshold"
-                 t-attf-class="availability_message_#{product_template} text-warning mt16 d-none">
-                <i class="fa fa-exclamation-triangle" title="Warning" role="img" aria-label="Warning"/>
-                <t t-esc="virtual_available_formatted" /> <t t-esc="uom_name" /> available
-            </div>
-            <div t-if="virtual_available gt available_threshold"
-                 t-attf-class="availability_message_#{product_template} text-success mt16 d-none">In stock</div>
-        </t>
-    </t>
-</t>
-    <t t-jquery="div[t-attf-class='availability_message_#{product_template} text-warning mt8']"
-   t-operation="replace">
-        <div class="d-none">
-            <div t-if="cart_qty" t-attf-class="availability_message_#{product_template} text-warning mt8 d-none">
-                You already added <t t-if="!virtual_available">all</t> <t t-esc="cart_qty" /> <t t-esc="uom_name" /> in your cart.
-            </div>
-        </div>
-    </t>
-    <t t-jquery="div[t-attf-class='availability_message_#{product_template} text-success mt16']"
-   t-operation="replace">
-        <div t-if="product_type == 'product' and inventory_availability == 'custom'"
-             t-attf-class="availability_message_#{product_template} text-success mt16 d-none">
-            <t t-esc="custom_message" />
-        </div>
-    </t>
-</t>
-
+<!--    <t t-extend="website_sale_stock.product_availability">-->
+<!--        <t t-jquery="t[t-if='virtual_available gt 0']"-->
+<!--           t-operation="replace">-->
+<!--            <h6 class="bg-danger" t-esc="virtual_available"/>-->
+<!--            <t t-if="virtual_available gt 0">-->
+<!--                <div t-if="inventory_availability == 'always'" t-attf-class="availability_message_#{product_template} text-success mt16">-->
+<!--                    <t t-esc="virtual_available_formatted" /> <t t-esc="uom_name" /> available-->
+<!--                </div>-->
+<!--                <t t-if="inventory_availability == 'threshold'">-->
+<!--                    <div t-if="virtual_available lte available_threshold" t-attf-class="availability_message_#{product_template} text-warning mt16">-->
+<!--                        <i class="fa fa-exclamation-triangle" title="Warning" role="img" aria-label="Warning"/>-->
+<!--                        <t t-esc="virtual_available_formatted" /> <t t-esc="uom_name" /> available-->
+<!--                    </div>-->
+<!--                    <div t-if="virtual_available gt available_threshold" t-attf-class="availability_message_#{product_template} text-success mt16">In stock</div>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </t>-->
+<!--        <t t-jquery="div[t-attf-class='availability_message_#{product_template} text-warning mt8']"-->
+<!--           t-operation="replace">-->
+<!--            <div t-if="cart_qty" t-attf-class="availability_message_#{product_template} text-warning mt8">-->
+<!--                You already added <t t-if="!virtual_available">all</t> <t t-esc="cart_qty" /> <t t-esc="uom_name" /> in your cart.-->
+<!--            </div>-->
+<!--        </t>-->
+<!--        <t t-jquery="div[t-attf-class='availability_message_#{product_template} text-success mt16']"-->
+<!--           t-operation="replace">-->
+<!--            <div t-if="product_type == 'product' and inventory_availability == 'custom'" t-attf-class="availability_message_#{product_template} text-success mt16">-->
+<!--                <t t-esc="custom_message" />-->
+<!--            </div>-->
+<!--        </t>-->
+<!--    </t>-->
 <!-- Product Details page [Display Product Units and] -->
 
     <!-- Product Recent View in Website Form -->
@@ -50,7 +42,8 @@
     </t>
     <t t-jquery="button.js_add_cart" t-operation="replace">
         <t t-if="product.avail_qty >= 1">
-            <button type="button" role="button" class="btn btn-primary js_add_cart ml-auto" title="Add to Cart">
+            <button type="button" role="button" class="btn btn-primary js_add_cart ml-auto"
+                    title="Add to Cart">
                 <i class="fa fa-fw fa-shopping-cart"/>
             </button>
         </t>

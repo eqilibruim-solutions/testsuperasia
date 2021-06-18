@@ -23,10 +23,38 @@
                 </script>
 
                 <div id="mobile_div">
-<!--                        <i id="toggle_menu" class="fas fa-bars fa-2x navbar-toggle"/>-->
+                    <div class="top-row"
+                         style="display: flex;justify-content: space-between;align-items: center; padding: 0 10px;">
+                        <button type="button" class="mobile-nav-toggle d-lg-none"><i
+                                class="icofont-navigation-menu fa-2x"></i></button>
                         <a href="/" class="logo">
                             <img t-att-src="'/logo.png?company=%s' % res_company.id" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
                         </a>
+
+                        <t t-set="website_sale_order" t-value="website.sale_get_order()" />
+                        <t t-if ="website_sale_order and website_sale_order.cart_quantity">
+                            <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
+                                <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
+                                    style="font-size: calc(12px);position: initial;width: 5vw !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                            </a>
+                        </t>
+                        <t t-else="">
+                            <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
+                                <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
+                                    style="font-size: calc(12px);position: initial;width: 5vw !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                            </a>
+                        </t>
+                    </div>
+                    <center>
+                        <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([])"/>
+                        <select id="search-input" placeholder="Search Products.." class="top_search"
+                                style="width: 100% !important;">
+                            <option value=""></option>
+                            <t t-foreach="ci_rec" t-as="ci">
+                                <option t-attf-src="/web/image/product.template/#{ci.id}/image_128" t-att-value="ci.id" t-esc="ci.name"/>
+                            </t>
+                        </select>
+                    </center>
                 </div>
 
                 <nav class="navbar h-100">
@@ -115,23 +143,10 @@
                                 <img t-att-src="'/logo.png?company=%s' % res_company.id" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
                             </a>
                         </li>
-                        <li class="border-right-0 responsive_search_li">
-                            <div class="adjust-icon col-sm-5 pl-3 input-group nav-item search_responsive_box">
-                                <div class="form-outline bg-100">
-                                    <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([])"/>
-                                    <select id="search-input" placeholder="Search Products.." class="top_search"
-                                            style="width: 100% !important;">
-                                        <option value=""></option>
-                                        <t t-foreach="ci_rec" t-as="ci">
-                                            <option t-attf-src="/web/image/product.template/#{ci.id}/image_128" t-att-value="ci.id" t-esc="ci.name"/>
-                                        </t>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
+
 
                         <t t-foreach="website.menu_id.child_id" t-as="submenu">
-                            <t t-if="submenu.name != 'Brands'" t-call="website.submenu">
+                            <t t-if="submenu.name not in ['Brands','Contact us']" t-call="website.submenu">
                                 <t t-set="item_class" t-value="'nav-item'" class="p-2"/>
                                 <t t-set="link_class" t-value="'nav-link'" class="p-2"/>
                             </t>
@@ -247,11 +262,11 @@
                             </div>
 
                         </li>
-                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
-                            <div class="adjust-icon col-12 text-center">
-                                <a class="p-0 text-left custom_nav_a" href="#">Wishlist</a>
-                            </div>
-                        </li>
+<!--                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">-->
+<!--                            <div class="adjust-icon col-12 text-center">-->
+<!--                                <a class="p-0 text-left custom_nav_a" href="#">Wishlist</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
                         <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
                             <div class="col-12 adjust-icon adjust_cart">
                                 <t t-set="website_sale_order" t-value="website.sale_get_order()" />
@@ -283,6 +298,21 @@
                                     <a id="o_logout" class="dropdown-item-text dropdown-item"  style="padding: 5px;"
                                        t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
                                 </div>
+                            </div>
+                        </li>
+                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
+                            <div class="adjust-icon col-12 text-center">
+                                <a class="p-0 text-left custom_nav_a" href="/contactus">Contact us</a>
+                            </div>
+                        </li>
+                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
+                            <div class="adjust-icon col-12 text-center">
+                                <a class="p-0 text-left custom_nav_a" href="#">Catalog</a>
+                            </div>
+                        </li>
+                        <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
+                            <div class="adjust-icon col-12 text-center">
+                                <a class="p-0 text-left custom_nav_a" href="/brands">Our Brands</a>
                             </div>
                         </li>
 

@@ -69,18 +69,15 @@
       class: 'mobile-nav d-lg-none'
     });
 
-    $(document).on('click', '.category_list_slide_link', function(e) {
-        $('#category_list_slide').toggle();
-    })
+
+
 
 
 
 
 //    $('body').append($mobile_nav);
     $('header').append($mobile_nav);
-    $('body').prepend('<button type="button" class="mobile-nav-toggle d-lg-none"><i class="icofont-navigation-menu fa-1x
-    "></i></button>');
-//    $('body').append('<div class="mobile-nav-overly"></div>');
+//    $('body').prepend('<button type="button" class="mobile-nav-toggle d-lg-none"><i class="icofont-navigation-menu fa-1x"></i></button>');
     $('header').append('<div class="mobile-nav-overly"></div>');
 
     $(document).on('click', '.cate', function(e) {

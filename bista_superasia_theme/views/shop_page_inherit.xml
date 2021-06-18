@@ -216,6 +216,17 @@
             </section><!-- End Hero -->
         </xpath>
 
+        <xpath expr="//t[@t-if='not search']" position="replace">
+            <t t-if="not search">
+                <h3 class="mt8">No product defined</h3>
+                <t t-set="brand_checkbox" t-value="attributes.value_ids.filtered(lambda tx: tx.display_type == 'radio')"/>
+                <t t-set="checked_data" t-value="[checked_ids for checked_ids in brand_checkbox]"/>
+                <p t-if="category">No product defined in category "<strong t-esc="category.display_name"/>"<t
+                        t-if="checked_data"> of
+                    <strong t-esc="', '.join([opt.name for opt in checked_data if opt.id in attrib_set])"/>.</t></p>
+            </t>
+
+        </xpath>
 
     </template>
     <template id="add_to_cart_inherite" inherit_id="website_sale.product"  name="Add to Cart Product Inherit">
@@ -231,6 +242,10 @@
                 <t t-if="max_qt">
                     <a role="button" id="add_to_cart" class="a-submit btn custom_them_primary d-block d-sm-inline-block js_check_product mt-4 text-white" href="#"><i class="fa fa-shopping-cart"/> Add to Cart</a>
                 </t>
+            </t>
+            <t t-else="">
+                <div class="availability_message_6 font-weight-bold text-danger pt-2"><i
+                        class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning"></i> Temporarily out of stock</div>
             </t>
         </xpath>
         <xpath expr="//li[hasclass('active', 'breadcrumb-item')]" position="attributes">
@@ -276,7 +291,6 @@
                 </p>
             </div>
         </xpath>
-
         <xpath expr="//div[hasclass('form-inline', 'justify-content-end')]" position="attributes">
             <attribute name="class">form-inline justify-content-end d-none</attribute>
         </xpath>
