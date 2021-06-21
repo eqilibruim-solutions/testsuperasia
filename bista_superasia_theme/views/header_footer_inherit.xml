@@ -33,20 +33,37 @@
 
                         <t t-set="website_sale_order" t-value="website.sale_get_order()" />
                         <t t-if ="website_sale_order and website_sale_order.cart_quantity">
-                            <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
+                            <div class="shop_cart">
+                            <t t-set="special_category"
+                               t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
+                               'Specials')])"/>
+                                <t t-if="special_category">
+                                    <a t-att-href="'/shop/category/%s' % special_category.id" style="vertical-align: super;"><i
+                                            class="fas fa-tag"  style="font-size:1.2rem">Sale</i></a>
+                                </t>
+                                <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
                                 <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
-                                    style="font-size: calc(12px);position: initial;width: 5vw !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                                    style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
                             </a>
+                            </div>
+
+
                         </t>
                         <t t-else="">
+                            <div class="shop_cart">
+                            <a href="/shop/category/specials-330" style="vertical-align: super;"> <i
+                                    class="fas fa-tag"  style="font-size:1.2rem">Sale</i></a>
                             <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
                                 <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
-                                    style="font-size: calc(12px);position: initial;width: 5vw !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                                    style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
                             </a>
+                            </div>
                         </t>
+
                     </div>
                     <center>
-                        <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([])"/>
+                        <t t-set="ci_rec"
+                           t-value="request.env['product.template'].sudo().search([('sale_ok', '=', True),('is_published', '=', True)])"/>
                         <select id="search-input" placeholder="Search Products.." class="top_search"
                                 style="width: 100% !important;">
                             <option value=""></option>
@@ -75,12 +92,14 @@
                         </t>
                         <li class="navbar-links">
                             <div class="form-outline">
-                                <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([])"/>
+                                <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([('sale_ok', '=', True),('is_published', '=', True)])"/>
                                 <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
-                                    <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([('is_hide_b2c', '=', False)])"/>
+                                    <t t-set="ci_rec"
+                                       t-value="request.env['product.template'].sudo().search([('is_hide_b2c', '=', False),('sale_ok', '=', True),('is_published', '=', True)])"/>
                                 </t>
                                 <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount')">
-                                    <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([('is_hide_b2b', '=', False)])"/>
+                                    <t t-set="ci_rec"
+                                       t-value="request.env['product.template'].sudo().search([('is_hide_b2b', '=', False),('sale_ok', '=', True),('is_published', '=', True)])"/>
                                 </t>
                                 <select id="search-input" placeholder="Search Products.." class="top_search" style="width: 85% !important;">
                                     <option value=""></option>
@@ -123,13 +142,12 @@
                                 <img src="/bista_superasia_theme/static/src/img/cart.png" class="menu_icon_right_panel profile_icon" alt="cart"/><br/>
                                 <t t-set="website_sale_order" t-value="website.sale_get_order()" />
                                 <t t-if ="website_sale_order and website_sale_order.cart_quantity">
-
                                     <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
-                                        Cart <sup style="font-size: calc(12px);position: initial;width: 1vw;border-radius: 0px;background: #BE222B;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                                        Cart <sup style="font-size: calc(12px);position: initial;width: 2rem;border-radius: 0px;background: #BE222B;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
                                     </a>
                                 </t>
                                 <t t-else="">
-                                    <a href="/shop/cart" class="link-dark cart_link custom_nav_a">Cart<sup style="font-size: calc(12px);position: initial;width: 1vw;border-radius: 0px;background: #BE222B;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/></a>
+                                    <a href="/shop/cart" class="link-dark cart_link custom_nav_a">Cart<sup style="font-size: calc(12px);position: initial;width: 2rem;border-radius: 0px;background: #BE222B;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/></a>
                                 </t>
                             </div>
                         </li>
@@ -307,7 +325,8 @@
                         </li>
                         <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
                             <div class="adjust-icon col-12 text-center">
-                                <a class="p-0 text-left custom_nav_a" href="#">Catalog</a>
+                                <a class="p-0 text-left custom_nav_a"
+                                   t-attf-href="/web/content/#{res_company.sudo().product_catalog.id}" target="_blank">Catalog</a>
                             </div>
                         </li>
                         <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">

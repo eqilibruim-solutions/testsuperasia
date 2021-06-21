@@ -1681,7 +1681,10 @@ right: 300px !important;
 }
 
 
-
+/*.sale_icon::after{
+content:"Sale";
+color:black;
+}*/
 
 /* Mobile Navigation */
 .mobile-nav {
