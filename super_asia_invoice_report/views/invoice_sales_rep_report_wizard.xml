@@ -11,6 +11,45 @@
 <xpath expr="//field[@name='uom_id']" position="before">
 <field name="x_studio_brand"/>
       </xpath>
+                <xpath expr="//div[@name='volume']" position="after">
+					<label for="logistic_length" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+                    <div class="o_row" name="logistic_length" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                        <field name="logistic_length" string="Length"/>
+                        <span><field name="length_uom_name"/></span>
+                    </div>
+
+					<label for="logistic_width" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+                    <div class="o_row" name="logistic_width" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                        <field name="logistic_width" string="Length"/>
+                        <span><field name="length_uom_name"/></span>
+                    </div>
+
+					<label for="logistic_height" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+                    <div class="o_row" name="logistic_height" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                        <field name="logistic_height" string="Length"/>
+                        <span><field name="length_uom_name"/></span>
+                    </div>
+				</xpath>
+				<xpath expr="//group[@name='inventory']">
+					<group name="pallet_config">
+						<group name="group_pallet_config" string="Pallet Configuration" attrs="{'invisible': [('type', 'not in', ['product', 'consu'])]}">
+							<label for="pallet_no_of_cases" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+		                    <div class="o_row" name="pallet_no_of_cases" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+		                        <field name="pallet_no_of_cases"/>
+		                    </div>
+
+							<label for="pallet_no_of_layers" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+		                    <div class="o_row" name="pallet_no_of_layers" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+		                        <field name="pallet_no_of_layers"/>
+		                    </div>
+
+							<label for="pallet_boxes_per_layer" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+		                    <div class="o_row" name="pallet_boxes_per_layer" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+		                        <field name="pallet_boxes_per_layer"/>
+		                    </div>
+						</group>
+					</group>
+				</xpath>
             </field>
         </record>
 
