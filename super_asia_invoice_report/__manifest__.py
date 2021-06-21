@@ -17,6 +17,7 @@
         'views/invoice_sales_rep_report_wizard.xml',
         'views/superasia_report.xml',
         'views/invoice_sales_rep_report_wizard.xml',
+        'views/res_partner.xml',
     ],
     'installable': True,
 }
