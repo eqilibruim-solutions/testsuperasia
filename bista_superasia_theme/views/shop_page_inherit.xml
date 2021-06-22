@@ -96,7 +96,7 @@
                         <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system')">
                             <t t-set="old_price" t-value="product.b2b_old_price"/>
                         </t>
-                        <span t-if="old_price > 0" t-esc="old_price"
+                        <span t-if="old_price > 0 and old_price > combination_info['list_price']" t-esc="old_price"
                               t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
                               style="text-decoration: line-through; white-space: nowrap; font-weight: bold; color: black; padding-left: 0.2rem;"/>
                     </h6>
@@ -311,7 +311,7 @@
             <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system')">
                 <t t-set="old_price" t-value="product.b2b_old_price"/>
             </t>
-            <span t-attf-class="oe_default_price {{'' if old_price > 0 else 'd-none'}}"
+            <span t-attf-class="oe_default_price {{'' if old_price > 0 and old_price > product.list_price else 'd-none'}}"
                   style="text-decoration: line-through; white-space: nowrap; font-weight: bold; color: black; padding-left: 0.5rem;"
                   t-esc="old_price" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
               />
