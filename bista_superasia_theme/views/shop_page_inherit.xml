@@ -107,6 +107,12 @@
 
                     <t t-set="in_cart_lines" t-value="request.website.sale_get_order().order_line"/>
 
+                    <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system')">
+                        <div>
+                            <h6><span t-esc="combination_info['product_uom']"/></h6>
+                        </div>
+                    </t>
+
                     <form method="POST">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                         <div class="js_product js_main_product mt-1">
