@@ -15,6 +15,8 @@ from . import website_config_settings
 # Public product template --- remove websitepublished domain and give all access
 # respartner-public in internal user
 # rescompany -- add public  in admin
+# res.partner.rule.private.employee -- add portal group
 #Lots/Serial Numbers multi-company - False
 
 # in public customer add email address in db
+
