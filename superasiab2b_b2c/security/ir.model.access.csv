@@ -33,4 +33,7 @@ acess_stock_move_pub,acess.stock_move.pub,stock.model_stock_move,base.group_publ
 acess_stock_quant_pub,acess.stock_quant.pub,stock.model_stock_quant,base.group_public,1,1,1,1
 acess_uom_uom_pub,acess.uom_uom.pub,uom.model_uom_uom,base.group_public,1,1,1,1
 acess_ir_attachment_pub,acess.ir_attachment.pub,base.model_ir_attachment,base.group_public,1,1,1,1
+acess_res_partner_port,acess.res_partner.pub,mail.model_res_partner,base.group_portal,1,1,1,1
+acess_res_users_port,acess.res_users.pub,mail.model_res_users,base.group_portal,1,1,1,1
+
 
