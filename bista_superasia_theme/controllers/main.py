@@ -279,6 +279,8 @@ class WebsiteSale(ws):
         """
         max_number_of_product_for_carousel = 12
         visitor = request.env['website.visitor']._get_visitor_from_request()
+        is_user_public_b2c = False
+        is_user_admin_b2b = False
         if visitor:
             excluded_products = request.website.sale_get_order().mapped('order_line.product_id.id')
             products = request.env['website.track'].sudo().read_group(
@@ -288,8 +290,10 @@ class WebsiteSale(ws):
             if products_ids:
                 viewed_products = request.env['product.product'].with_context(display_default_code=False).browse(products_ids)
                 if request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
+                    is_user_public_b2c = True
                     viewed_products = [x for x in viewed_products if not x.product_tmpl_id.is_hide_b2c]
-                elif request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount'):
+                elif request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system'):
+                    is_user_admin_b2b = True
                     viewed_products = [x for x in viewed_products if not x.product_tmpl_id.is_hide_b2b]
 
                 FieldMonetary = request.env['ir.qweb.field.monetary']
@@ -301,14 +305,18 @@ class WebsiteSale(ws):
                 for product in viewed_products:
 
                     combination_info = product._get_combination_info_variant()
-                    res_product = product.read(['id', 'name', 'website_url'])[0]
+                    res_product = product.read(['id', 'name', 'website_url', 'b2c_old_price', 'b2b_old_price'])[0]
                     res_product.update(combination_info)
                     res_product['price'] = FieldMonetary.value_to_html(res_product['price'], monetary_options)
+                    res_product['b2c_old_price_html'] = FieldMonetary.value_to_html(res_product['b2c_old_price'], monetary_options)
+                    res_product['b2b_old_price_html'] = FieldMonetary.value_to_html(res_product['b2b_old_price'], monetary_options)
                     if rating:
                         res_product['rating'] = request.env["ir.ui.view"].render_template('website_rating.rating_widget_stars_static', values={
                             'rating_avg': product.rating_avg,
                             'rating_count': product.rating_count,
                         })
+                    res_product['is_user_public_b2c'] = is_user_public_b2c
+                    res_product['is_user_admin_b2b'] = is_user_admin_b2b
                     res['products'].append(res_product)
 
                 return res
