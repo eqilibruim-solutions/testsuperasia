@@ -239,6 +239,7 @@ self.addEventListener('fetch', function(evt) {
                    role="menuitem"
                    id="pwa_install_download_button"
                    data-menu="installpwa"
+                   data-toggle="tooltip" data-original-title="Sorry, pronunciation audio not available!"
                 >
                     <i class="fa fa-download"></i>
                 </a>

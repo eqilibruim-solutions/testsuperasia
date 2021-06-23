@@ -100,7 +100,9 @@ class WebsiteSale(ws):
     def _get_search_order(self, post):
         # OrderBy will be parsed in orm and so no direct sql injection
         # id is added to be sure that order is a unique sort key
+        print (":::::::::::::::post.get('order')::::::::::::::::::::::::::::::",post.get('order'))
         order = post.get('order') or 'name ASC,website_sequence ASC'
+
         return 'is_published desc, %s, id desc' % order
 
 
@@ -145,7 +147,7 @@ class WebsiteSale(ws):
 
         keep = QueryURL('/shop', category=category and int(category), search=search, attrib=attrib_list,
                         order=post.get('order'))
-
+        print (":::::::::::::::::::::::::::keep:::::::::::keep::::::::::::::::::::::::::::",post.get('order'))
         pricelist_context, pricelist = self._get_pricelist_context()
 
         request.context = dict(request.context, pricelist=pricelist.id, partner=request.env.user.partner_id)

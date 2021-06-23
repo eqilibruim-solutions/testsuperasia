@@ -23,6 +23,13 @@
                 </script>
 
                 <div id="mobile_div">
+                        <t t-set="special_category"
+                           t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
+                               'Specials')])"/>
+                        <t t-if="special_category">
+                            <a t-att-href="'/shop/category/%s' % special_category.id" style="vertical-align: super;position: absolute;right: 20%;"><i
+                                    class="fas fa-tag"  style="font-size:1rem">Sale</i></a>
+                        </t>
                     <div class="top-row"
                          style="display: flex;justify-content: space-between;align-items: center; padding: 0 10px;">
                         <button type="button" class="mobile-nav-toggle d-lg-none"><i
@@ -33,31 +40,22 @@
 
                         <t t-set="website_sale_order" t-value="website.sale_get_order()" />
                         <t t-if ="website_sale_order and website_sale_order.cart_quantity">
-                            <div class="shop_cart">
-                            <t t-set="special_category"
-                               t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
-                               'Specials')])"/>
-                                <t t-if="special_category">
-                                    <a t-att-href="'/shop/category/%s' % special_category.id" style="vertical-align: super;"><i
-                                            class="fas fa-tag"  style="font-size:1.2rem">Sale</i></a>
-                                </t>
-                                <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
-                                <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
-                                    style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
-                            </a>
-                            </div>
+<!--                            <div class="shop_cart">-->
+                        <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
+                            <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
+                                style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                        </a>
+<!--                            </div>-->
 
 
                         </t>
                         <t t-else="">
-                            <div class="shop_cart">
-                            <a href="/shop/category/specials-330" style="vertical-align: super;"> <i
-                                    class="fas fa-tag"  style="font-size:1.2rem">Sale</i></a>
-                            <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
-                                <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
-                                    style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
-                            </a>
-                            </div>
+<!--                            <div class="shop_cart">-->
+                                <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
+                                    <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
+                                        style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                                </a>
+<!--                            </div>-->
                         </t>
 
                     </div>
@@ -291,11 +289,13 @@
                                 <t t-if ="website_sale_order and website_sale_order.cart_quantity">
 
                                     <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
-                                        Cart <sup style="font-size: calc(12px);position: initial;width: 1vw;border-radius: 0px;background: #BE222B;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                                        Cart <sup
+                                            style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 0px;background: #BE222B;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
                                     </a>
                                 </t>
                                 <t t-else="">
-                                    <a href="/shop/cart" class="link-dark cart_link custom_nav_a">Cart<sup style="font-size: calc(12px);position: initial;width: 1vw;border-radius: 0px;background: #BE222B;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/></a>
+                                    <a href="/shop/cart" class="link-dark cart_link custom_nav_a">Cart<sup
+                                            style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 0px;background: #BE222B;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/></a>
                                 </t>
                             </div>
                         </li>
@@ -323,6 +323,8 @@
                                 <a class="p-0 text-left custom_nav_a" href="/contactus">Contact us</a>
                             </div>
                         </li>
+                    html:5
+
                         <li class="border-right-0 ml-lg-4 responsive_dynamic_menu">
                             <div class="adjust-icon col-12 text-center">
                                 <a class="p-0 text-left custom_nav_a"

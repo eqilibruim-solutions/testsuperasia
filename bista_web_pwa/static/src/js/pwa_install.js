@@ -1,3 +1,5 @@
+
+
 if ("serviceWorker" in navigator) {
     console.log("Service Worker found in navigator.");
     window.addEventListener("load", function() {
@@ -11,6 +13,8 @@ if ("serviceWorker" in navigator) {
 let deferredPrompt;
 // const insPwaBtn = document.querySelector('.install_pwa_btn');
 // insPwaBtn.style.display = 'none';
+
+
 const insPwaBtn = document.querySelectorAll('.install_pwa_btn');
 insPwaBtn.forEach(item => {item.style.display = 'none'});
 
@@ -113,3 +117,5 @@ odoo.define("bista_web_pwa.systray.install", ['web.UserMenu', 'web.ajax'], funct
     //         console.log('---------err-------%r', err);
     //     });
 });
+
+
