@@ -101,7 +101,24 @@ class WebsiteSale(ws):
         # OrderBy will be parsed in orm and so no direct sql injection
         # id is added to be sure that order is a unique sort key
         print (":::::::::::::::post.get('order')::::::::::::::::::::::::::::::",post.get('order'))
-        order = post.get('order') or 'name ASC,website_sequence ASC'
+
+        _logger.info('========post========= %s' % post)
+        b2c = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
+        userobj = request.env['res.users']
+        b2cusers = userobj.search([('id','=',request.uid),('groups_id','in',b2c.id)])
+        
+        public=userobj.search([('id','=',request.uid)])
+        publicuser = False
+        if public.partner_id.name == 'Public user':            
+            publicuser = public
+
+        if b2cusers or publicuser:
+            ####add compute field on product temp from b2cprice
+            order = 'name ASC,website_sequence ASC'               
+
+        else:
+            order = post.get('order') or 'name ASC,website_sequence ASC'               
+        _logger.info('========order111=========== %s' % post.get('order'))
 
         return 'is_published desc, %s, id desc' % order
 
