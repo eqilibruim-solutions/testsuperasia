@@ -25,7 +25,8 @@ window.addEventListener('beforeinstallprompt', (e) => {
       deferredPrompt = e;
       // Update UI to notify the user they can add to home screen
       // insPwaBtn.style.display = 'block';
-      insPwaBtn.forEach(item => {item.style.display = 'block'});
+      insPwaBtn.forEach(item => {item.style.display = 'block'} );
+      $(".download_msg").css("display",'block');
       // floatingInsPwaBtn.style.display = 'block';
 });
 
@@ -35,6 +36,7 @@ insPwaBtn.forEach(item => {
         // hide our user interface that shows our A2HS button
         // insPwaBtn.style.display = 'none';
         insPwaBtn.forEach(item => {item.style.display = 'none'});
+        $(".download_msg").css("display",'none');
         // Show the prompt
         deferredPrompt.prompt()
             .then(res => console.log(res))

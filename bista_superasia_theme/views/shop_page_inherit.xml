@@ -235,7 +235,8 @@
         </xpath>
 
     </template>
-    <template id="add_to_cart_inherite" inherit_id="website_sale.product"  name="Add to Cart Product Inherit">
+
+<template id="add_to_cart_inherite" inherit_id="website_sale.product"  name="Add to Cart Product Inherit">
     <xpath expr="//a[@id='add_to_cart']" position="replace">
     <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system')">
 

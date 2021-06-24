@@ -232,6 +232,63 @@ self.addEventListener('fetch', function(evt) {
                   background: #bb0000;
                   color: white;
                 }
+
+
+
+
+
+
+                @-webkit-keyframes bounce {
+                0% { transform: translateY(-5px)  }
+                50% { transform: translateY(10px) }
+                100% { transform: translateY(-5px) }
+            }
+
+            @keyframes bounce {
+                0% { transform: translateY(-5px)  }
+                50% { transform: translateY(10px) }
+                100% { transform: translateY(-5px) }
+            }
+                .download_msg{
+                display:none;
+                height: 50px;
+                width: 97px;
+                position: fixed;
+                top: -60px;
+                z-index: 999;
+                right: .1rem;
+                background-color: #d15454;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+                opacity: 0.8;
+                transition: opacity 0.3s;
+                transition: all 0.3s ease;
+
+
+                -webkit-animation: bounce 3s infinite ease-in-out;
+                -o-animation: bounce 3s infinite ease-in-out;
+                -ms-animation: bounce 3s infinite ease-in-out;
+                -moz-animation: bounce 3s infinite ease-in-out;
+                animation: bounce 3s infinite ease-in-out;
+                }
+
+                .download_msg::after {
+                  content: "";
+                  position: absolute;
+                  top: 100%;
+                  left: 50%;
+                  margin-left: -5px;
+                  border-width: 5px;
+                  border-style: solid;
+                  border-color: #d15454 transparent transparent transparent;
+                  transition: all 0.3s ease;
+                }
+
+
+
+
                 </style>
             <div class="icon-bar">
                 <a t-attf-href="#"
@@ -239,11 +296,12 @@ self.addEventListener('fetch', function(evt) {
                    role="menuitem"
                    id="pwa_install_download_button"
                    data-menu="installpwa"
-                   data-toggle="tooltip" data-original-title="Sorry, pronunciation audio not available!"
                 >
                     <i class="fa fa-download"></i>
                 </a>
+                <div class="download_msg">Add to HomeScreen</div>
             </div>
+
         </xpath>
 
     </template>
