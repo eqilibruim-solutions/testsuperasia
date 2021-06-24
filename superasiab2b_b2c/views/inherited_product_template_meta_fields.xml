@@ -29,6 +29,10 @@
 					<field name="b2b_old_price"/>
 					<field name="b2c_old_price"/>
 				</xpath>
+				<xpath expr="//div[@name='pricing']" position="after">
+					<field name="b2c_pricelist_price" readonly="1" widget="monetary"
+					       options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+				</xpath>
 			</field>
 		</record>
 		<record id="res_company_catalog_field" model="ir.ui.view">

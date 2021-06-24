@@ -38,7 +38,16 @@ class ProductTemplate(models.Model):
 
     b2b_old_price = fields.Float(string="Old Price for B2B")
     b2c_old_price = fields.Float(string="Old Price for B2C")
+    b2c_pricelist_price = fields.Float(string="B2C Price", help="B2C Price from B2C Price list",
+                                       default=0.0,
+                                       compute="_compute_b2c_pricelist_price")
 
+    def _compute_b2c_pricelist_price(self):
+        b2c_pricelist = self.env['product.pricelist'].search([('name', 'ilike', 'B2C')], limit=1)
+        pricelist_item = self.env['product.pricelist.item'].search([
+            ('pricelist_id', '=', b2c_pricelist[0].id), ('product_tmpl_id', '=', self.id)
+        ])
+        self.b2c_pricelist_price = pricelist_item[0].fixed_price
 
     def featured_products(self):
         main_list = []
