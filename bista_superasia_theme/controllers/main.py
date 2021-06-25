@@ -106,8 +106,8 @@ class WebsiteSale(ws):
         b2c = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2cuser')
         userobj = request.env['res.users']
         b2cusers = userobj.search([('id','=',request.uid),('groups_id','in',b2c.id)])
-        
-        public=userobj.search([('id','=',request.uid)])
+
+        public = request.env.user
         publicuser = False
         if public.partner_id.name == 'Public user':            
             publicuser = public
