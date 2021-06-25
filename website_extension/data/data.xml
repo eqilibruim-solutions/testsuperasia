@@ -24,5 +24,21 @@
             <field name="active" eval="False"/>
         </record>
 
+        <record id="prod_temp_b2c_pricelist_price_calc" model="ir.cron">
+            <field name="name">B2C Pricelist's Price in Product Template</field>
+            <field name="model_id" ref="product.model_product_pricelist"/>
+            <field name="state">code</field>
+            <field name="code">
+                model.prod_temp_b2c_pricelist_price_calc()
+            </field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="interval_number">999</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="priority">1</field>
+            <field name="active" eval="False"/>
+        </record>
+
     </data>
 </odoo>
