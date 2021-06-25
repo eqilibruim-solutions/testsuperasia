@@ -464,5 +464,20 @@
     </template>
     <!-- Login Page button color changes-->
 
+    <template id="sale_order_portal_content_inherit" name="sale_order_portal_content Inherit"
+              inherit_id="sale_stock.sale_order_portal_content_inherit_sale_stock">
+        <xpath
+                expr="//div[hasclass('d-flex', 'flex-wrap', 'align-items-center', 'justify-content-between', 'o_sale_stock_picking')]//div//a" position="replace">
+            <a href="#">
+                <span t-esc="i.name"/>
+            </a>
+        </xpath>
+    </template>
+    <template id="portal_record_sidebar_inherit" name="portal_record_sidebar Inherit" inherit_id="portal.portal_record_sidebar">
+        <xpath expr="//img[contains(@height, '15')]" position="replace">
+            <img src="/bista_superasia_theme/static/src/img/super-asia-logo.png" alt="Odoo Logo" height="15"/>
+        </xpath>
+    </template>
+
 
 </odoo>

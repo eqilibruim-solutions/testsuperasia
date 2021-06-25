@@ -8,7 +8,7 @@
     'author': "Bista Solutions Pvt. Ltd.",
     'website': 'www.bistasolutions.com',
     'license': 'AGPL-3',
-    "depends": ['base','web','website','portal','bista_web_pwa','superasiab2b_b2c','sale','payment','website_sale','website_form','auth_signup','website_mass_mailing','website_sale_delivery','website_sale_stock'],
+    "depends": ['base','web','website','portal','bista_web_pwa','superasiab2b_b2c','sale','payment','website_sale','website_form','auth_signup','website_mass_mailing','website_sale_delivery','website_sale_stock','sale_stock'],
     "data": [
         'views/assets.xml',
         'views/homepage_template.xml',
