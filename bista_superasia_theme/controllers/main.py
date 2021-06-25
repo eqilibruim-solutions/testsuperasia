@@ -114,10 +114,12 @@ class WebsiteSale(ws):
 
         if b2cusers or publicuser:
             ####add compute field on product temp from b2cprice
-            order = 'name ASC,website_sequence ASC'               
+            order_str = post.get('order') or 'name ASC,website_sequence ASC'
+            order = order_str.replace("list_price", "b2c_pricelist_price")
+            # order = 'name ASC,website_sequence ASC'
 
         else:
-            order = post.get('order') or 'name ASC,website_sequence ASC'               
+            order = post.get('order') or 'name ASC,website_sequence ASC'
         _logger.info('========order111=========== %s' % post.get('order'))
 
         return 'is_published desc, %s, id desc' % order
@@ -324,7 +326,7 @@ class WebsiteSale(ws):
                 for product in viewed_products:
 
                     combination_info = product._get_combination_info_variant()
-                    res_product = product.read(['id', 'name', 'website_url', 'b2c_old_price', 'b2b_old_price'])[0]
+                    res_product = product.read(['id', 'name', 'website_url', 'b2c_old_price', 'b2b_old_price', 'b2c_pricelist_price'])[0]
                     res_product.update(combination_info)
                     res_product['price'] = FieldMonetary.value_to_html(res_product['price'], monetary_options)
                     res_product['b2c_old_price_html'] = FieldMonetary.value_to_html(res_product['b2c_old_price'], monetary_options)

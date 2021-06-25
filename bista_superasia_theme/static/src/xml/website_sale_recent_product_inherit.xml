@@ -59,7 +59,7 @@
         <t t-if="product.is_user_admin_b2b and product.b2b_old_price > 0 and product.b2b_old_price > product.list_price">
             <div class="d-block font-weight-bold text-decoration-line-through ml-1 text-danger" t-raw="product.b2b_old_price_html" />
         </t>
-        <t t-elif="product.is_user_public_b2c and product.b2c_old_price > 0 and product.b2c_old_price > product.b2c_pricelist_price">
+        <t t-if="product.is_user_public_b2c and product.b2c_old_price > 0 and product.b2c_old_price > product.b2c_pricelist_price">
             <div class="d-block font-weight-bold text-decoration-line-through ml-1 text-danger" t-raw="product.b2c_old_price_html" />
         </t>
     </t>

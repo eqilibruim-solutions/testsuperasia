@@ -47,6 +47,7 @@ class PricelistExtension(models.Model):
                     'compute_price': 'fixed',
                     'pricelist_id': b2c_pricelist.id
                 })
+            product_tmpl.b2c_pricelist_price = b2c_price
 
 
 class PricelistItemExtension(models.Model):
