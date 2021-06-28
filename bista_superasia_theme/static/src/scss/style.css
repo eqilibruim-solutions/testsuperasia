@@ -1793,11 +1793,23 @@ display:none !important;
 .o_wsale_products_searchbar_form{
 display:none;
 }
+.mobile_menus{
+display:flex;
+justify-content: space-between;
+}
+.mobile_menus > .mob_sub{
+    width: 100px;
+    height: 50px;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    }
+
+
+
 
 #mobile_div{
 display:block;
-/*display: flex;
-justify-content: space-between;*/
 }
 ul.mt-n1{
 height: 100% !important;

@@ -23,52 +23,49 @@
                 </script>
 
                 <div id="mobile_div">
-                    <div class="top-row"
-                         style="display: flex;justify-content: space-between;align-items: center; padding: 0 10px;">
-                        <button type="button" class="mobile-nav-toggle d-lg-none"><i
+                    <div class="mobile_menus">
+                        <div class="mob_sub" style="flex-basis: 50px;">
+                            <button type="button" class="mobile-nav-toggle d-lg-none"><i
                                 class="icofont-navigation-menu fa-2x"></i></button>
-                        <a href="/" class="logo">
+                        </div>
+                        <div class="mob_sub" style="flex-basis: 200px;">
+                            <a href="/" class="logo">
                             <img t-att-src="'/logo.png?company=%s' % res_company.id"
                                  t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name" style="height: 3rem;width: 6rem;"/>
-                        </a>
-
-                        <!--Cart Button-->
-                        <t t-set="website_sale_order" t-value="website.sale_get_order()" />
-                        <t t-if ="website_sale_order and website_sale_order.cart_quantity">
-                            <div class="shop_cart"
-                             style="display: flex;align-items: center;justify-content: space-between;flex-grow: 0;width: 25%;">
-                            <t t-set="special_category"
-                               t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
-                               'Specials')])"/>
-                            <t t-if="special_category">
-                                <a t-att-href="'/shop/category/%s' % special_category.id"><i
-                                        class="fas fa-tag"  style="font-size:1rem">Sale</i></a>
-                            </t>
-                            <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
-                                <i class="fa fa-2x bi bi-cart" style="color: #ad3021;font-size: 1.8rem;"></i><sup
-                                    style="font-size: calc(10px);important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
                             </a>
                         </div>
-                        </t>
-                        <t t-else="">
-                            <div class="shop_cart"
-                                 style="display: flex;align-items: center;justify-content: space-between;flex-grow: 0;width: 25%;">
-                                <t t-set="special_category"
-                                   t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
-                               'Specials')])"/>
-                                <t t-if="special_category">
-                                    <a t-att-href="'/shop/category/%s' % special_category.id"><i
-                                            class="fas fa-tag"  style="font-size:1rem">Sale</i></a>
-                                </t>
-                                <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
-                                    <i class="fa fa-2x bi bi-cart" style="color: #ad3021; font-size: 1.8rem;"></i><sup
-                                        style="font-size: calc(10px);important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
-                                </a>
-                            </div>
-                        </t>
-                        <!--Cart Button-->
+                        <div class="mob_sub" style="flex-basis: 150px; justify-content: space-evenly;">
 
+                            <t t-set="website_sale_order" t-value="website.sale_get_order()" />
+                            <t t-if ="website_sale_order and website_sale_order.cart_quantity">
+                                    <t t-set="special_category"
+                                       t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
+                               'Specials')])"/>
+                                    <t t-if="special_category">
+                                        <a t-att-href="'/shop/category/%s' % special_category.id"><i
+                                                class="fas fa-tag"  style="font-size:1rem">Sale</i></a>
+                                    </t>
+                                    <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
+                                        <i class="fa fa-2x bi bi-cart" style="color: #ad3021;font-size: 1.8rem;"></i><sup
+                                            style="font-size: calc(10px);important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                                    </a>
+                            </t>
+                            <t t-else="">
+                                    <t t-set="special_category"
+                                       t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
+                                        'Specials')])"/>
+                                    <t t-if="special_category">
+                                        <a t-att-href="'/shop/category/%s' % special_category.id"><i
+                                                class="fas fa-tag"  style="font-size:1rem">Sale</i></a>
+                                    </t>
+                                    <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
+                                        <i class="fa fa-2x bi bi-cart" style="color: #ad3021; font-size: 1.8rem;"></i><sup
+                                            style="font-size: calc(10px);important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                                    </a>
+                            </t>
+                        </div>
                     </div>
+
                     <div class="custom_searchbox p-2">
 <!--                        <t t-set="ci_rec"-->
 <!--                           t-value="request.env['product.template'].sudo().search([('sale_ok', '=', True),('is_published', '=', True)])"/>-->
