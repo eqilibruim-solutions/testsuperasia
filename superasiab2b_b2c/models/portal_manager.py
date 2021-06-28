@@ -919,8 +919,9 @@ class PricelistItem(models.Model):
 
     def write(self, vals):
         res = super(PricelistItem, self).write(vals)
-        for item in self:
-            product_temp = self.env['product.template'].search([('id', '=', item.product_tmpl_id.id)], limit=1)
-            print(product_temp)
-            product_temp.b2c_pricelist_price = item.fixed_price
+        if "B2C" in self.pricelist_id.name:
+            for item in self:
+                product_temp = self.env['product.template'].search([('id', '=', item.product_tmpl_id.id)], limit=1)
+                print(product_temp)
+                product_temp.b2c_pricelist_price = item.fixed_price
         return res
