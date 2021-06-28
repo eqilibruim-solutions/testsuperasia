@@ -806,8 +806,8 @@ class ir_mail_server(models.Model):
     _inherit = "ir.mail_server"
 
 
-    smtp_user = fields.Char(string='Username', help="Optional username for SMTP authentication")
-    smtp_pass = fields.Char(string='Password', help="Optional password for SMTP authentication")
+    smtp_user = fields.Char(string='Username', help="Optional username for SMTP authentication", groups='base.group_system,base.group_public')
+    smtp_pass = fields.Char(string='Password', help="Optional password for SMTP authentication", groups='base.group_system,base.group_public')
 
 
 class res_partner(models.Model):
