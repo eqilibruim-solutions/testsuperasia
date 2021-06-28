@@ -23,53 +23,71 @@
                 </script>
 
                 <div id="mobile_div">
-                        <t t-set="special_category"
-                           t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
-                               'Specials')])"/>
-                        <t t-if="special_category">
-                            <a t-att-href="'/shop/category/%s' % special_category.id" style="vertical-align: super;position: absolute;right: 20%;"><i
-                                    class="fas fa-tag"  style="font-size:1rem">Sale</i></a>
-                        </t>
                     <div class="top-row"
                          style="display: flex;justify-content: space-between;align-items: center; padding: 0 10px;">
                         <button type="button" class="mobile-nav-toggle d-lg-none"><i
                                 class="icofont-navigation-menu fa-2x"></i></button>
                         <a href="/" class="logo">
-                            <img t-att-src="'/logo.png?company=%s' % res_company.id" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                            <img t-att-src="'/logo.png?company=%s' % res_company.id"
+                                 t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name" style="height: 3rem;width: 6rem;"/>
                         </a>
 
+                        <!--Cart Button-->
                         <t t-set="website_sale_order" t-value="website.sale_get_order()" />
                         <t t-if ="website_sale_order and website_sale_order.cart_quantity">
-<!--                            <div class="shop_cart">-->
-                        <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
-                            <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
-                                style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
-                        </a>
-<!--                            </div>-->
-
-
+                            <div class="shop_cart"
+                             style="display: flex;align-items: center;justify-content: space-between;flex-grow: 0;width: 25%;">
+                            <t t-set="special_category"
+                               t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
+                               'Specials')])"/>
+                            <t t-if="special_category">
+                                <a t-att-href="'/shop/category/%s' % special_category.id"><i
+                                        class="fas fa-tag"  style="font-size:1rem">Sale</i></a>
+                            </t>
+                            <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
+                                <i class="fa fa-2x bi bi-cart" style="color: #ad3021;font-size: 1.8rem;"></i><sup
+                                    style="font-size: calc(10px);important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                            </a>
+                        </div>
                         </t>
                         <t t-else="">
-<!--                            <div class="shop_cart">-->
+                            <div class="shop_cart"
+                                 style="display: flex;align-items: center;justify-content: space-between;flex-grow: 0;width: 25%;">
+                                <t t-set="special_category"
+                                   t-value="request.env['product.public.category'].sudo().search([('name' ,'=',
+                               'Specials')])"/>
+                                <t t-if="special_category">
+                                    <a t-att-href="'/shop/category/%s' % special_category.id"><i
+                                            class="fas fa-tag"  style="font-size:1rem">Sale</i></a>
+                                </t>
                                 <a href="/shop/cart" class="link-dark cart_link custom_nav_a">
-                                    <i class="fa fa-2x bi bi-cart" style="color: #ad3021;"></i><sup
-                                        style="font-size: calc(12px);position: initial;width: 2rem !important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                                    <i class="fa fa-2x bi bi-cart" style="color: #ad3021; font-size: 1.8rem;"></i><sup
+                                        style="font-size: calc(10px);important;border-radius: 15px;background: #BE222B; vertical-align: top !important;" t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
                                 </a>
-<!--                            </div>-->
+                            </div>
                         </t>
+                        <!--Cart Button-->
 
                     </div>
-                    <center>
-                        <t t-set="ci_rec"
-                           t-value="request.env['product.template'].sudo().search([('sale_ok', '=', True),('is_published', '=', True)])"/>
-                        <select id="search-input" placeholder="Search Products.." class="top_search"
-                                style="width: 100% !important;">
-                            <option value=""></option>
-                            <t t-foreach="ci_rec" t-as="ci">
-                                <option t-attf-src="/web/image/product.template/#{ci.id}/image_128" t-att-value="ci.id" t-esc="ci.name"/>
-                            </t>
-                        </select>
-                    </center>
+                    <div class="custom_searchbox p-2">
+<!--                        <t t-set="ci_rec"-->
+<!--                           t-value="request.env['product.template'].sudo().search([('sale_ok', '=', True),('is_published', '=', True)])"/>-->
+<!--                        <select id="search-input" placeholder="Search Products.." class="top_search"-->
+<!--                                style="width: 100% !important;">-->
+<!--                            <option value=""></option>-->
+<!--                            <t t-foreach="ci_rec" t-as="ci">-->
+<!--                                <option t-attf-src="/web/image/product.template/#{ci.id}/image_128" t-att-value="ci.id" t-esc="ci.name"/>-->
+<!--                            </t>-->
+<!--                        </select>-->
+                        <form method="get" action="/shop">
+                            <div t-attf-class="input-group #{_classes}" role="search">
+                                <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search..." t-att-value="search"/>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary oe_search_button" aria-label="Search" title="Search"><i class="fa fa-search"/></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <nav class="navbar h-100">

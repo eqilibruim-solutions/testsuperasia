@@ -414,7 +414,6 @@ class WebsiteSale(ws):
                 res_product.update(combination_info)
                 res_product['list_price'] = FieldMonetary.value_to_html(res_product['list_price'], monetary_options)
                 res_product['price'] = FieldMonetary.value_to_html(res_product['price'], monetary_options)
-
         return res
 
 

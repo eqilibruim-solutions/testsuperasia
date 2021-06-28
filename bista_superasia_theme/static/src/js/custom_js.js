@@ -3,6 +3,9 @@ var publicWidget = require('web.public.widget');
 var VariantMixin = require('sale.VariantMixin');
 var WebsiteMenu = require('website.content.menu');
 var publicWidget = require('web.public.widget');
+var concurrency = require('web.concurrency');
+var core = require('web.core');
+var qweb = core.qweb;
 
 publicWidget.registry.MobileHeader = publicWidget.Widget.extend(VariantMixin,{
     selector: '#header #mob_nav',
@@ -15,7 +18,84 @@ publicWidget.registry.MobileHeader = publicWidget.Widget.extend(VariantMixin,{
             $(ev.currentTarget).closest("form").submit();
         }
       },
-    })
+    });
+
+
+publicWidget.registry.CustomSearchBox = publicWidget.Widget.extend({
+  selector: '.custom_searchbox',
+    events: _.extend({}, VariantMixin.events || {}, {
+        'input .oe_search_box': '_onInputSearchProduct',
+     }),
+     xmlDependencies: ['/website_sale/static/src/xml/website_sale_utils.xml'],
+      autocompleteMinWidth: 300,
+      init: function () {
+        this._super.apply(this, arguments);
+        this._dp = new concurrency.DropPrevious();
+        this._onInput = _.debounce(this._onInput, 400);
+        this._onFocusOut = _.debounce(this._onFocusOut, 100);
+    },
+
+    start: function () {
+        this.$input = this.$('.search-query');
+
+        this.order = this.$('.o_wsale_search_order_by').val();
+        this.limit = 5;
+        this.displayDescription = !!this.$input.data('displayDescription');
+        this.displayPrice = !!this.$input.data('displayPrice');
+        this.displayImage = true;
+        if (this.limit) {
+            this.$input.attr('autocomplete', 'off');
+        }
+        return this._super.apply(this, arguments);
+    },
+
+      _onInputSearchProduct: function (ev) {
+        if (!this.limit) {
+            return;
+        }
+        this._dp.add(this._fetch()).then(this._render.bind(this));
+      },
+      _fetch: function () {
+        return this._rpc({
+            route: '/shop/products/autocomplete',
+            params: {
+                'term': this.$input.val(),
+                'options': {
+                    'order': this.order,
+                    'limit': this.limit,
+                    'display_description': this.displayDescription,
+                    'display_price': this.displayPrice,
+                    'max_nb_chars': Math.round(Math.max(this.autocompleteMinWidth, parseInt(this.$el.width())) * 0.22),
+                },
+            },
+        });
+    },
+      _render: function (res) {
+        console.log(":::::::custom res::::::::::::;",res)
+        console.log(":::::::custom res['products_count']::::::::::::;",res['products_count'])
+        var $prevMenu = this.$menu;
+        this.$el.toggleClass('dropdown show', !!res);
+        if (res) {
+            var products = res['products'];
+            console.log(":::::::custom products.length::::::::::::;",products.length)
+            this.$menu = $(qweb.render('website_sale.productsSearchBar.autocomplete', {
+                products: products,
+                hasMoreProducts: products.length < res['products_count'],
+                currency: res['currency'],
+                widget: this,
+            }));
+            this.$menu.css('min-width', this.autocompleteMinWidth);
+            this.$menu.css('margin', 0);
+            this.$el.append(this.$menu);
+        }
+        if ($prevMenu) {
+            $prevMenu.remove();
+        }
+    },
+});
+
+
+
 });
 odoo.define('bista_superasia_theme.recent_product', function (require) {
 "use strict";

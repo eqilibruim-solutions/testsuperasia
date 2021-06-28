@@ -446,6 +446,7 @@
             <br/>
             <span style="font-size: calc(15px + 0.6vw); color:gray;">FILTERS</span>
         </xpath>
+
     </template>
 
     <!-- Login Page button color changes-->
