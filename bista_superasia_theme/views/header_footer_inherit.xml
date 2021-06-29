@@ -4,7 +4,6 @@
         <xpath expr="//div[@id='wrapwrap']/header" position="replace">
 <!--            <header id="header" class="header-align">-->
             <header id="header">
-
                 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                     j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
@@ -95,52 +94,35 @@
                                 <img t-att-src="'/logo.png?company=%s' % res_company.id" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
                             </a>
                         </li>
-<!--                        <li class="navbar-toggle" id="toggle_menu"><i class="fas fa-bars fa-2x"/></li>-->
                         <t t-foreach="website.menu_id.child_id" t-as="submenu">
                             <t t-call="website.submenu">
-<!--                                <t t-set="item_class" t-value="'nav-item'" class="p-2"/>-->
                                 <t t-set="item_class" t-value="'nav-menus'" class="p-2"/>
                                 <t t-set="link_class" t-value="'nav-link'" class="p-2"/>
                             </t>
                         </t>
                         <li class="navbar-links">
-                            <div class="form-outline">
-                                <t t-set="ci_rec" t-value="request.env['product.template'].sudo().search([('sale_ok', '=', True),('is_published', '=', True)])"/>
-                                <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
-                                    <t t-set="ci_rec"
-                                       t-value="request.env['product.template'].sudo().search([('is_hide_b2c', '=', False),('sale_ok', '=', True),('is_published', '=', True)])"/>
-                                </t>
-                                <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount')">
-                                    <t t-set="ci_rec"
-                                       t-value="request.env['product.template'].sudo().search([('is_hide_b2b', '=', False),('sale_ok', '=', True),('is_published', '=', True)])"/>
-                                </t>
-                                <select id="search-input" placeholder="Search Products.." class="top_search" style="width: 85% !important;">
-                                    <option value=""></option>
-                                    <t t-foreach="ci_rec" t-as="ci">
-                                        <option t-attf-src="/web/image/product.template/#{ci.id}/image_128" t-att-value="ci.id" t-esc="ci.name"/>
-                                    </t>
-                                </select>
-                            </div>
+                            <form method="get" action="/shop">
+                                <div t-attf-class="input-group #{_classes}" role="search">
+                                    <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search..." t-att-value="search"/>
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary oe_search_button" aria-label="Search" title="Search"><i class="fa fa-search"/></button>
+                                    </div>
+                                </div>
+                            </form>
                         </li>
                         <li class="navbar-links">
-<!--                            <div class="text-center adjust-icon">-->
-                                <img src="/bista_superasia_theme/static/src/img/profile.png" class="menu_icon_right_panel mx-auto profile_icon" alt="profile"/>
-
-                                <a class="link-dark cart_link custom_nav_a" t-attf-href="/web/login" style="width: max-content !important;"
-                                   groups="base.group_public">
-                                    Sign in
-                                </a>
-
-<!--                            </div>-->
+                            <img src="/bista_superasia_theme/static/src/img/profile.png" class="menu_icon_right_panel mx-auto profile_icon" alt="profile"/>
+                            <a class="link-dark cart_link custom_nav_a" t-attf-href="/web/login" style="width: max-content !important;"
+                               groups="base.group_public">
+                                Sign in
+                            </a>
                             <div class="dropdown">
                                 <a class="p-0 text-left custom_nav_a" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" t-ignore="true" t-if="not user_id._is_public()" style="white-space: normal;">
                                     <t t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
-
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                     <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>
                                     <a id="o_logout" class="dropdown-item-text"  style="padding: .25rem 1.5rem;" t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
-
                                 </div>
                             </div>
                         </li>

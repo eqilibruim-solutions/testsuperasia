@@ -22,7 +22,7 @@ publicWidget.registry.MobileHeader = publicWidget.Widget.extend(VariantMixin,{
 
 
 publicWidget.registry.CustomSearchBox = publicWidget.Widget.extend({
-  selector: '.custom_searchbox',
+  selector: '.custom_searchbox, .navbar',
     events: _.extend({}, VariantMixin.events || {}, {
         'input .oe_search_box': '_onInputSearchProduct',
      }),
@@ -71,8 +71,6 @@ publicWidget.registry.CustomSearchBox = publicWidget.Widget.extend({
         });
     },
       _render: function (res) {
-        console.log(":::::::custom res::::::::::::;",res)
-        console.log(":::::::custom res['products_count']::::::::::::;",res['products_count'])
         var $prevMenu = this.$menu;
         this.$el.toggleClass('dropdown show', !!res);
         if (res) {
@@ -86,7 +84,7 @@ publicWidget.registry.CustomSearchBox = publicWidget.Widget.extend({
             }));
             this.$menu.css('min-width', this.autocompleteMinWidth);
             this.$menu.css('margin', 0);
-            this.$el.append(this.$menu);
+            this.$('form > div:first-child').append(this.$menu);
         }
         if ($prevMenu) {
             $prevMenu.remove();
@@ -190,23 +188,23 @@ $("#toggle_menu").on("click", function(){
 
 
 /* Top HomePage Search Box */
-$(".top_search").change(function(){
-  if ($(this).val()){
-   var redirect_link = '/shop/product/'
-   redirect_link  += $(this).val()
-   window.location.href = redirect_link
-
-  }})
-
-$(".top_search").select2({
-        theme:"bootstrap",
-        allowClear: true,
-        formatResult: function (opt) {
-        var opt_text = opt.text;
-        var opt_thumb_image = $(opt.element).attr('src');
-        var $res = opt_thumb_image ? $('<span><img src="' + opt_thumb_image + '" width="auto" height="50px" /><span id="p_txt"> ' + opt.text + '</span></span>') : opt_text;
-        return $res;
-},});
+//$(".top_search").change(function(){
+//  if ($(this).val()){
+//   var redirect_link = '/shop/product/'
+//   redirect_link  += $(this).val()
+//   window.location.href = redirect_link
+//
+//  }})
+//
+//$(".top_search").select2({
+//        theme:"bootstrap",
+//        allowClear: true,
+//        formatResult: function (opt) {
+//        var opt_text = opt.text;
+//        var opt_thumb_image = $(opt.element).attr('src');
+//        var $res = opt_thumb_image ? $('<span><img src="' + opt_thumb_image + '" width="auto" height="50px" /><span id="p_txt"> ' + opt.text + '</span></span>') : opt_text;
+//        return $res;
+//},});
 /* Top HomePage Search Box */
 
 

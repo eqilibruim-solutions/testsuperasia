@@ -172,19 +172,6 @@
                 <attribute name="t-attf-class">col-lg-2 d-flex flex-column pt-lg-2</attribute>
         </xpath>
 
-<!--        <xpath expr="//div[hasclass('products_pager', 'form-inline', 'justify-content-center', 'mt-3')]" position="inside">-->
-<!--            <ul t-if="pager['page_count'] > 1" t-attf-class="#{ classname or '' } pagination m-0 #{_classes}" t-att-style="style or None">-->
-<!--                <li t-attf-class="page-item #{'disabled' if pager['page']['num'] == 1 else ''}">-->
-<!--                    <a t-att-href=" pager['page_previous']['url'] if pager['page']['num'] != 1 else None" class="page-link">Prev</a>-->
-<!--                </li>-->
-<!--                <t t-foreach="pager['pages']" t-as="page">-->
-<!--                    <li t-attf-class="page-item #{'active' if page['num'] == pager['page']['num'] else ''}"> <a t-att-href="page['url']" class="page-link" t-raw="page['num']"></a></li>-->
-<!--                </t>-->
-<!--                <li t-attf-class="page-item #{'disabled' if pager['page']['num'] == pager['page_count'] else ''}">-->
-<!--                    <a t-att-href="pager['page_next']['url'] if pager['page']['num'] != pager['page_count'] else None" class="page-link">Next</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </xpath>-->
 
         <xpath expr="//div[hasclass('o_wsale_products_grid_table_wrapper')]" position="replace">
             <div t-if="bins" class="o_wsale_products_grid_table_wrapper">
@@ -194,7 +181,6 @@
                         <col t-foreach="ppr" t-as="p"/>
                     </colgroup>
                     <tbody>
-
                         <tr t-foreach="bins" t-as="tr_product">
                             <t t-foreach="tr_product" t-as="td_product">
                                 <t t-if="td_product">
@@ -224,17 +210,36 @@
             </section><!-- End Hero -->
         </xpath>
 
-        <xpath expr="//t[@t-if='not search']" position="replace">
-            <t t-if="not search">
-                <h3 class="mt8">No product defined</h3>
-                <t t-set="brand_checkbox" t-value="attributes.value_ids.filtered(lambda tx: tx.display_type == 'radio')"/>
-                <t t-set="checked_data" t-value="[checked_ids for checked_ids in brand_checkbox]"/>
-                <p t-if="category">No product defined in category "<strong t-esc="category.display_name"/>"<t
-                        t-if="checked_data"> of
-                    <strong t-esc="', '.join([opt.name for opt in checked_data if opt.id in attrib_set])"/>.</t></p>
-            </t>
-
+        <xpath expr="//div[hasclass('text-center', 'text-muted')]" position="replace">
+            <div class="text-center text-muted">
+                <t t-if="not search">
+                    <h3 class="mt8">No product defined</h3>
+                    <t t-set="brand_checkbox" t-value="attributes.value_ids.filtered(lambda tx: tx.display_type == 'radio')"/>
+                    <t t-set="checked_data" t-value="[checked_ids for checked_ids in brand_checkbox]"/>
+                    <p t-if="category">No product defined in category "<strong t-esc="category.display_name"/>"<t
+                            t-if="checked_data"> of
+                        <strong t-esc="', '.join([opt.name for opt in checked_data if opt.id in attrib_set])"/>.</t></p>
+                </t>
+                <t t-else="">
+                    <h3 class="mt8">No results</h3>
+                    <p>No results for "<strong t-esc='search'/>"<t t-if="category"> in category "<strong t-esc="category.display_name"/>"</t>.</p>
+                    <a href="/shop" class="h6">Back to Shop</a>
+                </t>
+                <p t-ignore="true" groups="sales_team.group_sale_manager">Click <i>'New'</i> in the top-right corner to create your first product.</p>
+            </div>
         </xpath>
+
+
+<!--        <xpath expr="//t[@t-if='not search']" position="replace">-->
+<!--            <t t-if="not search">-->
+<!--                <h3 class="mt8">No product defined</h3>-->
+<!--                <t t-set="brand_checkbox" t-value="attributes.value_ids.filtered(lambda tx: tx.display_type == 'radio')"/>-->
+<!--                <t t-set="checked_data" t-value="[checked_ids for checked_ids in brand_checkbox]"/>-->
+<!--                <p t-if="category">No product defined in category "<strong t-esc="category.display_name"/>"<t-->
+<!--                        t-if="checked_data"> of-->
+<!--                    <strong t-esc="', '.join([opt.name for opt in checked_data if opt.id in attrib_set])"/>.</t></p>-->
+<!--            </t>-->
+<!--        </xpath>-->
 
     </template>
 

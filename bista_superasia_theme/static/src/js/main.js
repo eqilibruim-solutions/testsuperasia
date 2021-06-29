@@ -4,6 +4,45 @@
 * Author: Wasim Shaikh
 * License: #
 */
+
+
+
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        // Node/CommonJS
+        module.exports = factory(require('jquery'));
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
+
+function myFunction(x) {
+  if (x.matches) { // If media query matches
+         $('.oe_website_sale').length ? $('.oe_website_sale').css({'padding-right':'2%','padding-left':'2%'}) : false;
+    }
+}
+
+var x = window.matchMedia("(max-width: 1023px)")
+myFunction(x) // Call listener function at run time
+x.addListener(myFunction) // Attach listener function on state changes
+
+}));
+
+
+
+
+
+
+
+
+
+
+
+
 !(function($) {
   "use strict";
 
