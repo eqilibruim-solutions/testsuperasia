@@ -75,28 +75,28 @@ class AccountInvoiceReport(models.Model):
 
     def _select(self):
         return super(AccountInvoiceReport,
-                     self)._select() + ", line.ethnicity AS ethnicity"
+                     self)._select() + ", move.ethnicity AS ethnicity"
 
     def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", line.ethnicity"
+        return super(AccountInvoiceReport, self)._group_by() + ", move.ethnicity"
 
     def _select(self):
         return super(AccountInvoiceReport,
-                     self)._select() + ", line.channel AS channel"
+                     self)._select() + ", move.channel AS channel"
 
     def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", line.channel"
+        return super(AccountInvoiceReport, self)._group_by() + ", move.channel"
 
     def _select(self):
         return super(AccountInvoiceReport,
-                     self)._select() + ", line.city AS city"
+                     self)._select() + ", move.city AS city"
 
     def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", line.city"
+        return super(AccountInvoiceReport, self)._group_by() + ", move.city"
 
     def _select(self):
         return super(AccountInvoiceReport,
-                     self)._select() + ", line.state_id.id AS state_id"
+                     self)._select() + ", move.state_id AS state_id"
 
     def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", line.state_id.id"
+        return super(AccountInvoiceReport, self)._group_by() + ", move.state_id"
