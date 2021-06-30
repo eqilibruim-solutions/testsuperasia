@@ -41,7 +41,15 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     ethnicity = fields.Char(string="Ethnicity", help="Ethnicity of the Customer.")
+    channel = fields.Char(string="Channel")
 
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    ethnicity = fields.Char(string="Ethnicity",related='partner_id.ethnicity',store=True)
+    channel = fields.Char(string="Ethnicity",related='partner_id.channel',store=True)
+    city = fields.Char(string="City",related='partner_id.city',store=True)
+    state_id = fields.Many2one('res.country.state',string="State",related='partner_id.state_id',store=True)
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
@@ -53,6 +61,10 @@ class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
     brand = fields.Char(string='Brand',store=True)
+    ethnicity = fields.Char(string="Ethnicity",store=True)
+    channel = fields.Char(string="Ethnicity",store=True)
+    city = fields.Char(string="City",store=True)
+    state_id = fields.Many2one('res.country.state',string="State",store=True)
 
     def _select(self):
         return super(AccountInvoiceReport,
@@ -60,3 +72,31 @@ class AccountInvoiceReport(models.Model):
 
     def _group_by(self):
         return super(AccountInvoiceReport, self)._group_by() + ", line.brand"
+
+    def _select(self):
+        return super(AccountInvoiceReport,
+                     self)._select() + ", line.ethnicity AS ethnicity"
+
+    def _group_by(self):
+        return super(AccountInvoiceReport, self)._group_by() + ", line.ethnicity"
+
+    def _select(self):
+        return super(AccountInvoiceReport,
+                     self)._select() + ", line.channel AS channel"
+
+    def _group_by(self):
+        return super(AccountInvoiceReport, self)._group_by() + ", line.channel"
+
+    def _select(self):
+        return super(AccountInvoiceReport,
+                     self)._select() + ", line.city AS city"
+
+    def _group_by(self):
+        return super(AccountInvoiceReport, self)._group_by() + ", line.city"
+
+    def _select(self):
+        return super(AccountInvoiceReport,
+                     self)._select() + ", line.state_id.id AS state_id"
+
+    def _group_by(self):
+        return super(AccountInvoiceReport, self)._group_by() + ", line.state_id.id"

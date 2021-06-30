@@ -9,6 +9,7 @@
 			<field name="arch" type="xml">
 				<xpath expr="//field[@name='category_id']" position="after">
 	                <field name="ethnicity"/>
+	                <field name="channel"/>
 	            </xpath>
 			</field>
 		</record>
