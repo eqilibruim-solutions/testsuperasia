@@ -303,6 +303,7 @@ class SaleOrdersuperaisa(models.Model):
 
     account_type = fields.Selection([('B2C', 'B2C'), ('B2B', 'B2B'),('Public','Public')],
                                     string='Account Type')
+    purchase_order = fields.Char('Purchase Order#')
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
@@ -925,3 +926,9 @@ class PricelistItem(models.Model):
                 print(product_temp)
                 product_temp.b2c_pricelist_price = item.fixed_price
         return res
+
+
+class account_move(models.Model):
+    _inherit = 'account.move'
+
+    purchase_order = fields.Char('Purchase Order#')
