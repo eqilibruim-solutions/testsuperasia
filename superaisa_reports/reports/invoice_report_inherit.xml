@@ -49,6 +49,10 @@
                     <strong style="color:maroon">Source:</strong>
                     <p class="m-0" t-field="o.invoice_origin"/>
                 </div>
+                <div class="col-auto mw-100 mb-2" t-if="o.purchase_order" name="purchase_order">
+                    <strong style="color:maroon">Purchase Order #:</strong>
+                    <p class="m-0" t-field="o.purchase_order"/>
+                </div>
                 <div class="col-auto mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
                     <strong style="color:maroon">Customer Code:</strong>
                     <p class="m-0" t-field="o.partner_id.ref"/>
