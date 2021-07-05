@@ -48,8 +48,8 @@ class AccountMove(models.Model):
 
     ethnicity = fields.Char(string="Ethnicity",related='partner_id.ethnicity',store=True)
     channel = fields.Char(string="Channel",related='partner_id.channel',store=True)
-    city = fields.Char(string="City",related='partner_id.city',store=True)
-    state_id = fields.Many2one('res.country.state',string="State",related='partner_id.state_id',store=True)
+    city = fields.Char(string="Partner City",related='partner_id.city',store=True)
+    state_id = fields.Many2one('res.country.state',string="Partner Province/State",related='partner_id.state_id',store=True)
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
@@ -63,8 +63,8 @@ class AccountInvoiceReport(models.Model):
     brand = fields.Char(string='Brand',store=True)
     ethnicity = fields.Char(string="Ethnicity",store=True)
     channel = fields.Char(string="Channel",store=True)
-    city = fields.Char(string="City",store=True)
-    state_id = fields.Many2one('res.country.state',string="State",store=True)
+    city = fields.Char(string="Partner City",store=True)
+    state_id = fields.Many2one('res.country.state',string="Partner Province/State",store=True)
 
     def _select(self):
         return super(AccountInvoiceReport,
