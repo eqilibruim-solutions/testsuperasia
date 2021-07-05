@@ -28,12 +28,3 @@ class SaleReport(models.Model):
                                               fields=fields,
                                               groupby=groupby,
                                               from_clause=from_clause)
-
-    def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
-
-        fields['ethnicity'] = ', s.ethnicity AS ethnicity'
-        groupby += ',s.ethnicity'
-        return super(SaleReport, self)._query(with_clause=with_clause,
-                                              fields=fields,
-                                              groupby=groupby,
-                                              from_clause=from_clause)
