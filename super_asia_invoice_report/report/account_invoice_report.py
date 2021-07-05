@@ -47,7 +47,7 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     ethnicity = fields.Char(string="Ethnicity",related='partner_id.ethnicity',store=True)
-    channel = fields.Char(string="Ethnicity",related='partner_id.channel',store=True)
+    channel = fields.Char(string="Channel",related='partner_id.channel',store=True)
     city = fields.Char(string="City",related='partner_id.city',store=True)
     state_id = fields.Many2one('res.country.state',string="State",related='partner_id.state_id',store=True)
 
@@ -62,7 +62,7 @@ class AccountInvoiceReport(models.Model):
 
     brand = fields.Char(string='Brand',store=True)
     ethnicity = fields.Char(string="Ethnicity",store=True)
-    channel = fields.Char(string="Ethnicity",store=True)
+    channel = fields.Char(string="Channel",store=True)
     city = fields.Char(string="City",store=True)
     state_id = fields.Many2one('res.country.state',string="State",store=True)
 
@@ -73,30 +73,32 @@ class AccountInvoiceReport(models.Model):
     def _group_by(self):
         return super(AccountInvoiceReport, self)._group_by() + ", line.brand"
 
-    def _select(self):
-        return super(AccountInvoiceReport,
-                     self)._select() + ", move.ethnicity AS ethnicity"
+    # def _select(self):
+    #     return super(AccountInvoiceReport,
+    #                  self)._select() + ", move.ethnicity AS ethnicity"
 
-    def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", move.ethnicity"
+    # def _group_by(self):
+    #     return super(AccountInvoiceReport, self)._group_by() + ", move.ethnicity"
 
-    def _select(self):
-        return super(AccountInvoiceReport,
-                     self)._select() + ", move.channel AS channel"
+    # def _select(self):
+    #     return super(AccountInvoiceReport,
+    #                  self)._select() + ", move.channel AS channel"
 
-    def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", move.channel"
+    # def _group_by(self):
+    #     return super(AccountInvoiceReport, self)._group_by() + ", move.channel"
 
-    def _select(self):
-        return super(AccountInvoiceReport,
-                     self)._select() + ", move.city AS city"
+    # def _select(self):
+    #     return super(AccountInvoiceReport,
+    #                  self)._select() + ", move.city AS city"
 
-    def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", move.city"
+    # def _group_by(self):
+    #     return super(AccountInvoiceReport, self)._group_by() + ", move.city"
 
-    def _select(self):
-        return super(AccountInvoiceReport,
-                     self)._select() + ", move.state_id AS state_id"
+    # def _select(self):
+    #     return super(AccountInvoiceReport,
+    #                  self)._select() + ", move.state_id AS state_id"
 
-    def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", move.state_id"
+    # def _group_by(self):
+    #     return super(AccountInvoiceReport, self)._group_by() + ", move.state_id"
+
+
