@@ -386,9 +386,9 @@
 
                                                 <t t-set="product_href" t-value="sub_loop.website_url" />
                                                 <a t-att-href="product_href" itemprop="url">
-                                                <div class="img-box py-5 pl-2 pr-2 oe_product_image">
-                                                    <img t-att-src="'/web/image/product.template/%s/image_128' % sub_loop.id" alt="Product Image" class="img-fluid product_img_size"/>
-                                                </div>
+                                                    <div class="img-box py-5 pl-2 pr-2 oe_product_image">
+                                                        <img t-att-src="'/web/image/product.template/%s/image_128' % sub_loop.id" alt="Product Image" class="img-fluid product_img_size"/>
+                                                    </div>
                                                 </a>
 
                                                 <div class="product-details p-2 mt-n1">
@@ -400,17 +400,15 @@
                                                     </a>
 <!--                                                    <h5 class="text-center text-uppercase">Royalty Ginger</h5>-->
 <!--                                                    <h5 class="text-center text-uppercase pb-2">Nut Cookie <span class="text-lowercase">(100 g)</span></h5>-->
-                                                    <h4 class="text-center text-uppercase pb-2">
-<!--                                                        <t t-set="combination" t-value="sub_loop._get_first_possible_combination()"/>-->
-<!--                                                        <t t-set="combination_info" t-value="sub_loop._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist,product_id=sub_loop.product_variant_id.id)"/>-->
-<!--                                                        <t t-set="product_variant" t-value="sub_loop.env['product.product'].browse(combination_info['product_id'])"/>-->
+                                                    <!--<h4 class="text-center text-uppercase pb-2">
+                                                        <t t-set="combination" t-value="sub_loop._get_first_possible_combination()"/>
+                                                        <t t-set="combination_info" t-value="sub_loop._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist,product_id=sub_loop.product_variant_id.id)"/>
+                                                        <t t-set="product_variant" t-value="sub_loop.env['product.product'].browse(combination_info['product_id'])"/>
                                                         <t t-set="variant_combination_info" t-value="sub_loop._get_combination_info(only_template=False, add_qty=add_qty or 1, pricelist=pricelist,product_id=sub_loop.product_variant_id.id)"/>
                                                         <del t-attf-class="text-danger mr-2 {{'' if variant_combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="variant_combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
-
-<!--                                                        <span t-if="variant_combination_info['price']" t-esc="variant_combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>-->
-<!--                                                        <span itemprop="price" style="display:none;" t-esc="variant_combination_info['price']" />-->
-
-                                                    </h4>
+                                                        <span t-if="variant_combination_info['price']" t-esc="variant_combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                        <span itemprop="price" style="display:none;" t-esc="variant_combination_info['price']" />
+                                                    </h4>-->
 
                                                     <t t-set="combination" t-value="sub_loop._get_first_possible_combination()"/>
                                                     <t t-set="combination_info" t-value="sub_loop._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist)"/>

@@ -16,7 +16,7 @@
         'views/shop_page_inherit.xml',
         'views/cart_page_inherit.xml',
         'views/contact_us_template_inherit.xml',
-
+        'views/portal_template.xml',
     ],
 
     "installable": True,

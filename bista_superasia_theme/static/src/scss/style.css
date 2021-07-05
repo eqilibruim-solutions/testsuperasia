@@ -136,7 +136,7 @@ border-right:1px solid #707070;
     display: block;
     position: relative;
     color: #707070;
-    padding: 5px 15px 5px 20px !important;
+    padding: 5px 15px 5px 15px !important;
     transition: 0.3s;
     font-size: 14px;
     font-family: "Open Sans", sans-serif;
@@ -752,7 +752,7 @@ opacity: 0;
 .sticky-wrapper {
     /*height: 0!important;*/
     position: relative;
-    z-index: 999;
+    z-index: 99999;
     width: 100%;
     /*opacity: 0.8;*/
     background:rgb(255 255 255 / 80%);;
@@ -1016,6 +1016,19 @@ li.active {
 .retailer-login-box a:hover, .consumer-login-box a:hover{
   color: #ffffff;
   background-color: #AC1520;
+}
+/**New RSM**/
+#header #head_menu_div .navbar-links form{
+    padding: 0 20px;
+}
+#header #head_menu_div .navbar-links form button{
+    min-height: calc(2.08rem + 2px);
+    height: calc(2.08rem + 2px);
+}
+
+#header #head_menu_div .navbar-links img.menu_icon_right_panel {
+    top: 5px;
+    position: relative;
 }
 /*
 *
@@ -1707,13 +1720,12 @@ display:none !important;
   /*.sticky-wrapper header nav #head_menu_div {
     opacity: 1 !important;
   }*/
-  #header{
-  width:100%;
-
-  }
-  .navbar.h-100{
-        padding: 0 !important;
-  }
+#header{
+    width:100%;
+}
+.navbar.h-100{
+    padding: 0 !important;
+}
 .navbar-logo{
     display:none;
 }

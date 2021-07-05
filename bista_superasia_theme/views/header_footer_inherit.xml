@@ -87,7 +87,7 @@
                 </div>
 
                 <nav class="navbar h-100">
-                    <div class="col-md-12 col-sm-12 col-lg-10 mobile_ul" id="head_menu_div">
+                    <div class="col-md-12 col-sm-12 col-lg-12 mobile_ul" id="head_menu_div">
                     <ul class="mt-n1">
                         <li class="navbar-logo logo">
                             <a href="/">
@@ -117,7 +117,7 @@
                                 Sign in
                             </a>
                             <div class="dropdown">
-                                <a class="p-0 text-left custom_nav_a" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" t-ignore="true" t-if="not user_id._is_public()" style="white-space: normal;">
+                                <a class="p-0 text-center custom_nav_a" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" t-ignore="true" t-if="not user_id._is_public()" style="white-space: normal;">
                                     <t t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
