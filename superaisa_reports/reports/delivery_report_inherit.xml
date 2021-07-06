@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="report_delivery_document_inherit"
+	          inherit_id="stock.report_delivery_document">
+		<xpath expr="//div[@name='div_origin']" position="after">
+			<t t-set="sale_order" t-value="o.env['sale.order'].search([('name', '=', o.origin)], limit=1)"/>
+			<div t-if="sale_order" class="col-auto" name="div_sale_purchase_order">
+				<strong>Purchase Order #:</strong>
+				<p t-field="sale_order.purchase_order"/>
+			</div>
+		</xpath>
+	</template>
+</odoo>
