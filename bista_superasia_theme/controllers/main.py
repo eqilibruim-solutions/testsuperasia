@@ -7,6 +7,7 @@ from odoo.addons.website.models.ir_http import sitemap_qs2dom
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.controllers.main import QueryURL
 import json
+import werkzeug
 from odoo import api, fields, models, _, registry, SUPERUSER_ID
 from odoo.addons.payment.controllers.portal import PaymentProcessing
 
@@ -124,6 +125,18 @@ class WebsiteSale(ws):
 
         return 'is_published desc, %s, id desc' % order
 
+    def _get_search_domain_new(self, search, category):
+        domain = request.website.sale_product_domain()
+        if search:
+            for srch in search.split(" "):
+                domain += [
+                    '|', '|', '|', ('name', 'ilike',
+                                    srch), ('description', 'ilike', srch),
+                    ('description_sale', 'ilike', srch), ('product_variant_ids.default_code', 'ilike', srch)]
+
+        if category:
+            domain += [('public_categ_ids', 'child_of', int(category))]
+        return domain
 
     @http.route([
         '''/shop''',
@@ -134,6 +147,21 @@ class WebsiteSale(ws):
     def shop(self, page=0, category=None, search='', ppg=False, **post):
         add_qty = int(post.get('add_qty', 1))
         Category = request.env['product.public.category']
+
+        # When user remove category form filter
+        # Redirect to shop page with all filter except category
+        if int(post.get('category_remove',-1)) == 0:
+            redirect_url = '/shop'
+            args_dict = dict(request.httprequest.args)
+            if args_dict:
+                redirect_url += '?'
+                for args in args_dict:
+                    if args.lower() not in ['category','category_attrib','category_remove']:
+                        args_value_list = request.httprequest.args.getlist(args)
+                        for v in args_value_list:
+                            redirect_url += f"{args}={v}&"
+            return werkzeug.utils.redirect(redirect_url)
+            
         if category:
             category = Category.search([('id', '=', int(category))], limit=1)
             if not category or not category.can_access_from_current_website():
@@ -213,9 +241,45 @@ class WebsiteSale(ws):
             else:
                 layout_mode = 'grid'
         ppr = 6
+
+        domain_1 = self._get_search_domain_new(search, category)
+        if request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
+            domain_1.append(('is_hide_b2c', '=', False))
+        elif request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount'):
+            domain_1.append(('is_hide_b2b', '=', False))
+        product_withaout_filter = Product.search(domain_1)
+        ProductAttribute = request.env['product.attribute']
+        attributes_ids_b = request.env[
+            'product.attribute'].browse(set(attributes_ids))
+        appied_filter_result = attributes_ids_b
+        applied_filter_values = attrib_set
+        attrib_category_ids = []
+        variant_count = {}
+
+        if product_withaout_filter:
+            attributes_ids_all = ProductAttribute.search(
+                [('attribute_line_ids.product_tmpl_id', 'in', product_withaout_filter.ids)])
+        else:
+            attributes_ids_all = attributes
+        for i in range(len(attributes_ids_all)):
+            if attributes_ids_all[i].category_id and attributes_ids_all[i].value_ids and len(attributes_ids_all[i].value_ids) > 1 and attributes_ids_all[i].category_id.id not in attrib_category_ids:
+                attrib_category_ids.append(
+                    attributes_ids_all[i].category_id.id)
+
+            for v in attributes_ids_all[i].value_ids:
+                actual_domain = domain_1 + \
+                    [('attribute_line_ids.value_ids', 'in', [v.id])]
+                variant_count.update(
+                    {v.id: Product.search_count(actual_domain)})
+
+        attrib_category = request.env[
+            'product.attribute.category'].browse(set(attrib_category_ids))
+        variant_counts = variant_count
+
         values = {
             'search': search,
             'category': category,
+            'current_category': category,
             'attrib_values': attrib_values,
             'attrib_set': attrib_set,
             'pager': pager,
@@ -227,10 +291,16 @@ class WebsiteSale(ws):
             'ppg': 90,
             'ppr': ppr,
             'categories': categs,
+            'public_categories': categs,
             'attributes': attributes,
             'keep': keep,
             'search_categories_ids': search_categories.ids,
             'layout_mode': layout_mode,
+            
+            'appied_filter_result': appied_filter_result,
+            'applied_filter_values': applied_filter_values,
+            'attrib_category': attrib_category,
+            'variant_counts': variant_counts
         }
         if category:
             values['main_object'] = category
@@ -414,6 +484,17 @@ class WebsiteSale(ws):
                 res_product.update(combination_info)
                 res_product['list_price'] = FieldMonetary.value_to_html(res_product['list_price'], monetary_options)
                 res_product['price'] = FieldMonetary.value_to_html(res_product['price'], monetary_options)
+        return res
+    
+
+    @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
+    def product(self, product, category='', search='', **kwargs):
+        res = super(WebsiteSale, self).product(product, category, search, **kwargs)
+        if res.qcontext.get('categories'):
+            res.qcontext.update({
+                'public_categories': res.qcontext.get('categories'),
+                'current_category': res.qcontext.get('category')
+            })
         return res
 
 

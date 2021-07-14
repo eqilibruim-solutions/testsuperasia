@@ -122,7 +122,7 @@
                                 <input type="hidden" class="product_id" name="product_id" t-att-value="product_variant.id" />
                                 <input type="hidden" class="product_template_id" name="product_template_id" t-att-value="product.id" />
                             </t>
-                            <t t-if="product_variant.qty_available >= 0">
+                            <t t-if="product_variant.qty_available >= 1">
                                 <a t-att-class="'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt d-none' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt'" role="button">Add</a>
                             </t>
                             <t t-else="">
@@ -259,7 +259,7 @@
                 </t>
             </t>-->
             <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
-            <t t-if="product_variant.qty_available >= 0">
+            <t t-if="product_variant.qty_available >= 1">
                 <a role="button" id="add_to_cart" class="a-submit btn custom_them_primary d-block d-sm-inline-block js_check_product mt-4 text-white" href="#">
                     <i class="fa fa-shopping-cart"/>
                     Add to Cart

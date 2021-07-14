@@ -176,27 +176,27 @@
                                     Categories
                                 </button>
                                 <div class="dropdown-menu submenu_list_slide" style="left:-2 !important">
-                                    <t t-if="categories">
+                                    <t t-if="public_categories">
                                         <div class="sticky_div"
                                              style="background:white; color:black; font-weight:bold; padding:10px 20px !important; font-size:large; position:sticky; top:0; z-index:1020;"><i class="far fa-arrow-alt-circle-left"/> Back
                                         </div>
                                         <div class="dropdown-divider"></div>
                                         <a t-att-href="keep('/shop', category=0)"
-                                           t-attf-class="dropdown-item cate #{'' if category else 'active'} o_not_editable">All Products</a>
-                                        <t t-foreach="categories" t-as="c">
-                                            <a t-attf-class="dropdown-item cate #{'active' if c == category else ''}" t-att-href="keep('/shop/category/' + slug(c), category=0)"><span
-                                                    t-field="c.name"/> </a>
+                                           t-attf-class="dropdown-item cate #{'' if current_category else 'active'} o_not_editable">All Products</a>
+                                        <t t-foreach="public_categories" t-as="c">
+                                            <a t-attf-class="dropdown-item cate #{'active' if c == current_category else ''}" t-att-href="keep('/shop/category/' + slug(c), category=0)">
+                                            <span t-field="c.name"/> </a>
                                         </t>
                                     </t>
                                     <t t-else="">
-                                        <t t-set="categories"
+                                        <t t-set="public_categories"
                                            t-value="request.env['product.public.category'].sudo().search([])"/>
                                         <div class="sticky_div"
                                              style="background:white; color:black; font-weight:bold; padding:10px 20px !important; font-size:large; position:sticky; top:0; z-index:1020;"><i class="far fa-arrow-alt-circle-left"/> Back
                                         </div>
                                         <div class="dropdown-divider"></div>
                                         <a t-attf-class="dropdown-item cate o_not_editable" t-att-href="'/shop/'">All Products</a>
-                                        <t t-foreach="categories" t-as="c">
+                                        <t t-foreach="public_categories" t-as="c">
 <!--                                            <a class="dropdown-item cate"-->
 <!--                                               t-att-href="keep('/shop/category/' + slug(c), category=0)"><span t-field="c.name"/> </a>-->
                                             <a t-attf-class="dropdown-item cate #{'' if c else 'active'} o_not_editable" t-att-href="'/shop/category/%s' % c.id"><span
@@ -217,7 +217,7 @@
                                 <div class="dropdown-menu submenu_list_slide">
                                     <t t-if="attributes">
                                         <form class="js_attributes mb-2" method="get">
-                                            <input t-if="category" type="hidden" name="category" t-att-value="category.id" />
+                                            <input t-if="current_category" type="hidden" name="category" t-att-value="current_category.id" />
                                             <input type="hidden" name="search" t-att-value="search" />
                                             <div class="sticky_div"
                                                  style="background:white; color:black; font-weight:bold; padding:10px 20px !important; font-size:large; position:sticky; top:0; z-index:1020;"><i class="far fa-arrow-alt-circle-left"/> Back
