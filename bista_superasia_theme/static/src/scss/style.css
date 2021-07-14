@@ -752,7 +752,8 @@ opacity: 0;
 .sticky-wrapper {
     /*height: 0!important;*/
     position: relative;
-    z-index: 99999;
+    /* z-index: 99999; */
+    z-index: 100;
     width: 100%;
     /*opacity: 0.8;*/
     background:rgb(255 255 255 / 80%);;
