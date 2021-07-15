@@ -56,6 +56,17 @@
 
 
 
+    <record id="inherit_view_partner_form" model="ir.ui.view">
+        <field name="name">inherit.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="before">
+                <field name="b2b_customer_type" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
 
  <template id="b2b_activation">
             <t t-call="website.layout">
@@ -98,6 +109,22 @@
                                                     <div class="input-group-desc">
                                                         <input class="input--style-5" type="text" name="company_name" required="1"/>
                                                         <!--                    <label class="label&#45;&#45;desc">required</label>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row form-customer_type">
+                                                <div class="name">Are you?</div>
+                                                <div class="value">
+                                                    <div class="input-group-desc">
+                                                        <select id="b2b_customer_type" name="b2b_customer_type"
+                                                                class="input--style-5" style="height: 40px; width: 100%;">
+                                                            <option value="restaurant_owner">Restaurant Owner</option>
+                                                            <option value="conv_grocery_owner">Convenience/Grocery Store Owner</option>
+                                                            <option value="wholesale_dist">Wholesaler Distributor</option>
+                                                            <option value="online_retailer">Online Retailer</option>
+                                                            <option value="other">Other</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>

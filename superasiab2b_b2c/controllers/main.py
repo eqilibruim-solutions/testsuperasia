@@ -121,6 +121,8 @@ class superasiab2b_b2c(http.Controller):
             if mobile:
                 mobile = '+1' + mobile
 
+            b2b_customer_type = post.get('b2b_customer_type')
+
             orm_user = request.env['res.users']
             
             activeuser = orm_user.search([('login','=',email),('active','=',True)])
@@ -188,6 +190,7 @@ class superasiab2b_b2c(http.Controller):
             'mobile':mobile,
             'website':website,
             'company_type':'company',
+            'b2b_customer_type': b2b_customer_type
             }
             
             partner_id.write(profile_vals)

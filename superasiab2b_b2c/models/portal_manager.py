@@ -818,6 +818,12 @@ class res_partner(models.Model):
     signup_type = fields.Char(string='Signup Token Type', copy=False)
     signup_expiration = fields.Datetime(copy=False)
 
+    b2b_customer_type = fields.Selection([
+        ('restaurant_owner', 'Restaurant Owner'), ('conv_grocery_owner', 'Convenience/Grocery Store Owner'),
+        ('wholesale_dist', 'Wholesaler Distributor'), ('online_retailer', 'Online Retailer'), ('other', 'Other')
+    ], string="Customer Type")
+
+
 class res_users(models.Model):
     _inherit = 'res.users'
 
