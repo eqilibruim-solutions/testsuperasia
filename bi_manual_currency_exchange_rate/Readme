@@ -1,0 +1,20 @@
+
+
+=> 05/11/19 ==> 13.0.0.1 ==> Index improved according to a mobile compatible format and change related and demanded apps link.
+
+13.0.0.2 ==> fixed issue of inventory valuation
+
+Version 13.0.0.3 : (12/02/20)
+		- Solve singleton error in stock.valuation.layer .
+		- Solve pricing issue in purchase order.
+
+13.0.0.4 ==> 8/10/2020 ==> Solved issue while confirm the picking of sale order at a time not able to confirm it for the some currency amount issue.
+
+13.0.0.5==>fixed issue of traceback when validating receipt.
+13.0.0.6 ==> 31-3-2021 ==> 1. Make rate field readonly if record is not editable for sale/purchase/invoice/vendor bill
+                            2. Issue is solved for Passed automatic currency active and rate from purchase to bill.
+13.0.0.7 ==> 5-1-2021 ==> - readonly currency_rate_active fields when state "locked and cancel" in sale order
+                          - readonly currency_rate_active fields when state is "posted and cancel" in Invoice
+                          - readonly currency_rate_active fields when state is "purchase order, Locked and cancel" in purchase Order
+13.0.0.8 ==> 19-1-2021 ==>1. Chnage the price as per pricelist or currensy in sale order line, purchase order line and invoice withe the currency_rate_active.
+
