@@ -63,7 +63,7 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='type']" position="before">
-                <field name="b2b_customer_type" readonly="1"/>
+                <field name="b2b_customer_type"/>
             </xpath>
         </field>
     </record>
