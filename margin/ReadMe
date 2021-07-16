@@ -1,0 +1,14 @@
+
+=> 14/11/19 ==> 13.0.0.1 ==> Index improved according to a mobile compatible format and change related and demanded apps link.
+
+=> 31/12/19 ==> 13.0.0.2 ==> Fixed margin calculation, fixed inherited view and fixed margin field in Analysis Report.
+
+Date : 23rd march 2020
+version 13.0.0.3
+issue solve :-
+	=> solve In multi currency purchase price not calculated valid.
+
+
+Version : 13.0.0.4 (16-10-2020)
+Fixed : While adding notes and add section in sale order line then got traceback. it's solved.
+
