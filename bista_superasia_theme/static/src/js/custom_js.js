@@ -7,6 +7,36 @@ var concurrency = require('web.concurrency');
 var core = require('web.core');
 var qweb = core.qweb;
 
+publicWidget.registry.QtyChangeValidation = publicWidget.Widget.extend({
+  selector: '.oe_website_sale',
+  events: {
+      'keyup #product_details form  input[name="add_qty"]': '_onChangeAddQuantityProduct',
+  },
+
+  //--------------------------------------------------------------------------
+  // Handlers
+  //--------------------------------------------------------------------------
+
+  /**
+   * @private
+   */
+   _onChangeAddQuantityProduct: function (ev) {
+      var $input = $(ev.currentTarget);
+      var value = parseInt($input.val() || 0, 10);
+      var on_hand_qty = parseInt($input.data('max') || 1, 10)
+      if (isNaN(value)) {
+          value = 1;
+      }
+
+      if (value > on_hand_qty) {
+        value = on_hand_qty
+      }
+
+      $input.val(value)
+      
+  },
+});
+
 publicWidget.registry.MobileHeader = publicWidget.Widget.extend(VariantMixin,{
     selector: '#header #mob_nav',
     events: _.extend({}, VariantMixin.events || {}, {

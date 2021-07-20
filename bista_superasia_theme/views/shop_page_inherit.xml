@@ -39,6 +39,10 @@
                                 </a>
                             </t>
                         </div>
+
+                        <div class="d-inline" t-if="attrib_values or category">
+                            <button id="apply_filter_mobile" class="btn btn-link" data-toggle="modal" data-target="#apply_filter_mobile_modal">Filter</button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12 text-right">
@@ -49,6 +53,70 @@
                         <label t-attf-class="btn #{'active' if layout_mode != 'list' else None} fa fa-th o_wsale_apply_grid ml-3" title="Grid">
                             <input id='ck_grid' type="radio" name="wsale_products_layout" t-att-checked="'checked' if layout_mode != 'list' else None"/>
                         </label>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="apply_filter_mobile_modal" tabindex="-1" role="dialog" aria-labelledby="apply_filter_mobile_modalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <t t-if="attrib_values or category">
+                                    <!-- <button type="button" class="btn custom_them_primary mb-n2 ml-n3 mt-3 text-100 text-lg-left text-white"
+                                        data-target="#wsale_products_applied_filters">
+                                        Applied Filters
+                                    </button> -->
+
+                                    <div class="wpf-applied" id="wsale_products_applied_filters">
+                                        <a href="/shop" class="float-right"> Clear All </a>
+                                        <form class="js_attributes_applied" method="get">
+                                            <input type="hidden" name="search" t-att-value="search" />
+                                            <t t-if="category">
+                                                <div class="wpf-aply-row">
+                                                    <div class="wpf-title"> Category :</div>
+                                                    <div class="wpf-row">
+                                                        <label class="mt-checkbox">
+                                                            <input type="hidden" name="category_remove" value="1"/>
+                                                            <input type="checkbox" name="category_attrib" t-att-value="'%s' % (category.id)" checked="checked" t-att-title="category.name" t-att-id="'category_%s' %(category.id)"/>
+                                                            <span />
+                                                        </label>
+                                                        <label t-att-for="'category_%s' %(category.id)">
+                                                            <span style="font-weight: normal" t-field="category.name" />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                            <t t-if="attrib_values">
+                                                <t t-foreach="attributes" t-as="a">
+                                                    <t t-if="a.id in appied_filter_result.ids">
+                                                    <div class="wpf-aply-row">
+                                                    <div class="wpf-title"> <t t-esc="a.name"/> :</div>
+                                                    <t t-foreach="a.value_ids" t-as="v">
+                                                        <t t-if="v.id in attrib_set">
+                                                            <div class="wpf-row">
+                                                                <label class="mt-checkbox">
+                                                                    <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None" t-att-title="v.name" t-att-id="'app_%s' %(v.id)"/>
+                                                                    <span />
+                                                                </label>
+                                                                <label t-att-for="'app_%s' %(v.id)">
+                                                                    <span style="font-weight: normal" t-field="v.name" />
+                                                                </label>
+                                                            </div>
+                                                        </t>
+                                                    </t>
+                                                    </div>
+                                                    </t> 
+                                                </t>
+                                            </t>
+                                        </form>
+                                    </div>
+
+                                </t>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

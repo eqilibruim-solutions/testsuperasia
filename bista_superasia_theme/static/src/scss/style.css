@@ -3177,3 +3177,10 @@ a{
 button.o_add_compare_dyn, button.o_add_compare {
     display: none !important;
 } 
+
+
+@media (min-width: 768px) {
+  #apply_filter_mobile {
+    display: none;
+  }
+}
