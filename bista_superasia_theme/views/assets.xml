@@ -18,11 +18,11 @@
         </xpath>
     </template>
 
-    <template id="superasia_assets_frontend_subscription" inherit_id="website_mass_mailing.assets_frontend">
+   <!--  <template id="superasia_assets_frontend_subscription" inherit_id="website_mass_mailing.assets_frontend">
        <xpath expr="//script[@src='/website_mass_mailing/static/src/js/website_mass_mailing.js']" position="replace">
            <script type="text/javascript" src="/bista_superasia_theme/static/src/js/website_mass_mailing.js"></script>
        </xpath>
-    </template>
+    </template> -->
     <template id="superasia_assets_frontend" inherit_id="web.assets_frontend">
         <xpath expr="//link" position="after">
             <link rel="stylesheet" href="/bista_superasia_theme/static/src/scss/mdb.min.css"/>
