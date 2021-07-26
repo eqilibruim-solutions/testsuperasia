@@ -581,6 +581,13 @@ publicWidget.registry.WebsiteSale = publicWidget.Widget.extend(VariantMixin, {
         if (isNaN(value)) {
             value = 1;
         }
+
+        var on_hand_qty = parseInt($input.data('max') || 1, 10)
+        if (value > on_hand_qty) {
+            value = on_hand_qty
+            $input.val(value)
+          }
+        
         var $dom = $input.closest('tr');
         // var default_price = parseFloat($dom.find('.text-danger > span.oe_currency_value').text());
         var $dom_optional = $dom.nextUntil(':not(.optional_product.info)');

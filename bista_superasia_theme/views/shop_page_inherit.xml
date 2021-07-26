@@ -20,7 +20,7 @@
                 (name_desc_label, 'name desc')
             ]"/>
                     <t t-set="website_sale_sortable_current" t-value="[sort for sort in website_sale_sortable if sort[1]==request.params.get('order', '')]"/>
-                    <div class="dropdown mt-2">
+                    <div class="dropdown_mobile dropdown mt-2">
                         <a role="button" href="#" class="btn dropdown-toggle text-black" data-toggle="dropdown">
                             <span class="d-none d-lg-inline">
                                 <t t-if='len(website_sale_sortable_current)'>
@@ -39,10 +39,117 @@
                                 </a>
                             </t>
                         </div>
+                                        <div id="apply_filter_mobile" t-if="category or attrib_values">
+                    <!-- <button id="apply_filter_mobile" class="btn btn-link" data-toggle="modal" data-target="#apply_filter_mobile_modal">Filter</button> -->
+                    <!-- <p class="d-inline-block font-weight-bold" style="vertical-align: middle;">Filters:</p> -->
+                    <!-- <div class="d-inline-block" t-if="category">
 
-                        <div class="d-inline" t-if="attrib_values or category">
-                            <button id="apply_filter_mobile" class="btn btn-link" data-toggle="modal" data-target="#apply_filter_mobile_modal">Filter</button>
+                        <div class="wpf-applied">
+                            <form class="js_attributes_applied p-0" method="get">
+                                <input type="hidden" name="search" t-att-value="search" />
+                                <t t-if="category">
+                                    <div class="wpf-aply-row">
+                                        <div class="wpf-row">
+                                            <label class="mt-checkbox">
+                                                <input type="hidden" name="category_remove" value="1"/>
+                                                <input type="checkbox" name="category_attrib" t-att-value="'%s' % (category.id)" checked="checked" t-att-title="category.name" t-att-id="'category_%s' %(category.id)"/>
+                                                <span />
+                                            </label>
+                                            <label t-att-for="'category_%s' %(category.id)">
+                                                <span style="font-weight: normal" t-field="category.name" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </t>
+                            </form>
                         </div>
+                    </div> -->
+                    <!-- <div class="d-inline-block" t-if="attrib_values">
+                        <div class="wpf-applied">
+                            <form class="js_attributes_applied p-0" method="get">
+                                <input type="hidden" name="search" t-att-value="search" />
+                                <t t-if="attrib_values">
+                                    <t t-foreach="attributes" t-as="a">
+                                        <t t-if="a.id in appied_filter_result.ids">
+                                        <div class="wpf-aply-row">
+                                        <t t-foreach="a.value_ids" t-as="v">
+                                            <t t-if="v.id in attrib_set">
+                                                <div class="wpf-row">
+                                                    <label class="mt-checkbox">
+                                                        <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None" t-att-title="v.name" t-att-id="'app_%s' %(v.id)"/>
+                                                        <span />
+                                                    </label>
+                                                    <label t-att-for="'app_%s' %(v.id)">
+                                                        <span style="font-weight: normal" t-field="v.name" />
+                                                    </label>
+                                                </div>
+                                            </t>
+                                        </t>
+                                        </div>
+                                        </t> 
+                                    </t>
+                                </t>
+                            </form>
+                        </div>
+                    </div> -->
+                    <table class="table table-borderless mb-0" t-if="category or attrib_values">
+                        <tbody>
+                            <tr t-if="category">
+                                <td class="font-weight-bold p-2">Category:</td>
+                                <td class="wpf-applied p-2"> 
+                                    <form class="js_attributes_applied p-0" method="get">
+                                        <input type="hidden" name="search" t-att-value="search" />
+                                        <t t-if="category">
+                                            <div class="wpf-aply-row">
+                                                <div class="wpf-row">
+                                                    <label class="mt-checkbox">
+                                                        <input type="hidden" name="category_remove" value="1"/>
+                                                        <input type="checkbox" name="category_attrib" t-att-value="'%s' % (category.id)" checked="checked" t-att-title="category.name" t-att-id="'category_%s' %(category.id)"/>
+                                                        <span />
+                                                    </label>
+                                                    <label t-att-for="'category_%s' %(category.id)">
+                                                        <span style="font-weight: normal" t-field="category.name" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </form>
+                                </td>
+
+                            </tr>
+                            <tr t-if="attrib_values">
+                                <td class="font-weight-bold p-2">Brand:</td>
+                                <td class="wpf-applied p-2"> 
+                                    <form class="js_attributes_applied p-0" method="get">
+                                        <input type="hidden" name="search" t-att-value="search" />
+                                        <t t-if="attrib_values">
+                                            <t t-foreach="attributes" t-as="a">
+                                                <t t-if="a.id in appied_filter_result.ids">
+                                                <div class="wpf-aply-row">
+                                                <t t-foreach="a.value_ids" t-as="v">
+                                                    <t t-if="v.id in attrib_set">
+                                                        <div class="wpf-row">
+                                                            <label class="mt-checkbox">
+                                                                <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None" t-att-title="v.name" t-att-id="'app_%s' %(v.id)"/>
+                                                                <span />
+                                                            </label>
+                                                            <label t-att-for="'app_%s' %(v.id)">
+                                                                <span style="font-weight: normal" t-field="v.name" />
+                                                            </label>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                                </div>
+                                                </t> 
+                                            </t>
+                                        </t>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                     </div>
                 </div>
                 <div class="col-md-12 text-right">

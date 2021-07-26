@@ -3179,6 +3179,29 @@ button.o_add_compare_dyn, button.o_add_compare {
 } 
 
 
+
+/* #apply_filter_mobile {
+  display: inline-block;
+  width: 80%;
+} */
+
+#apply_filter_mobile .wpf-title {
+      width: 100%;
+      display: inline;
+      padding: 0 0 0 8px;
+      border-bottom: none;
+      vertical-align: middle;
+}
+
+
+@media (max-width: 768px) {
+  div.dropdown_mobile {
+    display: flex;
+  }
+  div.dropdown_mobile a {
+    align-self: baseline;
+  }
+}
 @media (min-width: 768px) {
   #apply_filter_mobile {
     display: none;
