@@ -408,6 +408,8 @@ class SaleOrdersuperaisa(models.Model):
             else:
                 rec.customer_id = False
 
+            self._cr.commit()
+
 
     
 
