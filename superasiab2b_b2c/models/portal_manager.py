@@ -938,3 +938,26 @@ class account_move(models.Model):
     _inherit = 'account.move'
 
     purchase_order = fields.Char('Purchase Order#')
+
+
+class StockMoveLine(models.Model):
+    _inherit = 'stock.move.line'
+
+    customer_id = fields.Many2one('res.partner', string="Customer")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super(StockMoveLine, self).create(vals_list)
+        for rec in records:
+            if rec.origin:
+                if rec.picking_id.picking_type_id.code == 'incoming':
+                    purchase_orders = rec.env['purchase.order'].search([('name', '=', rec.origin)], limit=1)
+                    rec.customer_id = purchase_orders.partner_id
+                elif rec.picking_id.picking_type_id.code == 'outgoing':
+                    sale_orders = rec.env['sale.order'].search([('name', '=', rec.origin)], limit=1)
+                    rec.customer_id = sale_orders.partner_id
+                else:
+                    rec.customer_id = False
+            else:
+                rec.customer_id = False
+        return records

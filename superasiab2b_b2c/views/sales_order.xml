@@ -88,4 +88,40 @@
         </field>
     </record>
 
+    <record id="view_move_line_form_inherit" model="ir.ui.view">
+        <field name="name">inherit.stock.move.line.form</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="customer_id" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_view_move_line_tree" model="ir.ui.view">
+        <field name="name">inherit.stock.move.line.tree</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='reference']" position="after">
+                <field name="customer_id" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_move_line_view_search_inherit" model="ir.ui.view">
+        <field name="name">inherit.stock.move.line.search</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.stock_move_line_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='picking_id']" position="before">
+                <field name="customer_id" string="Customer"/>
+            </xpath>
+
+            <xpath expr="//group" position="inside">
+                <filter string="Customer" name="groupby_customer_id" domain="[]" context="{'group_by': 'customer_id'}"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
