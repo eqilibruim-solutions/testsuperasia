@@ -388,18 +388,26 @@ class SaleOrdersuperaisa(models.Model):
 
 
     def cron_updatebrand(self):
-        moveline = self.env['account.move.line'].search([('brand','=',False)])
-        for move in moveline:
-            move.brand = move.product_id.x_studio_brand
-            self._cr.commit()
-        purchaseline = self.env['purchase.move.line'].search([('brand','=',False)])
-        for move in purchaseline:
-            move.brand = move.product_id.x_studio_brand
-            self._cr.commit()
-        saleline = self.env['sale.move.line'].search([('brand','=',False)])
-        for move in saleline:
-            move.brand = move.product_id.x_studio_brand
-            self._cr.commit()
+        # moveline = self.env['account.move.line'].search([('brand','=',False)])
+        # for move in moveline:
+        #     move.brand = move.product_id.x_studio_brand
+        #     self._cr.commit()
+
+        ####product moves update
+        moveline = self.env['stock.move.line'].search([])
+        for rec in moveline:
+            if rec.origin:
+                if rec.picking_id.picking_type_id.code == 'incoming':
+                    purchase_orders = rec.env['purchase.order'].search([('name', '=', rec.origin)], limit=1)
+                    rec.customer_id = purchase_orders.partner_id
+                elif rec.picking_id.picking_type_id.code == 'outgoing':
+                    sale_orders = rec.env['sale.order'].search([('name', '=', rec.origin)], limit=1)
+                    rec.customer_id = sale_orders.partner_id
+                else:
+                    rec.customer_id = False
+            else:
+                rec.customer_id = False
+
 
     
 
