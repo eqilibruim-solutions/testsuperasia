@@ -616,7 +616,7 @@
               inherit_id="website_sale.product_quantity">
     <xpath expr="//input[hasclass('form-control','quantity')]" position="attributes">
             <attribute name="t-att-data-max">(round(combination_info['onhand_qty']) - combination_info['updated_cart_qty'])</attribute>
-            <attribute name="readonly">True</attribute>
+            <!-- <attribute name="readonly">True</attribute> -->
 
         </xpath>
     </template>
