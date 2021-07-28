@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <t t-name="website.homepage">
                 <t t-call="website.layout">
-                    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJGST5W"
+                    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=UA-111411992-1"
                                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <div id="wrap" class="oe_structure oe_empty">
