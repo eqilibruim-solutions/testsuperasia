@@ -247,7 +247,7 @@ class WebsiteSale(ws):
             domain_1.append(('is_hide_b2c', '=', False))
         elif request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount'):
             domain_1.append(('is_hide_b2b', '=', False))
-        product_withaout_filter = Product.search(domain_1)
+        product_without_filter = Product.search(domain_1)
         ProductAttribute = request.env['product.attribute']
         attributes_ids_b = request.env[
             'product.attribute'].browse(set(attributes_ids))
@@ -256,9 +256,9 @@ class WebsiteSale(ws):
         attrib_category_ids = []
         variant_count = {}
 
-        if product_withaout_filter:
+        if product_without_filter:
             attributes_ids_all = ProductAttribute.search(
-                [('attribute_line_ids.product_tmpl_id', 'in', product_withaout_filter.ids)])
+                [('attribute_line_ids.product_tmpl_id', 'in', product_without_filter.ids)])
         else:
             attributes_ids_all = attributes
         for i in range(len(attributes_ids_all)):
