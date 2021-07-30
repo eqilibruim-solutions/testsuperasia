@@ -10,6 +10,19 @@
 				file="superasiab2b_b2c.report_shipping_labels"
 				report_type="qweb-pdf"/>
 
+		<record id="report_shipping_labels_format" model="report.paperformat">
+			<field name="name">Shipping Labels Format</field>
+			<field name="format">custom</field>
+			<field name="page_height">101</field>
+			<field name="page_width">152</field>
+			<field name="orientation">Portrait</field>
+			<field name="margin_top">0.50</field>
+			<field name="margin_bottom">0.50</field>
+			<field name="margin_left">0.50</field>
+			<field name="margin_right">0.50</field>
+			<field name="dpi">95</field>
+		</record>
+
 		<template id="report_shipping_labels">
 			<t t-call="web.basic_layout">
 				<t t-foreach="docs" t-as="o">
@@ -86,19 +99,6 @@
 			<field name="model">sale.order</field>
 			<field name="report_name">superasiab2b_b2c.report_shipping_labels</field>
 			<field name="paperformat_id" ref="superasiab2b_b2c.report_shipping_labels_format"/>
-		</record>
-
-		<record id="report_shipping_labels_format" model="report.paperformat">
-			<field name="name">Shipping Labels Format</field>
-			<field name="format">custom</field>
-			<field name="page_height">101</field>
-			<field name="page_width">152</field>
-			<field name="orientation">Portrait</field>
-			<field name="margin_top">0.50</field>
-			<field name="margin_bottom">0.50</field>
-			<field name="margin_left">0.50</field>
-			<field name="margin_right">0.50</field>
-			<field name="dpi">95</field>
 		</record>
 
 	</data>
