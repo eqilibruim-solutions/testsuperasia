@@ -43,7 +43,7 @@
 													</th>
 													<th>
 														<h1>
-															<span t-field="o.partner_shipping_id.name"/>
+															<t t-esc="str(o.partner_shipping_id.name)[:4]"/>
 														</h1>
 													</th>
 												</tr>
