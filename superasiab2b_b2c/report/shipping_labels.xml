@@ -23,16 +23,16 @@
 			<field name="dpi">95</field>
 		</record>
 
-		<template id="report_shipping_labels">
-			<t t-call="web.basic_layout">
-				<t t-foreach="docs" t-as="o">
-					<t t-foreach="o.order_line" t-as="order_line">
-						<t>
+	<template id="report_shipping_labels">
+		<t t-call="web.basic_layout">
+	      <t t-foreach="docs" t-as="o">
+			<t t-foreach="range(o.total_qty)" t-as="l">
+
 							<div class="page">
 								<div class="oe_structure"/>
 								<div class="row">
 									<div class="col-12">
-										<div style="height: 2.5rem;"/>
+										<div style="height: 5rem;"/>
 										<table class="table" style="border-bottom: 0px solid white !important;width: 100%;">
 											<thead>
 												<tr>
@@ -56,7 +56,8 @@
 												</th>
 												<td>
 													<h3>
-														<span t-field="order_line.product_uom_qty"/>
+													<span t-esc="l + 1"/>
+													 of <span t-field="o.total_qty"/>
 													</h3>
 												</td>
 											</tr>
@@ -88,9 +89,9 @@
 									</div>
 								</div>
 							</div>
-						</t>
 						<p style="page-break-after:always"></p>
 					</t>
+
 				</t>
 			</t>
 		</template>

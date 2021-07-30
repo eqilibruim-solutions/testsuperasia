@@ -305,6 +305,23 @@ class SaleOrdersuperaisa(models.Model):
                                     string='Account Type')
     purchase_order = fields.Char('Purchase Order#')
 
+    total_qty = fields.Integer(string='Total Qty', store=True, readonly=True, compute='_totalqty', tracking=5)
+
+    @api.depends('order_line.product_uom_qty')
+    def _totalqty(self):
+        """
+        Compute the total qty of the SO.
+        """
+        for order in self:
+            total_qty = 0.0
+            for line in order.order_line:
+                if line.product_id.sale_ok == True:
+                    total_qty += line.product_uom_qty
+            order.update({
+                'total_qty': total_qty,
+            })
+
+
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         """
