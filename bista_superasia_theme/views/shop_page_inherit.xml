@@ -387,7 +387,16 @@
         </xpath>
         <xpath expr="//div[hasclass('js_sale')]" position="before">
             <section id="hero" class="d-flex justify-content-center">
-                <img class="img-fluid" src="/bista_superasia_theme/static/src/img/slide/banner2.jpg"/>
+                <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount') or request.env.user.user_has_groups('base.group_system')">
+                    <!-- <img class="img-fluid" src="/bista_superasia_theme/static/src/img/slide/banner2.jpg"/> -->
+
+                    <span class="img-fluid" t-field="res_company.b2b_banner_image" t-options="{'widget': 'image'}" role="img" />
+                </t>
+                <t t-else="">
+
+                    <span class="img-fluid" t-field="res_company.b2c_banner_image" t-options="{'widget': 'image'}" role="img" />
+  
+                </t>
             </section><!-- End Hero -->
         </xpath>
 
