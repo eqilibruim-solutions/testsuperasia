@@ -1,3 +1,8 @@
+import time
+import json
+import werkzeug
+import logging
+
 from odoo.addons.website_sale.controllers.main import WebsiteSale as ws
 # from odoo.addons.website_sale.controllers.main import TableCompute as ts
 from odoo import http
@@ -6,12 +11,10 @@ from werkzeug.exceptions import Forbidden, NotFound
 from odoo.addons.website.models.ir_http import sitemap_qs2dom
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.controllers.main import QueryURL
-import json
-import werkzeug
 from odoo import api, fields, models, _, registry, SUPERUSER_ID
 from odoo.addons.payment.controllers.portal import PaymentProcessing
 
-import logging
+
 _logger = logging.getLogger(__name__)
 
 class TableCompute(object):
@@ -496,5 +499,15 @@ class WebsiteSale(ws):
                 'current_category': res.qcontext.get('category')
             })
         return res
+    
+    @http.route(['/shop/checkout'], type='http', auth="public", website=True, sitemap=False)
+    def checkout(self, **post):
+        res = super(WebsiteSale, self).checkout(**post)
 
+        if post.get('express'):
+            # If user write qty directly in qty box and click process checkout
+            # Wait some time for update qty in backend before going to payment page
+            time.sleep(3)
+            return request.redirect('/shop/confirm_order')
 
+        return res

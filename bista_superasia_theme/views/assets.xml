@@ -26,6 +26,9 @@
             })(window,document,'script','dataLayer','GTM-PJGST5W');</script>
             <!-- End Google Tag Manager -->
         </xpath>
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/bista_superasia_theme/static/src/js/website_sale_recently_viewed.js"></script>
+        </xpath>
     </template>
 
    <!--  <template id="superasia_assets_frontend_subscription" inherit_id="website_mass_mailing.assets_frontend">
