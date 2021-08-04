@@ -13,6 +13,15 @@
         </xpath>
     </template>
     <template id="cart_lines_inherite" inherit_id="website_sale.cart_lines" name="cart_lines inherit">
+        <xpath expr="//table[hasclass('js_cart_lines')]" position="before">
+            <script>
+                var perfEntries = performance.getEntriesByType("navigation");
+                console.log("Cart Page");
+                if (perfEntries[0].type === "back_forward") {
+                    window.location.reload();
+                }
+            </script>
+        </xpath>
         <xpath expr="//td[hasclass('text-center', 'td-price')]" position="attributes">
             <attribute name="class">font-weight-bold</attribute>
         </xpath>
