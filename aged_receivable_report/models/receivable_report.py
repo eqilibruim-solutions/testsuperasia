@@ -63,7 +63,7 @@ class AccountReceivableReport(models.Model):
                                     amt as amt,
                                     company_id,
                                     case when
-                                    date_maturity > aged_date
+                                    bill_date > aged_date
                                     then amt else 0 end bucket_postdate,
                                     case when
                                     date_maturity >= aged_date
