@@ -20,6 +20,7 @@ class AccountReceivableReport(models.Model):
     bill_date = fields.Date(string='Invoice Date', readonly=True)
     date_maturity = fields.Date(string='Due Date', readonly=True)
     bucket_current = fields.Monetary(string='Current', readonly=True)
+    bucket_postdate = fields.Monetary(string='Post Date', readonly=True)
     bucket_30 = fields.Monetary(string='1-30 Days', readonly=True)
     bucket_60 = fields.Monetary(string='31-60 Days', readonly=True)
     bucket_90 = fields.Monetary(string='61-90 Days', readonly=True)
@@ -42,18 +43,18 @@ class AccountReceivableReport(models.Model):
                         partner_id, salesperson, account_move_id,
                         source_document, payment_term_id,
                         accounting_date, bill_date, date_maturity,
-                        bucket_current, bucket_30, bucket_60, bucket_90, bucket_120, bucket_150, bucket_180, bucket_180_plus,
+                        bucket_postdate,bucket_current, bucket_30, bucket_60, bucket_90, bucket_120, bucket_150, bucket_180, bucket_180_plus,
                         balance, company_id)
             select now(), 1, now(), 1, partner_id, salesperson, account_move_id,
             source_document, payment_term_id, accounting_date, bill_date, date_maturity,
-            bucket_current, bucket_30, bucket_60, bucket_90, bucket_120, bucket_150, bucket_180, bucket_180_plus, balance, company_id
+            bucket_postdate,bucket_current, bucket_30, bucket_60, bucket_90, bucket_120, bucket_150, bucket_180, bucket_180_plus, balance, company_id
             from (
                   WITH aged AS (
                         select
                         partner_id, salesperson, account_move_id,
                         source_document, payment_term_id,
                         accounting_date, bill_date, date_maturity, company_id,
-                        bucket_current, bucket_30, bucket_60, bucket_90, bucket_120, bucket_150, bucket_180, bucket_180_plus, amt as balance
+                        bucket_postdate,bucket_current, bucket_30, bucket_60, bucket_90, bucket_120, bucket_150, bucket_180, bucket_180_plus, amt as balance
                               from (
                                     select
                                     partner_id, salesperson, account_move_id,
@@ -62,7 +63,10 @@ class AccountReceivableReport(models.Model):
                                     amt as amt,
                                     company_id,
                                     case when
-                                    date_maturity >= aged_date
+                                    date_maturity > aged_date
+                                    then amt else 0 end bucket_postdate,
+                                    case when
+                                    date_maturity = aged_date
                                     then amt else 0 end bucket_current,
                                     case when
                                     (date_maturity < aged_date) and
@@ -132,7 +136,7 @@ class AccountReceivableReport(models.Model):
             aged.bill_date,
             aged.date_maturity,
             aged.company_id,
-            aged.bucket_current, aged.bucket_30, aged.bucket_60,
+            aged.bucket_postdate,aged.bucket_current, aged.bucket_30, aged.bucket_60,
             aged.bucket_90, aged.bucket_120, aged.bucket_150, aged.bucket_180, aged.bucket_180_plus, aged.balance
             from aged
             order by aged.partner_id ) as output

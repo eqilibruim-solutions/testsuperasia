@@ -18,6 +18,7 @@
                             <field name="date_maturity"/>
                         </group>
                         <group>
+                            <field name="bucket_postdate" sum="bucket_postdate"/>
                             <field name="bucket_current" sum="bucket_current"/>
                             <field name="bucket_30" sum="bucket_30"/>
                             <field name="bucket_60" sum="bucket_60"/>
