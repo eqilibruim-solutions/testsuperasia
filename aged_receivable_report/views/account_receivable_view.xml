@@ -77,10 +77,12 @@
                 <field name="payment_term_id"/>
                 <field name="account_move_id"/>
                 <field name="accounting_date"/>
-                <field name="company_id"/>
-                <group expand="0" string="Group By">
+<!--                 <field name="company_id"/>
+ -->
+                 <group expand="0" string="Group By">
                     <filter name="group_by_partner_id" string="Customer" context="{'group_by':'partner_id'}"/>
                     <separator/>
+                    <filter name="group_by_salesperson" string="Salesperson" context="{'group_by':'salesperson'}"/>
                     <filter name="group_by_bill_date" string="Invoice Date" context="{'group_by':'bill_date'}"/>
                     <filter name="group_by_date_maturity" string="Due Date" context="{'group_by':'date_maturity'}"/>
                     <filter name="group_by_payment_term_id" string="Payment Term" context="{'group_by':'payment_term_id'}"/>
