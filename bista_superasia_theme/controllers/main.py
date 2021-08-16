@@ -397,8 +397,8 @@ class WebsiteSale(ws):
                 rating = request.website.viewref('website_sale.product_comment').active
                 res = {'products': []}
                 for product in viewed_products:
-
-                    combination_info = product._get_combination_info_variant()
+                    pricelist_context, pricelist = self._get_pricelist_context()
+                    combination_info = product._get_combination_info_variant(pricelist=pricelist)
                     res_product = product.read(['id', 'name', 'website_url', 'b2c_old_price', 'b2b_old_price', 'b2c_pricelist_price'])[0]
                     res_product.update(combination_info)
                     res_product['price'] = FieldMonetary.value_to_html(res_product['price'], monetary_options)
