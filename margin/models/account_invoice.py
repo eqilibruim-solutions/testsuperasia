@@ -9,13 +9,13 @@ class account_invoice_line(models.Model):
 
     _inherit = "account.move.line"
 
-    # line_margin = fields.Float(string='Margin', digits='Account',store=True, readonly=True,compute='_calc_margin')
-    line_margin = fields.Float(string='Margin', digits='Account', readonly=True)
+    line_margin = fields.Float(string='Margin', digits='Account',store=True, readonly=True,compute='_calc_margin')
+    # line_margin = fields.Float(string='Margin', digits='Account', readonly=True)
     purchase_price =  fields.Float('Cost', compute='_get_product_cost' ,digits=dp.get_precision('Product Price'))
-    # margin_subtotal_signed = fields.Float(string='Margin Signed', currency_field='always_set_currency_id',
-    #     readonly=True,store=True, compute='_calc_margin')
     margin_subtotal_signed = fields.Float(string='Margin Signed', currency_field='always_set_currency_id',
-        readonly=True)
+        readonly=True,store=True, compute='_calc_margin')
+    # margin_subtotal_signed = fields.Float(string='Margin Signed', currency_field='always_set_currency_id',
+    #     readonly=True)
     line_margin_computed = fields.Boolean(string='')
     margin_subtotal_signed_computed = fields.Boolean(string='')
 
