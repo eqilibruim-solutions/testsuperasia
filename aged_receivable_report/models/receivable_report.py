@@ -19,7 +19,7 @@ class AccountReceivableReport(models.Model):
     accounting_date = fields.Date(string='Accounting Date', readonly=True)
     bill_date = fields.Date(string='Invoice Date', readonly=True)
     date_maturity = fields.Date(string='Due Date', readonly=True)
-    bucket_current = fields.Monetary(string='Current', readonly=True)
+    bucket_current = fields.Monetary(string='Not Due', readonly=True)
     bucket_postdate = fields.Monetary(string='Post Date', readonly=True)
     bucket_30 = fields.Monetary(string='1-30 Days', readonly=True)
     bucket_60 = fields.Monetary(string='31-60 Days', readonly=True)
@@ -66,7 +66,7 @@ class AccountReceivableReport(models.Model):
                                     (bill_date > aged_date) or ((date_maturity > aged_date) and (bill_date is null))
                                     then amt else 0 end bucket_postdate,
                                     case when
-                                    date_maturity >= aged_date
+                                    (date_maturity >= aged_date) and (bill_date <= aged_date)
                                     then amt else 0 end bucket_current,
                                     case when
                                     (date_maturity < aged_date) and
