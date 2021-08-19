@@ -43,7 +43,7 @@ class sale_order(models.Model):
                 if line.product_id:
                     cmp += (line.purchase_price * line.product_uom_qty)
                     margin =  order.amount_total - ((line.purchase_price or line.product_id.standard_price) * line.product_uom_qty)
-                    margin_per = (line.price_unit -line.purchase_price )/line.price_unit * 100
+                    # margin_per = (line.price_unit -line.purchase_price )/line.price_unit * 100
             if order.amount_total != 0:
                 margin = order.amount_untaxed - cmp
                 order.update({
