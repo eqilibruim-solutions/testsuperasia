@@ -385,7 +385,7 @@
                     <br/>
       <div class="col-centered">
 <button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit" onclick="goBack()">Go Back</button>
-
+<a t-attf-href="/web/reset_password?{{ keep_query() }}" class="btn custom_them_primary font-weight-bold text-white">Reset Password</a>
                   </div>         
                    
                     
@@ -440,6 +440,7 @@
                     <br/>
       <div class="col-centered">
 <button class="btn custom_them_primary font-weight-bold text-white" style="color: #ac1520;" type="submit" onclick="goBack()">Go Back</button>
+<a t-attf-href="/web/reset_password?{{ keep_query() }}" class="btn custom_them_primary font-weight-bold text-white">Reset Password</a>
                   </div>         
                    
                     
