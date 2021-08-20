@@ -8,9 +8,9 @@ import odoo.addons.decimal_precision as dp
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    line_margin = fields.Float(string='Margin', digits='Account',
-                              store=True, readonly=True, compute='_calc_margin')
-    # line_margin = fields.Float(string='Margin', digits='Account', readonly=True)
+    # line_margin = fields.Float(string='Margin', digits='Account',
+    #                           store=True, readonly=True, compute='_calc_margin')
+    line_margin = fields.Float(string='Margin', digits='Account', readonly=True)
     line_margin_computed  = fields.Boolean(string='')
 
 
