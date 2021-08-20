@@ -17,9 +17,14 @@ class product_product(models.Model):
                 ans = 0
             else:
                 ans = ((product.list_price - product.standard_price) / product.list_price) * 100
-            product.update({'margin' : ans})                      
+            # product.update({'margin' : ans})
+            product.update({
+                'margin' : ans,
+                'margin_computed' : True})                    
                            
-    margin = fields.Float('Margin %', compute='_calc_margin' , readonly=True)
+    # margin = fields.Float('Margin %', compute='_calc_margin' , readonly=True)
+    margin = fields.Float('Margin %' , readonly=True)
+    margin_computed  = fields.Boolean(string='')
     
     list_price = fields.Float('Sale Price', digits='Product Price', help="Base price to compute the customer price. Sometimes called the catalog price.")
     

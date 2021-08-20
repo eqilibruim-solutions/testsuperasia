@@ -8,8 +8,10 @@ import odoo.addons.decimal_precision as dp
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    line_margin = fields.Float(string='Margin', digits='Account',
-                               store=True, readonly=True, compute='_calc_margin')
+    # line_margin = fields.Float(string='Margin', digits='Account',
+    #                           store=True, readonly=True, compute='_calc_margin')
+    line_margin = fields.Float(string='Margin', digits='Account', readonly=True)
+    line_margin_computed  = fields.Boolean(string='')
 
 
     @api.depends('price_unit', 'product_uom_qty', 'tax_id', 'product_id', 'order_id.partner_id', 'order_id.currency_id')
@@ -20,6 +22,7 @@ class SaleOrderLine(models.Model):
             cmp = ((res.purchase_price or res.product_id.standard_price) * res.product_uom_qty)
             margin = res.price_subtotal - cmp
             res.line_margin = margin
+            res.line_margin_computed = True
 
 
     def _prepare_invoice_line(self):

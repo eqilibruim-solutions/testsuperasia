@@ -9,10 +9,15 @@ class account_invoice_line(models.Model):
 
     _inherit = "account.move.line"
 
-    line_margin = fields.Float(string='Margin', digits='Account',store=True, readonly=True,compute='_calc_margin')
+    # line_margin = fields.Float(string='Margin', digits='Account',store=True, readonly=True,compute='_calc_margin')
+    line_margin = fields.Float(string='Margin', digits='Account', readonly=True)
     purchase_price =  fields.Float('Cost', compute='_get_product_cost' ,digits=dp.get_precision('Product Price'))
+    # margin_subtotal_signed = fields.Float(string='Margin Signed', currency_field='always_set_currency_id',
+    #     readonly=True,store=True, compute='_calc_margin')
     margin_subtotal_signed = fields.Float(string='Margin Signed', currency_field='always_set_currency_id',
-        readonly=True,store=True, compute='_calc_margin')
+        readonly=True)
+    line_margin_computed = fields.Boolean(string='')
+    margin_subtotal_signed_computed = fields.Boolean(string='')
 
     @api.depends('product_id')
     def _get_product_cost(self):
@@ -32,14 +37,20 @@ class account_invoice_line(models.Model):
                  'product_id', 'move_id.partner_id', 'move_id.currency_id')
     def _calc_margin(self):
         for res in self:
-            line_mrg_tot = 0
-            cmp = 0.0
-            cmp = ((res.purchase_price or res.product_id.standard_price) * res.quantity)
-            margin = res.price_subtotal - cmp
-            res.line_margin = margin
-            margin_subtotal_signed = margin
-            sign = res.move_id.type in ['in_refund', 'out_refund'] and -1 or 1
-            res.margin_subtotal_signed = margin_subtotal_signed * sign
+            if not len(res.product_id or []) is 0 and res.display_type is False:
+                line_mrg_tot = 0
+                cmp = 0.0
+                cmp = ((res.purchase_price or res.product_id.standard_price) * res.quantity)
+                margin = res.price_subtotal - cmp
+                res.line_margin = margin
+                margin_subtotal_signed = margin
+                sign = res.move_id.type in ['in_refund', 'out_refund'] and -1 or 1
+                res.margin_subtotal_signed = margin_subtotal_signed * sign
+            else:
+                res.margin_subtotal_signed = 0.0
+            res.line_margin_computed = True
+            res.margin_subtotal_signed_computed = True
+
 
 
     @api.onchange('product_id')
