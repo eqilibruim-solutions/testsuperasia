@@ -71,7 +71,7 @@
             <attribute name="class">col-12 col-xl-5</attribute>
         </xpath>
         <xpath expr="//a[hasclass('btn', 'btn-secondary', 'mb32', 'd-none', 'd-xl-inline-block')]" position="attributes">
-            <attribute name="class">border-beta btn d-none d-xl-inline-block mb32</attribute>
+            <attribute name="class">border-beta btn d-none d-xl-inline-block custom_them_primary text-white mb32</attribute>
         </xpath>
         <xpath expr="//a[hasclass('btn', 'btn-primary', 'float-right', 'd-none', 'd-xl-inline-block')]" position="attributes">
             <attribute name="class">btn float-right d-none d-xl-inline-block custom_them_primary text-white</attribute>
@@ -89,6 +89,12 @@
         </xpath>
         <xpath expr="//a[@t-if='website_sale_order and website_sale_order.website_order_line']" position="attributes">
             <attribute name="class">btn custom_them_primary d-none d-xl-inline-block float-right text-white</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('card-body')]//a[@t-if='website_sale_order and website_sale_order.website_order_line']" position="before">
+            <a role="button" href="/shop" class="border-beta btn d-none d-xl-inline-block custom_them_primary text-white">
+                                        <span class="fa fa-chevron-left" />
+                                        <span class="">Continue Shopping</span>
+                                    </a>
         </xpath>
     </template>
     <template id="total_inherite" inherit_id="website_sale.total" name="Cart Total Inherit">
