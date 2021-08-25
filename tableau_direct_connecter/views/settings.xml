@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.connecter</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Connecter" string="Tableau Connecter"
+                     data-key="tableau_connecter">
+                    <h2>Tableau Connecter</h2>
+                    <div style="background:#7c7bad4d">
+                        <group>
+                            <div class="row mt16 o_settings_container">
+                                <div class="o_setting_left_pane">
+                                    <label for="url" string="Connecter Url"/>
+                                    <field style="border:1px solid black;border-radius:10px;padding:4px 8px;font-style:italic;"
+                                           name="url" readonly="1"/>
+
+
+                                </div>
+                            </div>
+                        </group>
+
+                        <group>
+                            <div class="row mt10 o_settings_container">
+                                <div class="o_setting_left_pane">
+                                    <label for="access_token" string="Access Token"/>
+
+                                    <field style="border:1px solid black;border-radius:10px;padding:4px 8px;"
+                                           name="access_token" readonly="1"/>
+                                    <br></br>
+
+                                    <button style="background:green;border-radius:8px;margin-top:10px;"
+                                            name="gtkn" type="object" string="Generate Token"
+                                            context="{'uid': uid}" class="oe_highlight"/>
+
+                                </div>
+                            </div>
+                        </group>
+                    </div>
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
