@@ -2130,6 +2130,17 @@ body[data-aos-duration="400"] [data-aos] {
   padding: 2% 40%;
 }
 
+.delivery_available {
+  background-color: #159F50;
+  padding: 8px;
+  margin: 8px 0px;
+  color: white;
+
+}
+.delivery_available a.btn {
+  background-color: #EA2227;
+  color: white;
+}
 /*--------------------------------------------------------------
 # Partners Section
 --------------------------------------------------------------*/

@@ -10,6 +10,7 @@
     'license': 'AGPL-3',
     "depends": ['base','web','website','portal','bista_web_pwa','superasiab2b_b2c','sale','payment','website_sale','website_form','auth_signup','website_sale_delivery','website_sale_stock','sale_stock'],
     "data": [
+        'security/ir.model.access.csv',
         'views/assets.xml',
         'views/homepage_template.xml',
         'views/header_footer_inherit.xml',
@@ -17,7 +18,9 @@
         'views/cart_page_inherit.xml',
         'views/contact_us_template_inherit.xml',
         'views/portal_template.xml',
-        'views/company.xml'
+        'views/company.xml',
+        'views/gta_code.xml',
+        'views/delivery_carrier.xml',
     ],
 
     "installable": True,

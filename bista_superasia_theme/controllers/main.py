@@ -511,3 +511,30 @@ class WebsiteSale(ws):
             return request.redirect('/shop/confirm_order')
 
         return res
+    
+    @http.route('/check_delivery_address', type='json', auth='public', website=True)
+    def check_delivery_address(self, postal_code, **kwargs):
+        """
+        Free delivery or not based on zip code/postal code
+        """
+        gta_code_obj = request.env['gta.code']
+        free_delivery = False
+        if postal_code:
+            postal_code_exits = gta_code_obj.search([('postal_code','=',str(postal_code.upper()).strip())])
+            if postal_code_exits:
+                free_delivery = True
+        return {'free_delivery': free_delivery}
+    
+    @http.route(['/shop/payment'], type='http', auth="public", website=True, sitemap=False)
+    def payment(self, **post):
+        res = super(WebsiteSale, self).payment(**post)
+        order = request.website.sale_get_order()
+        zip_code = order.partner_shipping_id.zip
+        select_free_delivery = False
+        if zip_code:
+            select_free_delivery = self.check_delivery_address(zip_code)['free_delivery']
+        if select_free_delivery:
+            free_delivery_obj = res.qcontext['deliveries'].filtered(lambda x: x.delivery_type == 'fixed' and x.fixed_price <= 0.0)
+            if free_delivery_obj:
+                order.carrier_id = free_delivery_obj.id
+        return res

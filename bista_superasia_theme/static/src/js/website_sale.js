@@ -743,8 +743,6 @@ publicWidget.registry.WebsiteSaleLayout = publicWidget.Widget.extend({
         'change .o_wsale_apply_layout': '_onApplyShopLayoutChange',
     },
 
-
-
     init: function () {
         this._super.apply(this, arguments);
         var $grid = $('#products_grid');
@@ -962,6 +960,39 @@ publicWidget.registry.productsSearchBar = publicWidget.Widget.extend({
                     $element.focus();
                 }
                 break;
+        }
+    },
+});
+
+publicWidget.registry.checkDeliveryAddress = publicWidget.Widget.extend({
+    selector: '.oe_website_sale',
+
+    events: {
+        'click .check_delivery_address': '_onClickCheckDeliveryAddress',
+    },
+
+    /**
+     * @private
+     * @param {Event} ev
+     */
+     _onClickCheckDeliveryAddress: function (ev) {
+        var postal_code_val = $('input#postal_code').val();
+        if (postal_code_val) {
+            this._rpc({
+                route: "/check_delivery_address",
+                params: {
+                    postal_code: postal_code_val,
+                },
+            }).then(function (data) {
+                if (data) {
+                    console.log(data);
+                    if (data.free_delivery) {
+                        $('.delivery_available').removeClass('d-none');
+                    }else {
+                        $('.delivery_available').addClass('d-none');
+                    }
+                }
+            });
         }
     },
 });
