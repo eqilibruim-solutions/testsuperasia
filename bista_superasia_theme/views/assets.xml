@@ -96,5 +96,9 @@
         </xpath>
     </template>
 
-
+    <template id="web_layout_bista" name="Web layout Bista" inherit_id="web.layout">
+        <xpath expr="//meta[@name='viewport']" position="after">
+            <meta name="facebook-domain-verification" content="whrnzfba1srcbv2hf1o8r211p0yr51"/>
+        </xpath>
+    </template>
 </odoo>
