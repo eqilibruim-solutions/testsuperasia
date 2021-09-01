@@ -4,10 +4,6 @@
         <xpath expr="//div[@id='wrapwrap']/header" position="replace">
 <!--            <header id="header" class="header-align">-->
             <header id="header">
-                <!-- Google Tag Manager (noscript) -->
-                <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJGST5W"
-                height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
-                <!-- End Google Tag Manager (noscript) -->
                 <script type="application/ld+json">
                     {
                     "@context" : "http://schema.org",
