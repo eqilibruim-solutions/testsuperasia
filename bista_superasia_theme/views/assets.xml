@@ -76,6 +76,7 @@
     <template id="web_layout_bista" name="Web layout Bista" inherit_id="web.layout">
         <xpath expr="//meta[@name='viewport']" position="after">
             <meta name="facebook-domain-verification" content="whrnzfba1srcbv2hf1o8r211p0yr51"/>
+            <meta name="google-site-verification" content="I3tpARuc5oNrE7Yt6lErzfY7PzEQ7XfJX96rJocd_oc"/>
         </xpath>
         <xpath expr="//head/script" position="before">
                         <!-- Google Tag Manager -->
