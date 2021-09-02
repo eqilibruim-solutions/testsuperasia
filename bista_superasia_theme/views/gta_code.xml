@@ -7,7 +7,7 @@
             <field name="name">gta.code.view.tree</field>
             <field name="model">gta.code</field>
             <field name="arch" type="xml">
-                <tree multi_edit = "1">
+                <tree editable="top" multi_edit = "1">
                     <field name="postal_code" />
                     <field name="region" />
                     
