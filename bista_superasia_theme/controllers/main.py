@@ -1,19 +1,17 @@
-import time
 import json
-import werkzeug
 import logging
+import time
 
-from odoo.addons.website_sale.controllers.main import WebsiteSale as ws
+import werkzeug
 # from odoo.addons.website_sale.controllers.main import TableCompute as ts
-from odoo import http
+from odoo import SUPERUSER_ID, _, api, fields, http, models, registry
+from odoo.addons.http_routing.models.ir_http import slug
+from odoo.addons.payment.controllers.portal import PaymentProcessing
+from odoo.addons.website.controllers.main import QueryURL
+from odoo.addons.website.models.ir_http import sitemap_qs2dom
+from odoo.addons.website_sale.controllers.main import WebsiteSale as ws
 from odoo.http import request
 from werkzeug.exceptions import Forbidden, NotFound
-from odoo.addons.website.models.ir_http import sitemap_qs2dom
-from odoo.addons.http_routing.models.ir_http import slug
-from odoo.addons.website.controllers.main import QueryURL
-from odoo import api, fields, models, _, registry, SUPERUSER_ID
-from odoo.addons.payment.controllers.portal import PaymentProcessing
-
 
 _logger = logging.getLogger(__name__)
 
@@ -508,7 +506,7 @@ class WebsiteSale(ws):
             # If user write qty directly in qty box and click process checkout
             # Wait some time for update qty in backend before going to payment page
             time.sleep(3)
-            return request.redirect('/shop/confirm_order')
+            # return request.redirect('/shop/confirm_order')
 
         return res
     
@@ -520,21 +518,27 @@ class WebsiteSale(ws):
         gta_code_obj = request.env['gta.code']
         free_delivery = False
         if postal_code:
-            postal_code_exits = gta_code_obj.search([('postal_code','=',str(postal_code.upper()).strip())])
+            value = str(postal_code)[:3].strip()
+            postal_code_exits = gta_code_obj.search([('postal_code','ilike',value)])
             if postal_code_exits:
                 free_delivery = True
         return {'free_delivery': free_delivery}
-    
+   
     @http.route(['/shop/payment'], type='http', auth="public", website=True, sitemap=False)
     def payment(self, **post):
         res = super(WebsiteSale, self).payment(**post)
         order = request.website.sale_get_order()
+        deliveries = res.qcontext['deliveries']
         zip_code = order.partner_shipping_id.zip
         select_free_delivery = False
         if zip_code:
             select_free_delivery = self.check_delivery_address(zip_code)['free_delivery']
-        if select_free_delivery:
-            free_delivery_obj = res.qcontext['deliveries'].filtered(lambda x: x.delivery_type == 'fixed' and x.fixed_price <= 0.0)
-            if free_delivery_obj:
-                order.carrier_id = free_delivery_obj.id
+        gta_shipping_method = deliveries.filtered(lambda x: x.is_gta_code)
+        if gta_shipping_method:
+            if select_free_delivery:
+                order.carrier_id = gta_shipping_method[0].id
+                res.qcontext['deliveries'] = gta_shipping_method[0]
+            else:
+                res.qcontext['deliveries'] = deliveries.filtered(
+                                            lambda x: x.id != gta_shipping_method[0].id)
         return res
