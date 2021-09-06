@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="check_postal_code" name="Delivery Address Cheking Page">
+        <t t-call="website.layout">
+            <t t-set="title" t-value="'Check Delivery Address'"/>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container oe_website_sale">
+                    <section class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <!-- <h3>Free Delivery Across GTA, Min Order 49! Check your postal</h3> -->
+                                <h3>Check Delivery Address By Using Postal Code</h3>
+                                <div class="delivery_available d-none">
+                                    <p class="d-inline-block font-weight-bold"> Delivery is available in  your area</p>
+                                    <a class="btn custom_them_primary text-white" href="/shop"> Shop Now</a>
+                                </div>
+                                <div class="check_postal">
+                                    
+                                    <input type="text" class="w-100 form-control my-2" id="postal_code" 
+                                        placeholder="Enter Postal Code" autocomplete="off" name="postal_code"
+                                        />
+                                    <button type="button" class="btn float-right custom_them_primary text-white check_delivery_address">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+</odoo>

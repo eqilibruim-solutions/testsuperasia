@@ -542,3 +542,8 @@ class WebsiteSale(ws):
                 res.qcontext['deliveries'] = deliveries.filtered(
                                             lambda x: x.id != gta_shipping_method[0].id)
         return res
+    
+
+    @http.route(['/check-postal-code'], type='http', auth="public", website=True)
+    def check_postal_code(self, **post):
+        return request.render("bista_superasia_theme.check_postal_code", {})
