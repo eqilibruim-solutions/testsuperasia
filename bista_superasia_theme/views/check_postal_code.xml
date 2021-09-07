@@ -16,6 +16,9 @@
                                     <p class="d-inline-block font-weight-bold"> Delivery is available in  your area</p>
                                     <a class="btn custom_them_primary text-white" href="/shop"> Shop Now</a>
                                 </div>
+                                <div class="delivery_not_available d-none alert alert-warning" role="alert">
+                                        Delivery not available for your area
+                                </div>
                                 <div class="check_postal">
                                     
                                     <input type="text" class="w-100 form-control my-2" id="postal_code" 

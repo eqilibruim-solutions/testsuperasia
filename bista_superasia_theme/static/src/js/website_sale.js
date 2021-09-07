@@ -985,11 +985,12 @@ publicWidget.registry.checkDeliveryAddress = publicWidget.Widget.extend({
                 },
             }).then(function (data) {
                 if (data) {
-                    console.log(data);
                     if (data.free_delivery) {
                         $('.delivery_available').removeClass('d-none');
+                        $('.delivery_not_available').addClass('d-none');
                     }else {
                         $('.delivery_available').addClass('d-none');
+                        $('.delivery_not_available').removeClass('d-none');
                     }
                 }
             });

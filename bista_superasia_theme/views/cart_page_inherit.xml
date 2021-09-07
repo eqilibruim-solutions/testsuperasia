@@ -64,24 +64,6 @@
         </xpath>
     </template>
     <template id="cart_inherite" inherit_id="website_sale.cart"  name="Cart Inherit">
-        <xpath expr="//div[hasclass('col-12', 'col-xl-8', 'oe_cart')]" position="inside">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3>Free Delivery Across GTA, Min Order 49! Check your postal</h3>
-                    <div class="delivery_available d-none">
-                        <p class="d-inline-block font-weight-bold"> Delivery is available in  your area</p>
-                        <a class="btn custom_them_primary text-white" href="/shop"> Shop Now</a>
-                    </div>
-                    <div class="check_postal">
-                        
-                        <input type="text" class="w-100 form-control my-2" id="postal_code" 
-                            placeholder="Enter Postal Code" autocomplete="off" name="postal_code"
-                            />
-                        <button type="button" class="btn float-right custom_them_primary text-white check_delivery_address">Search</button>
-                    </div>
-                </div>
-            </div>
-        </xpath>
         <xpath expr="//div[hasclass('col-12', 'col-xl-8', 'oe_cart')]" position="attributes">
             <attribute name="class">col-12 col-xl-7 oe_cart</attribute>
         </xpath>
