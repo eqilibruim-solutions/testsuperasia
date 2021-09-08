@@ -529,11 +529,13 @@ class WebsiteSale(ws):
         res = super(WebsiteSale, self).payment(**post)
         order = request.website.sale_get_order()
         deliveries = res.qcontext['deliveries']
-        zip_code = order.partner_shipping_id.zip
-        select_free_delivery = False
-        if zip_code:
-            select_free_delivery = self.check_delivery_address(zip_code)['free_delivery']
         gta_shipping_method = deliveries.filtered(lambda x: x.is_gta_code)
+        select_free_delivery = False
+        if request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
+            zip_code = order.partner_shipping_id.zip
+            if zip_code:
+                select_free_delivery = self.check_delivery_address(zip_code)['free_delivery']
+                       
         if gta_shipping_method:
             if select_free_delivery:
                 order.carrier_id = gta_shipping_method[0].id
@@ -541,9 +543,12 @@ class WebsiteSale(ws):
             else:
                 res.qcontext['deliveries'] = deliveries.filtered(
                                             lambda x: x.id != gta_shipping_method[0].id)
+
         return res
     
 
-    @http.route(['/check-postal-code'], type='http', auth="public", website=True)
+    @http.route(['/check-postal-code'], type='http', auth="user", website=True)
     def check_postal_code(self, **post):
-        return request.render("bista_superasia_theme.check_postal_code", {})
+        if request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
+            return request.render("bista_superasia_theme.check_postal_code", {})
+        return request.not_found()
