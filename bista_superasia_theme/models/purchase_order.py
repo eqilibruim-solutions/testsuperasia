@@ -27,8 +27,8 @@ class PurchaseOrderLine(models.Model):
                 if line.id == latest_pol_id:
                     product_tmpl_obj = line.product_id.product_tmpl_id
                     pricelist_val = {
-                            'min_qty': line.product_uom_qty,
-                            'price': line.price_subtotal,
+                            'min_qty': 1,
+                            'price': line.price_unit,
                             'currency_id': line.currency_id.id
                         }
                     vendor_pricelist = product_tmpl_obj.seller_ids.filtered(lambda x: x.name.id==partner_id)
