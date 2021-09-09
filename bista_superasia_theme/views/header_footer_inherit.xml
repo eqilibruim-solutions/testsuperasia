@@ -2,7 +2,7 @@
 <odoo>
     <template id="superasia_custom_header" name="SuperAsia Custom Header" inherit_id="website.layout">
         <xpath expr="//div[@id='wrapwrap']/header" position="replace">
-            <t t-if="request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
+            <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
                 <div id="header_ticker" class="container-fluid px-0">
                     <div style="font-weight: bold;font-size: 14px;padding: 5px;" class="custom_them_primary w-100 text-center">
                         <span>Free Delivery Across GTA, Min Order 49! CAD. Check your Address for Delivery Status. 
