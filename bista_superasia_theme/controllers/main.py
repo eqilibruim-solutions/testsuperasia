@@ -554,4 +554,5 @@ class WebsiteSale(ws):
     def check_postal_code(self, **post):
         if request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
             return request.render("bista_superasia_theme.check_postal_code", {})
+            
         return request.not_found()
