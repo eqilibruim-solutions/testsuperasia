@@ -226,6 +226,9 @@ class WebsiteSale(ws):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
         products = search_product[offset: offset + ppg]
+        print("::::::::::::::::::::::::products Before::::::::::::::::",products)
+        if not post.get('order'):
+            products = products.sorted(key='priority_sequence')
         print("::::::::::::::::::::::::ppg::::::::::::::::",ppg)
         print("::::::::::::::::::::::::products::::::::::::::::",products)
         ProductAttribute = request.env['product.attribute']
@@ -276,7 +279,7 @@ class WebsiteSale(ws):
         attrib_category = request.env[
             'product.attribute.category'].browse(set(attrib_category_ids))
         variant_counts = variant_count
-
+    
         values = {
             'search': search,
             'category': category,

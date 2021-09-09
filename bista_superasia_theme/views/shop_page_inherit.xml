@@ -366,7 +366,7 @@
                             <t t-foreach="tr_product" t-as="td_product">
                                 <t t-if="td_product">
                                     <t t-set="product" t-value="td_product['product']" />
-                                    <td>
+                                    <td class="oe_product">
                                         <div t-att-style="'height: 18vw; 'if layout_mode == 'grid' else False" t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']} mb-4" >
                                             <t t-call="website_sale.products_item">
                                                 <t t-set="product_image_big" t-value="td_product['x'] + td_product['y'] &gt; 2"/>

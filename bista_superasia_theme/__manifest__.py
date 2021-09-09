@@ -22,6 +22,7 @@
         'views/gta_code.xml',
         'views/delivery_carrier.xml',
         'views/check_postal_code.xml',
+        'views/product_template.xml',
     ],
 
     "installable": True,
