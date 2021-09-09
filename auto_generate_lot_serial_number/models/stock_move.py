@@ -38,7 +38,7 @@ class ProductionLot(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    expiry_date = fields.Datetime(string='Expiry Date', required=True)
+    expiry_date = fields.Datetime(string='Expiry Date')
     lot_no = fields.Many2one('stock.production.lot', string='Lot/Serial Number')
 
 
