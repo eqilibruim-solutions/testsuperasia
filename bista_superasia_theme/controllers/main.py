@@ -124,7 +124,7 @@ class WebsiteSale(ws):
             order = post.get('order') or 'name ASC,website_sequence ASC'
         _logger.info('========order111=========== %s' % post.get('order'))
 
-        return 'is_published desc, %s, id desc' % order
+        return 'priority_sequence ASC, is_published desc, %s, id desc' % order
 
     def _get_search_domain_new(self, search, category):
         domain = request.website.sale_product_domain()
@@ -226,9 +226,6 @@ class WebsiteSale(ws):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
         products = search_product[offset: offset + ppg]
-        print("::::::::::::::::::::::::products Before::::::::::::::::",products)
-        if not post.get('order'):
-            products = products.sorted(key='priority_sequence')
         print("::::::::::::::::::::::::ppg::::::::::::::::",ppg)
         print("::::::::::::::::::::::::products::::::::::::::::",products)
         ProductAttribute = request.env['product.attribute']
