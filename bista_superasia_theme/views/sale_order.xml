@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- sale.order inherit form view -->
+    <record id="inherit_sale_order_form_view" model="ir.ui.view">
+        <field name="name">inherit.sale.order.form.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='preview_sale_order']" position="before">
+                <button name="dummy_action_btn" 
+                    type="object" 
+                    class="oe_stat_button" 
+                    icon="fa-check"
+                    style="color:green;"
+                    attrs="{'invisible': ['|',('state','!=','cencel'),('b2b_confirmed','=',False)]}">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">B2B</span>
+                        <span class="o_stat_text">Confirmed</span>
+                        <field name="b2b_confirmed" invisible="1" />
+                    </div>
+                </button>
+                
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>
