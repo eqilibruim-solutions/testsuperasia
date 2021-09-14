@@ -334,7 +334,8 @@ class WebsiteSale(ws):
 
         user_data=user_obj.search([('id','=',request.uid),('groups_id','in',group_list)])
         if user_data:
-            order.action_quotation_sent()
+            # order.action_quotation_sent()
+            order.b2b_confirmed = True
             mail_template = request.env.ref('sale.mail_template_sale_confirmation')
             mail_template.send_mail(order.id, force_send=True)
 
@@ -538,8 +539,11 @@ class WebsiteSale(ws):
                        
         if gta_shipping_method:
             if select_free_delivery:
-                order.carrier_id = gta_shipping_method[0].id
-                res.qcontext['deliveries'] = gta_shipping_method[0]
+                # Check the shipping method true based on price ruled
+                status_based_rule = gta_shipping_method.base_on_rule_rate_shipment(order)
+                if status_based_rule.get('success'):
+                    order.carrier_id = gta_shipping_method[0].id
+                    res.qcontext['deliveries'] = gta_shipping_method[0]
             else:
                 res.qcontext['deliveries'] = deliveries.filtered(
                                             lambda x: x.id != gta_shipping_method[0].id)
