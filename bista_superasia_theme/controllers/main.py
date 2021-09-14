@@ -334,11 +334,11 @@ class WebsiteSale(ws):
 
         user_data=user_obj.search([('id','=',request.uid),('groups_id','in',group_list)])
         if user_data:
-            # order.action_quotation_sent()
             order.b2b_confirmed = True
+            order.action_quotation_sent()
             mail_template = request.env.ref('sale.mail_template_sale_confirmation')
             mail_template.send_mail(order.id, force_send=True)
-
+            order.action_draft()
             return request.redirect('/shop/confirmation')
 
 

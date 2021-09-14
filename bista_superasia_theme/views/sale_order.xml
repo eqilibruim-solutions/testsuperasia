@@ -13,7 +13,7 @@
                     class="oe_stat_button" 
                     icon="fa-check"
                     style="color:green;"
-                    attrs="{'invisible': ['|',('state','!=','cencel'),('b2b_confirmed','=',False)]}">
+                    attrs="{'invisible': ['|',('state','=','cancel'),('b2b_confirmed','=',False)]}">
                     <div class="o_stat_info">
                         <span class="o_stat_text">B2B</span>
                         <span class="o_stat_text">Confirmed</span>
