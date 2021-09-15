@@ -3126,6 +3126,10 @@ a{
   color: #9eccf4;
 }
 
+#delivery_method input {
+  width: auto;
+}
+
 
 /*Accordion CSS*/
 .wrapper{
