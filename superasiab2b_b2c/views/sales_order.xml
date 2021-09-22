@@ -47,7 +47,7 @@
       <field name="inherit_id" ref="sale.view_quotation_tree"/>
             <field name="arch" type="xml">
         <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="purchase_order"/>
+                <field name="purchase_order" string="PO #"/>
                 <field name="account_type"/>
             </xpath>
 
@@ -66,7 +66,7 @@
       <field name="inherit_id" ref="sale.view_order_tree"/>
             <field name="arch" type="xml">
         <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="purchase_order"/>
+                <field name="purchase_order" string="PO #"/>
                 <field name="account_type"/>
             </xpath>
 
