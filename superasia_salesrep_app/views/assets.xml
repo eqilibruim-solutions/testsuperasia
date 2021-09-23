@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="salesrep_app_assets_frontend" inherit_id="web.assets_frontend">
+        <xpath expr="//link" position="after">
+                        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.2/css/jquery.dataTables.css"/>
+            <link rel="stylesheet" type="text/scss" href="/superasia_salesrep_app/static/src/scss/sales_rep_home.scss"/>
+        </xpath>
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.js"/>
+            <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/datatable_table.js"/>
+        </xpath>
+    </template>
+    <template id="sales_rep_frontend_layout" name="Sales Rep Frontend Layout" inherit_id="web.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']/footer" position="attributes">
+            <attribute name="t-if">not footer_hide</attribute>
+        </xpath>
+    </template>
+</odoo>

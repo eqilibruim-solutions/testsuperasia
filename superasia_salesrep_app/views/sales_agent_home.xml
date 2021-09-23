@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_agent_home" name="Sales Agent Homepage">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Dashboard</t>
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div id="sales_rep_home" class="container-fluid px-0">
+                        <!-- ======= Clients Section ======= -->
+                        <section class="section-bg-clients">
+                            <div class="container section-title">
+
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 logo position-relative">
+                                        <div class="text-light text-center adjust-logo-middle">
+                                            <a href="#"><img src="/superasia_salesrep_app/static/src/img/super-asia-logo.png"/></a>
+                                        </div>
+                                    </div><!-- end col-12 -->
+                                </div><!-- end row -->
+                            </div><!-- end container -->
+                        </section><!-- End Clients Section -->
+
+                        <!-- <div class="container"> -->
+                            <div id="homescreen-menu-options" class="row m-0">
+                                <div class="col-3 col-sm-3 col-md-3"></div>
+                                <div class="primary-buttons col-md-6 col-sm-12 d-flex d-sm-inline p-0">
+                                    <a href="#" class="btn btn-light rounded-0 custom-font-size">Accounts</a>
+                                    <a href="#" class="btn btn-light rounded-0 custom-font-size">Sales Order</a>
+                                    <a href="#" class="btn btn-light rounded-0 pl-4 pr-4 custom-font-size">Due</a>
+                                    <a href="#" class="btn btn-light rounded-0 custom-font-size">Catalogue</a>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3"></div>
+                            </div><!-- end col-12 -->
+                        <!-- </div> -->  
+                    </div>
+                </div>
+            </div>
+        </t>
+        
+    </template>
+
+</odoo>

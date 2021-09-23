@@ -296,6 +296,7 @@ self.addEventListener('fetch', function(evt) {
                    role="menuitem"
                    id="pwa_install_download_button"
                    data-menu="installpwa"
+                   t-if="not hide_install_pwa_btn"
                 >
                     <i class="fa fa-download"></i>
                 </a>
