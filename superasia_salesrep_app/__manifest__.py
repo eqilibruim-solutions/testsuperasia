@@ -14,6 +14,7 @@
         'security/access_rights.xml',
         'views/assets.xml',
         'views/sales_agent_home.xml',
+        'views/accounts.xml',
     ],
 
     "installable": True,
