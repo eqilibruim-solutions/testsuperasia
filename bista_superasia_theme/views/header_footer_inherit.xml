@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </t>
-            <header id="header">
+            <header id="header" t-attf-class=" #{'d-none' if hide_header else ''} ">
                 <script type="application/ld+json">
                     {
                     "@context" : "http://schema.org",
