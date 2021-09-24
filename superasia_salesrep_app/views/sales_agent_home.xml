@@ -10,7 +10,20 @@
                         <!-- ======= Clients Section ======= -->
                         <section class="section-bg-clients">
                             <div class="container section-title">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dropdown show">
+                                            <a class="dropdown-toggle float-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-bars fa-3x"></i>
+                                            </a>
 
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="/my/home">MY ACCOUNT</a>
+                                                <a class="dropdown-item" href="/web/session/logout?redirect=/">LOGOUT</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-12 col-sm-12 col-md-12 logo position-relative">
                                         <div class="text-light text-center adjust-logo-middle">
@@ -25,7 +38,7 @@
                             <div id="homescreen-menu-options" class="row m-0">
                                 <div class="col-3 col-sm-3 col-md-3"></div>
                                 <div class="primary-buttons col-md-6 col-sm-12 d-flex d-sm-inline p-0">
-                                    <a href="#" class="btn btn-light rounded-0 custom-font-size">Accounts</a>
+                                    <a href="/sales-rep/all-accounts" class="btn btn-light rounded-0 custom-font-size">Accounts</a>
                                     <a href="#" class="btn btn-light rounded-0 custom-font-size">Sales Order</a>
                                     <a href="#" class="btn btn-light rounded-0 pl-4 pr-4 custom-font-size">Due</a>
                                     <a href="#" class="btn btn-light rounded-0 custom-font-size">Catalogue</a>
