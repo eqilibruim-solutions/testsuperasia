@@ -338,7 +338,7 @@ class WebsiteSale(ws):
             order.action_quotation_sent()
             mail_template = request.env.ref('sale.mail_template_sale_confirmation')
             mail_template.send_mail(order.id, force_send=True)
-            order.action_draft()
+            # order.action_draft()
             return request.redirect('/shop/confirmation')
 
 
