@@ -79,3 +79,29 @@ $(document).ready(function(){
     });    
 
 });
+
+odoo.define('superasiab2b_b2c.order_state_change', function (require) {
+"use strict";
+var publicWidget = require('web.public.widget');
+var ajax = require('web.ajax');
+
+publicWidget.registry.websiteSaleCartLink = publicWidget.Widget.extend({
+    selector: '#set_draft_state ',
+    events: {
+        'click': '_onClick',
+    },
+
+	_onClick: function (ev) { 
+		var $dm = $(ev.currentTarget);
+		var order_id = parseInt($dm.data("order-id"),10);
+		debugger;
+		if (order_id) {
+			ajax.jsonRpc('/order-change-state', 'call', {'order_id': order_id})
+				.then(function (data) {
+					window.location.reload();
+				});
+		}
+	},
+});
+
+});
