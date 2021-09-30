@@ -339,6 +339,8 @@ class WebsiteSale(ws):
             mail_template = request.env.ref('sale.mail_template_sale_confirmation')
             mail_template.send_mail(order.id, force_send=True)
             # order.action_draft()
+            # clean context and session, then redirect to the confirmation page
+            request.website.sale_reset()
             return request.redirect('/shop/confirmation')
 
 
