@@ -383,6 +383,9 @@
                             <h2>Thank you for your order.
                                 <a role="button" class="btn custom_them_primary d-md-inline-block d-none text-white" href="/shop/print" target="_blank" aria-label="Print" title="Print"><i class="fa fa-print"></i> Print</a>
                             </h2>
+                            <br/>
+                            <p>We have received your order. One of our representatives will contact you shortly with the next steps. You'll be able to edit your cart in the meanwhile.
+                            </p>
                         </div>
 <!--                    </t>-->
                     <t t-if="request.env['res.users']._get_signup_invitation_scope() == 'b2c' and request.website.is_public_user()">
