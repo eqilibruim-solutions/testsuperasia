@@ -1,10 +1,29 @@
+import werkzeug.utils
 import logging
 _logger = logging.getLogger(__name__)
 
 from odoo import http, _
 from odoo.http import request
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.addons.web.controllers.main import Home
 
+
+class Extension_Home(Home):
+    @http.route()
+    def web_login(self, redirect=None, **kw):
+        response = super(Extension_Home, self).web_login()             
+
+        user_obj=request.env['res.users']
+
+        sales_rep = request.env['ir.model.data'].get_object('superasia_salesrep_app','group_sales_rep')
+
+        group_list = [sales_rep.id]
+
+        user_data=user_obj.search([('id','=',request.uid),('groups_id','in',group_list)])
+
+        if user_data:
+            return werkzeug.utils.redirect('/sales-rep/home')
+        return response
 
 
 class SalesAgentDashboard(WebsiteSale):
