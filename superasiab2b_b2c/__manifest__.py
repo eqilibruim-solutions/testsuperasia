@@ -19,7 +19,8 @@
             'views/inherited_product_template_meta_fields.xml',
             'views/website_config_settings.xml',
             'views/sale_portal_templates.xml',
-            'report/shipping_labels.xml'
+            'report/shipping_labels.xml',
+            'data/mail_data.xml',
             ],
 
         'qweb': [
