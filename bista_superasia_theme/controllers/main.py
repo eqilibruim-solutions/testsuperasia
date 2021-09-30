@@ -336,7 +336,9 @@ class WebsiteSale(ws):
         if user_data:
             order.b2b_confirmed = True
             order.action_quotation_sent()
-            mail_template = request.env.ref('sale.mail_template_sale_confirmation')
+            mail_template = request.env.ref('superasiab2b_b2c.mail_template_b2b_sale_confirmation')
+            if not mail_template:
+                mail_template = request.env.ref('sale.mail_template_sale_confirmation')
             mail_template.send_mail(order.id, force_send=True)
             # order.action_draft()
             # clean context and session, then redirect to the confirmation page
