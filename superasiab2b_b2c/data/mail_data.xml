@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="mail_template_b2b_sale_confirmation" model="mail.template">
+            <field name="name">Sales Order: B2B Confirmation Email</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">${object.company_id.name} ${(object.get_portal_last_transaction().state == 'pending') and 'Pending Order' or 'Order'} (Ref ${object.name or 'n/a' })</field>
+            <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 12px;">
+        Hello,
+        <br/><br/>
+        We have received your order. One of our representatives will contact you shortly with the next steps.
+        <br/><br/>
+        OUR REPRESENTATIVE WILL DISCUSS THE FOLLOWING WITH YOU BEFORE PROCESSING YOUR ORDER:
+        Delivery charges, payment method, etc. 
+        Common methods of payment include bank transfer, check deposit, direct deposit/online transfer etc. 
+        Final contents of the order: edition/ deletion. Feel free to edit your cart in the meanwhile.
+        <br/><br/>
+        Do not hesitate to contact us if you have any questions.
+        <br/><br/>
+    </p>
+
+</div></field>
+            <field name="report_template" ref="sale.action_report_saleorder"/>
+            <field name="report_name">${(object.name or '').replace('/','_')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>
