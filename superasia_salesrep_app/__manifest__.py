@@ -15,6 +15,8 @@
         'views/assets.xml',
         'views/sales_agent_home.xml',
         'views/accounts.xml',
+        'views/add-account.xml',
+        'views/account-detail.xml',
     ],
 
     "installable": True,

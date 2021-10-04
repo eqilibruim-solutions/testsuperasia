@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_rep_account_detail" name="Sales Rep B2B Account Detail Page">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Accounts Information</t>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <!-- ======= Header ======= -->
+                <div class="sale_rep_account">
+                    <div id="super_top_menu">
+                        <div class="container-fluid">
+                            <div class="row">
+                            <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                                <div class="text-light float-left">
+                                    <a href="#" onclick="history.back(-1)" class="font-weight-bold text-white">Back</a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-8 col-sm-8 text-center">
+                                <div class="account-name-style">
+                                    <h5 class="pt-2"><a href="#" class="font-weight-bold text-white">Account Information</a></h5>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-2 col-md-2 text-right pt-2">
+                                <div class="text-light float-right">
+                                    <a t-attf-href="/sales-rep/account/create?partner_id=#{partner_id}"  class="font-weight-bold text-white">Edit</a>
+                                </div>
+                            </div>  
+                            </div><!-- end row -->
+                        </div><!-- end container -->
+                    </div><!-- end #super_top_menu -->
+                </div><!-- End Header -->
+
+                <!-- ======= Accounts Table Section ======= -->
+                <div class="container-fluid accounts-table section-bg oe_website_sale">
+                    <div class="add-edit-account-form">
+                        <form class="row pt-3">
+
+                            <div t-attf-class="#{error.get('name') and 'o_has_error' or ''} col-12 col-sm-12 col-md-12 form-group">
+                                <label>Name</label>
+                                <input type="text" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" id="#" name="name" t-att-value="'name' in form_values and form_values['name']" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-12 col-sm-12 col-md-12 form-group">
+                                <label>Account ID</label>
+                                <input type="hidden" t-attf-class="form-control" id="account_id" name="account_id"/>
+                            </div>
+                            <div class="ship-to col-12 col-sm-12 col-md-12 py-1">
+                                <p class="font-weight-bold mb-0">Ship To</p>
+                            </div>
+                            <div t-attf-class="col-12 col-sm-12 col-md-12 #{error.get('street') and 'o_has_error' or ''} form-group pt-3">
+                                <label>Street</label>
+                                <input type="text" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" id="street" name="street" t-att-value="'street' in form_values and form_values['street']" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('city') and 'o_has_error' or ''} form-group">
+                                <label>City</label>
+                                <input type="text" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}"  id="city" name="city" t-att-value="'city' in form_values and form_values['city']" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('zip') and 'o_has_error' or ''} form-group">
+                                <label>Zip Code</label>
+                                <input type="text" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}"  id="zip" name="zip" t-att-value="'zip' in form_values and form_values['zip']" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('country_id') and 'o_has_error' or ''} form-group">
+                                <label>Country</label>
+                                <select id="country_id" t-attf-class="form-select text-black #{error.get('country_id') and 'is-invalid' or ''}" name="country_id" disabled="1">
+                                    <option value="">Select Country</option>
+                                    <t t-foreach="countries" t-as="c">
+                                        <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                            <t t-esc="c.name" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('state_id') and 'o_has_error' or ''} form-group" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                <label for="state_id">State</label>
+                                <select t-attf-class="form-select text-black #{error.get('state_id') and 'is-invalid' or ''}" id="state_id" name="state_id" data-init="1" disabled="1">
+                                    <option value="">Select State</option>
+                                    <t t-foreach="country and country.state_ids or []" t-as="s">
+                                        <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in form_values and country and form_values['state_id'] != '' and int(form_values['state_id']))">
+                                            <t t-esc="s.name" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('phone') and 'o_has_error' or ''} form-group">
+                                <label>Phone</label>
+                                <input type="text" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}"  id="phone" name="phone" t-att-value="'phone' in form_values and form_values['phone']" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('mobile') and 'o_has_error' or ''} form-group">
+                                <label>Mobile</label>
+                                <input type="text" t-attf-class="form-control #{error.get('mobile') and 'is-invalid' or ''}"  id="mobile" name="mobile" t-att-value="'mobile' in form_values and form_values['mobile']" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('email') and 'o_has_error' or ''} form-group">
+                                <label>Email</label>
+                                <input type="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}"  id="email" name="email" t-att-value="'email' in form_values and form_values['email']" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('fax') and 'o_has_error' or ''} form-group">
+                                <label>Fax</label>
+                                <input type="text" t-attf-class="form-control #{error.get('fax') and 'is-invalid' or ''}"  id="fax" name="fax" t-att-value="'fax' in form_values and form_values['fax']" readonly="1"/>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 py-2"></div>
+                            <!-- 
+                            <div class="ship-to col-12 col-sm-12 col-md-12 py-3"></div>
+                            <div t-attf-class="col-12 col-sm-12 col-md-12 #{error.get('price_list_name') and 'o_has_error' or ''} form-group pt-3">
+                                <label>Price List Name</label>
+                                <input type="text" t-attf-class="form-control #{error.get('price_list_name') and 'is-invalid' or ''}"  id="price_list_name" name="price_list_name" placeholder="$" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('total_invoice') and 'o_has_error' or ''} form-group">
+                                <label>Total Invoiced</label>
+                                <input type="text" t-attf-class="form-control #{error.get('total_invoice') and 'is-invalid' or ''}"  id="total_invoice" name="total_invoice" placeholder="$" readonly="1"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('total_due') and 'o_has_error' or ''} form-group">
+                                <label>Total Due</label>
+                                <input type="text" t-attf-class="form-control #{error.get('total_due') and 'is-invalid' or ''}"  id="total_due" name="total_due" placeholder="$" readonly="1"/>
+                            </div> -->
+                        </form>
+                    </div><!-- End add-edit-form -->
+                </div><!-- End container -->
+
+            </div>
+        </t>
+        
+    </template>
+
+</odoo>

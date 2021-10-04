@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_rep_add_account" name="Sales Rep Add Account Page">
+        <t t-call="website.layout">
+            
+            <t t-if="mode=='edit'">
+                <t t-set="additional_title">
+                Accounts Update
+                </t>
+            </t>
+            <t t-else="">
+                <t t-set="additional_title">
+                Accounts Create
+                </t>
+            </t>
+
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <!-- ======= Header ======= -->
+                <div class="sale_rep_account">
+                    <div id="super_top_menu">
+                        <div class="container-fluid">
+                            <div class="row">
+                            <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                                <div class="text-light float-left">
+                                    <a href="/sales-rep/all-accounts" class="font-weight-bold text-white">Cancel</a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-8 col-sm-8 text-center">
+                                <div class="account-name-style">
+                                    <h5 class="pt-2"><a href="#" class="font-weight-bold text-white">
+                                        <t t-if="mode=='edit'">
+                                            Accounts Update
+                                        </t>
+                                        <t t-else="">
+                                            Accounts Create
+                                        </t>
+                                    </a></h5>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-2 col-md-2 text-right pt-2">
+                                
+                            </div>  
+                            </div><!-- end row -->
+                        </div><!-- end container -->
+                    </div><!-- end #super_top_menu -->
+                </div><!-- End Header -->
+
+                <!-- ======= Accounts Table Section ======= -->
+                <div class="container-fluid accounts-table section-bg oe_website_sale">
+                    <div class="add-edit-account-form">
+                        <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
+                            <h4 class="text-danger" t-esc="err" />
+                        </t>
+                        <form action="/sales-rep/account/create" method="post" class="row pt-3 checkout_autoformat">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                            <input type="hidden" name="submitted" value="1" />
+                            <input type="hidden" name="partner_id" t-att-value="partner_id or '0'" />
+                            <input type="hidden" name="callback" t-att-value="callback" />
+                            <input type="hidden" name="field_required" t-att-value="'phone,name'" />
+
+                            <div t-attf-class="#{error.get('name') and 'o_has_error' or ''} col-12 col-sm-12 col-md-12 form-group">
+                                <label>Name</label>
+                                <input type="text" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" id="#" name="name" t-att-value="'name' in form_values and form_values['name']" />
+                            </div>
+                            <div t-attf-class="col-12 col-sm-12 col-md-12 form-group">
+                                <label>Account ID</label>
+                                <input type="hidden" t-attf-class="form-control" id="account_id" name="account_id"/>
+                            </div>
+                            <div class="ship-to col-12 col-sm-12 col-md-12 py-1">
+                                <p class="font-weight-bold mb-0">Ship To</p>
+                            </div>
+                            <div t-attf-class="col-12 col-sm-12 col-md-12 #{error.get('street') and 'o_has_error' or ''} form-group pt-3">
+                                <label>Street</label>
+                                <input type="text" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" id="street" name="street" t-att-value="'street' in form_values and form_values['street']" />
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('city') and 'o_has_error' or ''} form-group">
+                                <label>City</label>
+                                <input type="text" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}"  id="city" name="city" t-att-value="'city' in form_values and form_values['city']" />
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('zip') and 'o_has_error' or ''} form-group">
+                                <label>Zip Code</label>
+                                <input type="text" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}"  id="zip" name="zip" t-att-value="'zip' in form_values and form_values['zip']" />
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('country_id') and 'o_has_error' or ''} form-group">
+                                <label>Country</label>
+                                <select id="country_id" t-attf-class="form-select text-black #{error.get('country_id') and 'is-invalid' or ''}" name="country_id" >
+                                    <option value="">Select Country</option>
+                                    <t t-foreach="countries" t-as="c">
+                                        <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                            <t t-esc="c.name" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('state_id') and 'o_has_error' or ''} form-group" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                <label for="state_id">State</label>
+                                <select t-attf-class="form-select text-black #{error.get('state_id') and 'is-invalid' or ''}" id="state_id" name="state_id" data-init="1" >
+                                    <option value="">Select State</option>
+                                    <t t-foreach="country and country.state_ids or []" t-as="s">
+                                        <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in form_values and country and form_values['state_id'] != '' and int(form_values['state_id']))">
+                                            <t t-esc="s.name" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('phone') and 'o_has_error' or ''} form-group">
+                                <label>Phone</label>
+                                <input type="text" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}"  id="phone" name="phone" t-att-value="'phone' in form_values and form_values['phone']" />
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('mobile') and 'o_has_error' or ''} form-group">
+                                <label>Mobile</label>
+                                <input type="text" t-attf-class="form-control #{error.get('mobile') and 'is-invalid' or ''}"  id="mobile" name="mobile" t-att-value="'mobile' in form_values and form_values['mobile']" />
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('email') and 'o_has_error' or ''} form-group">
+                                <label>Email</label>
+                                <input type="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}"  id="email" name="email" t-att-value="'email' in form_values and form_values['email']" t-att-readonly="'1' if mode == 'edit' else None"/>
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('fax') and 'o_has_error' or ''} form-group">
+                                <label>Fax</label>
+                                <input type="text" t-attf-class="form-control #{error.get('fax') and 'is-invalid' or ''}"  id="fax" name="fax" t-att-value="'fax' in form_values and form_values['fax']" />
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 py-2"></div>
+                            <!-- 
+                            <div class="ship-to col-12 col-sm-12 col-md-12 py-3"></div>
+                            <div t-attf-class="col-12 col-sm-12 col-md-12 #{error.get('price_list_name') and 'o_has_error' or ''} form-group pt-3">
+                                <label>Price List Name</label>
+                                <input type="text" t-attf-class="form-control #{error.get('price_list_name') and 'is-invalid' or ''}"  id="price_list_name" name="price_list_name" placeholder="$" />
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('total_invoice') and 'o_has_error' or ''} form-group">
+                                <label>Total Invoiced</label>
+                                <input type="text" t-attf-class="form-control #{error.get('total_invoice') and 'is-invalid' or ''}"  id="total_invoice" name="total_invoice" placeholder="$" />
+                            </div>
+                            <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('total_due') and 'o_has_error' or ''} form-group">
+                                <label>Total Due</label>
+                                <input type="text" t-attf-class="form-control #{error.get('total_due') and 'is-invalid' or ''}"  id="total_due" name="total_due" placeholder="$" />
+                            </div>                      -->
+                            <div class="col-4 col-sm-4 col-md-4 form-group">
+
+                                <a href="#" role="button" class="btn a-submit  a-submit-loading custom_them_primary text-white">
+                                    <t t-if="mode == 'edit'">
+                                        Save
+                                    </t>
+                                    <t t-else="">
+                                        Send for Approval
+                                    </t>
+                                    
+                                </a>
+                            </div>
+                        </form>
+                    </div><!-- End add-edit-form -->
+                </div><!-- End container -->
+
+            </div>
+        </t>
+        
+    </template>
+
+</odoo>
