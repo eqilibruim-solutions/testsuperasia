@@ -370,6 +370,10 @@ class AccountSalesRepReport(models.TransientModel):
                         price_subtotal = line.price_subtotal * -1
                     else:
                         price_subtotal = line.price_subtotal
+                    if inv.partner_id:
+                        cust_code = inv.partner_id.name.split()
+                        cust_code1 = inv.partner_id.name.split()[0]
+
                     data['invoice_data'].append({
                         'user_id': inv.invoice_user_id.name or '',
                         'type': dict(inv._fields['type'].selection).get(inv.type),
@@ -378,7 +382,7 @@ class AccountSalesRepReport(models.TransientModel):
                         'year': year or '',
                         'number': inv.name or '',
                         'code_with_customer': inv.partner_id.name or '',
-                        'cust_code': inv.partner_id.name.split() and inv.partner_id.name.split()[0] or '',
+                        'cust_code': cust_code and cust_code1 or '',
                         'customer_name': inv.partner_id.name or '',
                         'city': inv.partner_id.city or '',
                         'product': line.product_id.name or '',
