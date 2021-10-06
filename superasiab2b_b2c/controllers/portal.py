@@ -11,10 +11,14 @@ class CustomerPortal(CustomerPortal):
         values = super(CustomerPortal, self)._prepare_home_portal_values()
         partner = request.env.user.partner_id
         SaleOrder = request.env['sale.order']
-        quotations = SaleOrder.search([
-            ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
-            ('state', 'in', ['draft', 'sent'])
-        ])
+        current_cart_order = request.website.sale_get_order()
+        if current_cart_order.order_line:
+            quotations = current_cart_order
+        else:
+            quotations = SaleOrder.search([
+                ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
+                ('state', 'in', ['draft', 'sent'])
+            ])
         values['last_quotation_sent_count'] = 1 if quotations else 0
         return values
     
