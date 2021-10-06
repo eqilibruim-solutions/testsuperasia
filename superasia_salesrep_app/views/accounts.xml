@@ -69,10 +69,10 @@
                                 <t t-foreach="b2b_partner_ids" t-as="b2b_partner">
                                     <tr>
                                         <td scope="row"><t t-esc="b2b_partner.name"/></td>
-                                        <td><t t-esc="str(b2b_partner.phone)"/></td>
-                                        <td><t t-esc="str(b2b_partner.mobile)"/></td>
-                                        <td><t t-esc="str(b2b_partner.street)"/></td>
-                                        <td><t t-esc="str(b2b_partner.city)"/></td>
+                                        <td><t t-esc="b2b_partner.phone"/></td>
+                                        <td><t t-esc="b2b_partner.mobile"/></td>
+                                        <td><t t-esc="b2b_partner.street"/></td>
+                                        <td><t t-esc="b2b_partner.city"/></td>
                                         <td><a t-attf-href="/sales-rep/account/#{b2b_partner.id}/details" class="btn"> >></a></td>
                                     </tr>
                                 </t>

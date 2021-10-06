@@ -86,6 +86,7 @@ class SalesAgentDashboard(WebsiteSale):
                 if k not in ('field_required', 'partner_id', 'callback', 'submitted'): # classic case
                     _logger.debug("website_sale postprocess: %s value has been dropped (empty or not writable)" % k)
         new_values['mobile'] = values.get('mobile')
+        new_values['b2b_customer_type'] = values.get('b2b_customer_type')
         new_values['team_id'] = request.website.salesteam_id and request.website.salesteam_id.id
         new_values['user_id'] = request.website.salesperson_id and request.website.salesperson_id.id
 
@@ -231,15 +232,14 @@ class SalesAgentDashboard(WebsiteSale):
 
                 if not errors:
                     return request.redirect(post.get('callback') or '/sales-rep/all-accounts')
-        if mode == 'edit':
+        country = None
+        if mode == 'edit' and not errors:
             country = values.country_id
-        else:
-            country_code = request.session['geoip'].get('country_code')
-            if country_code:
-                def_country_id = request.env['res.country'].search([('code', '=', country_code)], limit=1)
-            else:
-                def_country_id = request.website.user_id.sudo().country_id
-            country = def_country_id  
+
+        countries = request.env['res.country'].sudo().search([])
+        states = request.env['res.country.state'].sudo().search([])
+        b2b_customer_type_fields = dict(request.env['res.partner'].fields_get(
+                allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])
         render_values = {
             'footer_hide': True,
             'hide_install_pwa_btn': True,
@@ -249,8 +249,9 @@ class SalesAgentDashboard(WebsiteSale):
             'form_values': values,
             'error': errors,
             'country': country,
-            'countries': country.get_website_sale_countries(mode='shipping'),
-            "states": country.get_website_sale_states(mode='shipping'),
+            'countries': countries,
+            "states": states,
+            "b2b_customer_type_fields": b2b_customer_type_fields,
         }
         return request.render('superasia_salesrep_app.sales_rep_add_account', render_values)
 
@@ -260,6 +261,10 @@ class SalesAgentDashboard(WebsiteSale):
         if not partner_obj or not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
             return request.not_found()
         country = partner_obj.country_id
+        countries = request.env['res.country'].sudo().search([])
+        states = request.env['res.country.state'].sudo().search([])
+        b2b_customer_type_fields = dict(request.env['res.partner'].fields_get(
+                allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])
         form_values = {
             'name': partner_obj.name,
             'street': partner_obj.street,
@@ -269,6 +274,7 @@ class SalesAgentDashboard(WebsiteSale):
             'phone': partner_obj.phone,
             'mobile': partner_obj.mobile,
             'email': partner_obj.email,
+            'b2b_customer_type': partner_obj.b2b_customer_type,
         }
         render_values = {
             'footer_hide': True,
@@ -278,7 +284,8 @@ class SalesAgentDashboard(WebsiteSale):
             'error': {},
             'form_values': form_values,
             'country': country,
-            'countries': country.get_website_sale_countries(mode='shipping'),
-            "states": country.get_website_sale_states(mode='shipping'),
+            'countries': countries,
+            "states": states,
+            'b2b_customer_type_fields': b2b_customer_type_fields,
         }
         return request.render('superasia_salesrep_app.sales_rep_account_detail', render_values)

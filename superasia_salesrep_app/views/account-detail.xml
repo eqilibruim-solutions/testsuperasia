@@ -22,8 +22,10 @@
                                 </div>
                             </div>
                             <div class="col-12 col-sm-2 col-md-2 text-right pt-2">
-                                <div class="text-light float-right">
-                                    <a t-attf-href="/sales-rep/account/create?partner_id=#{partner_id}"  class="font-weight-bold text-white">Edit</a>
+                                <div class="text-light float-right account-name-style">
+                                    <a t-attf-href="/sales-rep/account/create?partner_id=#{partner_id}"  class="font-weight-bold text-white">
+                                    <i class="fa fa-edit"/> Edit
+                                    </a>
                                 </div>
                             </div>  
                             </div><!-- end row -->
@@ -40,10 +42,21 @@
                                 <label>Name</label>
                                 <input type="text" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" id="#" name="name" t-att-value="'name' in form_values and form_values['name']" readonly="1"/>
                             </div>
-                            <div t-attf-class="col-12 col-sm-12 col-md-12 form-group">
+                            <div t-attf-class="col-12 col-sm-12 col-md-12 #{error.get('b2b_customer_type') and 'o_has_error' or ''} form-group">
+                                <label for="b2b_customer_type">Company Type</label>
+                                <select t-attf-class="form-select text-black #{error.get('b2b_customer_type') and 'is-invalid' or ''}" id="b2b_customer_type" name="b2b_customer_type" disabled="1">
+                                    <option value=" "></option>
+                                    <t t-foreach="b2b_customer_type_fields" t-as="s">
+                                        <option t-att-value="s" t-att-selected="'b2b_customer_type' in form_values and form_values['b2b_customer_type'] == s">
+                                            <t t-esc="b2b_customer_type_fields[s]" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <!-- <div t-attf-class="col-12 col-sm-12 col-md-12 form-group">
                                 <label>Account ID</label>
                                 <input type="hidden" t-attf-class="form-control" id="account_id" name="account_id"/>
-                            </div>
+                            </div> -->
                             <div class="ship-to col-12 col-sm-12 col-md-12 py-1">
                                 <p class="font-weight-bold mb-0">Ship To</p>
                             </div>
