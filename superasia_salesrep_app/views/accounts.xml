@@ -57,23 +57,23 @@
                         <table class="table table-bordered table-striped table-hover" id="all-accounts-table">
                             <thead class="thead-dark">
                                 <tr>
-                                <th scope="col" class="align-middle account-name">Name</th>
-                                <th scope="col" class="align-middle no-sort">Phone</th>
-                                <th scope="col" class="align-middle no-sort">Mobile</th>
-                                <th scope="col" class="align-middle no-sort">Street</th>
-                                <th scope="col" class="align-middle no-sort">City</th>
-                                <th scope="col" class="align-middle more-info no-sort">Info</th>
+                                <th scope="col" class="align-middle account-name font-weight-bold">Name</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">Phone</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">Mobile</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">Street</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">City</th>
+                                <th scope="col" class="align-middle more-info no-sort font-weight-bold">Info</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <t t-foreach="b2b_partner_ids" t-as="b2b_partner">
                                     <tr>
-                                        <td scope="row"><t t-esc="b2b_partner.name"/></td>
-                                        <td><t t-esc="b2b_partner.phone"/></td>
-                                        <td><t t-esc="b2b_partner.mobile"/></td>
-                                        <td><t t-esc="b2b_partner.street"/></td>
-                                        <td><t t-esc="b2b_partner.city"/></td>
-                                        <td><a t-attf-href="/sales-rep/account/#{b2b_partner.id}/details" class="btn"> >></a></td>
+                                        <td scope="row" class="font-weight-bold"><t t-esc="b2b_partner.name"/></td>
+                                        <td class="font-weight-bold"><t t-esc="b2b_partner.phone"/></td>
+                                        <td class="font-weight-bold"><t t-esc="b2b_partner.mobile"/></td>
+                                        <td class="font-weight-bold"><t t-esc="b2b_partner.street"/></td>
+                                        <td class="font-weight-bold"><t t-esc="b2b_partner.city"/></td>
+                                        <td class="font-weight-bold"><a t-attf-href="/sales-rep/account/#{b2b_partner.id}/details" class="btn"> >></a></td>
                                     </tr>
                                 </t>
                             </tbody>
