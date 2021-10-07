@@ -427,7 +427,7 @@
                                             <a t-att-href="res_company.social_linkedin" target="_blank"><img src="/bista_superasia_theme/static/src/img/linkedin-with-circle.png" alt="linkedin" class="pb-3" /></a>
                                         </div>
                                         <div class="col-sm-auto desktop-social-icons">
-                                            <a t-att-href="res_company.social_twitter" target="_blank"><img src="/bista_superasia_theme/static/src/img/twitter-with-circle.png" alt="twitter" class="pb-3" /></a>
+                                            <a t-att-href="res_company.social_instagram" target="_blank"><img src="/bista_superasia_theme/static/src/img/instragram-circle-icon.png" alt="Instagram" class="pb-3" /></a>
                                         </div>
                                         <div class="col-sm-auto desktop-social-icons">
                                             <a t-att-href="res_company.social_youtube" target="_blank"><img src="/bista_superasia_theme/static/src/img/youtube-with-circle.png" alt="youtube" class="pb-3" /></a>
