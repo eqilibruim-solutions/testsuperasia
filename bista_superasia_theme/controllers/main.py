@@ -306,8 +306,7 @@ class WebsiteSale(ws):
         }
         if category:
             values['main_object'] = category
-        # return request.render("website_sale.products", values)
-        return request.not_found()
+        return request.render("website_sale.products", values)
 
 
 
@@ -563,17 +562,3 @@ class WebsiteSale(ws):
             return request.render("bista_superasia_theme.check_postal_code", {})
             
         return request.not_found()
-
-
-    @http.route(['/shop/cart/update'], type='http', auth="public", methods=['GET', 'POST'], website=True, csrf=False)
-    def cart_update(self, product_id, add_qty=1, set_qty=0, **kw):
-        """This route is called when adding a product to cart (no options)."""
-
-        return ''
-
-    @http.route(['/shop/cart/update_json'], type='json', auth="public", methods=['POST'], website=True, csrf=False)
-    def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
-        """This route is called when changing quantity from the cart or adding
-        a product from the wishlist."""
-        return {}
-        
