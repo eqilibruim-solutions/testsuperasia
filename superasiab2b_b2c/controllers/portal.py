@@ -113,6 +113,16 @@ class CustomerPortal(CustomerPortal):
         return response
     
 
+    @http.route(['/my/quotes', '/my/quotes/page/<int:page>'], type='http', auth="user", website=True)
+    def portal_my_quotes(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
+        response = super(CustomerPortal, self).portal_my_quotes(
+            page, date_begin, date_end, sortby, **kw)
+        latest_order = self.last_quotation_order()
+        latest_quotation_sent_order = latest_order if latest_order.state == 'sent' else False
+        response.qcontext['latest_qo_sent_order'] = latest_quotation_sent_order
+        return response
+        
+
     @http.route(['/order-change-state'], type='json', auth="user")
     def order_state_change(self, order_id=None, **kw):
         error = ''
