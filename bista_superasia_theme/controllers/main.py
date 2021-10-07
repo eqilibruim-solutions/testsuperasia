@@ -146,6 +146,7 @@ class WebsiteSale(ws):
         '''/shop/category/<model("product.public.category"):category>/page/<int:page>'''
     ], type='http', auth="public", website=True, sitemap=sitemap_shop)
     def shop(self, page=0, category=None, search='', ppg=False, **post):
+        
         add_qty = int(post.get('add_qty', 1))
         Category = request.env['product.public.category']
 
@@ -305,7 +306,8 @@ class WebsiteSale(ws):
         }
         if category:
             values['main_object'] = category
-        return request.render("website_sale.products", values)
+        # return request.render("website_sale.products", values)
+        return request.not_found()
 
 
 
