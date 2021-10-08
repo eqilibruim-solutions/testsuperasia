@@ -611,6 +611,13 @@ publicWidget.registry.WebsiteSale = publicWidget.Widget.extend(VariantMixin, {
             return;
         }
         var $aSubmit = $(ev.currentTarget);
+        let recaptcha = $("#g-recaptcha-response").val();
+        if (recaptcha === "") {
+            ev.preventDefault();
+            document.getElementById('err').innerHTML="Please check Captcha";
+            return true;
+        }
+
         if (!ev.isDefaultPrevented() && !$aSubmit.is(".disabled")) {
             ev.preventDefault();
             $aSubmit.closest('form').submit();

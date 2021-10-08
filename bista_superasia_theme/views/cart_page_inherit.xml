@@ -466,6 +466,27 @@
         </xpath>
     </template>
 
-
+    <template id="bista_adress_inherit"  inherit_id="website_sale.address">
+        <xpath expr="//input[@name='field_required']" position="after">
+            <div class="form-row">
+                <div class="value">
+                    <script src='https://www.google.com/recaptcha/api.js'></script>
+                    <div id="captcha" class="imageContainer">
+                        <t t-if="website.recaptcha_key_site">
+                            <t t-set="recaptcha_site_key" t-value="website.recaptcha_key_site"/>
+                        </t>
+                        <t t-else="">
+                            <t t-set="recaptcha_site_key" t-value="'siteKeyMissing'"/>
+                        </t>
+                        <div class="g-recaptcha" t-att-data-sitekey="recaptcha_site_key"
+                                data-callback="verifyRecaptchaCallback"
+                                data-expired-callback="expiredRecaptchaCallback"></div>
+                        <input class="form-control d-none" data-recaptcha="true" />
+                        <div class="help-block with-errors" id="err" style='color: red' required="required"></div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
 
 </odoo>
