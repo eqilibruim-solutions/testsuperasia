@@ -24,9 +24,9 @@ font-size: .9rem;
 }
 /* Set Limited text in search box suggestion */
 
-#select2-drop{
+/* #select2-drop{
     width: auto !important;
-}
+} */
 #p_txt{
   display: inline-block;
   width: 9em;
@@ -1771,11 +1771,10 @@ border-radius: 4px;
 font-size: 16px;
 background-color: white;
 }
-#select2-drop{
-    /*width: 260px !important;*/
+/* #select2-drop{
     width: 100% !important;
     left : auto !important;
-}
+} */
 
 
 .left-fixed-sidebar{

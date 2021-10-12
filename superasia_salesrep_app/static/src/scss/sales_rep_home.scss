@@ -59,3 +59,29 @@
   }
   
 }
+
+.dropdown-modal {
+  .modal-content {
+    border-radius: 0.7rem;
+    -webkit-border-radius: 0.7rem;
+    -moz-border-radius: 0.7rem;
+  }
+  .modal-header {
+    border-top-left-radius: 0.7rem;
+    border-top-right-radius: 0.7rem;
+    background-color: #e3e3e4;
+
+    button.close {
+      font-size: small;
+      color: #1f85c2;
+      align-self: center;
+      padding-left: 0px;
+      padding-right: 0px;
+      text-transform: none;
+      opacity: 1;
+    }
+    .modal-title {
+      color: #000000;
+    }
+  }
+}

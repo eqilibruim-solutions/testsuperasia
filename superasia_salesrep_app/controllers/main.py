@@ -105,10 +105,20 @@ class SalesAgentDashboard(WebsiteSale):
     def sales_agent_home(self, **post):
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
             return request.not_found()
+        b2b_user_group = request.env['ir.model.data'].sudo().get_object(
+                                'superasiab2b_b2c','group_b2baccount')
+        userobj = request.env['res.users'].sudo()
+        b2b_users = userobj.search([('groups_id','in',b2b_user_group.id)])
+        b2b_partner_ids = []
+        if b2b_users:
+            b2b_partner_ids = b2b_users.mapped('partner_id')
+        request.session['selected_acccount_id'] = False
         return request.render('superasia_salesrep_app.sales_agent_home',{
             'footer_hide': True,
             'hide_install_pwa_btn': True,
-            'hide_header': True
+            'hide_header': True,
+             
+            'b2b_partner_ids': b2b_partner_ids,
         })
     
     @http.route(['/sales-rep/all-accounts'], type='http', methods=['GET'], auth="user", website=True, csrf=False)
@@ -289,3 +299,10 @@ class SalesAgentDashboard(WebsiteSale):
             'b2b_customer_type_fields': b2b_customer_type_fields,
         }
         return request.render('superasia_salesrep_app.sales_rep_account_detail', render_values)
+    
+    @http.route(['/selected-account/update'], type='json', auth="user", website=True)
+    def update_selected_account(self, account_id):
+        request.session['selected_acccount_id'] = int(account_id)
+        return {
+            'redirect_url': '/sales-rep/sale/'
+        }
