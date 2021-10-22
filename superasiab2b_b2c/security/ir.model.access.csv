@@ -35,3 +35,4 @@ acess_uom_uom_pub,acess.uom_uom.pub,uom.model_uom_uom,base.group_public,1,1,1,1
 acess_ir_attachment_pub,acess.ir_attachment.pub,base.model_ir_attachment,base.group_public,1,1,1,1
 acess_res_partner_port,acess.res_partner.pub,base.model_res_partner,base.group_portal,1,1,1,1
 acess_res_users_port,acess.res_users.pub,base.model_res_users,base.group_portal,1,1,1,1
+acess_mrp_bom_port,acess.mrp_bom.pub,mrp.model_mrp_bom,base.group_portal,1,1,1,1
