@@ -527,6 +527,11 @@
                   t-esc="old_price" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
               />
         </xpath>
+        <xpath expr="//h4[hasclass('oe_price_h4')]" position="inside">
+            <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
+                <a href="/b2b_activation" class="pl-3" style="font-size: 18px; text-decoration: underline;">Login for Wholesale Price</a>
+              </t>
+        </xpath>
     </template>
     <template id="add_to_cart_product_image_inherite" inherit_id="website_sale.shop_product_carousel"  name="Add to Cart Product Image Inherit">
         <xpath expr="//t[@t-foreach='product_images']" position="replace">
@@ -682,13 +687,6 @@
     <template id="portal_record_sidebar_inherit" name="portal_record_sidebar Inherit" inherit_id="portal.portal_record_sidebar">
         <xpath expr="//img[contains(@height, '15')]" position="replace">
             <img src="/bista_superasia_theme/static/src/img/super-asia-logo.png" alt="Odoo Logo" height="15"/>
-        </xpath>
-    </template>
-    <template id="bis_product_price" name="bis_product_price" inherit_id="website_sale.product_price">
-        <xpath expr="//h4[hasclass('oe_price_h4')]" position="inside">
-            <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
-                <a href="/b2b_activation" class="pl-3" style="font-size: 18px;">Login for Wholesale Price</a>
-              </t>
         </xpath>
     </template>
 
