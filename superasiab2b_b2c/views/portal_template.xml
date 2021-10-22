@@ -114,15 +114,16 @@
                                             </div>
 
                                             <div class="form-row form-customer_type">
-                                                <div class="name">Are you?</div>
+                                                <div class="name">Business Type</div>
                                                 <div class="value">
                                                     <div class="input-group-desc">
                                                         <select id="b2b_customer_type" name="b2b_customer_type"
                                                                 class="input--style-5" style="height: 40px; width: 100%;">
-                                                            <option value="restaurant_owner">Restaurant Owner</option>
-                                                            <option value="conv_grocery_owner">Convenience/Grocery Store Owner</option>
-                                                            <option value="wholesale_dist">Wholesaler Distributor</option>
+                                                            <option value="restaurant_owner">Restaurant</option>
                                                             <option value="online_retailer">Online Retailer</option>
+                                                            <option value="grocery_owner">Grocery Store</option>
+                                                            <option value="conv_owner">Convenience Store</option>
+                                                            <option value="wholesale_dist">Wholesaler</option>
                                                             <option value="other">Other</option>
                                                         </select>
                                                     </div>
