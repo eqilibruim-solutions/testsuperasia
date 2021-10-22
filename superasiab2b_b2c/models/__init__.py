@@ -4,7 +4,7 @@
 
 from . import portal_manager
 # from . import ir_ui_menu_inherit
-from . import website_config_settings, sale_order
+from . import website_config_settings, sale_order, crm_lead
 
 # ****************
 

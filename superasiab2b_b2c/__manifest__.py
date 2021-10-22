@@ -7,7 +7,7 @@
     'summary': '',
     'author':'Bista Solutions - Archana Prasad',
     'depends': [
-        'base','portal','sale','product','website','website_sale','sale_coupon','website_sale_stock'
+        'base','portal','sale','product','website','website_sale','sale_coupon','website_sale_stock', 'crm'
     ],
     'data': [
             'security/access_rights.xml',
@@ -19,6 +19,7 @@
             'views/inherited_product_template_meta_fields.xml',
             'views/website_config_settings.xml',
             'views/sale_portal_templates.xml',
+            'views/crm_lead.xml',
             'report/shipping_labels.xml',
             'data/mail_data.xml',
             ],
