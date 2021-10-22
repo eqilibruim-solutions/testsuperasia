@@ -684,6 +684,12 @@
             <img src="/bista_superasia_theme/static/src/img/super-asia-logo.png" alt="Odoo Logo" height="15"/>
         </xpath>
     </template>
-
+    <template id="bis_product_price" name="bis_product_price" inherit_id="website_sale.product_price">
+        <xpath expr="//h4[hasclass('oe_price_h4')]" position="inside">
+            <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
+                <a href="/b2b_activation" class="pl-3" style="font-size: 18px;">Login for Wholesale Price</a>
+              </t>
+        </xpath>
+    </template>
 
 </odoo>
