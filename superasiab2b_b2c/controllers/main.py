@@ -158,6 +158,15 @@ class superasiab2b_b2c(http.Controller):
             if profile_ids:
                 return request.redirect('/accountexist')
 
+            lead = request.env["crm.lead"].with_context(mail_create_nosubscribe=True).sudo().create({
+                "contact_name": contact_name,
+                # "description": ,
+                "email_from": email,
+                "name": company_name,
+                "partner_name": company_name,
+                "phone": mobile
+            })
+
 
             # state_data = ''
             # _logger.info('========state_id======== %s' % state_id)
