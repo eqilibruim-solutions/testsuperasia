@@ -49,3 +49,23 @@ odoo.define('superaia_salesrep_app.select_account', function (require) {
 
     });
 });
+
+odoo.define('superaia_salesrep_app.filter_account', function (require) {
+  'use strict';
+  
+  var publicWidget = require('web.public.widget');
+
+  publicWidget.registry.filter_account = publicWidget.Widget.extend({
+      selector: '#filterCollapse',
+
+      start: function () {
+        if ($("#cityFilter").length) {
+          $("#cityFilter").select2({
+            theme: 'bootstrap',
+          });
+        }
+        return this._super.apply(this, arguments);
+      },
+
+  });
+});

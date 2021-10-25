@@ -32,7 +32,9 @@
                         <div class="row">
                         <div class="col-12 col-sm-1 col-md-1 logo float-left pt-2">
                             <div class="text-light float-left">
-                                <a href="#"><i class="icofont-filter"></i></a>
+                                <a role="button" data-toggle="collapse" href="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+                                    <i class="icofont-filter"></i>
+                                </a>
                             </div>
                         </div>
                         <div class="col-12 col-sm-7 col-md-7 float-left input-group">
@@ -50,7 +52,34 @@
                     </div><!-- end container -->
                     </div><!-- end #function_top_menu -->
                 </div><!-- End Header -->
-
+                <div class="container-fluid collapse" id="filterCollapse">
+                    <div class="row">
+                        <div class="col-12">
+                            <form clas="pt-3 px-4">
+                                <div class="form-group row">
+                                    <label for="cityFilter" class="col-sm-2 col-form-label">City:</label>
+                                    <div class="col-sm-10">
+                                        <select id="cityFilter" name="city" class="city-listing-tags js-example-tags form-control" multiple="multiple">
+                                        <option></option>
+                                        <option>11514555 Canada Ltd.</option>
+                                        <option>1471.50</option>
+                                        <option>1595645 ONTARIO INC.</option>  
+                                        <option>Montreal</option>
+                                        <option>2218769 ONTARIO INC. AL RAMZAN GROCERS</option>
+                                        <option>2356718 ONTARIO LTD.</option>
+                                        <option>2425293 ONTARIO INC.(Asif Sheikh)</option>
+                                        <option>2616886 ONTARIO INC. O/A Zaiqa Restaurant and Sweets</option>
+                                        <option>2708950 ONTARIO INC.</option>
+                                        <option>2833364 ONTARIO INC.</option>
+                                        <option>786 JANNAT HILAL MEAT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Apply</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <!-- ======= Accounts Table Section ======= -->
                 <div class="accounts-table section-bg">
                     <div class="mt-4">

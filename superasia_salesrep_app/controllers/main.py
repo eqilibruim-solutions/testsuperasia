@@ -137,7 +137,10 @@ class SalesAgentDashboard(WebsiteSale):
         b2b_partner_ids = []
         if b2b_users:
             b2b_partner_ids = b2b_users.mapped('partner_id')
-            
+        # Filter
+        if post.get('city'):
+            filter_city_list = request.httprequest.args.getlist('city')
+            b2b_partner_ids = b2b_partner_ids.filtered(lambda x: x.city in filter_city_list)
         context = {
             'footer_hide': True,
             'hide_install_pwa_btn': True,
