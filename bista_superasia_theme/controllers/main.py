@@ -497,6 +497,8 @@ class WebsiteSale(ws):
     @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
         res = super(WebsiteSale, self).product(product, category, search, **kwargs)
+        _logger.info(f"testing remote addr:{request.httprequest.environ.get('REMOTE_ADDR')}")
+        _logger.info(f"testing real:{request.httprequest.environ.get('HTTP_X_REAL_IP')}")
         if res.qcontext.get('categories'):
             res.qcontext.update({
                 'public_categories': res.qcontext.get('categories'),
