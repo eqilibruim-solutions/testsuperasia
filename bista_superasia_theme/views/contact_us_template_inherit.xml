@@ -1,13 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="contactus_form_inherite" inherit_id="website_form.contactus_form" name="Contactus_form Inherit">
-    <xpath expr="//a[hasclass('btn', 'btn-primary', 'btn-lg', 'o_website_form_send')]" position="attributes">
+        <xpath expr="//a[hasclass('btn', 'btn-primary', 'btn-lg', 'o_website_form_send')]" position="attributes">
             <attribute name="class">btn custom_them_primary o_website_form_send text-white</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('form-group','row','form-field')][2]" position="replace">
+            <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                <div class="col-lg-3 col-md-4">
+                    <label class="col-form-label" for="Phone">Phone</label>
+                </div>
+                <div class="col-lg-7 col-md-8">
+                    <input type="text" class="form-control o_website_form_input" name="Phone" required=""/>
+                </div>
+            </div>
         </xpath>
     </template>
     <template id="contact_us_inherite" inherit_id="website.contactus" name="Contact Us Inherit">
         <xpath expr="//section[hasclass('s_text_block')]" position="attributes">
             <attribute name="class">s_text_block p-0</attribute>
         </xpath>
+    </template>
+    <template id="wsebsite_crm_contactus_form_inherite" inherit_id="website_crm.contactus_form" name="Contactus_form Inherit">
+    <xpath expr="//div[hasclass('form-group','row','form-field')][2]" position="replace">
+                <div class="form-group row form-field o_website_form_required_custom">
+                    <label class="col-lg-3 col-md-4 col-form-label" for="phone">Phone Number</label>
+                    <div class="col-lg-7 col-md-8">
+                        <input type="text" class="form-control o_website_form_input" name="phone" t-att-value="request.params.get('phone', '')" required=""/>
+                    </div>
+                </div>
+
+        </xpath>
+        <xpath expr="//div[hasclass('form-group','row','form-field')][6]" position="replace">
+            <div class="form-group row form-field ">
+                <label class="col-lg-3 col-md-4 col-form-label" for="description">Comments</label>
+                <div class="col-lg-7 col-md-8">
+                    <textarea class="form-control o_website_form_input" name="description"><t t-esc="request.params.get('description', '')"/></textarea>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('form-group','row','form-field')][1]" position="after">
+                <div class="form-group row form-field">
+                    <label class="col-lg-3 col-md-4 col-form-label" for="b2b_customer_type">Business Type</label>
+                    <div class="col-lg-7 col-md-8">
+                        <select id="b2b_customer_type" name="b2b_customer_type" class="form-control o_website_form_input">
+                            <option value="restaurant_owner">Restaurant</option>
+                            <option value="online_retailer">Online Retailer</option>
+                            <option value="grocery_owner">Grocery Store</option>
+                            <option value="conv_owner">Convenience Store</option>
+                            <option value="wholesale_dist">Wholesaler</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <!-- <input type="text" class="form-control o_website_form_input" name="b2b_customer_type" t-att-value="request.params.get('b2b_customer_type', '')"/> -->
+                    </div>
+                </div>
+
+        </xpath>
+        
     </template>
 </odoo>

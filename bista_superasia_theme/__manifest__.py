@@ -24,6 +24,8 @@
         'views/check_postal_code.xml',
         'views/product_template.xml',
         'views/sale_order.xml',
+        'views/crm_lead.xml',
+        'data/website_crm_data.xml'
     ],
 
     "installable": True,
