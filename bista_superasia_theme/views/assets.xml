@@ -100,6 +100,15 @@
             fbq('track', 'PageView');
             </script>
             <!-- End Facebook Pixel Code -->
+            <!-- Global site tag (gtag.js) - Google Ads: 823568496 -->
+            <script async="async" src="https://www.googletagmanager.com/gtag/js?id=AW-823568496"></script>
+            <script> 
+            window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-823568496'); 
+            </script>
+            <!-- Event snippet for Submit B2B Lead Form conversion page --> 
+            <script> 
+            gtag('event', 'conversion', {'send_to': 'AW-823568496/LXMpCJ-5uv4CEPDQ2ogD'}); 
+            </script>
         </xpath>
     </template>
 </odoo>
