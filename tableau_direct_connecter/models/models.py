@@ -1,31 +1,69 @@
-import hashlib #line:2
-import logging #line:3
-import os #line:4
-from odoo import models ,fields ,api #line:5
-from ast import literal_eval #line:6
-class WebConnecterSetting (models .TransientModel ):#line:9
-    _inherit ='res.config.settings'#line:10
-    def _get_connecter_url (OO0OO0O00OOOO00O0 ):#line:12
-        OO00000O000OOO0O0 =OO0OO0O00OOOO00O0 .env ['ir.config_parameter'].sudo ().get_param ('web.base.url')#line:13
-        OO0OO0O00OOOO00O0 .env ['ir.config_parameter'].set_param ('tableau_direct_connecter.url',OO00000O000OOO0O0 +'/tableau/connecter/')#line:14
-        return OO00000O000OOO0O0 +'/tableau/connecter/'#line:15
-    url =fields .Char (string ='Connecter Url',default =_get_connecter_url )#line:17
-    access_token =fields .Char (string ='Access Token',default ="*******************************************" )#line:18
-    def set_values (O0OO0OO000OO000O0 ):#line:20
-        O0O00OO00O0OOO00O =super (WebConnecterSetting ,O0OO0OO000OO000O0 ).set_values ()#line:21
-        O0OO0OO000OO000O0 .env ['ir.config_parameter'].set_param ('tableau_direct_connecter.url',O0OO0OO000OO000O0 .url )#line:22
-        O0OO0OO000OO000O0 .env ['ir.config_parameter'].set_param ('tableau_direct_connecter.access_token',O0OO0OO000OO000O0 .access_token )#line:23
-        return O0O00OO00O0OOO00O #line:25
-    @api .model #line:27
-    def get_values (O0OOOOOOO0O00OO0O ):#line:28
-        OO0O0O0OOOOOOOOOO =super (WebConnecterSetting ,O0OOOOOOO0O00OO0O ).get_values ()#line:29
-        OOOO0O0O0O0O0OO0O =O0OOOOOOO0O00OO0O .env ['ir.config_parameter'].sudo ()#line:30
-        OO0O0O000O0O00O00 =OOOO0O0O0O0O0OO0O .get_param ('tableau_direct_connecter.url')#line:31
-        O0000O00OO000O00O =OOOO0O0O0O0O0OO0O .get_param ('tableau_direct_connecter.access_token')#line:32
-        OO0O0O0OOOOOOOOOO .update (url =OO0O0O000O0O00O00 ,access_token =O0000O00OO000O00O )#line:36
-        return OO0O0O0OOOOOOOOOO #line:38
-    def nonce (O00OOO0OO00OOO0O0 ,length =40 ,prefix =""):#line:40
-        OOOOO00O0O00OO0O0 =os .urandom (length )#line:41
-        return "{}_{}".format (prefix ,str (hashlib .sha1 (OOOOO00O0O00OO0O0 ).hexdigest ()))#line:42
-    def generate_token (O00000O00OOO0O000 ):#line:44
-        O00000O00OOO0O000 .env ['ir.config_parameter'].set_param ('tableau_direct_connecter.access_token',O00000O00OOO0O000 .nonce ())#line:45
+# -*- coding: utf-8 -*-
+import hashlib
+import logging
+import os
+import requests
+import json
+from odoo import models, fields, api,_
+from ast import literal_eval
+from odoo.exceptions import ValidationError
+from odoo.addons.tableau_direct_connecter.url import (
+   url,
+)
+
+
+class WebConnecterSetting(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    def _get_connecter_url(self):
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        self.env['ir.config_parameter'].set_param('tableau_direct_connecter.url', base_url + '/tableau/connecter/')
+        return base_url + '/tableau/connecter/'
+
+    url = fields.Char(string='Connecter Url', default=_get_connecter_url)
+    access_token = fields.Char(string='Access Token', default=" " * 40)
+    tableau_license_key = fields.Char(string='License Key')
+    
+    def set_values(self):
+        res = super(WebConnecterSetting, self).set_values()
+        self.env['ir.config_parameter'].set_param('tableau_direct_connecter.url', self.url)
+        self.env['ir.config_parameter'].set_param('tableau_direct_connecter.access_token', self.access_token)
+        if self.tableau_license_key:
+            response = requests.post(url,data={"host_name":self.env['ir.config_parameter'].sudo().get_param('web.base.url'),"license_key":self.tableau_license_key},headers={'Accept':'application/json'})
+            
+            if response.status_code == 401:
+                raise ValidationError('Please enter a valid license key !')
+            if response.status_code == 408:
+                raise ValidationError('Your trial is expired !')
+            if response.status_code != 200:
+                raise ValidationError('something went wrong on server side !')
+            self.env['ir.config_parameter'].set_param('tableau_direct_connecter.tableau_license_key', self.tableau_license_key)
+        else:
+            self.env['ir.config_parameter'].set_param('tableau_direct_connecter.tableau_license_key', self.tableau_license_key)
+        return res
+
+    @api.model
+    def get_values(self):
+        res = super(WebConnecterSetting, self).get_values()
+        ICPSudo = self.env['ir.config_parameter'].sudo()
+        url = ICPSudo.get_param('tableau_direct_connecter.url')
+        access_token = ICPSudo.get_param('tableau_direct_connecter.access_token')
+        tableau_license_key = ICPSudo.get_param('tableau_direct_connecter.tableau_license_key')
+        res.update(
+            url=url,
+            access_token=access_token,
+            tableau_license_key=tableau_license_key
+        )
+
+        return res
+
+    def nonce(self, length=40, prefix=""):
+        rbytes = os.urandom(length)
+        return "{}_{}".format(prefix, str(hashlib.sha1(rbytes).hexdigest()))
+
+    def generate_token(self):
+        ICPSudo = self.env['ir.config_parameter'].sudo()
+        license_key = ICPSudo.get_param('tableau_direct_connecter.tableau_license_key')  
+        if not license_key:
+            raise ValidationError('Please enter valid license key then generate token') 
+        self.env['ir.config_parameter'].set_param('tableau_direct_connecter.access_token', self.nonce())
