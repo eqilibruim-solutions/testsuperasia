@@ -35,7 +35,7 @@ def invalid_response(typ,message=None, status=401,check_json = None):
     This will be the return value whenever the server runs into an error
     either from the client or the server."""
     response = werkzeug.wrappers.Response(
-        content_type = "application/json; charset=utf-8",
+        content_type = "application/json",
         headers = [('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS'),("Access-Control-Allow-Origin", "*"
 )],
         response = json.dumps(

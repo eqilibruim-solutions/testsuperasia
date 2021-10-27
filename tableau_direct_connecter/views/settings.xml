@@ -12,9 +12,21 @@
                      data-key="tableau_direct_connecter">
                     <h2>Tableau Direct Connecter</h2>
                     <div style="background:#7c7bad4d">
+                     <group>
+                            <div class="row mt10 o_settings_container">
+                                <div class="o_setting_left_pane">
+                                    <label for="tableau_license_key" string="License Key"/>
+
+                                    <field style="border-radius:10px;padding:4px 8px;overflow:visible;transform: translate(80px,-24px);"
+                                           name="tableau_license_key"/>
+
+
+                                </div>
+                            </div>
+                        </group>
                         <group>
                             <div class="row mt16 o_settings_container">
-                                <div class="o_setting_left_pane">
+                                <div class="o_setting_left_pane" style="margin-top:-50px;">
                                     <label for="url" string="Connecter Url"/>
                                     <field style="border:1px solid black;border-radius:10px;padding:4px 8px;font-style:italic;"
                                            name="url" readonly="1"/>
@@ -26,7 +38,7 @@
 
                         <group>
                             <div class="row mt10 o_settings_container">
-                                <div class="o_setting_left_pane">
+                                <div class="o_setting_left_pane" style="margin-top:-30px;">
                                     <label for="access_token" string="Access Token"/>
 
                                     <field style="border:1px solid black;border-radius:10px;padding:4px 8px;"
