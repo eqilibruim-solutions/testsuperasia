@@ -157,6 +157,12 @@ class superasiab2b_b2c(http.Controller):
             profile_ids=profile_obj.search([('user_id','=',user_data.id)])
             if profile_ids:
                 return request.redirect('/accountexist')
+            utm_medium = post.get("utm_medium", False)
+            source = False
+            if utm_medium:
+                source = request.env['utm.source'].search([('name','ilike',utm_medium)], limit=1)
+                if not source:
+                    source = request.env['utm.source'].create({'name':utm_medium})
 
             lead = request.env["crm.lead"].with_context(mail_create_nosubscribe=True).sudo().create({
                 "contact_name": contact_name,
@@ -164,7 +170,8 @@ class superasiab2b_b2c(http.Controller):
                 "email_from": email,
                 "name": company_name,
                 "partner_name": company_name,
-                "phone": mobile
+                "phone": mobile,
+                "source_id": source.id if source else False
             })
 
 
