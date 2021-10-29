@@ -157,6 +157,13 @@ class superasiab2b_b2c(http.Controller):
             profile_ids=profile_obj.search([('user_id','=',user_data.id)])
             if profile_ids:
                 return request.redirect('/accountexist')
+
+            b2b_customer_type_key = post.get('b2b_customer_type')
+            # Get b2b_customer_type selection field's label in res.partner model
+            b2b_customer_type = dict(request.env['res.partner'].fields_get(
+                allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])[b2b_customer_type_key]
+
+
             utm_medium = post.get("utm_medium", False)
             source = False
             if utm_medium:
@@ -166,7 +173,7 @@ class superasiab2b_b2c(http.Controller):
 
             lead = request.env["crm.lead"].with_context(mail_create_nosubscribe=True).sudo().create({
                 "contact_name": contact_name,
-                # "description": ,
+                "b2b_customer_type": b2b_customer_type_key,
                 "email_from": email,
                 "name": company_name,
                 "partner_name": company_name,
@@ -195,10 +202,6 @@ class superasiab2b_b2c(http.Controller):
             partner_id = user_data.partner_id
             login = user_data.login
 
-            b2b_customer_type_key = post.get('b2b_customer_type')
-            # Get b2b_customer_type selection field's label in res.partner model
-            b2b_customer_type = dict(request.env['res.partner'].fields_get(
-                allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])[b2b_customer_type_key]
 
             profile_vals={
             'street': street,
