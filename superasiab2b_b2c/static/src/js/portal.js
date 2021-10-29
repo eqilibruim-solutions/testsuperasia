@@ -105,3 +105,38 @@ publicWidget.registry.websiteSaleCartLink = publicWidget.Widget.extend({
 });
 
 });
+
+
+odoo.define('superasiab2b_b2c.retailer_contact_form', function (require) {
+	"use strict";
+	var publicWidget = require('web.public.widget');
+	var ajax = require('web.ajax');
+	
+	publicWidget.registry.retailerContactForm = publicWidget.Widget.extend({
+		selector: 'form[action="/b2baccountactivation"]',
+
+		start: function () {
+			var $inputUtmMedium = this.$el.find('input[name="utm_medium"]')
+			if ($inputUtmMedium.length){
+				let utmMedium = this.getURLParameter('utm_medium')
+				$inputUtmMedium.val(utmMedium ? utmMedium:'')
+			}
+			return this._super.apply(this, arguments);
+			
+		},
+
+		getURLParameter: function (sParam){
+			var sPageURL = window.location.search.substring(1);
+			var sURLVariables = sPageURL.split('&');
+			for (var i = 0; i < sURLVariables.length; i++) 
+			{
+				var sParameterName = sURLVariables[i].split('=');
+				if (sParameterName[0] == sParam) 
+				{
+					return sParameterName[1];
+				}
+			}
+		}
+	});
+	
+});

@@ -111,7 +111,7 @@ class superasiab2b_b2c(http.Controller):
             # zipcode = post.get('zipcode')
             # country_id = post.get('country_id')
             # state_id = post.get('state_id')
-            email = post.get('email')
+            email = post.get('email','')
             regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
             if not (re.search(regex,email)):  
                 return request.render('superasiab2b_b2c.invalidemail',{

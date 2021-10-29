@@ -102,7 +102,7 @@
 
                                     <div class="d-md-flex mr-lg-4 offset-lg-8">
                                         <form class="b2b_acc_signup_form mx-5 mx-lg-0" method="POST" action="/b2baccountactivation" enctype="multipart/form-data">
-
+                                            <input type="hidden" name="utm_medium" value=""/>
                                             <div class="form-row">
                                                 <div class="name">Business Name*</div>
                                                 <div class="value">
