@@ -8,7 +8,7 @@
     'author': "Bista Solutions Pvt. Ltd.-Saidul Tuhin",
     'website': 'www.bistasolutions.com',
     'license': 'AGPL-3',
-    "depends": ['base','web','website','portal','sale','website_sale','superasiab2b_b2c'],
+    "depends": ['base','web','website','portal','sale','website_sale','bista_superasia_theme','superasiab2b_b2c'],
     "data": [
         'security/ir.model.access.csv',
         'security/access_rights.xml',
@@ -17,6 +17,7 @@
         'views/accounts.xml',
         'views/add-account.xml',
         'views/account-detail.xml',
+        'views/product-listing.xml',
     ],
 
     "installable": True,

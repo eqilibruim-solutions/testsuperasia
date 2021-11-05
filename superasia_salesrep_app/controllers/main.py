@@ -5,9 +5,11 @@ _logger = logging.getLogger(__name__)
 from odoo import http, tools, _
 from odoo.http import request
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.addons.bista_superasia_theme.controllers.main import TableCompute
 from odoo.addons.web.controllers.main import Home
 from odoo.addons.superasiab2b_b2c.controllers.main import superasiab2b_b2c
-
+from odoo.addons.website.controllers.main import QueryURL
+from werkzeug.exceptions import Forbidden, NotFound
 
 class Extension_Home(Home):
     @http.route()
@@ -112,7 +114,7 @@ class SalesAgentDashboard(WebsiteSale):
         b2b_partner_ids = []
         if b2b_users:
             b2b_partner_ids = b2b_users.mapped('partner_id')
-        request.session['selected_acccount_id'] = False
+        request.session['selected_partner_id'] = False
         return request.render('superasia_salesrep_app.sales_agent_home',{
             'footer_hide': True,
             'hide_install_pwa_btn': True,
@@ -305,7 +307,166 @@ class SalesAgentDashboard(WebsiteSale):
     
     @http.route(['/selected-account/update'], type='json', auth="user", website=True)
     def update_selected_account(self, account_id):
-        request.session['selected_acccount_id'] = int(account_id)
+        request.session['selected_partner_id'] = int(account_id)
         return {
             'redirect_url': '/sales-rep/sale/'
         }
+    
+    @http.route([
+        '''/sales-rep/sale''',
+        '''/sales-rep/sale/page/<int:page>''',
+        ], type='http', auth="user", website=True)
+    def sales_rep_sale_shop(self, page=0, category=None, search='', ppg=False, **post):
+        partner_id = request.session.get('selected_partner_id')
+        partner_id = 7658
+        if partner_id:
+            selected_partner = request.env['res.partner'].browse(partner_id)
+        else:
+            print("redirect")
+
+        add_qty = int(post.get('add_qty', 1))
+        Category = request.env['product.public.category']
+
+        if category:
+            category = Category.search([('id', '=', int(category))], limit=1)
+            if not category or not category.can_access_from_current_website():
+                raise NotFound()
+        else:
+            category = Category
+
+        if ppg:
+            try:
+                ppg = int(ppg)
+                post['ppg'] = ppg
+            except ValueError:
+                ppg = False
+        if not ppg:
+            # ppg = request.env['website'].get_current_website().shop_ppg or 90
+            ppg = 90
+        # ppr = request.env['website'].get_current_website().shop_ppr or 90
+        
+        attrib_list = request.httprequest.args.getlist('attrib')
+        attrib_values = [[int(x) for x in v.split("-")] for v in attrib_list if v]
+        attributes_ids = {v[0] for v in attrib_values}
+        attrib_set = {v[1] for v in attrib_values}
+        domain = self._get_search_domain(search, category, attrib_values)
+        domain.append(('is_hide_b2b', '=', False))
+
+        keep = QueryURL('/sales-rep/sale', category=category and int(category), search=search, attrib=attrib_list,
+                        order=post.get('order'))
+        pricelist_context, pricelist = self._get_pricelist_context()
+        request.context = dict(request.context, pricelist=pricelist.id, partner=request.env.user.partner_id)
+
+        url = "/sales-rep/sale"
+        if search:
+            post["search"] = search
+        if attrib_list:
+            post['attrib'] = attrib_list
+
+        Product = request.env['product.template'].with_context(bin_size=True)
+        print(":::::::::::self._get_search_order(post):::::::::::::::",self._get_search_order(post))
+        search_product = Product.search(domain, order=self._get_search_order(post))
+        website_domain = request.website.website_domain()
+        categs_domain = [('parent_id', '=', False)] + website_domain
+
+        if search:
+            search_categories = Category.search(
+                [('product_tmpl_ids', 'in', search_product.ids)] + website_domain).parents_and_self
+            categs_domain.append(('id', 'in', search_categories.ids))
+        else:
+            search_categories = Category
+        categs = Category.search(categs_domain)
+
+        # if category:
+        #     url = "/shop/category/%s" % slug(category)
+
+        product_count = len(search_product)
+        pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
+        offset = pager['offset']
+        products = search_product[offset: offset + ppg]
+        ProductAttribute = request.env['product.attribute']
+        if products:
+            # get all products without limit
+            attributes = ProductAttribute.search([('product_tmpl_ids', 'in', search_product.ids)])
+        else:
+            attributes = ProductAttribute.browse(attributes_ids)
+
+        # layout_mode = request.session.get('website_sale_shop_layout_mode')
+        # if not layout_mode:
+        #     if request.website.viewref('website_sale.products_list_view').active:
+        #         layout_mode = 'list'
+        #     else:
+        #         layout_mode = 'grid'
+        layout_mode = 'grid'
+        ppr = 2
+
+        domain_1 = self._get_search_domain_new(search, category)
+        domain_1.append(('is_hide_b2b', '=', False))
+        # if request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
+        #     domain_1.append(('is_hide_b2c', '=', False))
+        # elif request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount'):
+        #     domain_1.append(('is_hide_b2b', '=', False))
+        product_without_filter = Product.search(domain_1)
+        ProductAttribute = request.env['product.attribute']
+        attributes_ids_b = request.env[
+            'product.attribute'].browse(set(attributes_ids))
+        appied_filter_result = attributes_ids_b
+        applied_filter_values = attrib_set
+        attrib_category_ids = []
+        variant_count = {}
+
+        if product_without_filter:
+            attributes_ids_all = ProductAttribute.search(
+                [('attribute_line_ids.product_tmpl_id', 'in', product_without_filter.ids)])
+        else:
+            attributes_ids_all = attributes
+        for i in range(len(attributes_ids_all)):
+            if attributes_ids_all[i].category_id and attributes_ids_all[i].value_ids and len(attributes_ids_all[i].value_ids) > 1 and attributes_ids_all[i].category_id.id not in attrib_category_ids:
+                attrib_category_ids.append(
+                    attributes_ids_all[i].category_id.id)
+
+            for v in attributes_ids_all[i].value_ids:
+                actual_domain = domain_1 + \
+                    [('attribute_line_ids.value_ids', 'in', [v.id])]
+                variant_count.update(
+                    {v.id: Product.search_count(actual_domain)})
+
+        attrib_category = request.env[
+            'product.attribute.category'].browse(set(attrib_category_ids))
+        variant_counts = variant_count
+    
+        values = {
+            'search': search,
+            'category': category,
+            'current_category': category,
+            'attrib_values': attrib_values,
+            'attrib_set': attrib_set,
+            'pager': pager,
+            'pricelist': pricelist,
+            'add_qty': add_qty,
+            'products': products,
+            'search_count': product_count,  # common for all searchbox
+            'bins': TableCompute().process(products, 90, ppr),
+            'ppg': 90,
+            'ppr': ppr,
+            'categories': categs,
+            'public_categories': categs,
+            'attributes': attributes,
+            'keep': keep,
+            'search_categories_ids': search_categories.ids,
+            'layout_mode': layout_mode,
+            
+            'appied_filter_result': appied_filter_result,
+            'applied_filter_values': applied_filter_values,
+            'attrib_category': attrib_category,
+            'variant_counts': variant_counts,
+            'selected_partner': selected_partner,
+
+            'footer_hide': True,
+            'hide_install_pwa_btn': True,
+            'hide_header': True,
+        }
+        if category:
+            values['main_object'] = category
+
+        return request.render('superasia_salesrep_app.sales_rep_product_listing', values)
