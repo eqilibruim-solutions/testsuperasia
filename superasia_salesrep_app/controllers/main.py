@@ -321,7 +321,6 @@ class SalesAgentDashboard(WebsiteSale):
         ], type='http', auth="user", website=True)
     def sales_rep_sale_shop(self, page=0, category=None, search='', ppg=False, **post):
         partner_id = request.session.get('selected_partner_id')
-        partner_id = 7658
         if partner_id:
             selected_partner = request.env['res.partner'].browse(partner_id)
         else:

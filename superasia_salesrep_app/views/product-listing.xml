@@ -118,7 +118,7 @@
                             <div class="row">
                             <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
                                 <div class="text-light float-left">
-                                    <a href="#" onclick="history.back(-1)" class="font-weight-bold text-white">Back</a>
+                                    <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Home</a>
                                 </div>
                             </div>
                             <div class="col-12 col-md-8 col-sm-8 text-center">
