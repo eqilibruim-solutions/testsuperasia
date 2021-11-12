@@ -14,6 +14,7 @@
             <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/datatable_table.js"/>
             <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/sales-rep-account.js"/>
             <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/select_account.js"/>
+            <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/product-listing.js"/>
         </xpath>
     </template>
     <template id="sales_rep_frontend_layout" name="Sales Rep Frontend Layout" inherit_id="web.frontend_layout">

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <template id="sales_rep_products_item" name="Sales Rep App Products item">
         <t t-set="product_href" t-value="keep(product.website_url, page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))" />
 
@@ -14,7 +13,7 @@
                 <div class="ribbon-wrapper">
                     <a href="#" role="button" class="ribbon btn btn-danger">Sale</a>
                 </div>
-                <a t-att-href="product_href" class="d-block pop" itemprop="url">
+                <a href="#" class="d-block img-pop" itemprop="url">
                     <span t-field="product.image_1920"
                         t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}"
                         class="d-flex img-box justify-content-around pt-2 text-center w-100 h-150"/>
@@ -152,62 +151,49 @@
                                     </div>  
                                 </div>
                                 <!-- Category / Brand dropdown -->
-                                <div class="table-responsive">
-                                    <table class="table product-listing-table">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div>
-                                                        <select id="product-category" class="product-listing-tags form-control">
-                                                        <option value="">Main (All)</option>
-                                                        <t t-foreach="categories" t-as="c">
-                                                            <option t-att-value="c.id" data-type="category"><t t-esc="c.name"/></option>
-                                                        </t>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                                <t t-foreach="attributes" t-as="a">
-                                                <td>
-                                                    <div>
-                                                        <select class="product-listing-tags form-control" name="attrib">
-                                                            <option value="">Brand</option>
-                                                            <t t-foreach="a.value_ids" t-as="v">
-                                                                <option t-att-value="'%s-%s' % (a.id,v.id)" t-esc="v.name" t-att-selected="v.id in attrib_set" />
-                                                            </t>
-                                                        </select>
-                                                    </div>
-                                                </td>
+                                <div class="row">
+
+                                    <div class="col py-3">
+                                        <div>
+                                            <select id="product-category" class="product-listing-tags form-control">
+                                                <option t-att-value="keep('/sales-rep/sale', category=0)">Main (All)</option>
+                                                <t t-foreach="categories" t-as="c">
+                                                    <option t-att-value="keep('/sales-rep/sale/category/' + slug(c), category=0)" data-type="category" t-att-selected="c.id == category.id">
+                                                        <t t-esc="c.name"/>
+                                                    </option>
                                                 </t>
-                                                <td>
-                                                    <div>
-                                                        <select class="product-listing-tags form-control">
-                                                        <option>Specials</option>
-                                                        <option>11514555 Canada Ltd.</option>
-                                                        <option>1471.50</option>
-                                                        <option>1595645 ONTARIO INC.</option>  
-                                                        <option>2708950 ONTARIO INC.</option>
-                                                        <option>2833364 ONTARIO INC.</option>
-                                                        <option>786 JANNAT HILAL MEAT</option>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <select class="product-listing-tags form-control">
-                                                        <option>New Arrivals</option>
-                                                        <option>11514555 Canada Ltd.</option>
-                                                        <option>1471.50</option>
-                                                        <option>1595645 ONTARIO INC.</option>  
-                                                        <option>1726097 ONTARIO INC.</option>
-                                                        <option>2833364 ONTARIO INC.</option>
-                                                        <option>786 JANNAT HILAL MEAT</option>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>   
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <t t-foreach="attributes" t-as="a">
+                                    <div class="col py-3">
+                                        <form class="js_attributes" method="get">
+                                            <div>
+                                                <select class="product-listing-tags form-control" name="attrib">
+                                                    <option value="">Brand</option>
+                                                    <t t-foreach="a.value_ids" t-as="v">
+                                                        <option t-att-value="'%s-%s' % (a.id,v.id)" t-esc="v.name" t-att-selected="v.id in attrib_set" />
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </t>
+                                    <div class="col py-3">
+                                        <div>
+                                            <select class="product-listing-tags form-control">
+                                                <option>Specials</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col py-3">
+                                        <div>
+                                            <select class="product-listing-tags form-control">
+                                                <option>New Arrivals</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div><!-- end row -->
                         </div><!-- end container -->
                     </div><!-- end #top_menu -->
@@ -226,13 +212,7 @@
                                                 <div class="col-sm-9 col-md-9"></div>
                                                 <div class="col-12 col-sm-3 col-md-3 text-right">
                                                     <div class="more-info">
-                                                        <button tabindex="0" class="font-monospace font-weight-bold btn shadow-none" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" id="Pops" data-style="mypops" data-original-title="" title="">...</button>
-                                                        <div id="popover-content" class="d-none">
-                                                            <ul class="popovermenu">
-                                                                <li><a href="#">Info</a></li>
-                                                                <li><a href="#">Share</a></li>
-                                                            </ul>
-                                                        </div>
+                                                        <a href="#" class="btn font-weight-bold text-capitalize">Info</a>
                                                     </div><!-- end more-info -->
                                                 </div>
                                             </div>
@@ -254,7 +234,30 @@
                                 </t>
                             </t>
                         </t>
-                    </div>
+                        <t t-else="">
+                            <div class="text-center text-muted">
+                                <t t-if="not search">
+                                    <h3 class="mt8">No product defined</h3>
+                                    <p t-if="category">No product defined in category "<strong t-esc="category.display_name"/>".</p>
+                                </t>
+                                <t t-else="">
+                                    <h3 class="mt8">No results</h3>
+                                    <p>No results for "<strong t-esc='search'/>"<t t-if="category"> in category "<strong t-esc="category.display_name"/>"</t>.</p>
+                                </t>
+                            </div>
+                        </t>
+
+                        <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">              
+                                <div class="modal-body text-center">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <img src="/superasia_salesrep_app/static/src/img/super-asia-logo.png" class="imagepreview"/>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                                        </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="products_pager form-inline justify-content-center mt-3">

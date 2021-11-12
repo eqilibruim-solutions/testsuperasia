@@ -4,6 +4,7 @@ _logger = logging.getLogger(__name__)
 
 from odoo import http, tools, _
 from odoo.http import request
+from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 from odoo.addons.bista_superasia_theme.controllers.main import TableCompute
 from odoo.addons.web.controllers.main import Home
@@ -315,6 +316,8 @@ class SalesAgentDashboard(WebsiteSale):
     @http.route([
         '''/sales-rep/sale''',
         '''/sales-rep/sale/page/<int:page>''',
+        '''/sales-rep/sale/category/<model("product.public.category"):category>''',
+        '''/sales-rep/sale/category/<model("product.public.category"):category>/page/<int:page>'''
         ], type='http', auth="user", website=True)
     def sales_rep_sale_shop(self, page=0, category=None, search='', ppg=False, **post):
         partner_id = request.session.get('selected_partner_id')
@@ -377,8 +380,8 @@ class SalesAgentDashboard(WebsiteSale):
             search_categories = Category
         categs = Category.search(categs_domain)
 
-        # if category:
-        #     url = "/shop/category/%s" % slug(category)
+        if category:
+            url = "/sales-rep/sale/category/%s" % slug(category)
 
         product_count = len(search_product)
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
