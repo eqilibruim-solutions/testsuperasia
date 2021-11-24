@@ -1,3 +1,4 @@
+from werkzeug import Response
 import werkzeug.utils
 import logging
 _logger = logging.getLogger(__name__)
@@ -15,17 +16,10 @@ from werkzeug.exceptions import Forbidden, NotFound
 class Extension_Home(Home):
     @http.route()
     def web_login(self, redirect=None, **kw):
-        response = super(Extension_Home, self).web_login()             
-
-        user_obj=request.env['res.users']
-
-        sales_rep = request.env['ir.model.data'].get_object('superasia_salesrep_app','group_sales_rep')
-
-        group_list = [sales_rep.id]
-
-        user_data=user_obj.search([('id','=',request.uid),('groups_id','in',group_list)])
-
-        if user_data:
+        response = super(Extension_Home, self).web_login()
+        request.session['sales_rep_user'] = False
+        if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            request.session['sales_rep_user'] = True
             return werkzeug.utils.redirect('/sales-rep/home')
         return response
 
@@ -115,6 +109,7 @@ class SalesAgentDashboard(WebsiteSale):
         b2b_partner_ids = []
         if b2b_users:
             b2b_partner_ids = b2b_users.mapped('partner_id')
+        request.website.sale_reset()
         request.session['selected_partner_id'] = False
         return request.render('superasia_salesrep_app.sales_agent_home',{
             'footer_hide': True,
@@ -309,6 +304,7 @@ class SalesAgentDashboard(WebsiteSale):
     @http.route(['/selected-account/update'], type='json', auth="user", website=True)
     def update_selected_account(self, account_id):
         request.session['selected_partner_id'] = int(account_id)
+        request.website.sale_reset()
         return {
             'redirect_url': '/sales-rep/sale/'
         }
@@ -324,7 +320,7 @@ class SalesAgentDashboard(WebsiteSale):
         if partner_id:
             selected_partner = request.env['res.partner'].browse(partner_id)
         else:
-            print("redirect")
+            return werkzeug.utils.redirect('/sales-rep/home')
 
         add_qty = int(post.get('add_qty', 1))
         Category = request.env['product.public.category']
@@ -371,12 +367,14 @@ class SalesAgentDashboard(WebsiteSale):
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
 
-        if search:
-            search_categories = Category.search(
-                [('product_tmpl_ids', 'in', search_product.ids)] + website_domain).parents_and_self
-            categs_domain.append(('id', 'in', search_categories.ids))
-        else:
-            search_categories = Category
+        # if search:
+        #     search_categories = Category.search(
+        #         [('product_tmpl_ids', 'in', search_product.ids)] + website_domain).parents_and_self
+        #     categs_domain.append(('id', 'in', search_categories.ids))
+        # else:
+        #     search_categories = Category
+        
+        search_categories = Category
         categs = Category.search(categs_domain)
 
         if category:
@@ -472,3 +470,21 @@ class SalesAgentDashboard(WebsiteSale):
             values['main_object'] = category
 
         return request.render('superasia_salesrep_app.sales_rep_product_listing', values)
+
+
+    @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
+    def cart(self, access_token=None, revive='', **post):
+        response = super(SalesAgentDashboard, self).cart(**post)
+        if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            partner_id = request.session.get('selected_partner_id')
+            if partner_id:
+                selected_partner = request.env['res.partner'].browse(partner_id)
+            else:
+                return werkzeug.utils.redirect('/sales-rep/home')
+            response.qcontext.update({
+                'selected_partner': selected_partner,
+                'footer_hide': True,
+                'hide_install_pwa_btn': True,
+                'hide_header': True,
+            })
+        return response
