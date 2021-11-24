@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="sales_rep_products_item" name="Sales Rep App Products item">
-        <t t-set="product_href" t-value="keep(product.website_url, page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))" />
-
         <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
 
         <form action="/shop/cart/update" method="post" class="oe_product_cart"
@@ -21,12 +19,8 @@
             </div>
             <div class="p-0 text-center">
                 <div class="p-2 o_wsale_product_information_text product-details text-center text-uppercase border-0">
-                    <!-- <h6 class="o_wsale_products_item_title p-2">
-                        <a itemprop="name" class="font-weight-bold text-dark mb-1" t-att-href="product_href" t-att-content="product.name" t-field="product.name" />
-                        <a role="button" t-if="not product.website_published" t-att-href="product_href" class="btn btn-sm btn-danger" title="This product is unpublished.">Unpublished</a>
-                    </h6> -->
+
                     <p class="font-weight-bold mb-1"><t t-esc="product.name"/></p>
-                    <a role="button" t-if="not product.website_published" t-att-href="product_href" class="btn btn-sm btn-danger" title="This product is unpublished.">Unpublished</a>
 
                     <t t-set="combination_info" t-value="product._get_combination_info(only_template=False, add_qty=add_qty or 1, pricelist=pricelist,product_id=product.product_variant_id.id)"/>
                     <h6 class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
@@ -115,7 +109,7 @@
                 <div class="sale_rep_product_list">
                     <div id="super_top_menu">
                         <div class="container-fluid">
-                            <div class="row">
+                            <div class="row pt-2">
                             <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
                                 <div class="text-light float-left">
                                     <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Home</a>
@@ -137,17 +131,59 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-12 col-sm-8 col-md-8 text-center">
+
                                     <div class="border form-outline w-100">
-                                        <button id="search_button_product_listings" type="button" class="btn btn-primary border-0">
-                                            <i class="icofont-search"></i>
-                                        </button>
-                                        <input id="search-input" type="search" class="form-control" value="Search item" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                                        <!-- Search Product  -->
+                                        <t t-set="action" t-value="keep('/shop'+ ('/category/'+slug(category)) if category else None, search=0)"/>
+                                        <form 
+                                        t-attf-class="o_wsale_products_searchbar_form o_wait_lazy_js #{_classes}" 
+                                        t-att-action="action if action else '/shop'" 
+                                        method="get" style="width: 100% !important;display: block;">
+                                            <input type="text" name="search" class="search-query form-control oe_search_box form-control" placeholder="Search item" t-att-value="search"
+                                                data-limit="5" data-display-description="true" data-display-image="true"
+                                            />
+                                            <input name="order" type="hidden" class="o_wsale_search_order_by" value=""/>
+                                            <t t-raw="0"/>
+                                            <t t-if="attrib_values">
+                                                <t t-foreach="attrib_values" t-as="a">
+                                                    <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])" />
+                                                </t>
+                                            </t>
+                                            <button id="search_button_product_listings" type="submit" class="btn btn-primary border-0 oe_search_button">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </form>
+                                        <!-- END: Search Product -->
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-4 col-md-4 pt-2">
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="row">
-                                    <div class="col"><a href="#"><i class="icofont-filter"></i></a></div>
-                                    <div class="col"><a href="#"><i class="icofont-sort-alt"></i></a></div>
+                                    <div class="col text-center"><a href="#" class="d-none"><i class="icofont-filter"></i></a></div>
+                                    <!-- Sorting Product -->
+                                    <div class="col text-center">
+                                        <t t-set="list_price_desc_label">Catalog price: High to Low</t>
+                                        <t t-set="list_price_asc_label">Catalog price: Low to High</t>
+                                        <t t-set="name_asc_label">Name: A to Z</t>
+                                        <t t-set="name_desc_label">Name: Z to A</t>
+                                        <t t-set="website_sale_sortable" t-value="[
+                                            (list_price_desc_label, 'list_price desc'),
+                                            (list_price_asc_label, 'list_price asc'),
+                                            (name_asc_label, 'name asc'),
+                                            (name_desc_label, 'name desc')
+                                        ]"/>
+                                        <t t-set="website_sale_sortable_current" t-value="[sort for sort in website_sale_sortable if sort[1]==request.params.get('order', '')]"/>
+                                        <a href="#" class="btn btn-sm dropdown-toggle text-black" data-toggle="dropdown">
+                                            <i class="icofont-sort-alt"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <t t-foreach="website_sale_sortable" t-as="sortby">
+                                                <a role="menuitem" rel="noindex,nofollow" t-att-href="keep('/sales-rep/sale', order=sortby[1])" class="dropdown-item text-black" style="font-size: 1rem;">
+                                                    <span t-raw="sortby[0]"/>
+                                                </a>
+                                            </t>
+                                        </div>
+                                        <!--END: Sorting Product -->
+                                    </div>
                                     </div>  
                                 </div>
                                 <!-- Category / Brand dropdown -->
@@ -155,13 +191,22 @@
 
                                     <div class="col py-3">
                                         <div>
+                                            <t t-set="special_categ_url" t-value="0"/>
+                                            <t t-set="new_arrivals_categ_url" t-value="0"/>
                                             <select id="product-category" class="product-listing-tags form-control">
                                                 <option t-att-value="keep('/sales-rep/sale', category=0)">Main (All)</option>
                                                 <t t-foreach="categories" t-as="c">
+                                                    <t t-if="c.name.lower() == 'specials'">
+                                                        <t t-set="special_categ_url" t-value="keep('/sales-rep/sale/category/' + slug(c), category=0)"/>
+                                                    </t>
+                                                    <t t-if="c.name.lower() == 'new arrivals'">
+                                                        <t t-set="new_arrivals_categ_url" t-value="keep('/sales-rep/sale/category/' + slug(c), category=0)"/>
+                                                    </t>
                                                     <option t-att-value="keep('/sales-rep/sale/category/' + slug(c), category=0)" data-type="category" t-att-selected="c.id == category.id">
                                                         <t t-esc="c.name"/>
                                                     </option>
                                                 </t>
+
                                             </select>
                                         </div>
                                     </div>
@@ -180,17 +225,15 @@
                                     </div>
                                     </t>
                                     <div class="col py-3">
-                                        <div>
-                                            <select class="product-listing-tags form-control">
-                                                <option>Specials</option>
-                                            </select>
+                                        <div t-if="special_categ_url" class="select_box">
+                                            <a t-att-href="special_categ_url">Specials</a>
                                         </div>
                                     </div>
                                     <div class="col py-3">
-                                        <div>
-                                            <select class="product-listing-tags form-control">
-                                                <option>New Arrivals</option>
-                                            </select>
+                                        <div t-if="new_arrivals_categ_url" class="select_box">
+                                            <a t-att-href="new_arrivals_categ_url">
+                                                New Arrivals
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -208,21 +251,21 @@
                                 <t t-foreach="tr_product" t-as="td_product">
                                     <t t-if="td_product">
                                         <div class="col-12 col-sm-6 col-md-6 pb-3 border-bottom">
+                                            <t t-set="product" t-value="td_product['product']" />
+                                            <t t-set="product_href" t-value="keep(product.website_url, page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))" />
+                                            <t t-set="rep_product_href" t-value="product_href.replace('/shop/','/sales-rep/sale/')"/>
+
                                             <div class="row">
                                                 <div class="col-sm-9 col-md-9"></div>
                                                 <div class="col-12 col-sm-3 col-md-3 text-right">
                                                     <div class="more-info">
-                                                        <a href="#" class="btn font-weight-bold text-capitalize">Info</a>
+                                                        <a t-att-href="rep_product_href" class="btn font-weight-bold text-capitalize">Info</a>
                                                     </div><!-- end more-info -->
                                                 </div>
                                             </div>
-                                            <t t-set="product" t-value="td_product['product']" />
+                                            
                                             <div class="">
-                                                <!-- <div t-att-style="'height: 18vw; 'if layout_mode == 'grid' else False" t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']} mb-4" >
-                                                    <t t-call="superasia_salesrep_app.sales_rep_products_item">
-                                                        <t t-set="product_image_big" t-value="td_product['x'] + td_product['y'] &gt; 2"/>
-                                                    </t>
-                                                </div> -->
+
                                                 <div t-attf-class=" #{td_product['x']}_#{td_product['y']} mb-4" >
                                                     <t t-call="superasia_salesrep_app.sales_rep_products_item">
                                                         <t t-set="product_image_big" t-value="td_product['x'] + td_product['y'] &gt; 2"/>

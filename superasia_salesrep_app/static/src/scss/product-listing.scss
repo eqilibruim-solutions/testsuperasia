@@ -19,6 +19,12 @@
 .box-shadow-none {
     box-shadow: none;
 }
+#super_top_menu_cart {
+	width: 100%;
+	background: #ac1520;
+	padding: 5px 0;
+	height: 50px;
+}
 .sale_rep_product_list{
 	.nav-back, .account-name-style {
 		a {
@@ -74,9 +80,14 @@ select.product-listing-tags, select.product-listing-tags:focus {
 	color: #282628;
 	font-size: 1rem !important;
 }
-
+.select_box {
+	padding: .375rem 0.75rem;
+	a {
+		font-size: 1rem;
+	}
+}
 #search_button_product_listings{
-	left: 0;
+	right: 0;
 	top: 10%;
 	padding: 5px 10px !important;
 	position: absolute;
