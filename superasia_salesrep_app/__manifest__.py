@@ -18,6 +18,8 @@
         'views/add-account.xml',
         'views/account-detail.xml',
         'views/product-listing.xml',
+        'views/website_navbar_inh.xml',
+        'views/cart_page_inherit.xml',
     ],
 
     "installable": True,

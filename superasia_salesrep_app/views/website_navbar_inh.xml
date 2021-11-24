@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_rep_user_navbar" inherit_id="website.user_navbar">
+        <xpath expr="//nav[@id='oe_main_menu_navbar']" position="attributes">
+            <attribute name="t-if">website and not request.env.user.has_group('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+
+        <xpath expr="//t[@t-set='body_classname']" position="replace">
+            <t t-set="body_classname" t-value="(body_classname if body_classname else '') + (' o_connected_user' if env['ir.ui.view'].user_has_groups('base.group_user') and not env['ir.ui.view'].user_has_groups('superasia_salesrep_app.group_sales_rep') else '')"/>
+        </xpath>
+    </template>
+
+</odoo>
