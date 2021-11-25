@@ -362,7 +362,6 @@ class SalesAgentDashboard(WebsiteSale):
             post['attrib'] = attrib_list
 
         Product = request.env['product.template'].with_context(bin_size=True)
-        print(":::::::::::self._get_search_order(post):::::::::::::::",self._get_search_order(post))
         search_product = Product.search(domain, order=self._get_search_order(post))
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
@@ -470,6 +469,19 @@ class SalesAgentDashboard(WebsiteSale):
             values['main_object'] = category
 
         return request.render('superasia_salesrep_app.sales_rep_product_listing', values)
+
+
+    @http.route(['/sales-rep/sale/product/<model("product.template"):product>'], type='http', auth="public", website=True)
+    def product_info(self, product, category='', search='', **kwargs):
+        if not product.can_access_from_current_website():
+            raise NotFound()
+        context = self._prepare_product_values(product, category, search, **kwargs)
+        context.update({
+            'footer_hide': True,
+            'hide_install_pwa_btn': True,
+            'hide_header': True,
+        })
+        return request.render("superasia_salesrep_app.sales_rep_product_info", context)
 
 
     @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
