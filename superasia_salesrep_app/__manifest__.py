@@ -18,9 +18,13 @@
         'views/add-account.xml',
         'views/account-detail.xml',
         'views/product-listing.xml',
+        'views/product_info.xml',
         'views/website_navbar_inh.xml',
         'views/cart_page_inherit.xml',
     ],
+    # 'qweb': [
+    #     'views/product_search_inh.xml',
+    # ],
 
     "installable": True,
     "application":True

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- TODO: replace product_href based on user groups -->
+    <div t-name="sales_rep.productsSearchBar.autocomplete" t-extend="website_sale.productsSearchBar.autocomplete">
+        <t t-jquery="a:first" t-operation="attributes">
+            <attribute name="class" value="dropdown-item p-2 text-wrap custom-class"</>
+        </t>
+
+    </div>
+</templates>
+
