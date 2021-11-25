@@ -15,7 +15,7 @@
         </field>
     </record>
 
-    <record id="bista_view_users_state_tree" model="ir.ui.view">
+    <!-- <record id="bista_view_users_state_tree" model="ir.ui.view">
         <field name="name">bista.res.users.tree.inherit</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_tree"/>
@@ -24,6 +24,6 @@
                 <field name="source_id"/>
             </xpath>
         </field>
-    </record>
+    </record> -->
 
 </odoo>
