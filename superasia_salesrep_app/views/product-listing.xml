@@ -14,7 +14,7 @@
                 <a href="#" class="d-block img-pop" itemprop="url">
                     <span t-field="product.image_1920"
                         t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}"
-                        class="d-flex img-box justify-content-around pt-2 text-center w-100 h-150"/>
+                        class="d-flex justify-content-around pt-2 text-center w-100 h-150"/>
                 </a>
             </div>
             <div class="p-0 text-center">
@@ -109,7 +109,7 @@
                 <div class="sale_rep_product_list">
                     <div id="super_top_menu">
                         <div class="container-fluid">
-                            <div class="row pt-2">
+                            <div class="row">
                             <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
                                 <div class="text-light float-left">
                                     <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Home</a>
@@ -333,5 +333,4 @@
         </t>
         
     </template>
-
 </odoo>
