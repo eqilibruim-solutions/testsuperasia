@@ -20,6 +20,7 @@
             'views/website_config_settings.xml',
             'views/sale_portal_templates.xml',
             'views/crm_lead.xml',
+            'views/res_users.xml',
             'report/shipping_labels.xml',
             'data/mail_data.xml',
             ],
