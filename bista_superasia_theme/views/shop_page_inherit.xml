@@ -278,7 +278,7 @@
                               style="text-decoration: line-through; white-space: nowrap; font-weight: bold; color: black; padding-left: 0.2rem;"/>
                     </h6>
                     <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
-                        <a href="/b2b_activation" class="font-weight-bold" style="font-size: 10px; text-decoration: underline;">Login for Wholesale Price</a>
+                        <a href="/b2b_activation" class="font-weight-bold" style="font-size: 10px; text-decoration: underline;">Login for Bulk Pricing</a>
                     </t>
                     <t t-set="combination" t-value="product._get_first_possible_combination()"/>
                     <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist)"/>
@@ -531,7 +531,7 @@
         </xpath>
         <xpath expr="//h4[hasclass('oe_price_h4')]" position="inside">
             <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
-                <a href="/b2b_activation" class="pl-3" style="font-size: 18px; text-decoration: underline;">Login for Wholesale Price</a>
+                <a href="/b2b_activation" class="pl-3" style="font-size: 18px; text-decoration: underline;">Login for Bulk Pricing</a>
               </t>
         </xpath>
     </template>
