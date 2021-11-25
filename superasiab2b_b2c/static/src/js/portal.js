@@ -113,7 +113,7 @@ odoo.define('superasiab2b_b2c.retailer_contact_form', function (require) {
 	var ajax = require('web.ajax');
 	
 	publicWidget.registry.retailerContactForm = publicWidget.Widget.extend({
-		selector: 'form[action="/b2baccountactivation"]',
+		selector: 'form[action="/b2baccountactivation"], form[action="/b2caccountactivation"]',
 
 		start: function () {
 			var $inputUtmMedium = this.$el.find('input[name="utm_medium"]')

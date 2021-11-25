@@ -272,7 +272,7 @@
 
         <div class="d-md-flex d-lg-flex">
             <form class="b2b_acc_signup_form offset-lg-4 offset-md-4 offset-1" method="POST" action="/b2caccountactivation" enctype="multipart/form-data">
-
+                    <input type="hidden" name="utm_medium" value=""/>
                                 <div class="form-row">
                                     <div class="name">Name*</div>
                                     <div class="value">
