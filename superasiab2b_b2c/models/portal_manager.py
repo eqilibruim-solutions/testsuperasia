@@ -242,12 +242,12 @@ class ProductTemplate(models.Model):
             product_uom = product.b2buom_id
 
             if factor_inv > 0:
-                print('========================b2cusers==============================BEFORE onhandqty================',onhandqty)
+                # print('========================b2cusers==============================BEFORE onhandqty================',onhandqty)
 
                 onhandqty = onhandqty*factor_inv
-            print('========================b2cusers================product_uom================', product_uom)
-            print('========================b2cusers==============================onhandqty================', onhandqty)
-            print('========================b2cusers==============================factor_inv================', factor_inv)
+            # print('========================b2cusers================product_uom================', product_uom)
+            # print('========================b2cusers==============================onhandqty================', onhandqty)
+            # print('========================b2cusers==============================factor_inv================', factor_inv)
 
             pricelist_id = b2cusers.partner_id.property_product_pricelist
             # _logger.info('========pricelist_id========= %s' % pricelist_id)
@@ -263,9 +263,9 @@ class ProductTemplate(models.Model):
             product_uom = product.b2buom_id
             if factor_inv > 0:
                 onhandqty = onhandqty*factor_inv
-            print('========publicuser=====================================product_uom================', product_uom)
-            print('========publicuser=====================================onhandqty================', onhandqty)
-            print('========publicuser=====================================factor_inv================', factor_inv)
+            # print('========publicuser=====================================product_uom================', product_uom)
+            # print('========publicuser=====================================onhandqty================', onhandqty)
+            # print('========publicuser=====================================factor_inv================', factor_inv)
 
             pricelist_id = publicuser.partner_id.property_product_pricelist
             # _logger.info('========pricelist_id========= %s' % pricelist_id)
@@ -280,7 +280,7 @@ class ProductTemplate(models.Model):
                 price = product.list_price
 
         _logger.info('================================onhandqty===calcccccccccccccccccccccc======== %s' % onhandqty)
-        print('=======================================================price================',price)
+        # print('=======================================================price================',price)
 
         return {
             'product_id': product.id,
@@ -956,7 +956,7 @@ class PricelistItem(models.Model):
         if "B2C" in self.pricelist_id.name:
             for item in self:
                 product_temp = self.env['product.template'].search([('id', '=', item.product_tmpl_id.id)], limit=1)
-                print(product_temp)
+                # print(product_temp)
                 product_temp.b2c_pricelist_price = item.fixed_price
         return res
 

@@ -16,10 +16,10 @@ class Website(models.Model):
         group_list = [grouppub_id.id,b2c.id]
 
         if self.env.user.user_has_groups('base.group_public') or self.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
-            print(dep.search([('group_id', 'in', group_list)]))
+            # print(dep.search([('group_id', 'in', group_list)]))
             return dep.search([('group_id', 'in', group_list)])
         else:
-            print('fafs', dep.search(['&', ('group_id', 'not in', group_list), ('selectable', '=', True)]))
+            # print('fafs', dep.search(['&', ('group_id', 'not in', group_list), ('selectable', '=', True)]))
             return dep.search(['&', ('group_id', 'not in', group_list), ('selectable', '=', True)])
 
 

@@ -207,7 +207,7 @@ class WebsiteSale(ws):
             post['attrib'] = attrib_list
 
         Product = request.env['product.template'].with_context(bin_size=True)
-        print(":::::::::::self._get_search_order(post):::::::::::::::",self._get_search_order(post))
+        # print(":::::::::::self._get_search_order(post):::::::::::::::",self._get_search_order(post))
         search_product = Product.search(domain, order=self._get_search_order(post))
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
@@ -226,8 +226,8 @@ class WebsiteSale(ws):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
         products = search_product[offset: offset + ppg]
-        print("::::::::::::::::::::::::ppg::::::::::::::::",ppg)
-        print("::::::::::::::::::::::::products::::::::::::::::",products)
+        # print("::::::::::::::::::::::::ppg::::::::::::::::",ppg)
+        # print("::::::::::::::::::::::::products::::::::::::::::",products)
         ProductAttribute = request.env['product.attribute']
         if products:
             # get all products without limit
