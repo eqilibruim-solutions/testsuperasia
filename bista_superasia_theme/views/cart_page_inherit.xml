@@ -3,15 +3,6 @@
 
     <!-- Inherited template from base -->
 
-
-    <template id="short_cart_summary_inherite" inherit_id="website_sale.short_cart_summary" name="Cart Short Summary">
-        <xpath expr="//h4[hasclass('d-none', 'd-xl-block')]" position="attributes">
-            <attribute name="class">d-none d-xl-block font-weight-bold</attribute>
-        </xpath>
-        <xpath expr="//a[hasclass('btn', 'btn-secondary', 'float-right', 'd-none', 'd-xl-inline-block')]" position="attributes">
-            <attribute name="style">background: #BE222B;</attribute>
-        </xpath>
-    </template>
     <template id="cart_lines_inherite" inherit_id="website_sale.cart_lines" name="cart_lines inherit">
         <xpath expr="//table[hasclass('js_cart_lines')]" position="before">
             <script>
@@ -84,6 +75,13 @@
     </template>
 
     <template id="short_cart_summary_inherite" inherit_id="website_sale.short_cart_summary" name="short_cart_summary Inherit">
+        <xpath expr="//h4[hasclass('d-none', 'd-xl-block')]" position="attributes">
+            <attribute name="class">d-none d-xl-block font-weight-bold</attribute>
+        </xpath>
+        <xpath expr="//a[hasclass('btn', 'btn-secondary', 'float-right', 'd-none', 'd-xl-inline-block')]" position="attributes">
+            <attribute name="style">background: #BE222B;</attribute>
+        </xpath>
+        
         <xpath expr="//div[hasclass('card', 'js_cart_summary')]" position="attributes">
             <attribute name="class">bg-secondary border-0 card js_cart_summary</attribute>
         </xpath>
@@ -91,6 +89,7 @@
             <attribute name="class">btn custom_them_primary d-none d-xl-inline-block float-right text-white</attribute>
         </xpath>
         <xpath expr="//div[hasclass('card-body')]//a[@t-if='website_sale_order and website_sale_order.website_order_line']" position="before">
+            
             <a role="button" href="/shop" class="border-beta btn d-none d-xl-inline-block custom_them_primary text-white">
                                         <span class="fa fa-chevron-left" />
                                         <span class="">Continue Shopping</span>
