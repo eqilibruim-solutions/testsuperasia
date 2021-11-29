@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="sales_rep_template" xml:space="preserve">
+
+    <t t-extend="website_sale.productsSearchBar.autocomplete">
+        <t t-jquery="a[t-foreach='products']" t-operation="attributes">
+            <t t-set="product_href" t-value="product['website_url']"/>
+            <t t-if="product.get('app_website_url')">
+                <t t-set="product_href" t-value="product['app_website_url]"/>
+            </t>
+            <attribute name="href" value="product_href" />
+        </t>
+    </t>
+</templates>
+

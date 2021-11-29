@@ -7,7 +7,7 @@ from odoo import http, tools, _
 from odoo.http import request
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website_sale.controllers.main import WebsiteSale
-from odoo.addons.bista_superasia_theme.controllers.main import TableCompute
+from odoo.addons.bista_superasia_theme.controllers.main import TableCompute, WebsiteSale as BistaWebsiteSale
 from odoo.addons.web.controllers.main import Home
 from odoo.addons.superasiab2b_b2c.controllers.main import superasiab2b_b2c
 from odoo.addons.website.controllers.main import QueryURL
@@ -483,7 +483,6 @@ class SalesAgentDashboard(WebsiteSale):
         })
         return request.render("superasia_salesrep_app.sales_rep_product_info", context)
 
-
     @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
     def cart(self, access_token=None, revive='', **post):
         response = super(SalesAgentDashboard, self).cart(**post)
@@ -500,3 +499,15 @@ class SalesAgentDashboard(WebsiteSale):
                 'hide_header': True,
             })
         return response
+
+class BistaWebsiteSale(BistaWebsiteSale):
+    @http.route('/shop/products/autocomplete', type='json', auth='public', website=True)
+    def products_autocomplete(self, term, options={}, **kwargs):
+        res = super(BistaWebsiteSale, self).products_autocomplete(term, options, **kwargs)
+        if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep') and res.get('products'):
+            for index, res_product in enumerate(res['products'], 0):
+                app_website_url = res_product['website_url'].replace('/shop/','/sales-rep/sale/')
+                res['products'][index].update({
+                    'app_website_url': app_website_url,
+                })
+        return res

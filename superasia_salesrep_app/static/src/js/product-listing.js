@@ -2,7 +2,12 @@ odoo.define('superaia_salesrep_app.sales_rep_product_list', function (require) {
     'use strict';
     
     var publicWidget = require('web.public.widget');
-    var VariantMixin = require('sale.VariantMixin');
+    var ajax = require('web.ajax');
+
+    var core = require('web.core');
+    var qweb = core.qweb;
+
+    ajax.loadXML('/superasia_salesrep_app/static/src/xml/product_search_inh.xml', qweb);
     
     publicWidget.registry.imageModalPopup = publicWidget.Widget.extend({
         selector: '.oe_website_sale',
