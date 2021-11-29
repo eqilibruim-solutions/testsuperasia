@@ -22,7 +22,35 @@
                 </div>
             </div>
         </xpath>
+        <xpath expr="//div[hasclass('oe_cart')]//a[@href='/shop']" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
 
+        <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop']" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
     </template>
 
+    <template id="sales_rep_cart_lines" inherit_id="website_sale.cart_lines">
+        <xpath expr="//table[@id='cart_products']//t[@t-call='website_sale.cart_line_product_link']" position="replace">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <t t-set="line_product_href" t-value="line.product_id.website_url"/>
+                <t t-set="app_product_href" t-value="line_product_href.replace('/shop/','/sales-rep/sale/')"/>
+                <a t-att-href="app_product_href" class="font-weight-bold text-dark">
+                    <strong t-field="line.name_short" />
+                </a>
+            </t>
+            <t t-else="">
+                <t t-call="website_sale.cart_line_product_link">
+                    <strong t-field="line.name_short" />
+                </t>
+            </t>
+            
+        </xpath>
+    </template>
+    <template id="sales_app_short_cart_summary_inh" inherit_id="bista_superasia_theme.short_cart_summary_inherite">
+        <xpath expr="//a[@href='/shop']" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+    </template>
 </odoo>
