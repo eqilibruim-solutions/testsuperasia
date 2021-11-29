@@ -146,6 +146,7 @@ class WebsiteSale(ws):
         '''/shop/category/<model("product.public.category"):category>/page/<int:page>'''
     ], type='http', auth="public", website=True, sitemap=sitemap_shop)
     def shop(self, page=0, category=None, search='', ppg=False, **post):
+        
         add_qty = int(post.get('add_qty', 1))
         Category = request.env['product.public.category']
 
@@ -336,9 +337,13 @@ class WebsiteSale(ws):
         if user_data:
             order.b2b_confirmed = True
             order.action_quotation_sent()
-            mail_template = request.env.ref('sale.mail_template_sale_confirmation')
+            mail_template = request.env.ref('superasiab2b_b2c.mail_template_b2b_sale_confirmation')
+            if not mail_template:
+                mail_template = request.env.ref('sale.mail_template_sale_confirmation')
             mail_template.send_mail(order.id, force_send=True)
-            order.action_draft()
+            # order.action_draft()
+            # clean context and session, then redirect to the confirmation page
+            request.website.sale_reset()
             return request.redirect('/shop/confirmation')
 
 
@@ -492,6 +497,8 @@ class WebsiteSale(ws):
     @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
         res = super(WebsiteSale, self).product(product, category, search, **kwargs)
+        _logger.info(f"testing remote addr:{request.httprequest.environ.get('REMOTE_ADDR')}")
+        _logger.info(f"testing real:{request.httprequest.environ.get('HTTP_X_REAL_IP')}")
         if res.qcontext.get('categories'):
             res.qcontext.update({
                 'public_categories': res.qcontext.get('categories'),

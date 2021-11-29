@@ -124,15 +124,15 @@
                                     <t t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>
+                                    <!-- <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a> -->
                                     <a id="o_logout" class="dropdown-item-text"  style="padding: .25rem 1.5rem;" t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
                                 </div>
                             </div>
                         </li>
-                        <li class="navbar-links">
+                        <li class="navbar-links" t-if="not user_id._is_public()">
                             <div class="adjust-icontext-center">
-                                <img src="/bista_superasia_theme/static/src/img/wishlist.png" class="menu_icon_right_panel mx-auto profile_icon" alt="wishlist"/>
-                                <a class="p-0 text-left custom_nav_a" href="#">Wishlist</a>
+                                <img src="/bista_superasia_theme/static/src/img/order.png" class="menu_icon_right_panel mx-auto profile_icon" alt="my order"/>
+                                <a class="p-0 text-left custom_nav_a" style="white-space:nowrap;" href="/my/home">My Order</a>
                             </div>
                         </li>
                         <li class="navbar-links">
@@ -427,7 +427,7 @@
                                             <a t-att-href="res_company.social_linkedin" target="_blank"><img src="/bista_superasia_theme/static/src/img/linkedin-with-circle.png" alt="linkedin" class="pb-3" /></a>
                                         </div>
                                         <div class="col-sm-auto desktop-social-icons">
-                                            <a t-att-href="res_company.social_twitter" target="_blank"><img src="/bista_superasia_theme/static/src/img/twitter-with-circle.png" alt="twitter" class="pb-3" /></a>
+                                            <a t-att-href="res_company.social_instagram" target="_blank"><img src="/bista_superasia_theme/static/src/img/instragram-circle-icon.png" alt="Instagram" class="pb-3" /></a>
                                         </div>
                                         <div class="col-sm-auto desktop-social-icons">
                                             <a t-att-href="res_company.social_youtube" target="_blank"><img src="/bista_superasia_theme/static/src/img/youtube-with-circle.png" alt="youtube" class="pb-3" /></a>

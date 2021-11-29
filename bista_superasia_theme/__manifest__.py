@@ -8,7 +8,7 @@
     'author': "Bista Solutions Pvt. Ltd.",
     'website': 'www.bistasolutions.com',
     'license': 'AGPL-3',
-    "depends": ['base','web','website','portal','bista_web_pwa','superasiab2b_b2c','sale','payment','website_sale','website_form','auth_signup','website_sale_delivery','website_sale_stock','sale_stock'],
+    "depends": ['base','web','website','portal','bista_web_pwa','superasiab2b_b2c','sale','payment','website_sale','website_form','auth_signup','website_sale_delivery','website_sale_stock','sale_stock','website_crm'],
     "data": [
         'security/ir.model.access.csv',
         'views/assets.xml',
@@ -24,6 +24,8 @@
         'views/check_postal_code.xml',
         'views/product_template.xml',
         'views/sale_order.xml',
+        'views/crm_lead.xml',
+        'data/website_crm_data.xml'
     ],
 
     "installable": True,

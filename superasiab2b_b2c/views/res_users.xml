@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Update User form -->
+    <record model="ir.ui.view" id="bista_res_user_form">
+        <field name="name">Users Source</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//div[hasclass('oe_title')]//field[@name='partner_id']" position="after">
+                    <field name="source_id" widget="selection"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="bista_view_users_state_tree" model="ir.ui.view">
+        <field name="name">bista.res.users.tree.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='login_date']" position="before">
+                <field name="source_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

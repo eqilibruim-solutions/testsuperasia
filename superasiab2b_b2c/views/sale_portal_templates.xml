@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <template id="bis_portal_my_home_sale" name="Portal My Home : Last Confirm Order entries" inherit_id="sale.portal_my_home_sale" priority="20">
+        <xpath expr="//t[@t-if='quotation_count']" position="before">
+            <t t-if="last_quotation_sent_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Last Order</t>
+                <t t-set="url" t-value="'/my/last-confirm-order'"/>
+                <t t-set="count" t-value="last_quotation_sent_count"/>
+            </t>
+        </xpath>
+    </template> -->
+
+    <template id="b2b_sale_order_portal_template_inherit" inherit_id="sale.sale_order_portal_template">
+        <xpath expr="//div[hasclass('o_download_pdf', 'btn-toolbar')]" position="inside">
+            <t t-if="request.env.user.has_group('superasiab2b_b2c.group_b2baccount') and visible_cart_btn">
+                <div class="btn-group flex-grow-1 mb-1 ml-1">
+                    <a class="btn btn-secondary btn-block" href="#" t-att-data-order-id="sale_order.id" id="set_draft_state" title="Show In Cart">
+                        Edit Cart
+                    </a>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="b2b_portal_my_quotations_inherit" inherit_id="sale.portal_my_quotations">
+        <xpath expr="//thead/tr[hasclass('active')]/th[1]" position="attributes">
+            <attribute name="class">text-center</attribute>
+        </xpath>
+
+        <xpath expr="//thead/tr[hasclass('active')]/th[2]" position="attributes">
+            <attribute name="class">text-center</attribute>
+        </xpath>
+        <xpath expr="//thead/tr[hasclass('active')]/th[3]" position="attributes">
+            <attribute name="class">text-center</attribute>
+        </xpath>
+        <xpath expr="//thead/tr[hasclass('active')]/th[5]" position="attributes">
+            <attribute name="class">text-center</attribute>
+        </xpath>
+
+        <xpath expr="//thead/tr[hasclass('active')]/th[2]" position="after">
+            <th class="text-center"/>
+        </xpath>
+
+
+        <xpath expr="//td[1]" position="attributes">
+            <attribute name="class">text-center</attribute>
+        </xpath>
+        <xpath expr="//td[2]" position="attributes">
+            <attribute name="class">text-center</attribute>
+        </xpath>
+        <xpath expr="//td[3]" position="attributes">
+            <attribute name="class">text-center</attribute>
+        </xpath>
+        <xpath expr="//td[5]" position="attributes">
+            <attribute name="class">text-center</attribute>
+        </xpath>
+        <xpath expr="//td[2]" position="after">
+            <td class="text-center">
+                <t t-if="quotation.state == 'sent' and latest_qo_sent_order and latest_qo_sent_order.id == quotation.id">
+                    <a class="btn btn-secondary" href="#" t-att-data-order-id="quotation.id" id="set_draft_state" title="Edit Cart">
+                        Edit Cart
+                    </a>
+                </t>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>

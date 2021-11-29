@@ -846,7 +846,7 @@ class res_partner(models.Model):
     signup_expiration = fields.Datetime(copy=False)
 
     b2b_customer_type = fields.Selection([
-        ('restaurant_owner', 'Restaurant Owner'), ('conv_grocery_owner', 'Convenience/Grocery Store Owner'),
+        ('restaurant_owner', 'Restaurant'), ('grocery_owner', 'Grocery Store'), ('conv_owner', 'Convenience Store'),
         ('wholesale_dist', 'Wholesaler Distributor'), ('online_retailer', 'Online Retailer'), ('other', 'Other')
     ], string="Customer Type")
 

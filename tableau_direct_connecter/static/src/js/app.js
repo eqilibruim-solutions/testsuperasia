@@ -1,1 +1,294 @@
-function b(c,d){const e=a();return b=function(f,g){f=f-0xce;let h=e[f];return h;},b(c,d);}function a(){const T=['makeConnector','metadata','getData','complete\x20schema\x20callback','color','always','status','innerHTML','textContent','column_type','className','#status','dbname','string','tableInfo','Getting\x20rows\x20from\x20ID\x20','9QiXruF','done','css','7rmmvgv','2396216fhcvxE','parse','addClass','size','Access\x20Token\x20is\x20Expired\x20!','reportProgress','ajax','log','fail','length','click','removeClass','952290CLqzCF','token','floor','/?last_id=','int','map','message','text','194037oVsGOY','push','GET','registerConnector','getSchema','4bSlHzB','/schemas/','fa\x20fa-ban\x20fa-2x\x20mr-1\x20mt-2','46JfpudU','25020HFxqHM','ready','fa\x20fa-exclamation-triangle\x20mr-1','stringify','We\x20got\x20Internal\x20Server\x20Error','2076966mSKXDl','#token','val','Get\x20Odoo\x20Data','connectionName','abortWithError','origin','connectionData','Please\x20Enter\x20Access\x20Token','bt-hud','entries','ceil','dataTypeEnum','We\x20have\x20got\x20the\x20internal\x20server\x20error\x20please\x20check\x20the\x20server\x20logs','getElementById','1670830qNqxgs','22721IhEzWM','Please\x20Wait...','float','red','1199zDEmsr','submit','/model/','f-icon','trim','table','schema','location','\x20not\x20found\x20in\x20your\x20Database','appendRows','#submit','No\x20results\x20found','attr','responseJSON','disabled'];a=function(){return T;};return a();}const t=b;(function(c,d){const s=b,e=c();while(!![]){try{const f=-parseInt(s(0xd4))/0x1*(-parseInt(s(0x117))/0x2)+-parseInt(s(0x10f))/0x3+parseInt(s(0x114))/0x4*(-parseInt(s(0x107))/0x5)+-parseInt(s(0x11d))/0x6*(parseInt(s(0xfa))/0x7)+-parseInt(s(0xfb))/0x8*(-parseInt(s(0xf7))/0x9)+-parseInt(s(0xd3))/0xa+-parseInt(s(0xd8))/0xb*(-parseInt(s(0x118))/0xc);if(f===d)break;else e['push'](e['shift']());}catch(g){e['push'](e['shift']());}}}(a,0x449a2));var base_url=window[t(0xdf)][t(0x123)];const types={'bigint':tableau[t(0xd0)]['int'],'decimal':tableau['dataTypeEnum'][t(0x10b)],'smallint':tableau[t(0xd0)]['int'],'serial':tableau[t(0xd0)][t(0x10b)],'bigserial':tableau[t(0xd0)][t(0x10b)],'boolean':tableau['dataTypeEnum']['bool'],'bytea':tableau['dataTypeEnum'][t(0x10b)],'character\x20varying':tableau[t(0xd0)][t(0xf4)],'varchar':tableau[t(0xd0)][t(0xf4)],'character':tableau[t(0xd0)][t(0xf4)],'char':tableau[t(0xd0)][t(0xf4)],'date':tableau[t(0xd0)]['string'],'double\x20precision':tableau['dataTypeEnum'][t(0xd6)],'real':tableau['dataTypeEnum'][t(0xd6)],'integer':tableau[t(0xd0)][t(0x10b)],'numeric':tableau[t(0xd0)][t(0x10b)],'text':tableau[t(0xd0)][t(0xf4)],'timestamp\x20without\x20time\x20zone':tableau[t(0xd0)][t(0xf4)],'timestamp\x20with\x20time\x20zone':tableau[t(0xd0)][t(0xf4)],'time\x20without\x20time\x20zone':tableau[t(0xd0)][t(0xf4)],'time\x20with\x20time\x20zone':tableau['dataTypeEnum'][t(0xf4)]};function binary_search_by_table_name(c,d){const u=t;let e=0x0,f=d[u(0x104)]-0x1;while(e<=f){let g=Math[u(0x109)]((e+f)/0x2);if(d[g][u(0xdd)]===c)return d[g];else d[g][u(0xdd)]<c?e=g+0x1:f=g-0x1;}return-0x1;}function make_schema(c){const v=t;var d=[];return Object[v(0xce)](c)[v(0x10c)](e=>{const w=v;let f=e[0x0],g=e[0x1],h=[];for(let j=0x0;j<g[w(0x104)];j++){h['push']({'id':g[j]['column_name'],'dataType':types[g[j][w(0xf0)]]});}d[w(0x110)]({'id':f,'columns':h});}),d;}(function(){const x=t;var c=tableau[x(0xe7)]();c[x(0x113)]=function(e){const y=x;var f=JSON[y(0xfc)](tableau[y(0x124)]);e(f[y(0xde)]);},c[x(0xe9)]=function(e,f){const z=x;let g=JSON[z(0xfc)](tableau[z(0x124)]),h=g['metadata'],i=g[z(0x108)],j=binary_search_by_table_name(e[z(0xf5)]['id'],h);if(j==-0x1){tableau[z(0x100)]('Please\x20Wait\x20...');var k=$['ajax']({'url':base_url+z(0xda)+e[z(0xf5)]['id']+'/','method':z(0x111),'headers':{'Authorization':i},'async':![],'statusCode':{0x191:function(m,n,o){const A=z;tableau[A(0x122)](A(0xff));},0x1f4:function(m,n,o){const B=z;tableau[B(0x122)](B(0x11c));},0x194:function(m,n,o){const C=z;tableau[C(0x122)](e['tableInfo']['id']+C(0xe0));}},'success':function(m){const D=z;m?(e[D(0xe1)](m),f()):tableau[D(0x122)](D(0xe3));},'error':function(m,n,o){}});}else{let m=0x1,n=0x4e20,o=Math[z(0xcf)](j[z(0xfe)]/n);var l=0x0;while(m<=o){tableau[z(0x100)](z(0xf6)+(l+0x1));var k=$['ajax']({'url':base_url+z(0xda)+e[z(0xf5)]['id']+z(0x10a)+l,'method':'GET','headers':{'Authorization':i},'async':![],'statusCode':{0x191:function(p,q,r){const E=z;tableau[E(0x122)]('Access\x20Token\x20is\x20Expired\x20!');},0x1f4:function(p,q,r){const F=z;tableau['abortWithError'](F(0x11c));},0x194:function(p,q,r){const G=z;tableau[G(0x122)](e[G(0xf5)]['id']+G(0xe0));}},'success':function(p){const H=z;p?(l=p[p['length']-0x1]['id'],e[H(0xe1)](p),m+=0x1):(tableau[H(0x122)](H(0xe3)),m+=0x1);},'error':function(p,q,r){m+=0x1;}});}f();}},tableau[x(0x112)](c);function d(){const I=x;return $(I(0x11e))[I(0x11f)]()[I(0xdc)]()?!![]:![];}$(document)[x(0x119)](function(){const K=x;function e(f){const J=b;var g=document[J(0xd2)](J(0xdb));g[J(0xf1)]=f;}$(K(0xe2))[K(0x105)](function(){const L=K;let f=d();if(!f)return e('fa\x20fa-exclamation-triangle\x20mr-1'),document[L(0xd2)](L(0xed))[L(0xef)]=L(0x125),$(L(0x11e))['css']('border-color',L(0xd7)),$(L(0xf2))['css'](L(0xeb),'red'),![];var g=$[L(0x101)]({'url':base_url+L(0x115),'headers':{'Authorization':$(L(0x11e))[L(0x11f)]()[L(0xdc)]()},'beforeSend':function(){const M=L;$(M(0xe2))[M(0x10e)](M(0xd5))[M(0xe4)](M(0xe6),!![])[M(0xfd)](M(0x126));},'complete':function(){const N=L;console[N(0x102)](N(0xea));},'statusCode':{0x191:function(h,i,j){const O=L;e(O(0x11a)),document[O(0xd2)](O(0xed))[O(0xef)]=h[O(0xe5)][O(0x10d)],$(O(0xf2))[O(0xf9)](O(0xeb),'red'),$(O(0xe2))[O(0x10e)]('Get\x20Odoo\x20Data')[O(0xe4)](O(0xe6),![])[O(0x106)](O(0x126));},0x1f4:function(h,i,j){const P=L;e('fa\x20fa-exclamation-triangle\x20mr-1'),document[P(0xd2)]('status')[P(0xef)]=P(0xd1),$(P(0xf2))[P(0xf9)](P(0xeb),P(0xd7));}}})[L(0xf8)](function(h){const Q=L;res=make_schema(h[Q(0xde)]),console[Q(0x102)](h['dbname']);try{tableau[Q(0x124)]=JSON[Q(0x11b)]({'schema':res,'metadata':h[Q(0xe8)],'token':$(Q(0x11e))[Q(0x11f)]()[Q(0xdc)]()}),tableau[Q(0x121)]=h[Q(0xf3)],tableau[Q(0xd9)]();}catch(i){document[Q(0xd2)]('status')[Q(0xee)]='Tableau\x20initialization\x20is\x20failed\x20We\x20are\x20Unable\x20to\x20find\x20WDC\x20Environment',$('#status')['css'](Q(0xeb),'red'),$(Q(0xe2))['text'](Q(0x120))['attr']('disabled',![])[Q(0x106)](Q(0x126)),e(Q(0x116));}})[L(0x103)](function(h,i,j){const R=L;console[R(0x102)](h),console[R(0x102)](i),console[R(0x102)](j);})[L(0xec)](function(){const S=L;console[S(0x102)]('second\x20complete');});});});}());
+var base_url = window.location.origin;
+
+const types = {
+
+  "bigint":tableau.dataTypeEnum.int,
+  "decimal":tableau.dataTypeEnum.int,
+  "smallint":tableau.dataTypeEnum.int,
+  "serial":tableau.dataTypeEnum.int,
+  "bigserial":tableau.dataTypeEnum.int,
+  "boolean":tableau.dataTypeEnum.bool,
+  "bytea":tableau.dataTypeEnum.int,
+  "character varying":tableau.dataTypeEnum.string,
+  "varchar":tableau.dataTypeEnum.string,
+  "character":tableau.dataTypeEnum.string,
+  "char":tableau.dataTypeEnum.string,
+  "date":tableau.dataTypeEnum.string,
+  "double precision":tableau.dataTypeEnum.float,
+  "real":tableau.dataTypeEnum.float,
+  "integer":tableau.dataTypeEnum.int,
+  "numeric":tableau.dataTypeEnum.int,
+  "text":tableau.dataTypeEnum.string,
+  "timestamp without time zone":tableau.dataTypeEnum.string,
+  "timestamp with time zone":tableau.dataTypeEnum.string,
+  "time without time zone":tableau.dataTypeEnum.string,
+  "time with time zone":tableau.dataTypeEnum.string
+
+  }
+
+  function binary_search_by_table_name(table, metadata) {
+    let start = 0;
+    let end = metadata.length - 1;
+  
+    while (start <= end) {
+      let middle = Math.floor((start + end) / 2);
+  
+      if (metadata[middle].table === table) {
+        return metadata[middle];
+      } else if (metadata[middle].table < table) {
+        start = middle + 1;
+      } else {
+        end = middle - 1;
+      }
+    }
+    return -1;
+  }
+
+  function make_schema(object){
+    var table_list = [];
+    Object.entries(object).map(entry => {
+        let key = entry[0];
+        let value = entry[1];
+        let schema_lst = [];
+        for(let i = 0; i< value.length; i++)
+        {
+            schema_lst.push({id:value[i].column_name,dataType:types[value[i].column_type]})
+        }
+        table_list.push({id:key,columns:schema_lst})
+        
+    });
+    
+    return table_list
+    
+    }
+
+(function () {
+  var myConnector = tableau.makeConnector();
+  
+   
+
+  myConnector.getSchema = function (schemaCallback) {
+    var list = JSON.parse(tableau.connectionData);
+
+    schemaCallback(list.schema);
+  };
+
+  myConnector.getData = function (table, doneCallback) {
+    let list = JSON.parse(tableau.connectionData);
+    let metadata = list.metadata
+    let token = list.token
+    let search_result = binary_search_by_table_name(table.tableInfo.id,metadata);
+  
+    
+if (search_result == -1){
+  tableau.reportProgress("Please Wait ...");
+    var xhr = $.ajax({
+      url: `${base_url}/model/${table.tableInfo.id}/`,
+      method:"GET",
+      headers:{'Authorization':token},
+      async:false,
+      statusCode: {
+        401: function(responseObject, textStatus, jqXHR) {
+          tableau.abortWithError("Access Token is Expired !");
+        },
+        500: function(responseObject, textStatus, errorThrown) {
+          tableau.abortWithError("We got Internal Server Error");
+        }
+        ,
+      404: function(responseObject, textStatus, errorThrown) {
+        tableau.abortWithError(`${table.tableInfo.id} not found in your Database`);
+      },
+      408: function(responseObject, textStatus, errorThrown) {
+        tableau.abortWithError("Your trial is expired !");
+      }
+                   
+    },
+      success: function (data) {
+          if (data) {
+
+              table.appendRows(data);
+              doneCallback();
+
+          }
+          else {
+              tableau.abortWithError("No results found");
+          }
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        
+      }
+  });
+}
+else{
+let current_call = 1;
+let limit = 20000
+let needed_call = Math.ceil(search_result.size/limit)
+var last_id = 0
+while(current_call <= needed_call)
+{
+  
+  tableau.reportProgress("Getting rows from ID " + (last_id+1));
+  var xhr = $.ajax({
+    url: `${base_url}/model/${table.tableInfo.id}/?last_id=${last_id}`,
+    method:"GET",
+    headers:{'Authorization':token},
+    async:false,
+    statusCode: {
+      401: function(responseObject, textStatus, jqXHR) {
+        tableau.abortWithError("Access Token is Expired !");
+      },
+      500: function(responseObject, textStatus, errorThrown) {
+        tableau.abortWithError("We got Internal Server Error");
+      } ,
+      404: function(responseObject, textStatus, errorThrown) {
+        tableau.abortWithError(`${table.tableInfo.id} not found in your Database`);
+      },
+      408: function(responseObject, textStatus, errorThrown) {
+        tableau.abortWithError("Your trial is expired !");
+      }            
+  },
+    success: function (data) {
+        if (data) {
+          // console.log(data);
+          last_id = data[data.length-1].id
+          // console.log("last id "+last_id);
+          table.appendRows(data);
+          current_call+=1;
+          
+        }
+        else {
+            tableau.abortWithError("No results found");
+            current_call+=1;
+        }
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+        current_call+=1;
+
+        
+    }
+});
+
+
+}
+doneCallback();
+
+
+}
+   
+  };
+  tableau.registerConnector(myConnector);
+
+  function validate_input_field(){
+    if ($('#token').val().trim())
+    {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  // Create event listeners for when the user submits the form
+  $(document).ready(function() {
+    function add_exmlation_sign(cls){
+      var fwasm = document.getElementById('f-icon')
+      fwasm.className = cls;
+      
+              }
+    
+
+    $("#submit").click(function() {
+       
+      let required = validate_input_field();
+      if(!required){
+        
+        add_exmlation_sign('fa fa-exclamation-triangle mr-1');
+        document.getElementById("status").textContent = "Please Enter Access Token"
+        $('#token').css('border-color', 'red');
+        $('#status').css('color', 'red');
+
+        return false
+      }
+      var jqxhr = $.ajax( {url:`${base_url}/schemas/`,
+      headers:{"Authorization":$('#token').val().trim()},
+      beforeSend: function(){
+         
+          $('#submit').text('Please Wait...').attr('disabled', true).addClass('bt-hud');
+
+          
+         
+      },
+      complete: function(){
+         
+          console.log("complete schema callback");
+      }
+      ,
+      statusCode: {
+        401: function(responseObject, textStatus, jqXHR) {
+          add_exmlation_sign('fa fa-exclamation-triangle mr-1');
+          document.getElementById("status").textContent = responseObject.responseJSON.message
+          $('#status').css('color', 'red');
+
+          $('#submit').text('Get Odoo Data').attr('disabled', false).removeClass('bt-hud')
+        },
+        500: function(responseObject, textStatus, errorThrown) {
+          add_exmlation_sign('fa fa-exclamation-triangle mr-1');
+          document.getElementById("status").textContent = "We have got the internal server error please check the server logs"
+          $('#status').css('color', 'red');
+        } ,
+        408: function(responseObject, textStatus, jqXHR) {
+          add_exmlation_sign('fa fa-exclamation-triangle mr-1');
+          document.getElementById("status").textContent = responseObject.responseJSON.message
+          $('#status').css('color', 'red');
+
+          $('#submit').text('Get Odoo Data').attr('disabled', false).removeClass('bt-hud')
+        }          
+    }
+      } )
+
+      .done(function(response) {
+        res = make_schema(response.schema);
+        console.log(response.dbname);
+        try {
+        tableau.connectionData =JSON.stringify({schema: res,metadata:response.metadata,token:$('#token').val().trim()});
+        tableau.connectionName = response.dbname;
+        tableau.submit();
+        }
+        catch(err) {
+          document.getElementById("status").innerHTML = "Tableau initialization is failed We are Unable to find WDC Environment";
+          $('#status').css('color', 'red');
+
+          $('#submit').text('Get Odoo Data').attr('disabled', false).removeClass('bt-hud');
+          add_exmlation_sign('fa fa-ban fa-2x mr-1 mt-2');
+
+        }
+      })
+      .fail(function(xhr, ajaxOptions, thrownError) {
+        console.log( xhr );
+        console.log( ajaxOptions );
+        console.log( thrownError );
+      })
+      .always(function() {
+      console.log( "second complete" );
+
+       
+      });
+      
+      
+      
+        
+      
+                 
+    });
+});
+
+})();
+
+
+
+
+
+
+
+
+  

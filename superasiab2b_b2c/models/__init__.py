@@ -3,8 +3,9 @@
 
 
 from . import portal_manager
+from . import res_users
 # from . import ir_ui_menu_inherit
-from . import website_config_settings
+from . import website_config_settings, sale_order
 
 # ****************
 

@@ -13,11 +13,12 @@
                                 <!-- <h3>Free Delivery Across GTA, Min Order 49! Check your postal</h3> -->
                                 <h3>Check Delivery Address By Using Postal Code</h3>
                                 <div class="delivery_available d-none">
-                                    <p class="d-inline-block font-weight-bold"> Delivery is available in  your area</p>
+                                    <p class="d-inline-block font-weight-bold"> Free-Delivery Applicable with Min. Order $49 and above.  </p>
                                     <a class="btn custom_them_primary text-white" href="/shop"> Shop Now</a>
                                 </div>
                                 <div class="delivery_not_available d-none alert alert-warning" role="alert">
-                                        Delivery not available for your area
+                                        Standard Delivery Charges Applicable. 
+                                        <a class="btn custom_them_primary text-white" href="/shop"> Shop Now</a>
                                 </div>
                                 <div class="check_postal">
                                     

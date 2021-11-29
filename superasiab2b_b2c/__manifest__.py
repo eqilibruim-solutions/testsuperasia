@@ -7,17 +7,21 @@
     'summary': '',
     'author':'Bista Solutions - Archana Prasad',
     'depends': [
-        'base','portal','sale','product','website','website_sale','sale_coupon','website_sale_stock'
+        'base','portal','sale','product','website','website_sale','sale_coupon','website_sale_stock', 'crm'
     ],
     'data': [
             'security/access_rights.xml',
             'security/ir.model.access.csv',
             'data/data.xml',
+            'views/assets.xml',
             'views/portal_template.xml',
             'views/sales_order.xml',
             'views/inherited_product_template_meta_fields.xml',
             'views/website_config_settings.xml',
-            'report/shipping_labels.xml'
+            'views/sale_portal_templates.xml',
+            'views/res_users.xml',
+            'report/shipping_labels.xml',
+            'data/mail_data.xml',
             ],
 
         'qweb': [

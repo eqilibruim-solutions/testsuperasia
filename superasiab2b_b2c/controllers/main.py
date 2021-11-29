@@ -111,7 +111,7 @@ class superasiab2b_b2c(http.Controller):
             # zipcode = post.get('zipcode')
             # country_id = post.get('country_id')
             # state_id = post.get('state_id')
-            email = post.get('email')
+            email = post.get('email','')
             regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
             if not (re.search(regex,email)):  
                 return request.render('superasiab2b_b2c.invalidemail',{
@@ -136,6 +136,12 @@ class superasiab2b_b2c(http.Controller):
 
             _logger.info('========group_list=========== %s' % group_list)                
 
+            utm_medium = post.get("utm_medium", False)
+            source = False
+            if utm_medium:
+                source = request.env['utm.source'].search([('name','ilike',utm_medium)], limit=1)
+                if not source:
+                    source = request.env['utm.source'].create({'name':utm_medium})
 
             
             vals = {
@@ -143,7 +149,8 @@ class superasiab2b_b2c(http.Controller):
             'login' : email,
             'password':'Admin@123',
             'groups_id':[(6,0,group_list)],
-            'active':False
+            'active':False,
+            "source_id": source.id if source else False
             # 'odoobot_state':'disabled'
 
             }
@@ -157,6 +164,23 @@ class superasiab2b_b2c(http.Controller):
             profile_ids=profile_obj.search([('user_id','=',user_data.id)])
             if profile_ids:
                 return request.redirect('/accountexist')
+
+            b2b_customer_type_key = post.get('b2b_customer_type')
+            # Get b2b_customer_type selection field's label in res.partner model
+            b2b_customer_type = dict(request.env['res.partner'].fields_get(
+                allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])[b2b_customer_type_key]
+
+
+
+            lead = request.env["crm.lead"].with_context(mail_create_nosubscribe=True).sudo().create({
+                "contact_name": contact_name,
+                "b2b_customer_type": b2b_customer_type_key,
+                "email_from": email,
+                "name": company_name,
+                "partner_name": company_name,
+                "phone": mobile,
+                "source_id": source.id if source else False
+            })
 
 
             # state_data = ''
@@ -179,10 +203,6 @@ class superasiab2b_b2c(http.Controller):
             partner_id = user_data.partner_id
             login = user_data.login
 
-            b2b_customer_type_key = post.get('b2b_customer_type')
-            # Get b2b_customer_type selection field's label in res.partner model
-            b2b_customer_type = dict(request.env['res.partner'].fields_get(
-                allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])[b2b_customer_type_key]
 
             profile_vals={
             'street': street,
@@ -251,7 +271,7 @@ class superasiab2b_b2c(http.Controller):
 
             company_name = post.get('company_name')
             b2b_customer_type = ""
-            email = post.get('email')
+            email = post.get('email', '')
             regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
             if not (re.search(regex,email)):  
                 return request.render('superasiab2b_b2c.invalidemail',{
@@ -287,12 +307,20 @@ class superasiab2b_b2c(http.Controller):
 
             pricelistid = request.env['product.pricelist'].search([('group_id','in',internalid.id)])
             _logger.info('========pricelistid=========== %s' % pricelistid) 
+            utm_medium = post.get("utm_medium", False)
+            source = False
+            if utm_medium:
+                source = request.env['utm.source'].search([('name','ilike',utm_medium)], limit=1)
+                if not source:
+                    source = request.env['utm.source'].create({'name':utm_medium})
+            
             
             vals = {
             'name':company_name,
             'login' : email,
             'password':confirmpassword,
             'groups_id':[(6,0,group_list)],
+            "source_id": source.id if source else False
             # 'odoobot_state':'disabled'
 
             }

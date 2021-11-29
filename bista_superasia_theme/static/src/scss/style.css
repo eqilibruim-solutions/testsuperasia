@@ -3221,3 +3221,7 @@ button.o_add_compare_dyn, button.o_add_compare {
     display: none;
   }
 }
+
+#product_details div.product_price {
+  margin-bottom: 15px;
+}

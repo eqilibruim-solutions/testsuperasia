@@ -82,7 +82,7 @@
  
 </img>
 
-<p style="font-size:22px;font-family: 'Raleway', sans-serif;">Are you Retailer? Looking of Catalog, New Arrivals &amp; Best Pricing</p>
+<p style="font-size:22px;font-family: 'Raleway', sans-serif;">Please share your details to check product range and pricing</p>
                                      </div>
 
                             <div class="">
@@ -102,7 +102,7 @@
 
                                     <div class="d-md-flex mr-lg-4 offset-lg-8">
                                         <form class="b2b_acc_signup_form mx-5 mx-lg-0" method="POST" action="/b2baccountactivation" enctype="multipart/form-data">
-
+                                            <input type="hidden" name="utm_medium" value=""/>
                                             <div class="form-row">
                                                 <div class="name">Business Name*</div>
                                                 <div class="value">
@@ -114,15 +114,16 @@
                                             </div>
 
                                             <div class="form-row form-customer_type">
-                                                <div class="name">Are you?</div>
+                                                <div class="name">Business Type</div>
                                                 <div class="value">
                                                     <div class="input-group-desc">
                                                         <select id="b2b_customer_type" name="b2b_customer_type"
                                                                 class="input--style-5" style="height: 40px; width: 100%;">
-                                                            <option value="restaurant_owner">Restaurant Owner</option>
-                                                            <option value="conv_grocery_owner">Convenience/Grocery Store Owner</option>
-                                                            <option value="wholesale_dist">Wholesaler Distributor</option>
+                                                            <option value="restaurant_owner">Restaurant</option>
                                                             <option value="online_retailer">Online Retailer</option>
+                                                            <option value="grocery_owner">Grocery Store</option>
+                                                            <option value="conv_owner">Convenience Store</option>
+                                                            <option value="wholesale_dist">Wholesaler</option>
                                                             <option value="other">Other</option>
                                                         </select>
                                                     </div>
@@ -271,7 +272,7 @@
 
         <div class="d-md-flex d-lg-flex">
             <form class="b2b_acc_signup_form offset-lg-4 offset-md-4 offset-1" method="POST" action="/b2caccountactivation" enctype="multipart/form-data">
-
+                    <input type="hidden" name="utm_medium" value=""/>
                                 <div class="form-row">
                                     <div class="name">Name*</div>
                                     <div class="value">

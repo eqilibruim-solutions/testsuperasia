@@ -79,3 +79,64 @@ $(document).ready(function(){
     });    
 
 });
+
+odoo.define('superasiab2b_b2c.order_state_change', function (require) {
+"use strict";
+var publicWidget = require('web.public.widget');
+var ajax = require('web.ajax');
+
+publicWidget.registry.websiteSaleCartLink = publicWidget.Widget.extend({
+    selector: '#set_draft_state ',
+    events: {
+        'click': '_onClick',
+    },
+
+	_onClick: function (ev) { 
+		var $dm = $(ev.currentTarget);
+		var order_id = parseInt($dm.data("order-id"),10);
+		debugger;
+		if (order_id) {
+			ajax.jsonRpc('/order-change-state', 'call', {'order_id': order_id})
+				.then(function (data) {
+					window.location.reload();
+				});
+		}
+	},
+});
+
+});
+
+
+odoo.define('superasiab2b_b2c.retailer_contact_form', function (require) {
+	"use strict";
+	var publicWidget = require('web.public.widget');
+	var ajax = require('web.ajax');
+	
+	publicWidget.registry.retailerContactForm = publicWidget.Widget.extend({
+		selector: 'form[action="/b2baccountactivation"], form[action="/b2caccountactivation"]',
+
+		start: function () {
+			var $inputUtmMedium = this.$el.find('input[name="utm_medium"]')
+			if ($inputUtmMedium.length){
+				let utmMedium = this.getURLParameter('utm_medium')
+				$inputUtmMedium.val(utmMedium ? utmMedium:'')
+			}
+			return this._super.apply(this, arguments);
+			
+		},
+
+		getURLParameter: function (sParam){
+			var sPageURL = window.location.search.substring(1);
+			var sURLVariables = sPageURL.split('&');
+			for (var i = 0; i < sURLVariables.length; i++) 
+			{
+				var sParameterName = sURLVariables[i].split('=');
+				if (sParameterName[0] == sParam) 
+				{
+					return sParameterName[1];
+				}
+			}
+		}
+	});
+	
+});
