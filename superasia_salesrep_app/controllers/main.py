@@ -508,6 +508,6 @@ class BistaWebsiteSale(BistaWebsiteSale):
             for index, res_product in enumerate(res['products'], 0):
                 app_website_url = res_product['website_url'].replace('/shop/','/sales-rep/sale/')
                 res['products'][index].update({
-                    'app_website_url': app_website_url,
+                    'website_url': app_website_url,
                 })
         return res
