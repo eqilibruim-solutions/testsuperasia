@@ -32,7 +32,7 @@
     line-height: 2;
     text-align: center;
     color: #042E64;
-    font-size: 20px;
+    font-size: 35px;
     font-family: sans-serif;
     font-weight: bold;
     position: fixed;
@@ -44,7 +44,12 @@
     font-weight: bold;
     padding: .375rem .45rem;
   }
-  @media (max-width: 768px) {
+  @media (min-width: 768px) { 
+    .custom-font-size {
+      font-size: 1rem;
+    }
+  }
+  @media (max-width: 767px) {
     .custom-font-size {
       margin-right: 0.25rem;
     }
@@ -59,7 +64,9 @@
   }
   
 }
-
+#saleOderModalCenter {
+  top: -186px;
+}
 .dropdown-modal {
   .modal-content {
     border-radius: 0.7rem;

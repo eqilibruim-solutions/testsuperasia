@@ -36,47 +36,47 @@
 
                         <!-- <div class="container"> -->
                             <div id="homescreen-menu-options" class="row m-0">
-                                <div class="col-3 col-sm-3 col-md-3"></div>
-                                <div class="primary-buttons col-md-6 col-sm-12 d-flex d-sm-inline p-0">
+                                <div class="col-2 col-sm-2 col-md-2"></div>
+                                <div class="primary-buttons col-md-8 col-sm-12 d-flex d-sm-inline p-0">
 
-            <!-- Modal -->
-          <div class="dropdown-modal modal fade" id="saleOderModalCenter" tabindex="-1" role="document" aria-labelledby="saleOderModalCenterTitle" aria-hidden="true" >
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close text-left" data-dismiss="modal" aria-label="Close">Cancel</button>
-                                <h4 class="modal-title font-weight-bold text-center w-100" id="saleOrderModalLongTitle">Choose Account</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form class="form-inline">
-                                    <div class="col-12 px-0">
-                                        <label for="select2-single" class="sr-only col-2">Account</label>
-                                        <div class="input-group mb-2 mr-sm-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="icofont-search"></i>
-                                                </div>
+                                    <!-- Modal -->
+                                    <div class="dropdown-modal modal fade" id="saleOderModalCenter" tabindex="-1" role="dialog" aria-labelledby="saleOderModalCenterTitle" aria-hidden="true" >
+                                        <div class="modal-dialog modal-dialog-centered" role="dialog">
+                                            <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close text-left" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                                        <h4 class="modal-title font-weight-bold text-center w-100" id="saleOrderModalLongTitle">Choose Account</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form class="form-inline">
+                                                            <div class="col-12 px-0">
+                                                                <label for="select2-single" class="sr-only col-2">Account</label>
+                                                                <div class="input-group mb-2 mr-sm-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">
+                                                                            <i class="icofont-search"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <select id="select2-single" class="select-data-dropdown form-control select2-single">
+                                                                        <option></option>
+                                                                        <t t-foreach="b2b_partner_ids" t-as="account">
+                                                                            <option t-att-value="account.id"><t t-esc="account.name"/> (<t t-esc="account.email"/>)</option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>         
                                             </div>
-                                            <select id="select2-single" class="select-data-dropdown form-control select2-single">
-                                                <option></option>
-                                                <t t-foreach="b2b_partner_ids" t-as="account">
-                                                    <option t-att-value="account.id"><t t-esc="account.name"/> (<t t-esc="account.email"/>)</option>
-                                                </t>
-                                            </select>
                                         </div>
                                     </div>
-                                </form>
-                            </div>         
-                    </div>
-                </div>
-            </div>
 
                                     <a href="/sales-rep/all-accounts" class="btn btn-light rounded-0 custom-font-size">Accounts</a>
                                     <a href="#" class="btn btn-light rounded-0 custom-font-size" data-toggle="modal" data-target="#saleOderModalCenter" data-backdrop="false">Sales Order</a>
                                     <a href="#" class="btn btn-light rounded-0 pl-4 pr-4 custom-font-size">Due</a>
                                     <a href="#" class="btn btn-light rounded-0 custom-font-size">Catalogue</a>
                                 </div>
-                                <div class="col-3 col-sm-3 col-md-3"></div>
+                                <div class="col-2 col-sm-2 col-md-2"></div>
                             </div><!-- end col-12 -->
                         <!-- </div> -->  
                     </div>
