@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <data>
                 <xpath expr="//div[hasclass('oe_title')]//field[@name='partner_id']" position="after">
-                    <field name="source_id" widget="selection"/>
+                    <field name="source_id"/>
                 </xpath>
             </data>
         </field>
