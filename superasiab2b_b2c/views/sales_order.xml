@@ -26,6 +26,10 @@
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="purchase_order"/>
             </xpath>
+
+            <xpath expr="//group[@name='sale_reporting']" position="attributes">
+                <attribute name="groups"></attribute>
+            </xpath>
         </field>
     </record>
 
