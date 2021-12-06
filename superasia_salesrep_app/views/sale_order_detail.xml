@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_rep_order_detail" name="Sales Rep Product Info Page">
+        
+        <t t-call="website.layout">
+            <t t-set="additional_title">Order Details</t>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="sale_rep_order_info">
+                    <!-- super_top_menu -->
+                    <div id="super_top_menu" class="sticky-top">
+                        <div class="container">
+                            <div class="row">
+                            <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                                <div class="text-light float-left">
+                                    <a href="/shop/cart" class="font-weight-bold text-white">
+                                         Cancel
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 col-sm-7 text-center">
+                                <div class="account-name-style">
+                                    <h3><a href="#" class="font-weight-bold text-white">Sales Order</a></h3>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3 col-md-3 text-right pt-2">
+                                <a href="#" class="font-weight-bold text-white">Done</a>
+                            </div>  
+                            </div><!-- end row -->
+                        </div><!-- end container -->
+                    </div><!-- end super_top_menu -->
+
+                    <!-- ======= Main Section ======= -->
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 px-0 mt-4">
+                                <form>
+                                    <div class="container-fluid section-title ml-0 mr-0">
+                                        <div class="first-row">
+                                                <div class="bg-light bg-gradient border pl-3">
+                                                    <p class="fs-5 mb-1">General Information</p>
+                                                </div>
+                                                <div class="account-info p-2 text-left text-capitalize pl-4 row">
+                                                    <div class="col-sm-6 col-md-6">
+                                                        <p class="mb-1">Account Name</p>
+                                                        <p class="font-weight-bold">11514555 Canada Ltd</p>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6">
+                                                        <p class="mb-1">PONumber</p>
+                                                        <input type="text-light" name="ponumber" class="form-control"/>
+                                                    </div>
+                                                    <p class="mb-1">Action Time</p>
+                                                    <p class="font-weight-bold">29/11/21, 2:59 PM</p>
+
+                                                    <p class="mb-1">Sales Rep Name</p>
+                                                    <p class="font-weight-bold">Aqib Majeed</p>
+                                                </div><!-- end account-info -->
+
+                                                <div class="p-2 text-left text-capitalize pl-4">
+                                                    <p class="mb-1">Order Remark</p>
+                                                    <textarea rows="5" name="order-remark" class="form-control"></textarea>
+                                                </div>
+                                        </div><!-- end first-row -->
+                                    </div><!-- end container-fluid -->
+                                </form><!-- end form -->
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
+        
+    </template>
+
+</odoo>
