@@ -47,6 +47,51 @@
             </t>
             
         </xpath>
+
+        <xpath expr="//table[@id='cart_products']//thead//th[hasclass('td-price')]" position="after">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <th class="text-center px-0 td-unit-disc">Unit Discount</th>
+                <th class="text-center px-0 td-unit-price-after-disc">Unit Price After Discount</th>
+                <th class="text-center px-0 td-total-price-after-disc">Total Unit Price After Discount</th>
+                <th class="text-center td-line-tax">Line Tax</th>
+            </t>
+        </xpath>
+
+        <xpath expr="//table[@id='cart_products']//tbody//td[@name='price']" position="inside">
+            <t t-if="line.discount_manual_update">
+                <input type="hidden" name="unit_price"  t-att-value="line.price_unit"/>
+            </t>
+            <t t-else="">
+                <input type="hidden" name="unit_price"  t-att-value="line.price_reduce_taxexcl" groups="account.group_show_line_subtotals_tax_excluded" />
+                <input type="hidden" name="unit_price"  t-att-value="line.price_reduce_taxinc" groups="account.group_show_line_subtotals_tax_included" />
+            </t>
+
+        </xpath>
+        <xpath expr="//table[@id='cart_products']//tbody//td[@name='price']" position="after">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <td class="text-center td-unit-disc">
+                    <span>% <t t-esc="line.discount"/> </span>
+                </td>
+                <td class="td-unit-price-after-disc">
+                    <div class="input-icon">
+                        <i class="icofont-dollar icon" style="font-size:14px;"></i>
+                        <!-- <t t-set="unit_price_after_disc" t-value="line.price_subtotal/line.product_uom_qty"/> -->
+                        <input type="text" class="form-control price_after_disc" t-att-data-line-id="line.id"  t-att-value="line.price_reduce" />
+                        <!-- <span t-esc="unit_price_after_disc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/> -->
+                    </div>
+                </td>
+                <td class="text-center td-total-price-after-disc">
+                    <span t-field="line.price_subtotal" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/>
+                </td>
+                <td class="text-center td-line-tax">
+                    <span>0.00</span>
+                </td>
+            </t>
+        </xpath>
+
+        <xpath expr="//table[@id='cart_products']" position="attributes">
+            <attribute name="t-attf-class" separator=" " add="mb16 table table-striped table-sm js_cart_lines #{'sale-rep-cart' if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep') else''} "></attribute>
+        </xpath>
     </template>
     <template id="sales_app_short_cart_summary_inh" inherit_id="bista_superasia_theme.short_cart_summary_inherite">
         <xpath expr="//a[@href='/shop']" position="attributes">

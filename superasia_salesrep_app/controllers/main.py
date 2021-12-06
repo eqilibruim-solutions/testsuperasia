@@ -3,7 +3,7 @@ import werkzeug.utils
 import logging
 _logger = logging.getLogger(__name__)
 
-from odoo import http, tools, _
+from odoo import http, fields, tools, _
 from odoo.http import request
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website_sale.controllers.main import WebsiteSale
@@ -499,6 +499,50 @@ class SalesAgentDashboard(WebsiteSale):
                 'hide_header': True,
             })
         return response
+
+    @http.route(['/sale-rep/sale/sale-order'], type='http', auth="public", website=True, sitemap=False)
+    def sale_order_details(self, **kwargs):
+        if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            return request.not_found()
+        # TODO: checked selected_partner_id field value, if it's empty return to homepage
+        # TODO: check there have any product add in order, if none then return to cart page.
+        context = {}
+        order = request.website.sale_get_order()
+        context.update({
+            'website_sale_order': order,
+            'date': fields.Date.today(),
+            
+            'footer_hide': True,
+            'hide_install_pwa_btn': True,
+            'hide_header': True,
+        })
+        return request.render("superasia_salesrep_app.sales_rep_order_detail", context)
+    
+    @http.route(['/sales-rep/cart/update_discount'], type='json', auth="public", methods=['POST'], website=True, csrf=False)
+    def cart_update_discount(self, product_id, line_id=None, add_qty=None, set_discount=None, display=True):
+        """This route is called when need to add discount from the cart"""
+        order = request.website.sale_get_order()
+        order_line = False
+        if line_id is not False:
+            order_line = request.env['sale.order.line'].sudo().browse(int(line_id))
+            # order_line = order._cart_find_product_line(product_id, line_id)[:1]
+
+        value = {}
+        if order_line:
+            order_line.write({
+                'discount' : float(set_discount) if set_discount else 0.0,
+                'discount_manual_update': True
+            })
+            value['done'] = True
+        value['website_sale.cart_lines'] = request.env['ir.ui.view'].render_template("website_sale.cart_lines", {
+            'website_sale_order': order,
+            'date': fields.Date.today(),
+            'suggested_products': order._cart_accessories()
+        })
+        value['website_sale.short_cart_summary'] = request.env['ir.ui.view'].render_template("website_sale.short_cart_summary", {
+            'website_sale_order': order,
+        })
+        return value
 
 class BistaWebsiteSale(BistaWebsiteSale):
     @http.route('/shop/products/autocomplete', type='json', auth='public', website=True)

@@ -23,6 +23,29 @@ table.sale-rep-cart {
 		input.price_after_disc {
 			border-radius: 50rem !important;
 		}
+		.td-unit-disc {
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+		.td-unit-price-after-disc {
+			padding-left: 0px;
+			padding-right: 0px;
+			.input-icon {
+				width: 100%;
+
+				i.icon {
+					position: absolute;
+					padding: 11px 2px;
+					min-width: 40px;
+				}
+
+				input {
+					padding: 0px;
+					text-align: center;
+				}
+			}
+
+		}
 	}
 }
 
