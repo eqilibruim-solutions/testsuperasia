@@ -21,6 +21,7 @@
         'views/product_info.xml',
         'views/website_navbar_inh.xml',
         'views/cart_page_inherit.xml',
+        'views/sale_order_detail.xml',
     ],
 
     "installable": True,
