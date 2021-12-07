@@ -98,4 +98,9 @@
             <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
         </xpath>
     </template>
+    <template id="sales_rep_wizard_checkout" inherit_id="website_sale.wizard_checkout"  name="Wizard Checkou Inherit">
+        <xpath expr="//div[hasclass('wizard')]" position="attributes">
+            <attribute name="t-attf-class">wizard #{'d-none' if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep') else''}</attribute>
+        </xpath>
+    </template>
 </odoo>
