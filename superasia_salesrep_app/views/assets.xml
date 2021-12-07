@@ -2,7 +2,6 @@
 <odoo>
     <template id="salesrep_app_assets_frontend" inherit_id="web.assets_frontend">
         <xpath expr="//link" position="after">
-            <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.2/css/jquery.dataTables.css"/> -->
             <link rel="stylesheet" type="text/css" href="/superasia_salesrep_app/static/lib/css/datatables.min.css"/>
             <link rel="stylesheet" type="text/scss" href="/superasia_salesrep_app/static/src/scss/sales_rep_home.scss"/>
             <link rel="stylesheet" type="text/scss" href="/superasia_salesrep_app/static/src/scss/account-style.scss"/>
@@ -10,12 +9,12 @@
             <link rel="stylesheet" type="text/scss" href="/superasia_salesrep_app/static/src/scss/order_page.scss"/>
         </xpath>
         <xpath expr="script[last()]" position="after">
-            <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.js"/> -->
             <script type="text/javascript" src="/superasia_salesrep_app/static/lib/js/datatables.min.js"/>
             <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/datatable_table.js"/>
             <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/sales-rep-account.js"/>
             <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/select_account.js"/>
             <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/product-listing.js"/>
+            <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/order_cart.js"/>
         </xpath>
     </template>
     <template id="sales_rep_frontend_layout" name="Sales Rep Frontend Layout" inherit_id="web.frontend_layout">
