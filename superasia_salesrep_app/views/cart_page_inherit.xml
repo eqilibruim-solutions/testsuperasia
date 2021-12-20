@@ -25,9 +25,29 @@
         <xpath expr="//div[hasclass('oe_cart')]//a[@href='/shop']" position="attributes">
             <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
         </xpath>
+        <xpath expr="//div[hasclass('oe_cart')]//a[@href='/shop/checkout?express=1']" position="attributes">
+            <attribute name="t-if">website_sale_order and website_sale_order.website_order_line and not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('oe_cart')]//a[@href='/shop/checkout?express=1']" position="before">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block custom_them_primary text-white" href="/sales-rep/sale/sale-order">
+                        <span>Process Checkout</span>
+                    </a>
+            </t>
+        </xpath>
 
         <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop']" position="attributes">
             <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+        <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop/checkout?express=1']" position="before">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/sales-rep/sale/sale-order">
+                        <span>Process Checkout</span>
+                    </a>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop/checkout?express=1']" position="attributes">
+            <attribute name="t-if">website_sale_order and website_sale_order.website_order_line and not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
         </xpath>
     </template>
 
@@ -97,6 +117,17 @@
         <xpath expr="//a[@href='/shop']" position="attributes">
             <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
         </xpath>
+        <xpath expr="//a[@href='/shop/checkout?express=1']" position="before">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/sales-rep/sale/sale-order">
+                        <span>Process Checkout</span>
+                    </a>
+            </t>
+        </xpath>
+        <xpath expr="//a[@href='/shop/checkout?express=1']" position="attributes">
+            <attribute name="t-if">website_sale_order and website_sale_order.website_order_line and not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+        
     </template>
     <template id="sales_rep_wizard_checkout" inherit_id="website_sale.wizard_checkout"  name="Wizard Checkou Inherit">
         <xpath expr="//div[hasclass('wizard')]" position="attributes">
