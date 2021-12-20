@@ -147,10 +147,12 @@ class SalesAgentDashboard(WebsiteSale):
         }
         return request.render('superasia_salesrep_app.sales_rep_accounts', context)
     
+
     @http.route(['/sales-rep/account/create'], type='http', methods=['GET', 'POST'], auth="user", website=True, sitemap=False)
     def sales_agent_create_account(self, **post):
         """
-        Path/page for creating b2b user account by sales rep.
+        # TODO: separate path/function for update partner account
+        Path/page for creating/updating b2b user account by sales rep.
         """
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
             return request.not_found()
@@ -499,18 +501,66 @@ class SalesAgentDashboard(WebsiteSale):
                 'hide_header': True,
             })
         return response
+    
+    @http.route(['/shop/checkout'], type='http', auth="public", website=True, sitemap=False)
+    def checkout(self, **post):
+        response = super(SalesAgentDashboard, self).checkout(**post)
+        if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            if post.get('xhr'):
+                return werkzeug.utils.redirect('/sales-rep/sale/sale-order')
+        return response
 
-    @http.route(['/sale-rep/sale/sale-order'], type='http', auth="public", website=True, sitemap=False)
-    def sale_order_details(self, **kwargs):
+    @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
+    def address(self, **kw):
+        if not kw.get('country_id') and kw.get('shipping_country_id'):
+            kw.update({
+                'country_id': kw.get('shipping_country_id')
+            })
+        if not kw.get('state_id') and kw.get('shipping_state_id'):
+            kw.update({
+                'state_id': kw.get('shipping_state_id')
+            })
+        response = super(SalesAgentDashboard, self).address(**kw)
+        if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            response.qcontext.update({
+                'footer_hide': True,
+                'hide_install_pwa_btn': True,
+                'hide_header': True,
+            })
+        return response
+
+    @http.route(['/sales-rep/sale/sale-order'], type='http', auth="public", website=True, sitemap=False)
+    def sale_order_details(self, **kw):
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
             return request.not_found()
-        # TODO: checked selected_partner_id field value, if it's empty return to homepage
+        partner_id = request.session.get('selected_partner_id')
+        if partner_id:
+            selected_partner = request.env['res.partner'].browse(partner_id)
+        else:
+            return werkzeug.utils.redirect('/sales-rep/home')
         # TODO: check there have any product add in order, if none then return to cart page.
-        context = {}
         order = request.website.sale_get_order()
+        kw.update({'partner_id': order.partner_shipping_id.id})
+        context = self.checkout_values(**kw)
+        def_country_id = order.partner_id.country_id
+        shipping_values, errors = {}, {}
+        new_shipping_address, new_shipping_errors = {}, {}
+        shipping_values = order.partner_shipping_id
+        partner_id = int(kw.get('partner_id', -1))
+        
+        country = 'country_id' in shipping_values and shipping_values['country_id'] != '' and request.env['res.country'].browse(int(shipping_values['country_id']))
+        country = country and country.exists() or def_country_id
         context.update({
-            'website_sale_order': order,
             'date': fields.Date.today(),
+            'selected_partner': selected_partner,
+            'shipping_values': shipping_values,
+            'new_shipping_address': new_shipping_address,
+            'country': country,
+            'countries': country.get_website_sale_countries(),
+            "states": country.get_website_sale_states(),
+            'error': errors,
+            'new_shipping_error': new_shipping_errors,
+            'callback': '/sales-rep/sale/sale-order',
             
             'footer_hide': True,
             'hide_install_pwa_btn': True,

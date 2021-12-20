@@ -12,6 +12,7 @@ odoo.define('superasia_salesrep_app.cart_extension', function (require) {
         selector: '.oe_website_sale',
         events: _.extend({}, VariantMixin.events || {}, {
             'change .oe_cart input.price_after_disc': '_onChangePriceAfterDisc',
+            'change select[name="shipping_country_id"]': '_onChangeShippingCountry',
         }),
     
         /**
@@ -20,6 +21,7 @@ odoo.define('superasia_salesrep_app.cart_extension', function (require) {
         init: function () {
             this._super.apply(this, arguments);
             this._onChangePriceAfterDisc = _.debounce(this._onChangePriceAfterDisc.bind(this), 500);
+            this._changeShippingCountry = _.debounce(this._changeShippingCountry.bind(this), 500);
 
             this.isWebsite = true;
         },
@@ -64,6 +66,62 @@ odoo.define('superasia_salesrep_app.cart_extension', function (require) {
 
                 });
             }
+        },
+
+        _onChangeShippingCountry: function (ev) {
+            if (!this.$('.checkout_autoformat').length) {
+                return;
+            }
+            this._changeShippingCountry();
+        },
+
+        _changeShippingCountry: function () {
+            if (!$("#shipping_country_id").val()) {
+                return;
+            }
+            this._rpc({
+                route: "/shop/country_infos/" + $("#shipping_country_id").val(),
+                params: {
+                    mode: 'shipping',
+                },
+            }).then(function (data) {
+                // placeholder phone_code
+                //$("input[name='phone']").attr('placeholder', data.phone_code !== 0 ? '+'+ data.phone_code : '');
+    
+                // populate states and display
+                var selectStates = $("select[name='shipping_state_id']");
+                // dont reload state at first loading (done in qweb)
+                if (selectStates.data('init')===0 || selectStates.find('option').length===1) {
+                    if (data.states.length) {
+                        selectStates.html('');
+                        _.each(data.states, function (x) {
+                            var opt = $('<option>').text(x[1])
+                                .attr('value', x[0])
+                                .attr('data-code', x[2]);
+                            selectStates.append(opt);
+                        });
+                        selectStates.parent('div').show();
+                    } else {
+                        selectStates.val('').parent('div').hide();
+                    }
+                    selectStates.data('init', 0);
+                } else {
+                    selectStates.data('init', 0);
+                }
+    
+                // manage fields order / visibility
+                if (data.fields) {
+                    // if ($.inArray('zip', data.fields) > $.inArray('city', data.fields)){
+                    //     $(".div_zip").before($(".div_city"));
+                    // } else {
+                    //     $(".div_zip").after($(".div_city"));
+                    // }
+                    var all_fields = ["street", "zip", "city", "country_name"]; // "state_code"];
+                    _.each(all_fields, function (field) {
+                        $(".checkout_autoformat .div_" + field.split('_')[0]).toggle($.inArray(field, data.fields)>=0);
+                    });
+                }
+            });
         },
 
     });
