@@ -23,6 +23,8 @@
         'views/cart_page_inherit.xml',
         'views/sale_order_detail.xml',
         'views/sale_order.xml',
+        'views/header_footer.xml',
+        'views/http_routing_template.xml',
     ],
 
     "installable": True,
