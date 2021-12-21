@@ -127,3 +127,62 @@ odoo.define('superasia_salesrep_app.cart_extension', function (require) {
     });
     
 });
+
+odoo.define('superasia_salesrep_app.order_page_detail', function (require) {
+    'use strict';
+    
+    var publicWidget = require('web.public.widget');
+
+
+    publicWidget.registry.SalesRepWebsiteSale = publicWidget.Widget.extend({
+        selector: '.sale_rep_order_info',
+        events: {
+            'keyup input[name="purchase_order-dup"]': '_onChangePONumber',
+            'keyup textarea[name="note-dup"]': '_onChangeInternalNote',
+            'click #sale_order_done': '_onClickDoneBtn',
+        },
+    
+        /**
+         * @constructor
+         */
+        init: function () {
+            this._super.apply(this, arguments);
+            // this._onChangePONumber = _.debounce(this._onChangePONumber.bind(this), 500);
+            // this._onChangeInternalNote = _.debounce(this._onChangeInternalNote.bind(this), 500);
+
+        },
+
+        _onChangePONumber: function (ev) {
+            if (!this.$('input[name="purchase_order"]').length) {
+                return;
+            }
+            this._changePONumber(ev);
+        },
+
+        _changePONumber: function (ev) {
+            let poNumber = $(ev.currentTarget).val();
+            $('input[name="purchase_order"]').val(poNumber);
+        },
+
+        _onChangeInternalNote: function (ev) {
+            if (!this.$('textarea[name="note"]').length) {
+                return;
+            }
+            this._changeInternalNote(ev);
+        },
+
+        _changeInternalNote: function (ev) {
+            let comment = $(ev.currentTarget).val();
+            $('textarea[name="note"]').val(comment);
+        },
+
+        _onClickDoneBtn: function (ev) {
+            ev.preventDefault();
+            if ($('form#confirm_order_form').length) {
+                $('form#confirm_order_form').submit();
+            }
+        }
+
+    });
+    
+});

@@ -42,337 +42,344 @@
                     <div class="container-fluid oe_website_sale">
                         <div class="row">
                             <div class="col-12 px-0 mt-4">
-                                <div>
-                                    <div class="container-fluid ml-0 mr-0">
-                                        <div class="first-row">
-                                                <!-- Start General Info -->
-                                                <div class="bg-light bg-gradient border pl-3 text-left">
-                                                    <p class="fs-5 my-1">General Information</p>
+                                <div class="container-fluid ml-0 mr-0">
+                                    <div class="first-row">
+                                            <!-- Start General Info -->
+                                            <div class="bg-light bg-gradient border pl-3 text-left">
+                                                <p class="fs-5 my-1">General Information</p>
+                                            </div>
+                                            <div class="account-info p-2 text-left text-capitalize pl-4 row">
+                                                <div class="col-sm-6 col-md-6">
+                                                    <p class="mb-1">Account Name</p>
+                                                    <p class="font-weight-bold"><t t-esc="selected_partner.name"/></p>
                                                 </div>
-                                                <div class="account-info p-2 text-left text-capitalize pl-4 row">
-                                                    <div class="col-sm-6 col-md-6">
-                                                        <p class="mb-1">Account Name</p>
-                                                        <p class="font-weight-bold"><t t-esc="selected_partner.name"/></p>
-                                                    </div>
-                                                    <div class="col-sm-6 col-md-6">
-                                                        <p class="mb-1">PO Number</p>
-                                                        <input type="text-light" name="ponumber" class="form-control"/>
-                                                    </div>
-                                                    <p class="mb-1">Action Time</p>
-                                                    <p class="font-weight-bold"><t t-esc="date"/></p>
+                                                <div class="col-sm-6 col-md-6">
+                                                    <p class="mb-1">PO Number</p>
+                                                    <input type="text-light" name="purchase_order-dup" class="form-control"/>
+                                                </div>
+                                                <p class="mb-1">Action Time</p>
+                                                <p class="font-weight-bold"><t t-esc="date"/></p>
 
-                                                    <p class="mb-1">Sales Rep Name</p>
-                                                    <p class="font-weight-bold"><t t-esc="request.env.user.name"/></p>
+                                                <p class="mb-1">Sales Rep Name</p>
+                                                <p class="font-weight-bold"><t t-esc="request.env.user.name"/></p>
+                                            </div>
+                                            <!-- End General Info -->
+                                            <!-- Start account info -->
+                                            <div class="bg-light bg-gradient border pl-3">
+                                                <p class="fs-5 mb-1">Account Information</p>
+                                            </div>
+                                            <div class="p-2 text-left text-capitalize pl-4 row">
+                                                <t t-set="same_shipping" t-value="bool(order.partner_shipping_id==order.partner_id or only_services)" />
+                                                <div class="col-sm-12 col-md-6">
+                                                    <p class="fs-5">
+                                                            Billing:
+                                                        </p>
                                                 </div>
-                                                <!-- End General Info -->
-                                                <!-- Start account info -->
-                                                <div class="bg-light bg-gradient border pl-3">
-                                                    <p class="fs-5 mb-1">Account Information</p>
-                                                </div>
-                                                <div class="p-2 text-left text-capitalize pl-4 row">
-                                                    <t t-set="same_shipping" t-value="bool(order.partner_shipping_id==order.partner_id or only_services)" />
-                                                    <div class="col-sm-12 col-md-6">
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div>
                                                         <p class="fs-5">
-                                                                Billing:
-                                                            </p>
+                                                            Shipping: 
+                                                        </p>
+                                                        <button type="button" t-if="len(shippings)&lt;2" class="btn btn-link pl-0 py-0" data-toggle="modal" data-target="#addShippingModal">
+                                                            <span class="text-danger text-decoration-underline" style="font-size: .8rem;"> <i class="fa fa-plus"></i> New</span>
+                                                        </button>
+                                                        <button t-if="not same_shipping" type="button" class="btn btn-link pl-0 py-0" data-toggle="modal" data-target="#editShippingModal">
+                                                            <span class="text-danger text-decoration-underline" style="font-size: .8rem;"> <i class="fa fa-edit"></i> Update</span>
+                                                        </button>
+                                                        <button t-if="not only_services and len(shippings)&gt;1" type="button" class="btn btn-link pl-0 py-0" data-toggle="modal" data-target="#selectShippingModal">
+                                                            <span class="text-danger text-decoration-underline" style="font-size: .8rem;"> <i class="fa fa-check"></i> Select From Existing</span>
+                                                        </button>
+                                                        <span class="font-weight-bold required-color" t-if="same_shipping"> (Same as Billing)</span>
                                                     </div>
-                                                    <div class="col-sm-12 col-md-6">
-                                                        <div>
-                                                            <p class="fs-5">
-                                                                Shipping: 
-                                                            </p>
-                                                            <button type="button" t-if="len(shippings)&lt;2" class="btn btn-link pl-0 py-0" data-toggle="modal" data-target="#addShippingModal">
-                                                                <span class="text-danger text-decoration-underline" style="font-size: .8rem;"> <i class="fa fa-plus"></i> New</span>
-                                                            </button>
-                                                            <button t-if="not same_shipping" type="button" class="btn btn-link pl-0 py-0" data-toggle="modal" data-target="#editShippingModal">
-                                                                <span class="text-danger text-decoration-underline" style="font-size: .8rem;"> <i class="fa fa-edit"></i> Update</span>
-                                                            </button>
-                                                            <button t-if="not only_services and len(shippings)&gt;1" type="button" class="btn btn-link pl-0 py-0" data-toggle="modal" data-target="#selectShippingModal">
-                                                                <span class="text-danger text-decoration-underline" style="font-size: .8rem;"> <i class="fa fa-check"></i> Select From Existing</span>
-                                                            </button>
-                                                            <span class="font-weight-bold required-color" t-if="same_shipping"> (Same as Billing)</span>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Billing Info -->
-                                                    <div class="col-sm-12 col-md-6">
-                                                        <div>
-                                                            <p class="mb-1">Bill to Name</p>
-                                                            <p class="font-weight-bold"><t t-esc='order.partner_id.name'/></p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="mb-1">Bill to Address</p>
-                                                            <p class="font-weight-bold"><t t-esc="order.partner_id" t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"/></p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="mb-1">Bill to Phone</p>
-                                                            <p class="font-weight-bold"><t t-esc="order.partner_id.phone"/></p>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Shipping Info -->
-                                                    <div class="col-sm-12 col-md-6">
-                                                        <div>
-                                                            <p class="mb-1">Ship to Name</p>
-                                                            <p class="font-weight-bold"><t t-esc='order.partner_shipping_id.name'/></p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="mb-1">Ship to Address</p>
-                                                            <p class="font-weight-bold"><t t-esc="order.partner_shipping_id" t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"/></p>
-                                                        </div>
-                                                        <div>
-                                                            <p class="mb-1">Ship to Phone</p>
-                                                            <p class="font-weight-bold"><t t-esc="order.partner_shipping_id.phone"/></p>
-                                                        </div>
-
-                                                    </div>
-
-                                    
                                                 </div>
-                                                <!-- end account-info -->
+                                                <!-- Billing Info -->
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div>
+                                                        <p class="mb-1">Bill to Name</p>
+                                                        <p class="font-weight-bold"><t t-esc='order.partner_id.name'/></p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="mb-1">Bill to Address</p>
+                                                        <p class="font-weight-bold"><t t-esc="order.partner_id" t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"/></p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="mb-1">Bill to Phone</p>
+                                                        <p class="font-weight-bold"><t t-esc="order.partner_id.phone"/></p>
+                                                    </div>
+                                                </div>
+                                                <!-- Shipping Info -->
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div>
+                                                        <p class="mb-1">Ship to Name</p>
+                                                        <p class="font-weight-bold"><t t-esc='order.partner_shipping_id.name'/></p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="mb-1">Ship to Address</p>
+                                                        <p class="font-weight-bold"><t t-esc="order.partner_shipping_id" t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"/></p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="mb-1">Ship to Phone</p>
+                                                        <p class="font-weight-bold"><t t-esc="order.partner_shipping_id.phone"/></p>
+                                                    </div>
 
-                                                <div class="p-2 text-left text-capitalize pl-4">
-                                                    <p class="mb-1">Order Remark</p>
-                                                    <textarea rows="5" name="order-remark" class="form-control"></textarea>
                                                 </div>
 
-                                                <!-- Modal: Edit Shipping Address -->
-                                                <div class="modal fade" id="editShippingModal" tabindex="-1" role="dialog" aria-labelledby="editShippingModalTitle" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="editShippingModalTitle">Update Shipping Address</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">Close</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body oe_cart">
-                                                                <form action="/shop/address" method="post" class="checkout_autoformat">
-                                                                    <div class="form-row">
-                                                                        <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-12 div_name">
-                                                                            <label class="col-form-label" for="name">Name</label>
-                                                                            <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in shipping_values and shipping_values['name']" />
-                                                                        </div>
-                                                                        <div class="w-100"/>
-                                                                        <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
-                                                                            <label class="col-form-label" for="phone">Phone</label>
-                                                                            <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'phone' in shipping_values and shipping_values['phone']" />
-                                                                        </div>
-                                                                        <div class="w-100"/>
-                                                                        <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
-                                                                            <label class="col-form-label" for="street">Street <span class="d-none d-md-inline"> and Number</span></label>
-                                                                            <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="'street' in shipping_values and shipping_values['street']" />
-                                                                        </div>
-                                                                        <div t-attf-class="form-group #{error.get('street2') and 'o_has_error' or ''} col-lg-12 div_street2">
-                                                                            <label class="col-form-label label-optional" for="street2">Street 2</label>
-                                                                            <input type="text" name="street2" t-attf-class="form-control #{error.get('street2') and 'is-invalid' or ''}" t-att-value="'street2' in shipping_values and shipping_values['street2']" />
-                                                                        </div>
-                                                                        <div class="w-100"/>
-                                                                        <t t-set='zip_city' t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'/>
-                                                                        <t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">
-                                                                            <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip_shipping">
-                                                                                <label class="col-form-label label-optional" for="zip">Zip Code</label>
-                                                                                <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in shipping_values and shipping_values['zip']" />
-                                                                            </div>
-                                                                        </t>
-                                                                        <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city_shipping">
-                                                                            <label class="col-form-label" for="city">City</label>
-                                                                            <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in shipping_values and shipping_values['city']" />
-                                                                        </div>
-                                                                        <t t-if="'zip' in zip_city and zip_city.index('zip') &gt; zip_city.index('city')">
-                                                                            <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip_shipping">
-                                                                                <label class="col-form-label label-optional" for="zip">Zip Code</label>
-                                                                                <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in shipping_values and shipping_values['zip']" />
-                                                                            </div>
-                                                                        </t>
-                                                                        <div class="w-100"/>
-                                                                        <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
-                                                                            <label class="col-form-label" for="country_id">Country</label>
-                                                                            <select id="country_id" name="country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
-                                                                                <option value="">Country...</option>
-                                                                                <t t-foreach="countries" t-as="c">
-                                                                                    <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
-                                                                                        <t t-esc="c.name" />
-                                                                                    </option>
-                                                                                </t>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" t-att-style="(not country or not country.state_ids) and 'display: none'">
-                                                                            <label class="col-form-label" for="state_id">State / Province</label>
-                                                                            <select name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
-                                                                                <option value="">State / Province...</option>
-                                                                                <t t-foreach="country and country.state_ids or []" t-as="s">
-                                                                                    <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in shipping_values and country and shipping_values['state_id'] != '' and int(shipping_values['state_id']))">
-                                                                                        <t t-esc="s.name" />
-                                                                                    </option>
-                                                                                </t>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="w-100"/>
-                                                                    </div>
+                                
+                                            </div>
+                                            <!-- end account-info -->
 
-                                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
-                                                                    <input type="hidden" name="submitted" value="1" />
-                                                                    <input type="hidden" name="partner_id" t-att-value="order.partner_shipping_id.id" />
-                                                                    <input type="hidden" name="callback" t-att-value="callback" />
-                                                                    <!-- Example -->
-                                                                    <input type="hidden" name="field_required" t-att-value="'phone,name'" />
+                                            <div class="p-2 text-left text-capitalize pl-4">
+                                                <p class="mb-1">Order Remark</p>
+                                                <textarea rows="5" name="note-dup" class="form-control"></textarea>
+                                            </div>
 
-                                                                    <div class="d-flex justify-content-between">
-                                                                        <a role="button" href="/sales-rep/sale/sale-order" class="btn btn-secondary ">
-                                                                            <span>Cancel</span>
-                                                                        </a>
-                                                                        <a role="button" href="#" class="btn btn-primary  a-submit a-submit-disable a-submit-loading">
-                                                                            <span>Update</span>
-                                                                        </a>
+                                            <form id="confirm_order_form" action="/shop/payment/validate" method="post" class="pt-5 d-none">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                                <textarea class="form-control" name="note" id="comments" rows="3"></textarea>
+                                                <input type="text" name="purchase_order" class="form-control"/>
+                                                <a role="button" class="a-submit d-none" href="#">
+                                                    <span>Confirm Order<span class="fa fa-chevron-right"></span></span>
+                                                </a>
+                                            </form>
+
+                                            <!-- Modal: Edit Shipping Address -->
+                                            <div class="modal fade" id="editShippingModal" tabindex="-1" role="dialog" aria-labelledby="editShippingModalTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editShippingModalTitle">Update Shipping Address</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">Close</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body oe_cart">
+                                                            <form action="/shop/address" method="post" class="checkout_autoformat">
+                                                                <div class="form-row">
+                                                                    <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-12 div_name">
+                                                                        <label class="col-form-label" for="name">Name</label>
+                                                                        <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in shipping_values and shipping_values['name']" />
                                                                     </div>
-                                                                </form>
-                                                            </div>
+                                                                    <div class="w-100"/>
+                                                                    <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
+                                                                        <label class="col-form-label" for="phone">Phone</label>
+                                                                        <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'phone' in shipping_values and shipping_values['phone']" />
+                                                                    </div>
+                                                                    <div class="w-100"/>
+                                                                    <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
+                                                                        <label class="col-form-label" for="street">Street <span class="d-none d-md-inline"> and Number</span></label>
+                                                                        <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="'street' in shipping_values and shipping_values['street']" />
+                                                                    </div>
+                                                                    <div t-attf-class="form-group #{error.get('street2') and 'o_has_error' or ''} col-lg-12 div_street2">
+                                                                        <label class="col-form-label label-optional" for="street2">Street 2</label>
+                                                                        <input type="text" name="street2" t-attf-class="form-control #{error.get('street2') and 'is-invalid' or ''}" t-att-value="'street2' in shipping_values and shipping_values['street2']" />
+                                                                    </div>
+                                                                    <div class="w-100"/>
+                                                                    <t t-set='zip_city' t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'/>
+                                                                    <t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">
+                                                                        <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip_shipping">
+                                                                            <label class="col-form-label label-optional" for="zip">Zip Code</label>
+                                                                            <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in shipping_values and shipping_values['zip']" />
+                                                                        </div>
+                                                                    </t>
+                                                                    <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city_shipping">
+                                                                        <label class="col-form-label" for="city">City</label>
+                                                                        <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in shipping_values and shipping_values['city']" />
+                                                                    </div>
+                                                                    <t t-if="'zip' in zip_city and zip_city.index('zip') &gt; zip_city.index('city')">
+                                                                        <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip_shipping">
+                                                                            <label class="col-form-label label-optional" for="zip">Zip Code</label>
+                                                                            <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in shipping_values and shipping_values['zip']" />
+                                                                        </div>
+                                                                    </t>
+                                                                    <div class="w-100"/>
+                                                                    <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
+                                                                        <label class="col-form-label" for="country_id">Country</label>
+                                                                        <select id="country_id" name="country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
+                                                                            <option value="">Country...</option>
+                                                                            <t t-foreach="countries" t-as="c">
+                                                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                                                                    <t t-esc="c.name" />
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                                                        <label class="col-form-label" for="state_id">State / Province</label>
+                                                                        <select name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
+                                                                            <option value="">State / Province...</option>
+                                                                            <t t-foreach="country and country.state_ids or []" t-as="s">
+                                                                                <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in shipping_values and country and shipping_values['state_id'] != '' and int(shipping_values['state_id']))">
+                                                                                    <t t-esc="s.name" />
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="w-100"/>
+                                                                </div>
+
+                                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                                                <input type="hidden" name="submitted" value="1" />
+                                                                <input type="hidden" name="partner_id" t-att-value="order.partner_shipping_id.id" />
+                                                                <input type="hidden" name="callback" t-att-value="callback" />
+                                                                <!-- Example -->
+                                                                <input type="hidden" name="field_required" t-att-value="'phone,name'" />
+
+                                                                <div class="d-flex justify-content-between">
+                                                                    <a role="button" href="/sales-rep/sale/sale-order" class="btn btn-secondary ">
+                                                                        <span>Cancel</span>
+                                                                    </a>
+                                                                    <a role="button" href="#" class="btn btn-primary  a-submit a-submit-disable a-submit-loading">
+                                                                        <span>Update</span>
+                                                                    </a>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end New Shipping Address -->
+
+                                            <!-- Modal: New Shipping Address -->
+                                            <div class="modal fade" id="addShippingModal" tabindex="-1" role="dialog" aria-labelledby="addShippingModalTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="addShippingModalTitle">New Shipping Address</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">Close</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body order-xl-1 oe_cart">
+                                                            <form action="/shop/address" method="post" class="checkout_autoformat">
+                                                                <div class="form-row">
+                                                                    <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-12 div_name">
+                                                                        <label class="col-form-label" for="name">Name</label>
+                                                                        <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in new_shipping_address and new_shipping_address['name']" />
+                                                                    </div>
+                                                                    <div class="w-100"/>
+                                                                    <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
+                                                                        <label class="col-form-label" for="phone">Phone</label>
+                                                                        <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'phone' in new_shipping_address and new_shipping_address['phone']" />
+                                                                    </div>
+                                                                    <div class="w-100"/>
+                                                                    <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
+                                                                        <label class="col-form-label" for="street">Street <span class="d-none d-md-inline"> and Number</span></label>
+                                                                        <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="'street' in new_shipping_address and new_shipping_address['street']" />
+                                                                    </div>
+                                                                    <div t-attf-class="form-group #{error.get('street2') and 'o_has_error' or ''} col-lg-12 div_street2">
+                                                                        <label class="col-form-label label-optional" for="street2">Street 2</label>
+                                                                        <input type="text" name="street2" t-attf-class="form-control #{error.get('street2') and 'is-invalid' or ''}" t-att-value="'street2' in new_shipping_address and new_shipping_address['street2']" />
+                                                                    </div>
+                                                                    <div class="w-100"/>
+                                                                    <t t-set='zip_city' t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'/>
+                                                                    <t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">
+                                                                        <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip_shipping">
+                                                                            <label class="col-form-label label-optional" for="zip">Zip Code</label>
+                                                                            <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in new_shipping_address and new_shipping_address['zip']" />
+                                                                        </div>
+                                                                    </t>
+                                                                    <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city_shipping">
+                                                                        <label class="col-form-label" for="city">City</label>
+                                                                        <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in new_shipping_address and new_shipping_address['city']" />
+                                                                    </div>
+                                                                    <t t-if="'zip' in zip_city and zip_city.index('zip') &gt; zip_city.index('city')">
+                                                                        <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip_shipping">
+                                                                            <label class="col-form-label label-optional" for="zip">Zip Code</label>
+                                                                            <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in new_shipping_address and new_shipping_address['zip']" />
+                                                                        </div>
+                                                                    </t>
+                                                                    <div class="w-100"/>
+                                                                    <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
+                                                                        <label class="col-form-label" for="shipping_country_id">Country</label>
+                                                                        <select id="shipping_country_id" name="shipping_country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
+                                                                            <option value="">Country...</option>
+                                                                            <t t-foreach="countries" t-as="c">
+                                                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                                                                    <t t-esc="c.name" />
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                                                        <label class="col-form-label" for="shipping_state_id">State / Province</label>
+                                                                        <select name="shipping_state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
+                                                                            <option value="">State / Province...</option>
+                                                                            <t t-foreach="country and country.state_ids or []" t-as="s">
+                                                                                <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in new_shipping_address and country and new_shipping_address['state_id'] != '' and int(new_shipping_address['state_id']))">
+                                                                                    <t t-esc="s.name" />
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="w-100"/>
+                                                                </div>
+
+                                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                                                <input type="hidden" name="submitted" value="1" />
+                                                                <input type="hidden" name="partner_id" t-att-value="-1" />
+                                                                <input type="hidden" name="callback" t-att-value="callback" />
+                                                                <!-- Example -->
+                                                                <input type="hidden" name="field_required" t-att-value="'phone,name'" />
+
+                                                                <div class="d-flex justify-content-between">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <a role="button" href="#" class="btn btn-primary  a-submit a-submit-disable a-submit-loading">
+                                                                        Save
+                                                                    </a>
+                                                                </div>
+                                                            </form>
 
                                                         </div>
                                                     </div>
-                                                </div> <!-- end New Shipping Address -->
+                                                </div>
+                                            </div> <!-- end New Shipping Address -->
 
-                                                <!-- Modal: New Shipping Address -->
-                                                <div class="modal fade" id="addShippingModal" tabindex="-1" role="dialog" aria-labelledby="addShippingModalTitle" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="addShippingModalTitle">New Shipping Address</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">Close</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body order-xl-1 oe_cart">
-                                                                <form action="/shop/address" method="post" class="checkout_autoformat">
-                                                                    <div class="form-row">
-                                                                        <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-12 div_name">
-                                                                            <label class="col-form-label" for="name">Name</label>
-                                                                            <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in new_shipping_address and new_shipping_address['name']" />
+                                            <!-- Select shipping address from multiple shipping address -->
+                                            <div class="modal fade" id="selectShippingModal" tabindex="-1" role="dialog" aria-labelledby="selectShippingModal" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="selectShippingModal">Select Below Shipping Address</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">Close</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body oe_cart">
+                                                                <div class="row all_shipping">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="row mt8">
+                                                                            <t t-foreach="shippings" t-as="ship">
+                                                                                <div class="col-md-12 col-lg-6 one_kanban">
+                                                                                    <t t-call="website_sale.address_kanban">
+                                                                                        <t t-set="actual_partner" t-value="request.env.user.partner_id"/> 
+                                                                                        <t t-set='contact' t-value="ship"/>
+                                                                                        <t t-set='selected' t-value="order.partner_shipping_id==ship"/>
+                                                                                        <t t-set='readonly' t-value="bool(len(shippings)==1)"/>
+                                                                                        <t t-set='edit_billing' t-value="False"/>
+                                                                                    </t>
+                                                                                </div>
+                                                                            </t>
                                                                         </div>
-                                                                        <div class="w-100"/>
-                                                                        <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
-                                                                            <label class="col-form-label" for="phone">Phone</label>
-                                                                            <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'phone' in new_shipping_address and new_shipping_address['phone']" />
-                                                                        </div>
-                                                                        <div class="w-100"/>
-                                                                        <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
-                                                                            <label class="col-form-label" for="street">Street <span class="d-none d-md-inline"> and Number</span></label>
-                                                                            <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="'street' in new_shipping_address and new_shipping_address['street']" />
-                                                                        </div>
-                                                                        <div t-attf-class="form-group #{error.get('street2') and 'o_has_error' or ''} col-lg-12 div_street2">
-                                                                            <label class="col-form-label label-optional" for="street2">Street 2</label>
-                                                                            <input type="text" name="street2" t-attf-class="form-control #{error.get('street2') and 'is-invalid' or ''}" t-att-value="'street2' in new_shipping_address and new_shipping_address['street2']" />
-                                                                        </div>
-                                                                        <div class="w-100"/>
-                                                                        <t t-set='zip_city' t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'/>
-                                                                        <t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">
-                                                                            <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip_shipping">
-                                                                                <label class="col-form-label label-optional" for="zip">Zip Code</label>
-                                                                                <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in new_shipping_address and new_shipping_address['zip']" />
-                                                                            </div>
-                                                                        </t>
-                                                                        <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city_shipping">
-                                                                            <label class="col-form-label" for="city">City</label>
-                                                                            <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in new_shipping_address and new_shipping_address['city']" />
-                                                                        </div>
-                                                                        <t t-if="'zip' in zip_city and zip_city.index('zip') &gt; zip_city.index('city')">
-                                                                            <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip_shipping">
-                                                                                <label class="col-form-label label-optional" for="zip">Zip Code</label>
-                                                                                <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in new_shipping_address and new_shipping_address['zip']" />
-                                                                            </div>
-                                                                        </t>
-                                                                        <div class="w-100"/>
-                                                                        <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
-                                                                            <label class="col-form-label" for="shipping_country_id">Country</label>
-                                                                            <select id="shipping_country_id" name="shipping_country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
-                                                                                <option value="">Country...</option>
-                                                                                <t t-foreach="countries" t-as="c">
-                                                                                    <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
-                                                                                        <t t-esc="c.name" />
-                                                                                    </option>
-                                                                                </t>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" t-att-style="(not country or not country.state_ids) and 'display: none'">
-                                                                            <label class="col-form-label" for="shipping_state_id">State / Province</label>
-                                                                            <select name="shipping_state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
-                                                                                <option value="">State / Province...</option>
-                                                                                <t t-foreach="country and country.state_ids or []" t-as="s">
-                                                                                    <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in new_shipping_address and country and new_shipping_address['state_id'] != '' and int(new_shipping_address['state_id']))">
-                                                                                        <t t-esc="s.name" />
-                                                                                    </option>
-                                                                                </t>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="w-100"/>
                                                                     </div>
+                                                                </div>
 
-                                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
-                                                                    <input type="hidden" name="submitted" value="1" />
-                                                                    <input type="hidden" name="partner_id" t-att-value="-1" />
-                                                                    <input type="hidden" name="callback" t-att-value="callback" />
-                                                                    <!-- Example -->
-                                                                    <input type="hidden" name="field_required" t-att-value="'phone,name'" />
-
-                                                                    <div class="d-flex justify-content-between">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                        <a role="button" href="#" class="btn btn-primary  a-submit a-submit-disable a-submit-loading">
-                                                                            Save
-                                                                        </a>
-                                                                    </div>
-                                                                </form>
-
-                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a role="button" href="/sales-rep/sale/sale-order" class="btn btn-secondary ">
+                                                                        Close
+                                                            </a>
+                                                            <a role="button" href="/sales-rep/sale/sale-order" class="btn btn-primary ">
+                                                                        Save Changes
+                                                            </a>
                                                         </div>
                                                     </div>
-                                                </div> <!-- end New Shipping Address -->
-
-                                                <!-- Select shipping address from multiple shipping address -->
-                                                <div class="modal fade" id="selectShippingModal" tabindex="-1" role="dialog" aria-labelledby="selectShippingModal" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="selectShippingModal">Select Below Shipping Address</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">Close</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body order-xl-1 oe_cart">
-                                                                    <div class="row all_shipping">
-                                                                        <div class="col-lg-12">
-                                                                            <div class="row mt8">
-                                                                                <t t-foreach="shippings" t-as="ship">
-                                                                                    <div class="col-md-12 col-lg-6 one_kanban">
-                                                                                        <t t-call="website_sale.address_kanban">
-                                                                                            <t t-set="actual_partner" t-value="request.env.user.partner_id"/> 
-                                                                                            <t t-set='contact' t-value="ship"/>
-                                                                                            <t t-set='selected' t-value="order.partner_shipping_id==ship"/>
-                                                                                            <t t-set='readonly' t-value="bool(len(shippings)==1)"/>
-                                                                                            <t t-set='edit_billing' t-value="False"/>
-                                                                                        </t>
-                                                                                    </div>
-                                                                                </t>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <a role="button" href="/sales-rep/sale/sale-order" class="btn btn-secondary ">
-                                                                            Close
-                                                                </a>
-                                                                <a role="button" href="/sales-rep/sale/sale-order" class="btn btn-primary ">
-                                                                            Save Changes
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> <!-- end Select shipping address -->
+                                                </div>
+                                            </div> <!-- end Select shipping address -->
 
 
 
-                                        </div><!-- end first-row -->
-                                    </div><!-- end container-fluid -->
-                                </div><!-- end form -->
+                                    </div><!-- end first-row -->
+                                </div><!-- end container-fluid -->
                                 
                             </div>
                         </div>
