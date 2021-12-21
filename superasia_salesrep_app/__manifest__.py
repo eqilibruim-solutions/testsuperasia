@@ -25,6 +25,7 @@
         'views/sale_order.xml',
         'views/header_footer.xml',
         'views/http_routing_template.xml',
+        'views/catalogue-product-listing.xml'
     ],
 
     "installable": True,

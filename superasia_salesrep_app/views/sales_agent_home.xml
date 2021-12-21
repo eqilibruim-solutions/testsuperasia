@@ -74,7 +74,7 @@
                                     <a href="/sales-rep/all-accounts" class="btn btn-light rounded-0 custom-font-size">Accounts</a>
                                     <a href="#" class="btn btn-light rounded-0 custom-font-size" data-toggle="modal" data-target="#saleOderModalCenter" data-backdrop="false">Sales Order</a>
                                     <a href="#" class="btn btn-light rounded-0 pl-4 pr-4 custom-font-size">Due</a>
-                                    <a href="#" class="btn btn-light rounded-0 custom-font-size">Catalogue</a>
+                                    <a href="/sales-rep/catalogue" class="btn btn-light rounded-0 custom-font-size">Catalogue</a>
                                 </div>
                                 <div class="col-2 col-sm-2 col-md-2"></div>
                             </div><!-- end col-12 -->

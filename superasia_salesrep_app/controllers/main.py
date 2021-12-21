@@ -312,12 +312,158 @@ class SalesAgentDashboard(WebsiteSale):
         }
     
     @http.route([
+        '''/sales-rep/catalogue''',
+        '''/sales-rep/catalogue/page/<int:page>''',
+        '''/sales-rep/catalogue/category/<model("product.public.category"):category>''',
+        '''/sales-rep/catalogue/category/<model("product.public.category"):category>/page/<int:page>'''
+        ], type='http', auth="user", website=True)
+    def sales_rep_catalogue_shop(self, page=0, category=None, search='', ppg=False, **post):
+        if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            return request.not_found()
+        request.session['selected_partner_id'] = False
+        add_qty = int(post.get('add_qty', 1))
+        Category = request.env['product.public.category']
+
+        if category:
+            category = Category.search([('id', '=', int(category))], limit=1)
+            if not category or not category.can_access_from_current_website():
+                raise NotFound()
+        else:
+            category = Category
+
+        if ppg:
+            try:
+                ppg = int(ppg)
+                post['ppg'] = ppg
+            except ValueError:
+                ppg = False
+        if not ppg:
+            # ppg = request.env['website'].get_current_website().shop_ppg or 90
+            ppg = 30
+        # ppr = request.env['website'].get_current_website().shop_ppr or 90
+        
+        attrib_list = request.httprequest.args.getlist('attrib')
+        attrib_values = [[int(x) for x in v.split("-")] for v in attrib_list if v]
+        attributes_ids = {v[0] for v in attrib_values}
+        attrib_set = {v[1] for v in attrib_values}
+        domain = self._get_search_domain(search, category, attrib_values)
+        domain.append(('is_hide_b2b', '=', False))
+
+        keep = QueryURL('/sales-rep/catalogue', category=category and int(category), search=search, attrib=attrib_list,
+                        order=post.get('order'))
+        pricelist_context, pricelist = self._get_pricelist_context()
+        request.context = dict(request.context, pricelist=pricelist.id, partner=request.env.user.partner_id)
+
+        url = "/sales-rep/catalogue"
+        if search:
+            post["search"] = search
+        if attrib_list:
+            post['attrib'] = attrib_list
+
+        Product = request.env['product.template'].with_context(bin_size=True)
+        search_product = Product.search(domain, order=self._get_search_order(post))
+        website_domain = request.website.website_domain()
+        categs_domain = [('parent_id', '=', False)] + website_domain
+
+        
+        search_categories = Category
+        categs = Category.search(categs_domain)
+
+        if category:
+            url = "/sales-rep/catalogue/category/%s" % slug(category)
+
+        product_count = len(search_product)
+        pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
+        offset = pager['offset']
+        products = search_product[offset: offset + ppg]
+        ProductAttribute = request.env['product.attribute']
+        if products:
+            # get all products without limit
+            attributes = ProductAttribute.search([('product_tmpl_ids', 'in', search_product.ids)])
+        else:
+            attributes = ProductAttribute.browse(attributes_ids)
+
+        layout_mode = 'grid'
+        ppr = 2
+
+        domain_1 = self._get_search_domain_new(search, category)
+        domain_1.append(('is_hide_b2b', '=', False))
+
+        product_without_filter = Product.search(domain_1)
+        ProductAttribute = request.env['product.attribute']
+        attributes_ids_b = request.env[
+            'product.attribute'].browse(set(attributes_ids))
+        appied_filter_result = attributes_ids_b
+        applied_filter_values = attrib_set
+        attrib_category_ids = []
+        variant_count = {}
+
+        if product_without_filter:
+            attributes_ids_all = ProductAttribute.search(
+                [('attribute_line_ids.product_tmpl_id', 'in', product_without_filter.ids)])
+        else:
+            attributes_ids_all = attributes
+        for i in range(len(attributes_ids_all)):
+            if attributes_ids_all[i].category_id and attributes_ids_all[i].value_ids and len(attributes_ids_all[i].value_ids) > 1 and attributes_ids_all[i].category_id.id not in attrib_category_ids:
+                attrib_category_ids.append(
+                    attributes_ids_all[i].category_id.id)
+
+            for v in attributes_ids_all[i].value_ids:
+                actual_domain = domain_1 + \
+                    [('attribute_line_ids.value_ids', 'in', [v.id])]
+                variant_count.update(
+                    {v.id: Product.search_count(actual_domain)})
+
+        attrib_category = request.env[
+            'product.attribute.category'].browse(set(attrib_category_ids))
+        variant_counts = variant_count
+    
+        values = {
+            'search': search,
+            'category': category,
+            'current_category': category,
+            'attrib_values': attrib_values,
+            'attrib_set': attrib_set,
+            'pager': pager,
+            'pricelist': pricelist,
+            'add_qty': add_qty,
+            'products': products,
+            'search_count': product_count,  # common for all searchbox
+            'bins': TableCompute().process(products, 30, ppr),
+            'ppg': 30,
+            'ppr': ppr,
+            'categories': categs,
+            'public_categories': categs,
+            'attributes': attributes,
+            'keep': keep,
+            'search_categories_ids': search_categories.ids,
+            'layout_mode': layout_mode,
+            'selected_partner': False,
+            
+            'appied_filter_result': appied_filter_result,
+            'applied_filter_values': applied_filter_values,
+            'attrib_category': attrib_category,
+            'variant_counts': variant_counts,
+
+            'footer_hide': True,
+            'hide_install_pwa_btn': True,
+            'hide_header': True,
+        }
+        if category:
+            values['main_object'] = category
+
+        return request.render('superasia_salesrep_app.sales_rep_catalogue_product', values)
+
+    
+    @http.route([
         '''/sales-rep/sale''',
         '''/sales-rep/sale/page/<int:page>''',
         '''/sales-rep/sale/category/<model("product.public.category"):category>''',
         '''/sales-rep/sale/category/<model("product.public.category"):category>/page/<int:page>'''
         ], type='http', auth="user", website=True)
     def sales_rep_sale_shop(self, page=0, category=None, search='', ppg=False, **post):
+        if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            return request.not_found()
         partner_id = request.session.get('selected_partner_id')
         if partner_id:
             selected_partner = request.env['res.partner'].browse(partner_id)

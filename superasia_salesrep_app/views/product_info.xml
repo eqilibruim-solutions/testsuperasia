@@ -6,7 +6,7 @@
         <t t-set="combination" t-value="product._get_first_possible_combination()"/>
         <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist)"/>
         <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
-
+        <t t-set="selected_partner" t-value="request.session.get('selected_partner_id')"/>
         <t t-call="website.layout">
             <t t-set="additional_title">Item Info</t>
             <div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale">
@@ -18,9 +18,16 @@
                             <div class="row">
                             <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
                                 <div class="text-light float-left">
-                                    <a href="/sales-rep/sale" class="font-weight-bold text-white">
-                                        <i class="fa fa-angle-left"></i> Back
-                                    </a>
+                                    <t t-if="selected_partner">
+                                        <a href="/sales-rep/sale" class="font-weight-bold text-white">
+                                            <i class="fa fa-angle-left"></i> Back
+                                        </a>
+                                    </t>
+                                    <t t-else="">
+                                        <a href="/sales-rep/catalogue" class="font-weight-bold text-white">
+                                            <i class="fa fa-angle-left"></i> Back
+                                        </a>
+                                    </t>
                                 </div>
                             </div>
                             <div class="col-12 col-md-7 col-sm-7 text-center">
@@ -30,7 +37,7 @@
                             </div>
                             <div class="col-12 col-sm-3 col-md-3 text-right pt-2">
                                 <t t-set="website_sale_order" t-value="website.sale_get_order()" />
-                                <a href="/shop/cart">
+                                <a href="/shop/cart" t-if="selected_partner">
                                     <i class="fa bi bi-cart" style="color: #fff;font-size: 1.8rem;"></i>
                                     <sup t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''" style="font-size: calc(10px);important;border-radius: 15px;background:#fff;color: #BE252B; vertical-align: top !important;"/>
                                 </a>
@@ -78,7 +85,7 @@
                         <div class="py-3">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-md-12 text-center">
+                                    <div class="col-md-12 text-center" t-if="selected_partner">
                                         <form t-if="product._is_add_to_cart_possible()" method="POST">
                                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                                             <div class="js_product js_main_product mt-1">
