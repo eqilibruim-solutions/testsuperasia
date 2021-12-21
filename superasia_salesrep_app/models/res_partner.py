@@ -17,5 +17,6 @@ class ResPartner(models.Model):
                 'sale_rep_user': self.env.user.id,
                 'sale_rep_create': True
             })
-        partners = super(ResPartner, self).create(vals)
+        partner = super(ResPartner, self).create(vals)
+        return partner
 
