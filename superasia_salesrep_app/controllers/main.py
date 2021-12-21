@@ -342,7 +342,7 @@ class SalesAgentDashboard(WebsiteSale):
                 ppg = False
         if not ppg:
             # ppg = request.env['website'].get_current_website().shop_ppg or 90
-            ppg = 90
+            ppg = 30
         # ppr = request.env['website'].get_current_website().shop_ppr or 90
         
         attrib_list = request.httprequest.args.getlist('attrib')
@@ -447,8 +447,8 @@ class SalesAgentDashboard(WebsiteSale):
             'add_qty': add_qty,
             'products': products,
             'search_count': product_count,  # common for all searchbox
-            'bins': TableCompute().process(products, 90, ppr),
-            'ppg': 90,
+            'bins': TableCompute().process(products, 30, ppr),
+            'ppg': 30,
             'ppr': ppr,
             'categories': categs,
             'public_categories': categs,
@@ -500,14 +500,6 @@ class SalesAgentDashboard(WebsiteSale):
                 'hide_install_pwa_btn': True,
                 'hide_header': True,
             })
-        return response
-    
-    @http.route(['/shop/checkout'], type='http', auth="public", website=True, sitemap=False)
-    def checkout(self, **post):
-        response = super(SalesAgentDashboard, self).checkout(**post)
-        if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            if post.get('xhr'):
-                return werkzeug.utils.redirect('/sales-rep/sale/sale-order')
         return response
 
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
@@ -593,6 +585,19 @@ class SalesAgentDashboard(WebsiteSale):
             'website_sale_order': order,
         })
         return value
+    
+    @http.route(['/shop/confirmation'], type='http', auth="public", website=True, sitemap=False)
+    def payment_confirmation(self, **post):
+        response = super(SalesAgentDashboard, self).payment_confirmation(**post)
+        if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            sale_order_id = request.session.get('sale_last_order_id')
+            if sale_order_id:
+                response.qcontext.update({
+                    'footer_hide': True,
+                    'hide_install_pwa_btn': True,
+                    'hide_header': True,
+                })
+        return response
 
 class BistaWebsiteSale(BistaWebsiteSale):
     @http.route('/shop/products/autocomplete', type='json', auth='public', website=True)
@@ -605,3 +610,50 @@ class BistaWebsiteSale(BistaWebsiteSale):
                     'website_url': app_website_url,
                 })
         return res
+    
+    @http.route('/shop/payment/validate', type='http', auth="public", website=True, sitemap=False)
+    def payment_validate(self, transaction_id=None, sale_order_id=None, **post):
+        """ """
+        if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            partner_id = request.session.get('selected_partner_id')
+            if partner_id:
+                selected_user = request.env['res.users'].search([('partner_id', '=', partner_id)], limit=1)
+            else:
+                return werkzeug.utils.redirect('/sales-rep/home')
+
+            if sale_order_id is None:
+                order = request.website.sale_get_order()
+            else:
+                order = request.env['sale.order'].sudo().browse(sale_order_id)
+                assert order.id == request.session.get('sale_last_order_id')
+
+            user_obj=request.env['res.users']
+
+            b2bid = request.env['ir.model.data'].get_object('superasiab2b_b2c','group_b2baccount')
+            group_list = [b2bid.id]
+
+            user_data=user_obj.search([('id','=',selected_user.id),('groups_id','in',group_list)])
+            if user_data:
+                order.write({
+                    'note': post.get('note', ''),
+                    'purchase_order': post.get('purchase_order', ''),
+                    'b2b_confirmed': True,
+                })
+
+                # order.onchange_partner_shipping_id()
+                # order.order_line._compute_tax_id()
+                request.session['sale_last_order_id'] = order.id
+                # request.website.sale_get_order(update_pricelist=True)
+                order.action_quotation_sent()
+                mail_template = request.env.ref('superasiab2b_b2c.mail_template_b2b_sale_confirmation')
+                if not mail_template:
+                    mail_template = request.env.ref('sale.mail_template_sale_confirmation')
+                mail_template.send_mail(order.id, force_send=True)
+                request.website.sale_reset()
+                return request.redirect('/shop/confirmation')
+        
+        res = super(BistaWebsiteSale, self).payment_validate(transaction_id, sale_order_id, **post)
+        return res
+
+
+    

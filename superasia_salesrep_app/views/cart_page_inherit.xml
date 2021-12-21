@@ -5,20 +5,22 @@
     <template id="sales_rep_cart_inherite" inherit_id="website_sale.cart"  name="Sales Rep Cart Inherit">
         <xpath expr="//div[hasclass('container', 'oe_website_sale' )]" position="before">
             <div class="container-fluid" id="super_top_menu_cart" t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
-                <div class="row">
-                    <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
-                        <div class="text-light float-left">
-                            <a href="/sales-rep/sale" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Shop</a>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
+                            <div class="text-light float-left">
+                                <a href="/sales-rep/sale" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Shop</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-8 col-sm-8 text-center">
-                        <div class="account-name-style">
-                            <h5 class="pt-2">
-                                <a href="#" class="font-weight-bold text-white"><t t-esc="selected_partner.name"/> </a>
-                            </h5>
+                        <div class="col-12 col-md-8 col-sm-8 text-center">
+                            <div class="account-name-style">
+                                <h5 class="pt-2">
+                                    <a href="#" class="font-weight-bold text-white"><t t-esc="selected_partner.name"/> </a>
+                                </h5>
+                            </div>
                         </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
                     </div>
-                    <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
                 </div>
             </div>
         </xpath>
@@ -41,7 +43,7 @@
         </xpath>
         <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop/checkout?express=1']" position="before">
             <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
-                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/sales-rep/sale/sale-order">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block custom_them_primary text-white" href="/sales-rep/sale/sale-order">
                         <span>Process Checkout</span>
                     </a>
             </t>
@@ -119,7 +121,7 @@
         </xpath>
         <xpath expr="//a[@href='/shop/checkout?express=1']" position="before">
             <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
-                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/sales-rep/sale/sale-order">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block custom_them_primary text-white" href="/sales-rep/sale/sale-order">
                         <span>Process Checkout</span>
                     </a>
             </t>
@@ -132,6 +134,25 @@
     <template id="sales_rep_wizard_checkout" inherit_id="website_sale.wizard_checkout"  name="Wizard Checkou Inherit">
         <xpath expr="//div[hasclass('wizard')]" position="attributes">
             <attribute name="t-attf-class">wizard #{'d-none' if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep') else''}</attribute>
+        </xpath>
+    </template>
+
+    <template id="sales_rep_confirmation" inherit_id="website_sale.confirmation" name="Sales Rep Confirmation">
+        <xpath expr="//div[hasclass('container', 'oe_website_sale' )]" position="before">
+            <div class="container-fluid" id="super_top_menu_cart" t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
+                            <div class="text-light float-left">
+                                <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Dashboard</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-sm-8 text-center">
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
+                    </div>
+                </div>
+            </div>
         </xpath>
     </template>
 </odoo>
