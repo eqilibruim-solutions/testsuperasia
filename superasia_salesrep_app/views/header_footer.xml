@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_app_custom_header" inherit_id="bista_superasia_theme.superasia_custom_header">
+        <xpath expr="//header[@id='header']" position="attributes">
+            <attribute name="t-attf-class">#{'d-none' if hide_header or request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep') else ''}</attribute>
+        </xpath>
+    </template>
+
+    <template id="sales_rep_frontend_layout" name="Sales Rep Frontend Layout" inherit_id="web.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']/footer" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep') </attribute>
+        </xpath>
+    </template>
+
+</odoo>

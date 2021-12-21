@@ -17,9 +17,4 @@
             <script type="text/javascript" src="/superasia_salesrep_app/static/src/js/order_cart.js"/>
         </xpath>
     </template>
-    <template id="sales_rep_frontend_layout" name="Sales Rep Frontend Layout" inherit_id="web.frontend_layout">
-        <xpath expr="//div[@id='wrapwrap']/footer" position="attributes">
-            <attribute name="t-if">not footer_hide</attribute>
-        </xpath>
-    </template>
 </odoo>
