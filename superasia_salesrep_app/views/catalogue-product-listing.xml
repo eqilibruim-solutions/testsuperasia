@@ -7,7 +7,7 @@
             <div id="wrap">
                 <div class="oe_structure"/>
                 <!-- ======= Header ======= -->
-                <div class="sale_rep_product_list">
+                <div class="sale_rep_product_list d-inline">
                     <div id="super_top_menu">
                         <div class="container-fluid">
                             <div class="row">
@@ -28,7 +28,7 @@
                         </div><!-- end container -->
                     </div><!-- end #super_top_menu -->
 
-                    <div id="function_top_menu">
+                    <div id="function_top_menu" class="sticky-top">
                         <div class="container">
                             <div class="row">
                                 <div class="col-12 col-sm-8 col-md-8 text-center">
@@ -95,7 +95,7 @@
                                             <t t-set="special_categ_url" t-value="0"/>
                                             <t t-set="new_arrivals_categ_url" t-value="0"/>
                                             <select id="product-category" class="product-listing-tags form-control">
-                                                <option t-att-value="keep('/sales-rep/catalogue', category=0)">Main (All)</option>
+                                                <option value="/sales-rep/catalogue">Main (All)</option>
                                                 <t t-foreach="categories" t-as="c">
                                                     <t t-if="c.name.lower() == 'specials'">
                                                         <t t-set="special_categ_url" t-value="keep('/sales-rep/catalogue/category/' + slug(c), category=0)"/>
@@ -202,12 +202,8 @@
                             </div>
                         </div>
                                         </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="products_pager form-inline justify-content-center mt-3">
-                                <t t-call="website.pager"/>
-                            </div>
-                        </div>
+                    <div class="my-5">
+
                     </div>
                 </div>
 
