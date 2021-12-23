@@ -32,7 +32,7 @@
                         <div class="row">
                         <div class="col-12 col-sm-1 col-md-1 logo float-left pt-2">
                             <div class="text-light float-left">
-                                <a role="button" data-toggle="collapse" href="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+                                <a role="button" data-toggle="collapse" href="#" aria-expanded="false" aria-controls="">
                                     <i class="icofont-filter"></i>
                                 </a>
                             </div>
