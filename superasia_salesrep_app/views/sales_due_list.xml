@@ -66,7 +66,7 @@
                                     <tr>
                                         <td scope="row" class="font-weight-bold"><t t-esc="so.name"/></td>
                                         <td class="font-weight-bold"><t t-esc="so.date_order"/></td>
-                                        <td class="font-weight-bold"><t t-esc="so.amount_total"/></td>
+                                        <td class="font-weight-bold">$ <t t-esc="so.amount_total"/></td>
                                         <td class="font-weight-bold"><t t-esc="dict(so._fields['invoice_status'].selection).get(so.invoice_status)"/></td>
                                     </tr>
                                 </t>
