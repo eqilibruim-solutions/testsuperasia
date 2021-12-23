@@ -13,7 +13,7 @@
                             <div class="row">
                             <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
                                 <div class="text-light float-left">
-                                    <a href="#" onclick="history.back(-1)" class="font-weight-bold text-white">Back</a>
+                                    <a t-attf-href="/sales-rep/all-accounts" class="font-weight-bold text-white">Back</a>
                                 </div>
                             </div>
                             <div class="col-12 col-md-8 col-sm-8 text-center">
@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-12 col-sm-2 col-md-2 text-right pt-2">
                                 <div class="text-light float-right account-name-style">
-                                    <a t-attf-href="/sales-rep/account/create?partner_id=#{partner_id}"  class="font-weight-bold text-white">
+                                    <a t-attf-href="/sales-rep/account/create?partner_id=#{partner_id.id}"  class="font-weight-bold text-white">
                                     <i class="fa fa-edit"/> Edit
                                     </a>
                                 </div>
@@ -35,6 +35,18 @@
 
                 <!-- ======= Accounts Table Section ======= -->
                 <div class="container-fluid accounts-table section-bg oe_website_sale">
+                    <div class="row">
+                        <div class="col-6">
+                            <a t-attf-href="/sales-rep/account/#{partner_id.id}/sales" class="btn btn-block stat-info mt-3 py-4"> 
+                            <t t-esc="partner_id.sale_order_count"/> Sales
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a t-attf-href="/sales-rep/account/#{partner_id.id}/dues" class="btn btn-block stat-info mt-3 py-4"> 
+                            $<t t-esc="partner_id.total_due"/> Dues
+                            </a>
+                        </div>
+                    </div>
                     <div class="add-edit-account-form">
                         <form class="row pt-3">
 

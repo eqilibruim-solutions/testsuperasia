@@ -293,7 +293,7 @@ class SalesAgentDashboard(WebsiteSale):
             'footer_hide': True,
             'hide_install_pwa_btn': True,
             'hide_header': True,
-            'partner_id': partner_id,
+            'partner_id': partner_obj,
             'error': {},
             'form_values': form_values,
             'country': country,
@@ -310,7 +310,47 @@ class SalesAgentDashboard(WebsiteSale):
         return {
             'redirect_url': '/sales-rep/sale/'
         }
+    @http.route(['/sales-rep/account/<int:partner_id>/sales'], type='http', methods=['GET'], auth="user", website=True, csrf=False)
+    def sales_agent_partner_sales(self, partner_id, **kw):
+        """ All sale order record for given partner"""
+        partner_obj = request.env['res.partner'].browse(partner_id)
+        if not partner_obj or not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            return request.not_found()
+        sale_orders = []
+        res_partner = request.env['res.partner']
+        all_partners = res_partner.with_context(active_test=False).search([('id', 'child_of', partner_obj.ids)])
+        all_partners.read(['parent_id'])
+
+        sale_orders = request.env['sale.order'].search([('partner_id', 'in', all_partners.ids)])
+        
+        context = {
+            'footer_hide': True,
+            'hide_install_pwa_btn': True,
+            'hide_header': True,
+            'partner_id': partner_obj,
+            'sale_orders': sale_orders
+            
+        }
+        return request.render('superasia_salesrep_app.sales_rep_account_sale', context)
     
+
+    @http.route(['/sales-rep/account/<int:partner_id>/dues'], type='http', methods=['GET'], auth="user", website=True, csrf=False)
+    def sales_agent_partner_dues(self, partner_id, **kw):
+        """ All Due invoice records for given partner"""
+        partner_obj = request.env['res.partner'].browse(partner_id)
+        if not partner_obj or not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            return request.not_found()
+
+        context = {
+            'footer_hide': True,
+            'hide_install_pwa_btn': True,
+            'hide_header': True,
+            'partner_id': partner_obj,
+            'due_invoices': partner_obj.unpaid_invoices,
+            
+        }
+        return request.render('superasia_salesrep_app.sales_rep_account_due', context)
+
     @http.route([
         '''/sales-rep/catalogue''',
         '''/sales-rep/catalogue/page/<int:page>''',
