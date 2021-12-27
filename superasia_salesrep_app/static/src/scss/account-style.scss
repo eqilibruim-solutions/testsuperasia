@@ -42,17 +42,18 @@
 		width: 100%;
 		background: #ac1520;
 		padding: 5px 0;
-		height: 50px;
+		padding-bottom: 10px;
 	}
 	#function_top_menu {
 		width: 100%;
 		background: #E8E8E8;
 		padding: 5px 0;
-		height: 50px;
+		padding-bottom: 10px;
 		a {
 			color: #202020;
 		}
 	}
+
 
 
 	[class*=" icofont-"], [class^=icofont-] {
@@ -68,6 +69,13 @@
 		}
 	}
 	
+}
+.add-edit-account-form {
+	label:not(.label-optional):after {
+		color: #e32;
+	   content: ' *';
+	   display:inline;
+   }
 }
 #search-button {
 	top: 10%;
