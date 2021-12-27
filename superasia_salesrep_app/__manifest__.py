@@ -14,6 +14,7 @@
         'security/access_rights.xml',
         'views/assets.xml',
         'views/sales_agent_home.xml',
+        'views/res_partner.xml',
         'views/accounts.xml',
         'views/add-account.xml',
         'views/account-detail.xml',

@@ -7,14 +7,16 @@ from odoo import api, fields, models
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    sale_rep_user = fields.Many2one('res.users', string='Responsible Sales Rep')
+    assigned_sale_rep = fields.Many2one(
+        'res.users', string='Assigned Sales Rep',
+        domain=lambda self: [('groups_id', 'in', self.env.ref('superasia_salesrep_app.group_sales_rep').id)])
     sale_rep_create = fields.Boolean(string='', help="Create by Sales Rep or not")
 
     @api.model
     def create(self, vals):
         if self.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
             vals.update({
-                'sale_rep_user': self.env.user.id,
+                'assigned_sale_rep': self.env.user.id,
                 'sale_rep_create': True
             })
         partner = super(ResPartner, self).create(vals)

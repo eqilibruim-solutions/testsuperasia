@@ -25,6 +25,11 @@ class Extension_Home(Home):
 
 
 class SalesAgentDashboard(WebsiteSale):
+    def is_assigned(self, partner_id):
+        """ Check is the partner assigned to current logged in sales rep"""
+        partner_obj = request.env['res.partner'].browse(partner_id)
+        return partner_obj.assigned_sale_rep.id == request.env.user.id
+
     def account_form_values_preprocess(self, values):
         # Convert the values for many2one fields to integer since they are used as IDs
         partner_fields = request.env['res.partner']._fields
@@ -101,14 +106,16 @@ class SalesAgentDashboard(WebsiteSale):
     @http.route(['/sales-rep/home'], type='http', methods=['GET'], auth="user", website=True, csrf=False)
     def sales_agent_home(self, **post):
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
         b2b_user_group = request.env['ir.model.data'].sudo().get_object(
-                                'superasiab2b_b2c','group_b2baccount')
+            'superasiab2b_b2c', 'group_b2baccount')
         userobj = request.env['res.users'].sudo()
         b2b_users = userobj.search([('groups_id','in',b2b_user_group.id)])
         b2b_partner_ids = []
         if b2b_users:
-            b2b_partner_ids = b2b_users.mapped('partner_id')
+            b2b_partner_ids = b2b_users.mapped('partner_id').filtered(
+                lambda p: p.assigned_sale_rep == request.env.user)
+
         request.website.sale_reset()
         request.session['selected_partner_id'] = False
         return request.render('superasia_salesrep_app.sales_agent_home',{
@@ -125,20 +132,23 @@ class SalesAgentDashboard(WebsiteSale):
         Path/page for show list of b2b account.
         """
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
         b2b_user_group = request.env['ir.model.data'].sudo().get_object(
-                                'superasiab2b_b2c','group_b2baccount')
+            'superasiab2b_b2c', 'group_b2baccount')
         # if b2b_user_group:
         #     b2b_partner_ids = b2b_user_group.users.mapped('partner_id')
         userobj = request.env['res.users'].sudo()
         b2b_users = userobj.search([('groups_id','in',b2b_user_group.id)])
         b2b_partner_ids = []
         if b2b_users:
-            b2b_partner_ids = b2b_users.mapped('partner_id')
+            b2b_partner_ids = b2b_users.mapped('partner_id').filtered(
+                lambda p: p.assigned_sale_rep == request.env.user)
+
         # Filter
         if post.get('city'):
             filter_city_list = request.httprequest.args.getlist('city')
-            b2b_partner_ids = b2b_partner_ids.filtered(lambda x: x.city in filter_city_list)
+            b2b_partner_ids = b2b_partner_ids.filtered(
+                lambda x: x.city in filter_city_list)
         context = {
             'footer_hide': True,
             'hide_install_pwa_btn': True,
@@ -151,19 +161,14 @@ class SalesAgentDashboard(WebsiteSale):
     @http.route(['/sales-rep/account/create'], type='http', methods=['GET', 'POST'], auth="user", website=True, sitemap=False)
     def sales_agent_create_account(self, **post):
         """
-        # TODO: separate path/function for update partner account
-        Path/page for creating/updating b2b user account by sales rep.
+        Path/page for creating b2b user account by sales rep.
         """
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
         
-        Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         values, errors = {}, {}
-        partner_id = int(post.get('partner_id', -1))
-        mode = 'edit' if partner_id > 0 else 'new'
-
-        if mode == 'edit':
-            values = Partner.browse(partner_id)
+        partner_id = False
+        mode = 'new'
 
         # IF POSTED
         if 'submitted' in post:
@@ -174,84 +179,122 @@ class SalesAgentDashboard(WebsiteSale):
                 errors['error_message'] = error_msg
                 values = post
             else:
-                if mode == 'edit' and partner_id:
-                    Partner.browse(partner_id).sudo().write(post)
-                else:
-                    user_obj = request.env['res.users'].sudo()
-                    exists_user = user_obj.search([('login','=',post.get('email'))])
-                    if exists_user:
-                        return request.redirect('/repeat_user')
+                user_obj = request.env['res.users'].sudo()
+                exists_user = user_obj.search([('login','=',post.get('email'))])
+                if exists_user:
+                    # TODO: modified repeat_user path template for sales rep user
+                    return request.redirect('/repeat_user')
 
-                    b2b_group = request.env['ir.model.data'].sudo().get_object('superasiab2b_b2c','group_b2baccount')
-                    portal_group = request.env['ir.model.data'].sudo().get_object('base','group_portal')
+                b2b_group = request.env['ir.model.data'].sudo().get_object('superasiab2b_b2c','group_b2baccount')
+                portal_group = request.env['ir.model.data'].sudo().get_object('base','group_portal')
 
-                    group_list = [b2b_group.id, portal_group.id]
+                group_list = [b2b_group.id, portal_group.id]
 
-                    email = post.get('email')
-                    company_name = post.get('name')
-                    user_val = {
-                        'name': post.get('name'),
-                        'login' : email ,
-                        'password':'Admin@123',
-                        'groups_id':[(6,0,group_list)],
-                        'active':False
-                    }
-                
-                    user_data = user_obj.create(user_val)
-                    user_id = user_data.id
+                email = post.get('email')
+                company_name = post.get('name')
+                user_val = {
+                    'name': post.get('name'),
+                    'login' : email ,
+                    'password':'Admin@123',
+                    'groups_id':[(6,0,group_list)],
+                    'active':False
+                }
+            
+                user_data = user_obj.create(user_val)
+                user_id = user_data.id
 
-                    profile_obj = request.env['res.partner']
-                    # profile_ids=profile_obj.search([('user_id','=',user_data.id)])
-                    # if profile_ids:
-                    #     return request.redirect('/accountexist')
+                partner_id = user_data.partner_id
 
+                post.update({
+                    'company_type': 'company',
+                    'assigned_sale_rep': request.env.user.id
+                })
+                partner_id.write(post)
 
-                    partner_id = user_data.partner_id
-                    login = user_data.login
-
-                    # b2b_customer_type_key = post.get('b2b_customer_type')
-                    # # Get b2b_customer_type selection field's label in res.partner model
-                    # b2b_customer_type = dict(request.env['res.partner'].fields_get(
-                    #     allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])[b2b_customer_type_key]
-                    post['company_type'] = 'company'
-                    profile_vals = post
-                    partner_id.write(profile_vals)
-
-                
-                    if partner_id:
-                        ir_mail_server = request.env['ir.mail_server']
-                        mail_server_id = ir_mail_server.search([('name','=','Superasia')])
-                        smtp_user = str(mail_server_id.smtp_user)
-                        temp_obj = request.env['mail.template']
-                        template_data = temp_obj.search([('name','=','Account Activation')])
-                        if template_data:
-                            replaced_data = template_data.body_html.replace(
-                                '${object.company_name}', company_name)
-                            replaced_dataone = replaced_data.replace(
-                                '${object.email}', email)
-                            msg = ir_mail_server.build_email(
-                                email_from=smtp_user,
-                                email_to=[email],
-                                subject="Account Activation",
-                                body=replaced_dataone,
-                                body_alternative="",
-                                object_id=1,
-                                subtype='html'
-                            )
-                            res = mail_server_id.send_email(msg)
-                            admin_mail_template = "B2B Account Activation Request"
-                            superasiab2b_b2c.send_admin_activation_mail(
-                                admin_mail_template, company_name, email, user_id, company_name, company_name, "", post.get('mobile'), post.get('street'))
-
-                if not errors:
+            
+                if partner_id:
+                    ir_mail_server = request.env['ir.mail_server']
+                    mail_server_id = ir_mail_server.sudo().search([('name','=','Superasia')])
+                    smtp_user = str(mail_server_id.smtp_user)
+                    temp_obj = request.env['mail.template']
+                    template_data = temp_obj.sudo().search([('name','=','Account Activation')])
+                    if template_data:
+                        replaced_data = template_data.body_html.replace(
+                            '${object.company_name}', company_name)
+                        replaced_dataone = replaced_data.replace(
+                            '${object.email}', email)
+                        msg = ir_mail_server.build_email(
+                            email_from=smtp_user,
+                            email_to=[email],
+                            subject="Account Activation",
+                            body=replaced_dataone,
+                            body_alternative="",
+                            object_id=1,
+                            subtype='html'
+                        )
+                        res = mail_server_id.send_email(msg)
+                        admin_mail_template = "B2B Account Activation Request"
+                        superasiab2b_b2c.send_admin_activation_mail(
+                            admin_mail_template, company_name, email, user_id, company_name, company_name, "", post.get('mobile'), post.get('street'))
+                    else:
+                        # TODO: raise an error to user
+                        print("Account activation mail to admin not sent")
+                    # TODO: made a confirmation page for successfully create user
                     return request.redirect(post.get('callback') or '/sales-rep/all-accounts')
-        country = None
-        if mode == 'edit' and not errors:
-            country = values.country_id
-
+        country = 'country_id' in values and values['country_id'] != '' and request.env['res.country'].browse(int(values['country_id']))
+        country = country and country.exists() or None
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
         b2b_customer_type_fields = dict(request.env['res.partner'].fields_get(
+                allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])
+        render_values = {
+            'footer_hide': True,
+            'hide_install_pwa_btn': True,
+            'hide_header': True,
+            'mode': mode,
+            "partner_id": partner_id,
+            'form_values': values,
+            'error': errors,
+            'country': country,
+            'countries': countries,
+            "states": states,
+            "b2b_customer_type_fields": b2b_customer_type_fields,
+        }
+        return request.render('superasia_salesrep_app.sales_rep_add_account', render_values)
+
+    @http.route(['/sales-rep/account/<int:partner_id>/update'], type='http', methods=['GET', 'POST'], auth="user", website=True, sitemap=False)
+    def sales_agent_update_account(self, partner_id, **post):
+        """
+        Path/page for updating b2b user account by sales rep.
+        """
+        Partner = request.env['res.partner'].with_context(show_address=1).sudo()
+        partner_obj = Partner.browse(partner_id)
+        values, errors = {}, {}
+        if not partner_obj and not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            raise NotFound()
+        if not self.is_assigned(partner_id):
+            raise Forbidden() 
+        values = partner_obj
+        def_country_id = partner_obj.country_id
+        mode = 'edit'
+
+        # IF POSTED
+        if 'submitted' in post:
+            pre_values = self.account_form_values_preprocess(post)
+            errors, error_msg = self.add_account_form_validate(pre_values)
+            post, errors, error_msg = self.account_form_values_postprocess(mode, pre_values, errors, error_msg)
+            if errors:
+                errors['error_message'] = error_msg
+                values = post
+            else:
+                partner_obj.sudo().write(post)
+                detail_page_url = f"/sales-rep/account/{partner_id}/details"
+                return request.redirect(post.get('callback') or detail_page_url)
+        country = 'country_id' in values and values['country_id'] != '' and request.env['res.country'].browse(int(values['country_id']))
+        country = country and country.exists() or def_country_id
+        countries = request.env['res.country'].sudo().search([])
+        states = request.env['res.country.state'].sudo().search([])
+        b2b_customer_type_fields = dict(Partner.fields_get(
                 allfields=['b2b_customer_type'])['b2b_customer_type']['selection'])
         render_values = {
             'footer_hide': True,
@@ -272,7 +315,9 @@ class SalesAgentDashboard(WebsiteSale):
     def sales_agent_b2b_details(self, partner_id, **kw):
         partner_obj = request.env['res.partner'].browse(partner_id)
         if not partner_obj or not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
+        if not self.is_assigned(partner_id):
+            raise Forbidden()
         country = partner_obj.country_id
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
@@ -315,7 +360,7 @@ class SalesAgentDashboard(WebsiteSale):
         """ All sale order record for given partner"""
         partner_obj = request.env['res.partner'].browse(partner_id)
         if not partner_obj or not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
         sale_orders = []
         res_partner = request.env['res.partner']
         all_partners = res_partner.with_context(active_test=False).search([('id', 'child_of', partner_obj.ids)])
@@ -339,7 +384,7 @@ class SalesAgentDashboard(WebsiteSale):
         """ All Due invoice records for given partner"""
         partner_obj = request.env['res.partner'].browse(partner_id)
         if not partner_obj or not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
 
         context = {
             'footer_hide': True,
@@ -359,7 +404,7 @@ class SalesAgentDashboard(WebsiteSale):
         ], type='http', auth="user", website=True)
     def sales_rep_catalogue_shop(self, page=0, category=None, search='', ppg=False, **post):
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
         request.session['selected_partner_id'] = False
         add_qty = int(post.get('add_qty', 1))
         Category = request.env['product.public.category']
@@ -503,7 +548,7 @@ class SalesAgentDashboard(WebsiteSale):
         ], type='http', auth="user", website=True)
     def sales_rep_sale_shop(self, page=0, category=None, search='', ppg=False, **post):
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
         partner_id = request.session.get('selected_partner_id')
         if partner_id:
             selected_partner = request.env['res.partner'].browse(partner_id)
@@ -710,7 +755,7 @@ class SalesAgentDashboard(WebsiteSale):
     @http.route(['/sales-rep/sale/sale-order'], type='http', auth="public", website=True, sitemap=False)
     def sale_order_details(self, **kw):
         if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
-            return request.not_found()
+            raise NotFound()
         partner_id = request.session.get('selected_partner_id')
         if partner_id:
             selected_partner = request.env['res.partner'].browse(partner_id)
