@@ -24,7 +24,13 @@
                             <div class="row">
                             <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
                                 <div class="text-light float-left">
-                                    <a href="/sales-rep/all-accounts" class="font-weight-bold text-white">Cancel</a>
+                                    <t t-if="mode=='edit' and partner_id">
+                                        <a t-attf-href="/sales-rep/account/#{partner_id}/details" class="font-weight-bold text-white">Cancel</a>
+                                    </t>
+                                    <t t-else="">
+                                        <a href="/sales-rep/all-accounts" class="font-weight-bold text-white">Cancel</a>
+                                    </t>
+                                    
                                 </div>
                             </div>
                             <div class="col-12 col-md-8 col-sm-8 text-center">
@@ -53,7 +59,7 @@
                         <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
                             <h4 class="text-danger" t-esc="err" />
                         </t>
-                        <form action="/sales-rep/account/create" method="post" class="row pt-3 checkout_autoformat">
+                        <form action="#" method="post" class="row pt-3 checkout_autoformat">
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                             <input type="hidden" name="submitted" value="1" />
                             <input type="hidden" name="partner_id" t-att-value="partner_id or '0'" />
@@ -65,7 +71,7 @@
                                 <input type="text" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" id="#" name="name" t-att-value="'name' in form_values and form_values['name']" />
                             </div>
                             <div t-attf-class="col-12 col-sm-12 col-md-12 #{error.get('b2b_customer_type') and 'o_has_error' or ''} form-group">
-                                <label for="b2b_customer_type">Company Type</label>
+                                <label for="b2b_customer_type" class="label-optional">Company Type</label>
                                 <select t-attf-class="form-select text-black #{error.get('b2b_customer_type') and 'is-invalid' or ''}" id="b2b_customer_type" name="b2b_customer_type">
                                     <option value=""> Select company type.. </option>
                                     <t t-foreach="b2b_customer_type_fields" t-as="s">
@@ -91,7 +97,7 @@
                                 <input type="text" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}"  id="city" name="city" t-att-value="'city' in form_values and form_values['city']" />
                             </div>
                             <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('zip') and 'o_has_error' or ''} form-group">
-                                <label>Zip Code</label>
+                                <label class="label-optional">Zip Code</label>
                                 <input type="text" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}"  id="zip" name="zip" t-att-value="'zip' in form_values and form_values['zip']" />
                             </div>
                             <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('country_id') and 'o_has_error' or ''} form-group">
@@ -122,7 +128,7 @@
                                 <input type="text" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}"  id="phone" name="phone" t-att-value="'phone' in form_values and form_values['phone']" />
                             </div>
                             <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('mobile') and 'o_has_error' or ''} form-group">
-                                <label>Mobile</label>
+                                <label class="label-optional">Mobile</label>
                                 <input type="text" t-attf-class="form-control #{error.get('mobile') and 'is-invalid' or ''}"  id="mobile" name="mobile" t-att-value="'mobile' in form_values and form_values['mobile']" />
                             </div>
                             <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('email') and 'o_has_error' or ''} form-group">
@@ -130,7 +136,7 @@
                                 <input type="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}"  id="email" name="email" t-att-value="'email' in form_values and form_values['email']" t-att-readonly="'1' if mode == 'edit' else None"/>
                             </div>
                             <div t-attf-class="col-6 col-sm-6 col-md-6 #{error.get('fax') and 'o_has_error' or ''} form-group">
-                                <label>Fax</label>
+                                <label class="label-optional">Fax</label>
                                 <input type="text" t-attf-class="form-control #{error.get('fax') and 'is-invalid' or ''}"  id="fax" name="fax" t-att-value="'fax' in form_values and form_values['fax']" />
                             </div>
                             <div class="col-12 col-sm-12 col-md-12 py-2"></div>

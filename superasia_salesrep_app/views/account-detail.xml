@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-12 col-sm-2 col-md-2 text-right pt-2">
                                 <div class="text-light float-right account-name-style">
-                                    <a t-attf-href="/sales-rep/account/create?partner_id=#{partner_id.id}"  class="font-weight-bold text-white">
+                                    <a t-attf-href="/sales-rep/account/#{partner_id.id}/update"  class="font-weight-bold text-white">
                                     <i class="fa fa-edit"/> Edit
                                     </a>
                                 </div>
@@ -47,7 +47,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="add-edit-account-form">
+                    <div class="detail-account-form">
                         <form class="row pt-3">
 
                             <div t-attf-class="#{error.get('name') and 'o_has_error' or ''} col-12 col-sm-12 col-md-12 form-group">
