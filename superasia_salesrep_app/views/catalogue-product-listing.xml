@@ -92,17 +92,9 @@
 
                                     <div class="col py-3">
                                         <div>
-                                            <t t-set="special_categ_url" t-value="0"/>
-                                            <t t-set="new_arrivals_categ_url" t-value="0"/>
                                             <select id="product-category" class="product-listing-tags form-control">
                                                 <option value="/sales-rep/catalogue">Main (All)</option>
                                                 <t t-foreach="categories" t-as="c">
-                                                    <t t-if="c.name.lower() == 'specials'">
-                                                        <t t-set="special_categ_url" t-value="keep('/sales-rep/catalogue/category/' + slug(c), category=0)"/>
-                                                    </t>
-                                                    <t t-if="c.name.lower() == 'new arrivals'">
-                                                        <t t-set="new_arrivals_categ_url" t-value="keep('/sales-rep/catalogue/category/' + slug(c), category=0)"/>
-                                                    </t>
                                                     <option t-att-value="keep('/sales-rep/catalogue/category/' + slug(c), category=0)" data-type="category" t-att-selected="c.id == category.id">
                                                         <t t-esc="c.name"/>
                                                     </option>
@@ -126,15 +118,15 @@
                                     </div>
                                     </t>
                                     <div class="col py-3">
-                                        <div t-if="special_categ_url" class="select_box">
-                                            <a t-att-href="special_categ_url">Specials</a>
+                                        <t t-set="app_category_1" t-value="res_company.app_category_1"/>
+                                        <div t-if="app_category_1" class="select_box">
+                                            <a t-att-href="keep('/sales-rep/catalogue/category/' + slug(app_category_1), category=0)"><t t-esc="app_category_1.name"/></a>
                                         </div>
                                     </div>
                                     <div class="col py-3">
-                                        <div t-if="new_arrivals_categ_url" class="select_box">
-                                            <a t-att-href="new_arrivals_categ_url">
-                                                New Arrivals
-                                            </a>
+                                        <t t-set="app_category_2" t-value="res_company.app_category_2"/>
+                                        <div t-if="app_category_2" class="select_box">
+                                            <a t-att-href="keep('/sales-rep/catalogue/category/' + slug(app_category_2), category=0)"><t t-esc="app_category_2.name"/></a>
                                         </div>
                                     </div>
                                 </div>

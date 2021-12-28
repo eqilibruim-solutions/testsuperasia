@@ -28,6 +28,7 @@
         'views/http_routing_template.xml',
         'views/catalogue-product-listing.xml',
         'views/sales_due_list.xml',
+        'views/company.xml',
     ],
 
     "installable": True,
