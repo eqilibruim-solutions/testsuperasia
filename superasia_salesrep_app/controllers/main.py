@@ -1,4 +1,4 @@
-from werkzeug import Response
+import time
 import werkzeug.utils
 import logging
 _logger = logging.getLogger(__name__)
@@ -156,6 +156,31 @@ class SalesAgentDashboard(WebsiteSale):
             'b2b_partner_ids': b2b_partner_ids,
         }
         return request.render('superasia_salesrep_app.sales_rep_accounts', context)
+    
+    @http.route(['/sales-rep/all-dues'], type='http', methods=['GET'], auth="user", website=True, csrf=False)
+    def sales_agent_account_dues(self, **post):
+        """
+        List of due invoice of those customer which are assign current sales rep.
+        """
+        if not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep'):
+            raise NotFound()
+            
+        b2b_user_group = request.env['ir.model.data'].sudo().get_object(
+            'superasiab2b_b2c', 'group_b2baccount')
+        userobj = request.env['res.users'].sudo()
+        b2b_users = userobj.search([('groups_id','in',b2b_user_group.id)])
+        due_invoices = request.env['account.move']
+        if b2b_users:
+            due_invoices = b2b_users.mapped('partner_id').filtered(
+                lambda p: p.assigned_sale_rep == request.env.user).unpaid_invoices
+        context = {
+            'footer_hide': True,
+            'hide_install_pwa_btn': True,
+            'hide_header': True,
+            'due_invoices': due_invoices,
+            
+        }
+        return request.render('superasia_salesrep_app.sales_rep_account_all_due', context)
     
 
     @http.route(['/sales-rep/account/create'], type='http', methods=['GET', 'POST'], auth="user", website=True, sitemap=False)
