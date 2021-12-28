@@ -10,6 +10,8 @@ odoo.define('superaia_salesrep_app.datatable_table', function (require) {
             if ($('#all-accounts-table').length) {
                 $('#all-accounts-table').DataTable({
                     "ordering": true,
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    "pageLength": 25,
                     columnDefs: [{
                         orderable: false,
                         targets: "no-sort"
