@@ -12,6 +12,7 @@ odoo.define('superasia_salesrep_app.cart_extension', function (require) {
         selector: '.oe_website_sale',
         events: _.extend({}, VariantMixin.events || {}, {
             'change .oe_cart input.price_after_disc': '_onChangePriceAfterDisc',
+            'change .oe_cart input[name="unit-disc"]': '_onChangeUnitDisc',
             'change select[name="shipping_country_id"]': '_onChangeShippingCountry',
         }),
     
@@ -20,7 +21,8 @@ odoo.define('superasia_salesrep_app.cart_extension', function (require) {
          */
         init: function () {
             this._super.apply(this, arguments);
-            this._onChangePriceAfterDisc = _.debounce(this._onChangePriceAfterDisc.bind(this), 500);
+            this._changePriceAfterDisc = _.debounce(this._changePriceAfterDisc.bind(this), 500);
+            this._onChangeUnitDisc = _.debounce(this._onChangeUnitDisc.bind(this), 500);
             this._changeShippingCountry = _.debounce(this._changeShippingCountry.bind(this), 500);
 
             this.isWebsite = true;
@@ -32,7 +34,34 @@ odoo.define('superasia_salesrep_app.cart_extension', function (require) {
             return def;
         },
 
+        updateDiscount: function(line_id, product_id, discountAmount) {
+            let msg = "Updating ...";
+            $.blockUI({
+                'message': '<h2 class="text-white">' +
+                    '<img alt="spinner" src="/web/static/src/img/spin.png" class="fa-pulse"/>' +
+                    '<br />' + msg + '</h2>'
+            });
+            this._rpc({
+                route: "/sales-rep/cart/update_discount",
+                params: {
+                    line_id: line_id,
+                    product_id: product_id,
+                    set_discount: discountAmount
+                },
+            }).then(function (data) {
+                if (!('done' in data)) {
+                    console.log("Discount not updated");
+                }
+                wSaleUtils.updateCartNavBar(data);
+                $.unblockUI();
+
+            });
+        },
         _onChangePriceAfterDisc: function (ev) {
+            this._changePriceAfterDisc(ev);
+        },
+
+        _changePriceAfterDisc: function (ev) {
             var $input = $(ev.currentTarget);
             var $dom = $input.closest('tr');
             let discountPrice = parseFloat($input.val() || 0, 10);
@@ -44,28 +73,29 @@ odoo.define('superasia_salesrep_app.cart_extension', function (require) {
             if ($unitPrice.length) {
                 let unitPrice = parseFloat($unitPrice.val());
                 let discountAmount = parseFloat((unitPrice-discountPrice)*100/unitPrice);
-                let msg = "Updating ...";
-                $.blockUI({
-                    'message': '<h2 class="text-white">' +
-                        '<img alt="spinner" src="/web/static/src/img/spin.png" class="fa-pulse"/>' +
-                        '<br />' + msg + '</h2>'
-                });
-                this._rpc({
-                    route: "/sales-rep/cart/update_discount",
-                    params: {
-                        line_id: line_id,
-                        product_id: product_id,
-                        set_discount: discountAmount
-                    },
-                }).then(function (data) {
-                    if (!('done' in data)) {
-                        console.log("Discount not updated");
-                    }
-                    wSaleUtils.updateCartNavBar(data);
-                    $.unblockUI();
-
-                });
+                this.updateDiscount(line_id, product_id, discountAmount);
             }
+        },
+
+        _onChangeUnitDisc: function (ev) {
+            this._changeUnitDisc(ev);
+        },
+
+        _changeUnitDisc: function (ev) {
+            var $input = $(ev.currentTarget);
+            var $dom = $input.closest('tr');
+            let discountAmount = parseFloat($input.val() || 0, 10);
+            var $productQty = $dom.find("input.quantity");
+            var line_id = parseInt($productQty.data('line-id'), 10);
+            var product_id = parseInt($productQty.data('product-id'), 10);
+            if (isNaN(discountAmount) || discountAmount<0 || discountAmount > 100){
+                alert("Not Allowed");
+                $input.val(0.0);
+                return
+            }
+         
+            this.updateDiscount(line_id, product_id, discountAmount);
+            
         },
 
         _onChangeShippingCountry: function (ev) {
@@ -134,7 +164,7 @@ odoo.define('superasia_salesrep_app.order_page_detail', function (require) {
     var publicWidget = require('web.public.widget');
 
 
-    publicWidget.registry.SalesRepWebsiteSale = publicWidget.Widget.extend({
+    publicWidget.registry.SalesRepOrderPageDetail = publicWidget.Widget.extend({
         selector: '.sale_rep_order_info',
         events: {
             'keyup input[name="purchase_order-dup"]': '_onChangePONumber',

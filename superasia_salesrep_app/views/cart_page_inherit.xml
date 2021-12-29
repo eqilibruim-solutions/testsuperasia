@@ -91,8 +91,12 @@
         </xpath>
         <xpath expr="//table[@id='cart_products']//tbody//td[@name='price']" position="after">
             <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
-                <td class="text-center td-unit-disc">
-                    <span>% <t t-esc="line.discount"/> </span>
+                <td class="td-unit-disc">
+                    <div class="input-icon">
+                        <i class="fa fa-percent icon" style="font-size:10px;"></i>
+                        <!-- <span class="float-left">%</span> -->
+                        <input type="text" class="form-control unit-disc" name="unit-disc" t-att-data-line-id="line.id"  t-att-value="line.discount if line.discount else '0.0'" />
+                    </div>
                 </td>
                 <td class="td-unit-price-after-disc">
                     <div class="input-icon">

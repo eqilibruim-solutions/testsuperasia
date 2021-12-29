@@ -20,14 +20,11 @@ table.sale-rep-cart {
 			// margin-left: 0.3rem;
 			// margin-right: 0.3rem;
 		}
-		input.price_after_disc {
+		input.price_after_disc, input.unit-disc {
 			border-radius: 50rem !important;
 		}
-		.td-unit-disc {
-			padding-left: 0px;
-			padding-right: 0px;
-		}
-		.td-unit-price-after-disc {
+
+		.td-unit-disc, .td-unit-price-after-disc {
 			padding-left: 0px;
 			padding-right: 0px;
 			.input-icon {
@@ -36,7 +33,7 @@ table.sale-rep-cart {
 				i.icon {
 					position: absolute;
 					padding: 11px 2px;
-					min-width: 40px;
+					min-width: 25px;
 				}
 
 				input {
