@@ -337,6 +337,7 @@ class WebsiteSale(ws):
         if user_data:
             order.b2b_confirmed = True
             order.action_quotation_sent()
+            request.session['sale_last_order_id'] = order.id
             mail_template = request.env.ref('superasiab2b_b2c.mail_template_b2b_sale_confirmation')
             if not mail_template:
                 mail_template = request.env.ref('sale.mail_template_sale_confirmation')
