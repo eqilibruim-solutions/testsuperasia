@@ -43,9 +43,14 @@
         </xpath>
         <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop/checkout?express=1']" position="before">
             <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
-                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block custom_them_primary text-white" href="/sales-rep/sale/sale-order">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn float-right custom_them_primary text-white" href="/sales-rep/sale/sale-order">
                         <span>Process Checkout</span>
                     </a>
+<div class="" style="
+    width: 100%;
+    clear: both;
+    height: 100px;
+"></div>
             </t>
         </xpath>
         <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop/checkout?express=1']" position="attributes">
