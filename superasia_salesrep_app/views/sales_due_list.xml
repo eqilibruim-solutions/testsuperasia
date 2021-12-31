@@ -145,11 +145,11 @@
                             <tbody>
                                 <t t-foreach="due_invoices" t-as="due">
                                     <tr>
-                                        <td scope="row" class="font-weight-bold"><t t-esc="due.name"/></td>
-                                        <td class="font-weight-bold"><t t-esc="due.invoice_origin"/></td>
-                                        <td class="font-weight-bold"><t t-esc="due.invoice_date"/></td>
-                                        <td class="font-weight-bold"><t t-esc="due.invoice_date_due"/></td>
-                                        <td class="font-weight-bold">$ <t t-esc="due.amount_residual_signed"/></td>
+                                        <td scope="row" class="font-weight-bold"><t t-esc="due.move_id.name"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.move_id.invoice_origin"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.move_id.invoice_date"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.move_id.invoice_date_due"/></td>
+                                        <td class="font-weight-bold">$ <t t-esc="due.move_id.amount_residual_signed"/></td>
                                     </tr>
                                 </t>
                             </tbody>

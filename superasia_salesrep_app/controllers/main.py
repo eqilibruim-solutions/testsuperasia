@@ -416,7 +416,7 @@ class SalesAgentDashboard(WebsiteSale):
             'hide_install_pwa_btn': True,
             'hide_header': True,
             'partner_id': partner_obj,
-            'due_invoices': partner_obj.unpaid_invoices,
+            'due_invoices': partner_obj.unreconciled_aml_ids,
             
         }
         return request.render('superasia_salesrep_app.sales_rep_account_due', context)
