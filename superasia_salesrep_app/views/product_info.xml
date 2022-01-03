@@ -78,6 +78,12 @@
 
                                     <p class="mb-1">Item In Stock Quantity</p>
                                     <p class="font-weight-bold"><t t-esc="combination_info['onhand_qty']"/></p>
+
+                                    <t t-set="expiry_lot" t-value="product_variant.lot_close_to_removal()"/>
+                                    <t t-if="expiry_lot">
+                                        <p class="mb-1">Expiry Date</p>
+                                        <p class="font-weight-bold text-danger"><t t-esc="expiry_lot.removal_date.date()"/></p>
+                                    </t>
                                     
                                 </div>
                             </div><!-- end first-row -->
