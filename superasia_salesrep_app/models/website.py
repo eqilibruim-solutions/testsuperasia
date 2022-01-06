@@ -53,6 +53,8 @@ class Website(models.Model):
             pricelist = self.env['product.pricelist'].browse(pricelist_id).sudo()
             so_data = self._prepare_sale_order_values(partner, pricelist)
             sale_order = self.env['sale.order'].with_context(force_company=request.website.company_id.id).with_user(SUPERUSER_ID).create(so_data)
+            
+            sale_order.write({'sales_rep_id': self.env.user.id})
 
             # set fiscal position
             if request.website.partner_id.id != partner.id:
