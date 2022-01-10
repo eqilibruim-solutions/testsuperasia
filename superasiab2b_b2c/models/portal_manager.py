@@ -278,6 +278,7 @@ class ProductTemplate(models.Model):
 
         if b2busergroup:
                 price = product.list_price
+                onhandqty = 99999 # B2B user can add product in cart though product not available in stock
 
         _logger.info('================================onhandqty===calcccccccccccccccccccccc======== %s' % onhandqty)
         print('=======================================================price================',price)
