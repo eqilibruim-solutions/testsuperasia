@@ -77,7 +77,7 @@
                                     <!-- <p class="font-weight-bold"></p> -->
 
                                     <p class="mb-1">Item In Stock Quantity</p>
-                                    <p class="font-weight-bold"><t t-esc="combination_info['onhand_qty']"/></p>
+                                    <p class="font-weight-bold"><t t-esc="round(product_variant.qty_available)"/></p>
 
                                     <t t-set="expiry_lot" t-value="product_variant.lot_close_to_removal()"/>
                                     <t t-if="expiry_lot">

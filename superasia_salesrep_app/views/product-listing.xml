@@ -53,7 +53,7 @@
                         </div>
                     </div>
 
-                    <p class="mb-1">In Stock Quantity: <t t-esc="combination_info['onhand_qty']"/></p>
+                    <p class="mb-1">In Stock Quantity: <t t-esc="round(product_variant.qty_available)"/></p>
                     <t t-set="expiry_lot" t-value="product_variant.lot_close_to_removal()"/>
                     <p class="font-weight-bold mb-1 text-danger" t-if="expiry_lot">Expiry Date: <t t-esc="expiry_lot.removal_date.date()"/></p>
 
