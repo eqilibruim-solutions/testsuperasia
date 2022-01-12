@@ -110,7 +110,6 @@
                                                         </div>
                                                         <t t-set="prod_cart_qty" t-value="int(in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).product_uom_qty)"/>
                                                         <input type="text"
-                                                            readonly="True"
                                                             t-att-data-max="combination_info['onhand_qty']"
                                                             t-att-data-line-id="in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).id" t-att-data-product-id="product_variant.id"
                                                             class="custom_js_quantity form-control quantity text-center bg-white h-auto rounded" t-att-value="prod_cart_qty if prod_cart_qty else '0'" />
