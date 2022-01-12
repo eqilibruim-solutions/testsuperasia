@@ -194,8 +194,12 @@ class ProductTemplate(models.Model):
             price = product.price if pricelist else list_price
             display_image = bool(product.image_1920)
             display_name = product.display_name
+            price_extra = (product.price_extra or 0.0 ) + (sum(no_variant_attributes_price_extra) or 0.0)
         else:
-            product_template = product_template.with_context(current_attributes_price_extra=[v.price_extra or 0.0 for v in combination])
+            # product_template = product_template.with_context(current_attributes_price_extra=[v.price_extra or 0.0 for v in combination])
+            current_attributes_price_extra = [v.price_extra or 0.0 for v in combination]
+            product_template = product_template.with_context(current_attributes_price_extra=current_attributes_price_extra)
+            price_extra = sum(current_attributes_price_extra)
             list_price = product_template.price_compute('list_price')[product_template.id]
             price = product_template.price if pricelist else list_price
             display_image = bool(product_template.image_1920)
@@ -207,6 +211,10 @@ class ProductTemplate(models.Model):
         if pricelist and pricelist.currency_id != product_template.currency_id:
             list_price = product_template.currency_id._convert(
                 list_price, pricelist.currency_id, product_template._get_current_company(pricelist=pricelist),
+                fields.Date.today()
+            )
+            price_extra = product_template.currency_id._convert(
+                price_extra, pricelist.currency_id, product_template._get_current_company(pricelist=pricelist),
                 fields.Date.today()
             )
 
@@ -278,6 +286,7 @@ class ProductTemplate(models.Model):
 
         if b2busergroup:
                 price = product.list_price
+                onhandqty = 99999 # B2B user can add product in cart though product not available in stock
 
         _logger.info('================================onhandqty===calcccccccccccccccccccccc======== %s' % onhandqty)
         # print('=======================================================price================',price)
@@ -289,6 +298,7 @@ class ProductTemplate(models.Model):
             'display_image': display_image,
             'price': price,
             'list_price': list_price,
+            'price_extra': price_extra,
             'has_discounted_price': has_discounted_price,
             'onhand_qty': int(onhandqty),
             'product_uom':product_uom.name,
