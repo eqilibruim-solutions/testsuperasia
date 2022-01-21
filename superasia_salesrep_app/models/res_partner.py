@@ -6,13 +6,12 @@ from odoo.addons.website.models import ir_http
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
-
-    # assigned_sale_rep = fields.Many2one(
-    #     'res.users', string='Assigned Sales Rep',
-    #     domain=lambda self: [('groups_id', 'in', self.env.ref('superasia_salesrep_app.group_sales_rep').id)])
-
+    # FIXME: When we install this module first time
+    # "External ID not find" error show because of domain
+    # Initial solution, remove domain from field before installing app then add domain after installed
     assigned_sale_rep = fields.Many2one(
-    'res.users', string='Assigned Sales Rep',)
+        'res.users', string='Assigned Sales Rep',
+        domain=lambda self: [('groups_id', 'in', self.env.ref('superasia_salesrep_app.group_sales_rep').id)])
 
     sale_rep_create = fields.Boolean(string='', help="Create by Sales Rep or not")
     last_website_so_id = fields.Many2one('sale.order', compute='_compute_last_website_so_id', string='Last Online Sales Order')
