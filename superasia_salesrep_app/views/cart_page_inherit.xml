@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="sales_rep_cart_inherite" inherit_id="website_sale.cart"  name="Sales Rep Cart Inherit">
+        <xpath expr="//div[hasclass('container', 'oe_website_sale' )]" position="before">
+            <div class="container-fluid" id="super_top_menu_cart" t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
+                            <div class="text-light float-left">
+                                <a href="/sales-rep/sale" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Shop</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-sm-8 text-center">
+                            <div class="account-name-style">
+                                <h5 class="pt-2">
+                                    <a href="#" class="font-weight-bold text-white"><t t-esc="selected_partner.name"/> </a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('oe_cart')]//a[@href='/shop']" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('oe_cart')]//a[@href='/shop/checkout?express=1']" position="attributes">
+            <attribute name="t-if">website_sale_order and website_sale_order.website_order_line and not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('oe_cart')]//a[@href='/shop/checkout?express=1']" position="before">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block custom_them_primary text-white" href="/sales-rep/sale/sale-order">
+                        <span>Process Checkout</span>
+                    </a>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop']" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+        <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop/checkout?express=1']" position="before">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn float-right custom_them_primary text-white" href="/sales-rep/sale/sale-order">
+                        <span>Process Checkout</span>
+                    </a>
+<div class="" style="
+    width: 100%;
+    clear: both;
+    height: 100px;
+"></div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='o_cart_summary']//a[@href='/shop/checkout?express=1']" position="attributes">
+            <attribute name="t-if">website_sale_order and website_sale_order.website_order_line and not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+    </template>
+
+    <template id="sales_rep_cart_lines" inherit_id="website_sale.cart_lines">
+        <xpath expr="//table[@id='cart_products']//t[@t-call='website_sale.cart_line_product_link']" position="replace">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <t t-set="line_product_href" t-value="line.product_id.website_url"/>
+                <t t-set="app_product_href" t-value="line_product_href.replace('/shop/','/sales-rep/sale/')"/>
+                <a t-att-href="app_product_href" class="font-weight-bold text-dark">
+                    <strong t-field="line.name_short" />
+                </a>
+            </t>
+            <t t-else="">
+                <t t-call="website_sale.cart_line_product_link">
+                    <strong t-field="line.name_short" />
+                </t>
+            </t>
+            
+        </xpath>
+
+        <xpath expr="//table[@id='cart_products']//thead//th[hasclass('td-price')]" position="after">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <th class="text-center px-0 td-unit-disc">Unit Discount</th>
+                <th class="text-center px-0 td-unit-price-after-disc">Unit Price After Discount</th>
+                <th class="text-center px-0 td-total-price-after-disc">Total Unit Price After Discount</th>
+                <th class="text-center td-line-tax">Line Tax</th>
+            </t>
+        </xpath>
+
+        <xpath expr="//table[@id='cart_products']//tbody//td[@name='price']" position="inside">
+            <t t-if="line.discount_manual_update">
+                <input type="hidden" name="unit_price"  t-att-value="line.price_unit"/>
+            </t>
+            <t t-else="">
+                <input type="hidden" name="unit_price"  t-att-value="line.price_reduce_taxexcl" groups="account.group_show_line_subtotals_tax_excluded" />
+                <input type="hidden" name="unit_price"  t-att-value="line.price_reduce_taxinc" groups="account.group_show_line_subtotals_tax_included" />
+            </t>
+
+        </xpath>
+        <xpath expr="//table[@id='cart_products']//tbody//td[@name='price']" position="after">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <td class="td-unit-disc">
+                    <div class="input-icon">
+                        <i class="fa fa-percent icon" style="font-size:10px;"></i>
+                        <!-- <span class="float-left">%</span> -->
+                        <input type="text" class="form-control unit-disc" name="unit-disc" t-att-data-line-id="line.id"  t-att-value="line.discount if line.discount else '0.0'" />
+                    </div>
+                </td>
+                <td class="td-unit-price-after-disc">
+                    <div class="input-icon">
+                        <i class="icofont-dollar icon" style="font-size:14px;"></i>
+                        <!-- <t t-set="unit_price_after_disc" t-value="line.price_subtotal/line.product_uom_qty"/> -->
+                        <input type="text" class="form-control price_after_disc" t-att-data-line-id="line.id"  t-att-value="line.price_reduce" />
+                        <!-- <span t-esc="unit_price_after_disc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/> -->
+                    </div>
+                </td>
+                <td class="text-center td-total-price-after-disc">
+                    <span t-field="line.price_subtotal" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/>
+                </td>
+                <td class="text-center td-line-tax">
+                    <span>0.00</span>
+                </td>
+            </t>
+        </xpath>
+
+        <xpath expr="//table[@id='cart_products']" position="attributes">
+            <attribute name="t-attf-class" separator=" " add="mb16 table table-striped table-sm js_cart_lines #{'sale-rep-cart' if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep') else''} "></attribute>
+        </xpath>
+    </template>
+    <template id="sales_app_short_cart_summary_inh" inherit_id="bista_superasia_theme.short_cart_summary_inherite">
+        <xpath expr="//a[@href='/shop']" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+        <xpath expr="//a[@href='/shop/checkout?express=1']" position="before">
+            <t t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block custom_them_primary text-white" href="/sales-rep/sale/sale-order">
+                        <span>Process Checkout</span>
+                    </a>
+            </t>
+        </xpath>
+        <xpath expr="//a[@href='/shop/checkout?express=1']" position="attributes">
+            <attribute name="t-if">website_sale_order and website_sale_order.website_order_line and not request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')</attribute>
+        </xpath>
+        
+    </template>
+    <template id="sales_rep_wizard_checkout" inherit_id="website_sale.wizard_checkout"  name="Wizard Checkou Inherit">
+        <xpath expr="//div[hasclass('wizard')]" position="attributes">
+            <attribute name="t-attf-class">wizard #{'d-none' if request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep') else''}</attribute>
+        </xpath>
+    </template>
+
+    <template id="sales_rep_confirmation" inherit_id="website_sale.confirmation" name="Sales Rep Confirmation">
+        <xpath expr="//div[hasclass('container', 'oe_website_sale' )]" position="before">
+            <div class="container-fluid" id="super_top_menu_cart" t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
+                            <div class="text-light float-left">
+                                <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Dashboard</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-sm-8 text-center">
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

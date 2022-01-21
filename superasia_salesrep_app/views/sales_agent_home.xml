@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_agent_home" name="Sales Agent Homepage">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Dashboard</t>
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div id="sales_rep_home" class="container-fluid px-0">
+                        <!-- ======= Clients Section ======= -->
+                        <section class="section-bg-clients">
+                            <div class="container section-title">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dropdown show">
+                                            <a class="dropdown-toggle float-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-bars fa-3x"></i>
+                                            </a>
+
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <!-- <a class="dropdown-item" href="/my/home">MY ACCOUNT</a> -->
+                                                <a class="dropdown-item" href="/web/session/logout?redirect=/">LOGOUT</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 logo position-relative">
+                                        <div class="text-light text-center adjust-logo-middle">
+                                            <a href="#"><img src="/superasia_salesrep_app/static/src/img/super-asia-logo.png"/></a>
+                                        </div>
+                                    </div><!-- end col-12 -->
+                                </div><!-- end row -->
+                            </div><!-- end container -->
+                        </section><!-- End Clients Section -->
+
+                        <!-- <div class="container"> -->
+                            <div id="homescreen-menu-options" class="row m-0">
+                                <div class="col-2 col-sm-2 col-md-2"></div>
+                                <div class="primary-buttons col-md-8 col-sm-12 d-flex d-sm-inline p-0">
+
+                                    <!-- Modal -->
+                                    <div class="dropdown-modal modal fade" id="saleOderModalCenter" tabindex="-1" role="dialog" aria-labelledby="saleOderModalCenterTitle" aria-hidden="true" >
+                                        <div class="modal-dialog modal-dialog-centered" role="dialog">
+                                            <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close text-left" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                                        <h4 class="modal-title font-weight-bold text-center w-100" id="saleOrderModalLongTitle">Choose Account</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form class="form-inline">
+                                                            <div class="col-12 px-0">
+                                                                <label for="select2-single" class="sr-only col-2">Account</label>
+                                                                <div class="input-group mb-2 mr-sm-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">
+                                                                            <i class="icofont-search"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <select id="select2-single" class="select-data-dropdown form-control select2-single">
+                                                                        <option></option>
+                                                                        <t t-foreach="b2b_partner_ids" t-as="account">
+                                                                            <option t-att-value="account.id"><t t-esc="account.name"/> (<t t-esc="account.email"/>)</option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>         
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <a href="/sales-rep/all-accounts" class="btn btn-light rounded-0 custom-font-size">Accounts</a>
+                                    <a href="#" class="btn btn-light rounded-0 custom-font-size" data-toggle="modal" data-target="#saleOderModalCenter" data-backdrop="false">Sales Order</a>
+                                    <a href="/sales-rep/all-dues" class="btn btn-light rounded-0 pl-4 pr-4 custom-font-size">Due</a>
+                                    <a href="/sales-rep/catalogue" class="btn btn-light rounded-0 custom-font-size">Catalogue</a>
+                                </div>
+                                <div class="col-2 col-sm-2 col-md-2"></div>
+                            </div><!-- end col-12 -->
+                        <!-- </div> -->  
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                var perfEntries = performance.getEntriesByType("navigation");
+                if (perfEntries[0].type === "back_forward") {
+                    window.location.reload();
+                }
+            </script>
+        </t>
+        
+    </template>
+
+</odoo>

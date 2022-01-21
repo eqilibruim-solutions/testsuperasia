@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_rep_account_sale" name="Sale Order list of account">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Sales</t>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <!-- ======= Header ======= -->
+                <div class="sale_rep_account">
+                    <div id="super_top_menu">
+                    <div class="container-fluid">
+                        <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                            <div class="text-light float-left nav-back">
+                                <a t-attf-href="/sales-rep/account/#{partner_id.id}/details" class="font-weight-bold text-white" ><i class="fa fa-angle-left"></i> Back</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7 col-sm-7 text-center">
+                            <div class="account-name-style">
+                                <h3><a href="#" class="font-weight-bold text-white">Sales (<t t-esc="partner_id.name"/>)</a></h3>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3 col-md-3 text-right pt-2">
+                        </div>  
+                        </div><!-- end row -->
+                    </div><!-- end container -->
+                    </div><!-- end #super_top_menu -->
+                    <div id="function_top_menu">
+                    <div class="container">
+                        <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                            <div class="text-light float-left">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-8 col-md-8 float-left input-group">
+                            <div class="border form-outline w-100">
+                            <button id="search-button" type="button" class="btn btn-primary border-0">
+                                <i class="icofont-search"></i>
+                            </button>
+                            <input id="search-input" type="search" class="form-control" value="Search.." onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2">
+                            
+                        </div>  
+                        </div><!-- end row -->
+                    </div><!-- end container -->
+                    </div><!-- end #function_top_menu -->
+                </div><!-- End Header -->
+
+                <!-- ======= Sales Table Section ======= -->
+                <div class="accounts-table section-bg">
+                    <div class="mt-4">
+                        <table class="table table-bordered table-striped table-hover" id="all-accounts-table">
+                            <thead class="thead-dark">
+                                <tr>
+                                <th scope="col" class="align-middle account-name font-weight-bold">Order Number</th>
+                                <th scope="col" class="align-middle font-weight-bold">Order Date</th>
+                                <th scope="col" class="align-middle font-weight-bold">Total</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="sale_orders" t-as="so">
+                                    <tr>
+                                        <td scope="row" class="font-weight-bold"><t t-esc="so.name"/></td>
+                                        <td class="font-weight-bold"><t t-esc="so.date_order"/></td>
+                                        <td class="font-weight-bold">$ <t t-esc="so.amount_total"/></td>
+                                        <td class="font-weight-bold"><t t-esc="dict(so._fields['invoice_status'].selection).get(so.invoice_status)"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>  
+                        
+                    </div><!-- End container -->
+                </div><!-- End Div -->
+
+            </div>
+        </t>
+        
+    </template>
+
+    <template id="sales_rep_account_due" name="Due Invoice list of account">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Dues</t>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <!-- ======= Header ======= -->
+                <div class="sale_rep_account">
+                    <div id="super_top_menu">
+                    <div class="container-fluid">
+                        <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                            <div class="text-light float-left nav-back">
+                                <a t-attf-href="/sales-rep/account/#{partner_id.id}/details" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Back</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7 col-sm-7 text-center">
+                            <div class="account-name-style">
+                                <h3><a href="#" class="font-weight-bold text-white">Dues (<t t-esc="partner_id.name"/>)</a></h3>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3 col-md-3 text-right pt-2">
+                        </div>  
+                        </div><!-- end row -->
+                    </div><!-- end container -->
+                    </div><!-- end #super_top_menu -->
+                    <div id="function_top_menu">
+                    <div class="container">
+                        <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                            <div class="text-light float-left">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-8 col-md-8 float-left input-group">
+                            <div class="border form-outline w-100">
+                            <button id="search-button" type="button" class="btn btn-primary border-0">
+                                <i class="icofont-search"></i>
+                            </button>
+                            <input id="search-input" type="search" class="form-control" value="Search.." onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2">
+                            
+                        </div>  
+                        </div><!-- end row -->
+                    </div><!-- end container -->
+                    </div><!-- end #function_top_menu -->
+                </div><!-- End Header -->
+
+                <!-- ======= Due Table Section ======= -->
+                <div class="accounts-table section-bg">
+                    <div class="mt-4">
+                        <table class="table table-bordered table-striped table-hover" id="all-accounts-table">
+                            <thead class="thead-dark">
+                                <tr>
+                                <th scope="col" class="align-middle account-name font-weight-bold">Number</th>
+                                <th scope="col" class="align-middle account-name font-weight-bold">Source Document</th>
+                                <th scope="col" class="align-middle font-weight-bold">Invoice Date</th>
+                                <th scope="col" class="align-middle font-weight-bold">Due Date</th>
+                                <th scope="col" class="align-middle font-weight-bold">Amount Due</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="due_invoices" t-as="due">
+                                    <tr>
+                                        <td scope="row" class="font-weight-bold"><t t-esc="due.move_id.name"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.move_id.invoice_origin"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.move_id.invoice_date"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.move_id.invoice_date_due"/></td>
+                                        <td class="font-weight-bold">$ <t t-esc="due.move_id.amount_residual_signed"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>  
+                        
+                    </div><!-- End container -->
+                </div><!-- End Div -->
+
+            </div>
+        </t>
+        
+    </template>
+
+    <template id="sales_rep_account_all_due" name="Due Invoices list">
+        <t t-call="website.layout">
+            <t t-set="additional_title">All Dues</t>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <!-- ======= Header ======= -->
+                <div class="sale_rep_account">
+                    <div id="super_top_menu">
+                    <div class="container-fluid">
+                        <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                            <div class="text-light float-left nav-back">
+                                <a t-attf-href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Home</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7 col-sm-7 text-center">
+                            <div class="account-name-style">
+                                <h3><a href="#" class="font-weight-bold text-white">Dues</a></h3>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3 col-md-3 text-right pt-2">
+                        </div>  
+                        </div><!-- end row -->
+                    </div><!-- end container -->
+                    </div><!-- end #super_top_menu -->
+                    <div id="function_top_menu">
+                    <div class="container">
+                        <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                            <div class="text-light float-left">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-8 col-md-8 float-left input-group">
+                            <div class="border form-outline w-100">
+                            <button id="search-button" type="button" class="btn btn-primary border-0">
+                                <i class="icofont-search"></i>
+                            </button>
+                            <input id="search-input" type="search" class="form-control" value="Search.." onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2">
+                            
+                        </div>  
+                        </div><!-- end row -->
+                    </div><!-- end container -->
+                    </div><!-- end #function_top_menu -->
+                </div><!-- End Header -->
+
+                <!-- ======= Due Table Section ======= -->
+                <div class="accounts-table section-bg">
+                    <div class="mt-4">
+                        <table class="table table-bordered table-striped table-hover" id="all-accounts-table">
+                            <thead class="thead-dark">
+                                <tr>
+                                <th scope="col" class="align-middle account-name font-weight-bold">Number</th>
+                                <th scope="col" class="align-middle account-name font-weight-bold">Customer</th>
+                                <th scope="col" class="align-middle account-name font-weight-bold">Source Document</th>
+                                <th scope="col" class="align-middle font-weight-bold">Invoice Date</th>
+                                <th scope="col" class="align-middle font-weight-bold">Due Date</th>
+                                <th scope="col" class="align-middle font-weight-bold">Amount Due</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="due_invoices" t-as="due">
+                                    <tr>
+                                        <td scope="row" class="font-weight-bold"><t t-esc="due.name"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.commercial_partner_id.name"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.invoice_origin"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.invoice_date"/></td>
+                                        <td class="font-weight-bold"><t t-esc="due.invoice_date_due"/></td>
+                                        <td class="font-weight-bold">$ <t t-esc="due.amount_residual_signed"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>  
+                        
+                    </div><!-- End container -->
+                </div><!-- End Div -->
+
+            </div>
+        </t>
+        
+    </template>
+
+</odoo>
