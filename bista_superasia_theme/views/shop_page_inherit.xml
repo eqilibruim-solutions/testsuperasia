@@ -259,7 +259,7 @@
 
                     <t t-set="combination_info" t-value="product._get_combination_info(only_template=False, add_qty=add_qty or 1, pricelist=pricelist,product_id=product.product_variant_id.id)"/>
 
-                    <h6 class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+                    <h6 t-if="not request.env.user.user_has_groups('base.group_public')" class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
                         <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
 <!--                        <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>-->
                         <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
@@ -303,14 +303,16 @@
                                 <a t-att-class="'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt d-none' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt'" role="button">Add</a>
                             </t> -->
                             <t t-set="product_qty_available" t-value="(round(combination_info['onhand_qty']) - combination_info['updated_cart_qty'])"/>
-                            <t t-if="product_qty_available >= 1">
-                                <a t-att-class="'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt d-none' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt'" role="button">Add</a>
-                            </t>
-                            <t t-else="">
-                                <div class="availability_message_6 font-weight-bold text-danger">
-                                    <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning"></i>
-                                    SOLD OUT
-                                </div>
+                            <t t-if="not request.env.user.user_has_groups('base.group_public')">
+                                <t t-if="product_qty_available >= 1">
+                                    <a t-att-class="'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt d-none' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt'" role="button">Add</a>
+                                </t>
+                                <t t-else="">
+                                    <div class="availability_message_6 font-weight-bold text-danger">
+                                        <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning"></i>
+                                        SOLD OUT
+                                    </div>
+                                </t>
                             </t>
 
                             <div id="dynamic_product_qty" t-att-class="'css_quantity input-group input-group-sm mx-auto p-1' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'css_quantity input-group input-group-sm mx-auto d-none p-1'">
@@ -442,26 +444,22 @@
                      <div class="mt16"><h3 class="text-dark"><t t-esc="combination_info['product_uom']"/></h3></div>
                 </t>
             </t>
-            <!--<t t-if="combination_info['onhand_qty'] >= 1">
-                <t t-set="max_qt" t-value="(round(combination_info['onhand_qty']) - combination_info['updated_cart_qty'])"/>
-                <t t-if="max_qt">
-                    <a role="button" id="add_to_cart" class="a-submit btn custom_them_primary d-block d-sm-inline-block js_check_product mt-4 text-white" href="#"><i class="fa fa-shopping-cart"/> Add to Cart</a>
-                </t>
-            </t>-->
+            
             <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
             <t t-set="product_qty_available" t-value="(round(combination_info['onhand_qty']) - combination_info['updated_cart_qty'])"/>
-            <t t-if="product_qty_available >= 1">
-            <!-- <t t-if="product_variant.qty_available >= 1"> -->
-                <a role="button" id="add_to_cart" class="a-submit btn custom_them_primary d-block d-sm-inline-block js_check_product mt-4 text-white" href="#">
-                    <i class="fa fa-shopping-cart"/>
-                    Add to Cart
-                </a>
-            </t>
-            <t t-else="">
-                <div class="availability_message_6 font-weight-bold text-danger pt-2">
-                    <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning"></i>
-                    SOLD OUT
-                </div>
+            <t t-if="not request.env.user.user_has_groups('base.group_public')">
+                <t t-if="product_qty_available >= 1">
+                    <a role="button" id="add_to_cart" class="a-submit btn custom_them_primary d-block d-sm-inline-block js_check_product mt-4 text-white" href="#">
+                        <i class="fa fa-shopping-cart"/>
+                        Add to Cart
+                    </a>
+                </t>
+                <t t-else="">
+                    <div class="availability_message_6 font-weight-bold text-danger pt-2">
+                        <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning"></i>
+                        SOLD OUT
+                    </div>
+                </t>
             </t>
         </xpath>
         <xpath expr="//li[hasclass('active', 'breadcrumb-item')]" position="attributes">
@@ -533,6 +531,9 @@
             <t t-if="request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser')">
                 <a href="/b2b_activation" class="pl-3" style="font-size: 18px; text-decoration: underline;">Login for Bulk Pricing</a>
               </t>
+        </xpath>
+        <xpath expr="//div[hasclass('product_price')]" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('base.group_public')</attribute>
         </xpath>
     </template>
     <template id="add_to_cart_product_image_inherite" inherit_id="website_sale.shop_product_carousel"  name="Add to Cart Product Image Inherit">
@@ -608,6 +609,8 @@
                     </ul>
                 </form>
         </xpath>
+
+
     </template>
 
     <template id="option_collapse_products_categories_inherit" name="Collapsible Category List Inherit" inherit_id="website_sale.option_collapse_products_categories">
@@ -641,6 +644,11 @@
             <!-- <attribute name="readonly">True</attribute> -->
 
         </xpath>
+
+        <xpath expr="//div[hasclass('css_quantity')]" position="attributes">
+            <attribute name="t-if">not request.env.user.user_has_groups('base.group_public')</attribute>
+        </xpath>
+        
     </template>
 
 

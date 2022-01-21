@@ -44,12 +44,14 @@
                             <section id="about" class="about mt-4" t-if="not request.env.user.user_has_groups('superasiab2b_b2c.group_b2baccount')">
                                 <div class="container">
                                     <div class="row no-gutters">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
+                                        </div>
+                                        <div class="col-lg-4">
                                             <div class="retailer-login-box">
                                                 <a href="/b2b_activation" class="btn" role="button" aria-pressed="true" style="  background-color: #ac1520;color: white;font-weight: bolder;">Retailer Login</a>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4 d-none">
                                             <div class="consumer-login-box mr-0">
                                                 <a href="/b2cactivation" class="btn" role="button" aria-pressed="true" style="  background-color: #ac1520;color: white;font-weight: bolder;">Direct Consumer</a>
                                             </div>
