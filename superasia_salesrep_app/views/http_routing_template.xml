@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_rep_http_error" inherit_id="http_routing.http_error">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <div class="container-fluid" id="super_top_menu_cart" t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
+                            <div class="text-light float-left">
+                                <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Dashboard</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-sm-8 text-center">
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sale_rep_400" inherit_id="http_routing.400">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <div class="container-fluid" id="super_top_menu_cart" t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
+                            <div class="text-light float-left">
+                                <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Dashboard</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-sm-8 text-center">
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sale_rep_403" inherit_id="http_routing.403">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <div class="container-fluid" id="super_top_menu_cart" t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
+                            <div class="text-light float-left">
+                                <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Dashboard</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-sm-8 text-center">
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sale_rep_404" inherit_id="http_routing.404">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <div class="container-fluid" id="super_top_menu_cart" t-if="request.env.user.user_has_groups('superasia_salesrep_app.group_sales_rep')">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2 pl-4">
+                            <div class="text-light float-left">
+                                <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Dashboard</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 col-sm-8 text-center">
+                        </div>
+                        <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

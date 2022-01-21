@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        
+        <record model="res.groups" id="group_sales_rep">
+            <field name="name">Sales Rep</field>
+            <field name="category_id" ref="superasiab2b_b2c.module_account_type"/>
+        </record>
+
+</odoo>
+
+
+       

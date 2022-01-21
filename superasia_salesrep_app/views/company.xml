@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sale_rep_app_configuration" model="ir.ui.view">
+        <field name="name">sale.rep.app.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="bista_superasia_theme.view_company_form_return_days"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='b2c_banner_image']" position="after">
+                <field name="app_category_1" widget="selection"/>
+                <field name="app_category_2" widget="selection"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

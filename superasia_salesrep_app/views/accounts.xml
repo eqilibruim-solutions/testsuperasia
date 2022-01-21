@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sales_rep_accounts" name="Sales Rep All Account Page">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Accounts</t>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <!-- ======= Header ======= -->
+                <div class="sale_rep_account">
+                    <div id="super_top_menu">
+                    <div class="container-fluid">
+                        <div class="row">
+                        <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                            <div class="text-light float-left nav-back">
+                                <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Home</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7 col-sm-7 text-center">
+                            <div class="account-name-style">
+                                <h3><a href="#" class="font-weight-bold text-white">All Accounts</a></h3>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3 col-md-3 text-right pt-2">
+                            <a href="#"><i class="icofont-plus-circle"></i></a>
+                        </div>  
+                        </div><!-- end row -->
+                    </div><!-- end container -->
+                    </div><!-- end #super_top_menu -->
+                    <div id="function_top_menu">
+                    <div class="container">
+                        <div class="row">
+                        <div class="col-12 col-sm-1 col-md-1 logo float-left pt-2">
+                            <div class="text-light float-left">
+                                <a role="button" data-toggle="collapse" href="#" aria-expanded="false" aria-controls="">
+                                    <i class="icofont-filter"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-7 col-md-7 float-left input-group">
+                            <div class="border form-outline w-100">
+                            <button id="search-button" type="button" class="btn btn-primary border-0">
+                                <i class="icofont-search"></i>
+                            </button>
+                            <input id="search-input" type="search" class="form-control" value="Search account" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4 col-md-4 text-right pt-2">
+                            <a href="/sales-rep/account/create"><i class="icofont-plus-circle"></i></a>
+                        </div>  
+                        </div><!-- end row -->
+                    </div><!-- end container -->
+                    </div><!-- end #function_top_menu -->
+                </div><!-- End Header -->
+                <div class="container-fluid collapse" id="filterCollapse">
+                    <div class="row">
+                        <div class="col-12">
+                            <form clas="pt-3 px-4">
+                                <div class="form-group row">
+                                    <label for="cityFilter" class="col-sm-2 col-form-label">City:</label>
+                                    <div class="col-sm-10">
+                                        <select id="cityFilter" name="city" class="city-listing-tags js-example-tags form-control" multiple="multiple">
+                                        <option></option>
+                                        <option>11514555 Canada Ltd.</option>
+                                        <option>1471.50</option>
+                                        <option>1595645 ONTARIO INC.</option>  
+                                        <option>Montreal</option>
+                                        <option>2218769 ONTARIO INC. AL RAMZAN GROCERS</option>
+                                        <option>2356718 ONTARIO LTD.</option>
+                                        <option>2425293 ONTARIO INC.(Asif Sheikh)</option>
+                                        <option>2616886 ONTARIO INC. O/A Zaiqa Restaurant and Sweets</option>
+                                        <option>2708950 ONTARIO INC.</option>
+                                        <option>2833364 ONTARIO INC.</option>
+                                        <option>786 JANNAT HILAL MEAT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Apply</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- ======= Accounts Table Section ======= -->
+                <div class="accounts-table section-bg">
+                    <div class="mt-4">
+                        <table class="table table-bordered table-striped table-hover" id="all-accounts-table">
+                            <thead class="thead-dark">
+                                <tr>
+                                <th scope="col" class="align-middle account-name font-weight-bold">Name</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">Phone</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">Mobile</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">Street</th>
+                                <th scope="col" class="align-middle no-sort font-weight-bold">City</th>
+                                <th scope="col" class="align-middle more-info no-sort font-weight-bold">Info</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="b2b_partner_ids" t-as="b2b_partner">
+                                    <tr>
+                                        <td scope="row" class="font-weight-bold"><t t-esc="b2b_partner.name"/></td>
+                                        <td class="font-weight-bold"><t t-esc="b2b_partner.phone"/></td>
+                                        <td class="font-weight-bold"><t t-esc="b2b_partner.mobile"/></td>
+                                        <td class="font-weight-bold"><t t-esc="b2b_partner.street"/></td>
+                                        <td class="font-weight-bold"><t t-esc="b2b_partner.city"/></td>
+                                        <td class="font-weight-bold"><a t-attf-href="/sales-rep/account/#{b2b_partner.id}/details" class="btn"> >></a></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>  
+                        
+                    </div><!-- End container -->
+                </div><!-- End Div -->
+
+            </div>
+        </t>
+        
+    </template>
+
+</odoo>

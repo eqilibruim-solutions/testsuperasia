@@ -1,0 +1,94 @@
+#sales_rep_home {
+  /*--------------------------------------------------------------
+  # Clients Section
+  --------------------------------------------------------------*/
+  a.dropdown-toggle {
+    color: #ffffff;
+  }
+  .section-bg-clients{
+    background: #C01921;
+    height: 100vh;
+  }
+
+  .section-title {
+    h1 {
+      color: #202020 !important;
+      font-size: 3rem !important;
+    }
+    p {
+      color: #202020 !important;
+    }
+  }
+  .logo {
+    height: 50vh;
+  }
+  .adjust-logo-middle {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -50%);
+  }
+  #homescreen-menu-options {
+    line-height: 2;
+    text-align: center;
+    color: #042E64;
+    font-size: 35px;
+    font-family: sans-serif;
+    font-weight: bold;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  .custom-font-size {
+    font-size: 0.57rem;
+    font-weight: bold;
+    padding: .375rem .45rem;
+  }
+  @media (min-width: 768px) { 
+    .custom-font-size {
+      font-size: 1rem;
+    }
+  }
+  @media (max-width: 767px) {
+    .custom-font-size {
+      margin-right: 0.25rem;
+    }
+    .primary-buttons {
+      a.custom-font-size {
+        &:last-child {
+          margin-right: 0;
+          padding: .375rem .875rem;
+        }
+      }
+    }
+  }
+  
+}
+#saleOderModalCenter {
+  top: -186px;
+}
+.dropdown-modal {
+  .modal-content {
+    border-radius: 0.7rem;
+    -webkit-border-radius: 0.7rem;
+    -moz-border-radius: 0.7rem;
+  }
+  .modal-header {
+    border-top-left-radius: 0.7rem;
+    border-top-right-radius: 0.7rem;
+    background-color: #e3e3e4;
+
+    button.close {
+      font-size: small;
+      color: #1f85c2;
+      align-self: center;
+      padding-left: 0px;
+      padding-right: 0px;
+      text-transform: none;
+      opacity: 1;
+    }
+    .modal-title {
+      color: #000000;
+    }
+  }
+}

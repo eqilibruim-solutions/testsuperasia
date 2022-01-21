@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sales_rep_products_item" name="Sales Rep App Products item">
+        <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+
+        <form action="/shop/cart/update" method="post" class="oe_product_cart"
+            t-att-data-publish="product.website_published and 'on' or 'off'"
+            itemscope="itemscope" itemtype="http://schema.org/Product">
+            <div class="pt-2 text-center">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                <div class="ribbon-wrapper">
+                    <a href="#" role="button" class="ribbon btn btn-danger">Sale</a>
+                </div>
+                <a href="#" class="d-block img-pop" itemprop="url">
+                    <span t-field="product.image_1920"
+                        t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}"
+                        class="d-flex justify-content-around pt-2 text-center w-100 h-150"/>
+                </a>
+            </div>
+            <div class="p-0 text-center">
+                <div class="p-2 o_wsale_product_information_text product-details text-center text-uppercase border-0">
+
+                    <p class="font-weight-bold mb-1"><t t-esc="product.name"/></p>
+
+                    <t t-set="combination_info" t-value="product._get_combination_info(only_template=False, add_qty=add_qty or 1, pricelist=pricelist,product_id=product.product_variant_id.id)"/>
+                    <h6 class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+                        <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                        <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                        <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+                        <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+                        <!-- Price for b2b account -->
+                        <t t-set="old_price" t-value="product.b2b_old_price"/>
+
+                        <span itemprop="oldPrice" style="display:none;" t-esc="old_price" />
+                        <span t-if="old_price > 0.0 and old_price > combination_info['price'] and combination_info['price'] > 0.0" t-esc="old_price"
+                              t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                              style="text-decoration: line-through; white-space: nowrap; font-weight: bold; color: black; padding-left: 0.2rem;"/>
+                    </h6>
+                    <t t-set="combination" t-value="product._get_first_possible_combination()"/>
+                    <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                    <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
+
+                    <t t-set="in_cart_lines" t-value="request.website.sale_get_order().order_line"/>
+
+                    <div class="row">
+                        <div class="col px-0">
+                            <p class="mb-1">UOM: <span t-esc="combination_info['product_uom']"/></p>
+                        </div>
+                        <div class="col px-0">
+                            <p class="mb-1">Price per Unit: 
+                            <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="mb-1">In Stock Quantity: <t t-esc="combination_info['onhand_qty']"/></p>
+                    <t t-set="expiry_lot" t-value="product_variant.lot_close_to_removal()"/>
+                    <p class="font-weight-bold mb-1 text-danger" t-if="expiry_lot">Expiry Date: <t t-esc="expiry_lot.removal_date.date()"/></p>
+
+                    <form method="POST" t-if="selected_partner">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                        <div class="js_product js_main_product mt-1">
+                            <t t-placeholder="select">
+                                <input type="hidden" class="product_id" name="product_id" t-att-value="product_variant.id" />
+                                <input type="hidden" class="product_template_id" name="product_template_id" t-att-value="product.id" />
+                            </t>
+                            <t t-set="product_qty_available" t-value="(round(combination_info['onhand_qty']) - combination_info['updated_cart_qty'])"/>
+                            <t t-if="product_qty_available >= 1">
+                                <div class="css_quantity input-group input-group-sm mx-auto p-1 rep_app_css_quantity">
+                                    <div class="input-group-prepend">
+                                        <a t-attf-href="#" class="btn btn-link js_add_cart_json d-md-inline-block text-black" aria-label="Remove one" title="Remove one">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                    </div>
+                                    <t t-set="prod_cart_qty" t-value="int(in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).product_uom_qty)"/>
+                                    <input type="text"
+                                        readonly="True"
+                                        t-att-data-max="combination_info['onhand_qty']"
+                                        t-att-data-line-id="in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).id" t-att-data-product-id="product_variant.id"
+                                        class="custom_js_quantity form-control quantity text-center bg-white h-auto rounded" t-att-value="prod_cart_qty if prod_cart_qty else '0'" />
+                                    <div class="input-group-append">
+                                        <a t-attf-href="#" id="custom_buy" class="btn btn-link float_left js_add_cart_json d-md-inline-block text-black" aria-label="Add one" title="Add one">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- <a t-att-class="'d-none btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt d-none' if product_variant.id in in_cart_lines.mapped('product_id').ids else 'btn btn-cart mb-2 text-center text-uppercase text-white add_to_crt'" role="button">Add</a> -->
+                            </t>
+                            <t t-else="">
+                                <div class="availability_message_6 font-weight-bold text-danger">
+                                    <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning"></i>
+                                    SOLD OUT
+                                </div>
+                            </t>
+
+
+                        </div>
+                    </form>
+                    </div>
+                <div class="o_wsale_product_btn"/>
+            </div>
+        </form>
+    </template>
+
+    <template id="sales_rep_product_listing" name="Sales Rep roduct Listing Page">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Shop</t>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <!-- ======= Header ======= -->
+                <div class="sale_rep_product_list d-inline">
+                    <div id="super_top_menu">
+                        <div class="container-fluid">
+                            <div class="row">
+                            <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
+                                <div class="text-light float-left">
+                                    <a href="/sales-rep/home" class="font-weight-bold text-white"><i class="fa fa-angle-left"></i> Home</a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-8 col-sm-8 text-center">
+                                <div class="account-name-style">
+                                    <h5 class="pt-2">
+                                        <a href="#" class="font-weight-bold text-white"><t t-esc="selected_partner.name"/> </a>
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-2 col-md-2 text-right pt-2"></div>  
+                            </div><!-- end row -->
+                        </div><!-- end container -->
+                    </div><!-- end #super_top_menu -->
+
+                    <div id="function_top_menu" class="sticky-top">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-sm-8 col-md-8 text-center">
+
+                                    <div class="border form-outline w-100">
+                                        <!-- Search Product  -->
+                                        <t t-set="action" t-value="keep('/shop'+ ('/category/'+slug(category)) if category else None, search=0)"/>
+                                        <form 
+                                        t-attf-class="o_wsale_products_searchbar_form o_wait_lazy_js #{_classes}" 
+                                        t-att-action="action if action else '/shop'" 
+                                        method="get" style="width: 100% !important;display: block;">
+                                            <input type="text" name="search" class="search-query form-control oe_search_box form-control" placeholder="Search item" t-att-value="search"
+                                                data-limit="5" data-display-description="true" data-display-image="true"
+                                            />
+                                            <input name="order" type="hidden" class="o_wsale_search_order_by" value=""/>
+                                            <t t-raw="0"/>
+                                            <t t-if="attrib_values">
+                                                <t t-foreach="attrib_values" t-as="a">
+                                                    <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])" />
+                                                </t>
+                                            </t>
+                                            <button id="search_button_product_listings" type="submit" class="btn btn-primary border-0 oe_search_button">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </form>
+                                        <!-- END: Search Product -->
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-4">
+                                    <div class="row">
+                                    <div class="col text-center"><a href="#" class="d-none"><i class="icofont-filter"></i></a></div>
+                                    <!-- Sorting Product -->
+                                    <div class="col text-center">
+                                        <t t-set="list_price_desc_label">Catalog price: High to Low</t>
+                                        <t t-set="list_price_asc_label">Catalog price: Low to High</t>
+                                        <t t-set="name_asc_label">Name: A to Z</t>
+                                        <t t-set="name_desc_label">Name: Z to A</t>
+                                        <t t-set="website_sale_sortable" t-value="[
+                                            (list_price_desc_label, 'list_price desc'),
+                                            (list_price_asc_label, 'list_price asc'),
+                                            (name_asc_label, 'name asc'),
+                                            (name_desc_label, 'name desc')
+                                        ]"/>
+                                        <t t-set="website_sale_sortable_current" t-value="[sort for sort in website_sale_sortable if sort[1]==request.params.get('order', '')]"/>
+                                        <a href="#" class="btn btn-sm dropdown-toggle text-black" data-toggle="dropdown">
+                                            <i class="icofont-sort-alt"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <t t-foreach="website_sale_sortable" t-as="sortby">
+                                                <a role="menuitem" rel="noindex,nofollow" t-att-href="keep('/sales-rep/sale', order=sortby[1])" class="dropdown-item text-black" style="font-size: 1rem;">
+                                                    <span t-raw="sortby[0]"/>
+                                                </a>
+                                            </t>
+                                        </div>
+                                        <!--END: Sorting Product -->
+                                    </div>
+                                    </div>  
+                                </div>
+                                <!-- Category / Brand dropdown -->
+                                <div class="row">
+
+                                    <div class="col py-3">
+                                        <div>
+                                            <select id="product-category" class="product-listing-tags form-control">
+                                                <option t-att-value="keep('/sales-rep/sale', category=0)">Main (All)</option>
+                                                <t t-foreach="categories" t-as="c">
+                                                    <option t-att-value="keep('/sales-rep/sale/category/' + slug(c), category=0)" data-type="category" t-att-selected="c.id == category.id">
+                                                        <t t-esc="c.name"/>
+                                                    </option>
+                                                </t>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <t t-foreach="attributes" t-as="a">
+                                    <div class="col py-3">
+                                        <form class="js_attributes" method="get">
+                                            <div>
+                                                <select class="product-listing-tags form-control" name="attrib">
+                                                    <option value="">Brand</option>
+                                                    <t t-foreach="a.value_ids" t-as="v">
+                                                        <option t-att-value="'%s-%s' % (a.id,v.id)" t-esc="v.name" t-att-selected="v.id in attrib_set" />
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </t>
+                                    <div class="col py-3">
+                                        <t t-set="app_category_1" t-value="res_company.app_category_1"/>
+                                        <div t-if="app_category_1" class="select_box">
+                                            <a t-att-href="keep('/sales-rep/catalogue/category/' + slug(app_category_1), category=0)"><t t-esc="app_category_1.name"/></a>
+                                        </div>
+                                    </div>
+                                    <div class="col py-3">
+                                        <t t-set="app_category_2" t-value="res_company.app_category_2"/>
+                                        <div t-if="app_category_2" class="select_box">
+                                            <a t-att-href="keep('/sales-rep/catalogue/category/' + slug(app_category_2), category=0)"><t t-esc="app_category_2.name"/></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end row -->
+                        </div><!-- end container -->
+                    </div><!-- end #top_menu -->
+
+                </div><!-- End Header -->
+                <!-- ======= Main Section ======= -->
+                <div class="container oe_website_sale">
+                    <div class="row sales-app-product">
+
+                        <t t-if="bins">
+                            <t t-foreach="bins" t-as="tr_product">
+                                <t t-foreach="tr_product" t-as="td_product">
+                                    <t t-if="td_product">
+                                        <div class="col-12 col-sm-6 col-md-6 pb-3 border-bottom">
+                                            <t t-set="product" t-value="td_product['product']" />
+                                            <t t-set="product_href" t-value="keep(product.website_url, page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))" />
+                                            <t t-set="rep_product_href" t-value="product_href.replace('/shop/','/sales-rep/sale/')"/>
+
+                                            <div class="row">
+                                                <div class="col-sm-9 col-md-9"></div>
+                                                <div class="col-12 col-sm-3 col-md-3 text-right">
+                                                    <div class="more-info">
+                                                        <a t-att-href="rep_product_href" class="btn font-weight-bold text-capitalize">Info</a>
+                                                    </div><!-- end more-info -->
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="">
+
+                                                <div t-attf-class=" #{td_product['x']}_#{td_product['y']} mb-4" >
+                                                    <t t-call="superasia_salesrep_app.sales_rep_products_item">
+                                                        <t t-set="product_image_big" t-value="td_product['x'] + td_product['y'] &gt; 2"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <div class="text-center text-muted">
+                                <t t-if="not search">
+                                    <h3 class="mt8">No product defined</h3>
+                                    <p t-if="category">No product defined in category "<strong t-esc="category.display_name"/>".</p>
+                                </t>
+                                <t t-else="">
+                                    <h3 class="mt8">No results</h3>
+                                    <p>No results for "<strong t-esc='search'/>"<t t-if="category"> in category "<strong t-esc="category.display_name"/>"</t>.</p>
+                                </t>
+                            </div>
+                        </t>
+
+                        <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">              
+                                <div class="modal-body text-center">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <img src="/superasia_salesrep_app/static/src/img/super-asia-logo.png" class="imagepreview img img-thumbnail border-0"/>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                                        </div>
+                    <div class="my-5">
+                    </div>
+                </div>
+
+                <div id="product-list-bottom" class="fixed-bottom py-3">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="products_pager form-inline">
+                                    <t t-call="website.pager"/>
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                <t t-set="website_sale_order" t-value="website.sale_get_order()" />
+                                <a href="/shop/cart">
+                                    <i class="fa bi bi-cart" style="color: #ad3021;font-size: 1.8rem;"></i>
+                                    <sup t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''" style="font-size: calc(10px);important;border-radius: 15px;background: #BE252B; vertical-align: top !important;"/>
+                                </a>
+                            </div>
+                        </div><!-- end row -->
+                    </div><!-- end container-fluid -->
+                </div>
+            </div>
+
+        </t>
+        
+    </template>
+</odoo>
