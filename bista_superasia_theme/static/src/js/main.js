@@ -60,7 +60,7 @@ x.addListener(myFunction) // Attach listener function on state changes
   }
 
   // Stick the header at top on scroll
-  $("#header").sticky({
+  $("#header:not(.d-none)").sticky({
     topSpacing: 0,
     zIndex: '50'
   });

@@ -24,9 +24,9 @@ font-size: .9rem;
 }
 /* Set Limited text in search box suggestion */
 
-#select2-drop{
+/* #select2-drop{
     width: auto !important;
-}
+} */
 #p_txt{
   display: inline-block;
   width: 9em;
