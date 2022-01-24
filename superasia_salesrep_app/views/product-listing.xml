@@ -53,7 +53,7 @@
                         </div>
                     </div>
 
-                    <p class="mb-1">In Stock Quantity: <t t-esc="combination_info['onhand_qty']"/></p>
+                    <p class="mb-1">In Stock Quantity: <t t-esc="round(product_variant.qty_available)"/></p>
                     <t t-set="expiry_lot" t-value="product_variant.lot_close_to_removal()"/>
                     <p class="font-weight-bold mb-1 text-danger" t-if="expiry_lot">Expiry Date: <t t-esc="expiry_lot.removal_date.date()"/></p>
 
@@ -74,7 +74,7 @@
                                     </div>
                                     <t t-set="prod_cart_qty" t-value="int(in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).product_uom_qty)"/>
                                     <input type="text"
-                                        readonly="True"
+                                        
                                         t-att-data-max="combination_info['onhand_qty']"
                                         t-att-data-line-id="in_cart_lines.filtered(lambda lm:lm.product_id.id == product_variant.id).id" t-att-data-product-id="product_variant.id"
                                         class="custom_js_quantity form-control quantity text-center bg-white h-auto rounded" t-att-value="prod_cart_qty if prod_cart_qty else '0'" />
@@ -221,13 +221,13 @@
                                     <div class="col py-3">
                                         <t t-set="app_category_1" t-value="res_company.app_category_1"/>
                                         <div t-if="app_category_1" class="select_box">
-                                            <a t-att-href="keep('/sales-rep/catalogue/category/' + slug(app_category_1), category=0)"><t t-esc="app_category_1.name"/></a>
+                                            <a t-att-href="keep('/sales-rep/sale/category/' + slug(app_category_1), category=0, attrib=0)"><t t-esc="app_category_1.name"/></a>
                                         </div>
                                     </div>
                                     <div class="col py-3">
                                         <t t-set="app_category_2" t-value="res_company.app_category_2"/>
                                         <div t-if="app_category_2" class="select_box">
-                                            <a t-att-href="keep('/sales-rep/catalogue/category/' + slug(app_category_2), category=0)"><t t-esc="app_category_2.name"/></a>
+                                            <a t-att-href="keep('/sales-rep/sale/category/' + slug(app_category_2), category=0, attrib=0)"><t t-esc="app_category_2.name"/></a>
                                         </div>
                                     </div>
                                 </div>
