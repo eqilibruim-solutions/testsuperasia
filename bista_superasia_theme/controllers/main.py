@@ -519,49 +519,4 @@ class WebsiteSale(ws):
 
         return res
     
-    @http.route('/check_delivery_address', type='json', auth='public', website=True)
-    def check_delivery_address(self, postal_code, **kwargs):
-        """
-        Free delivery or not based on zip code/postal code
-        """
-        gta_code_obj = request.env['gta.code']
-        free_delivery = False
-        if postal_code:
-            value = str(postal_code)[:3].strip()
-            postal_code_exits = gta_code_obj.search([('postal_code','ilike',value)])
-            if postal_code_exits:
-                free_delivery = True
-        return {'free_delivery': free_delivery}
    
-    @http.route(['/shop/payment'], type='http', auth="public", website=True, sitemap=False)
-    def payment(self, **post):
-        res = super(WebsiteSale, self).payment(**post)
-        order = request.website.sale_get_order()
-        deliveries = res.qcontext['deliveries']
-        gta_shipping_method = deliveries.filtered(lambda x: x.is_gta_code)
-        select_free_delivery = False
-        if request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
-            zip_code = order.partner_shipping_id.zip
-            if zip_code:
-                select_free_delivery = self.check_delivery_address(zip_code)['free_delivery']
-                       
-        if gta_shipping_method:
-            if select_free_delivery:
-                # Check the shipping method true based on price ruled
-                status_based_rule = gta_shipping_method.base_on_rule_rate_shipment(order)
-                if status_based_rule.get('success'):
-                    order.carrier_id = gta_shipping_method[0].id
-                    res.qcontext['deliveries'] = gta_shipping_method[0]
-            else:
-                res.qcontext['deliveries'] = deliveries.filtered(
-                                            lambda x: x.id != gta_shipping_method[0].id)
-
-        return res
-    
-
-    @http.route(['/check-postal-code'], type='http', auth="public", website=True)
-    def check_postal_code(self, **post):
-        if request.env.user.user_has_groups('base.group_public') or request.env.user.user_has_groups('superasiab2b_b2c.group_b2cuser'):
-            return request.render("bista_superasia_theme.check_postal_code", {})
-            
-        return request.not_found()
