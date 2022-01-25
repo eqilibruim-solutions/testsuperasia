@@ -221,7 +221,7 @@ class superasiab2b_b2c(http.Controller):
 
             
             if partner_id:
-                ir_mail_server = request.env['ir.mail_server']
+                ir_mail_server = request.env['ir.mail_server'].sudo()
                 mail_server_id = ir_mail_server.search([('name','=','Superasia')])
                 smtp_user = str(mail_server_id.smtp_user)
                 temp_obj = request.env['mail.template']
@@ -350,7 +350,7 @@ class superasiab2b_b2c(http.Controller):
 
             
             if partner_id:
-                ir_mail_server = request.env['ir.mail_server']
+                ir_mail_server = request.env['ir.mail_server'].sudo()
                 mail_server_id = ir_mail_server.search([('name','=','Superasia')])
                 smtp_user = str(mail_server_id.smtp_user)
                 temp_obj = request.env['mail.template']
@@ -381,7 +381,7 @@ class superasiab2b_b2c(http.Controller):
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         usr_url = "{}/web?#id={}&action=74&model=res.users&view_type=form&cids=1&menu_id=4".format(base_url, partner_id)
 
-        ir_mail_server = request.env['ir.mail_server']
+        ir_mail_server = request.env['ir.mail_server'].sudo()
         mail_server_id = ir_mail_server.search([('name', '=', 'Superasia')])
         smtp_user = str(mail_server_id.smtp_user)
         temp_obj = request.env['mail.template']
