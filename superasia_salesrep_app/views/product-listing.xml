@@ -48,7 +48,7 @@
                         </div>
                         <div class="col px-0">
                             <p class="mb-1">Price per Unit: 
-                            <span t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                            <span t-esc="combination_info['unit_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
                             </p>
                         </div>
                     </div>

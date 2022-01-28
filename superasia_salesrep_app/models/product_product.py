@@ -24,3 +24,21 @@ class ProductProduct(models.Model):
             ], order='removal_date', limit=1)
         
         return closest_lot_obj
+
+
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
+    def _get_combination_info(self, combination=False, product_id=False, add_qty=1, pricelist=False,
+                              parent_combination=False, only_template=False):
+        combination_info = super(ProductTemplate, self)._get_combination_info(
+            combination=combination, product_id=product_id, add_qty=add_qty, pricelist=pricelist,
+            parent_combination=parent_combination, only_template=only_template)
+        product = self.env['product.product'].browse(combination_info['product_id']) or self
+        factor_inv = 0
+        if product.uom_id.factor_inv:
+            factor_inv = product.uom_id.factor_inv
+        if factor_inv > 0:
+            combination_info.update({
+                'unit_price': round(float(combination_info['price'])/factor_inv)
+            })
+        return combination_info
