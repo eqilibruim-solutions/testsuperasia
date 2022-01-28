@@ -125,5 +125,5 @@ class InternalStockOrderpoint(models.Model):
         for picking in pick_vals.values():
             picking_id = picking_obj.create(picking)
             picking_id.action_confirm()
-            picking_id.action_assign()
+            # picking_id.action_assign()
         return True
