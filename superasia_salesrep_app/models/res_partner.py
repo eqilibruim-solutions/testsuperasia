@@ -15,8 +15,8 @@ class ResPartner(models.Model):
     
     assigned_sale_rep = fields.Many2one(
         'res.users', string='Assigned Sales Rep')
-
-
+        # domain=lambda self: [('groups_id', 'in', self.env.ref('superasia_salesrep_app.group_sales_rep').id)])
+ 
     sale_rep_create = fields.Boolean(string='', help="Create by Sales Rep or not")
     last_website_so_id = fields.Many2one('sale.order', compute='_compute_last_website_so_id', string='Last Online Sales Order')
 
