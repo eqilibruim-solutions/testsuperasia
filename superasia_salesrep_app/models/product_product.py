@@ -39,6 +39,6 @@ class ProductTemplate(models.Model):
             factor_inv = product.uom_id.factor_inv
         if factor_inv > 0:
             combination_info.update({
-                'unit_price': round(float(combination_info['price'])/factor_inv)
+                'unit_price': round(float(combination_info['price'])/factor_inv,2)
             })
         return combination_info
