@@ -1,0 +1,1 @@
+from . import web_one2many_kanban
