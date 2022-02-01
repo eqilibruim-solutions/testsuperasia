@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+    <record id="bis_picking_view_kanban_inherit" model="ir.ui.view">
+        <field name="name">bis.stock.picking.view.kanban.barcode</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.stock_picking_kanban"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='activity_state']" position="after">
+                <field name="move_line_ids_without_package"/>
+            </xpath>
+
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="after">
+                <div class="o_kanban_record_bottom flex-column">
+                    <t t-foreach="record.move_line_ids_without_package.raw_value" t-as="o">
+                        <span><t t-esc="o.display_name"/></span>
+                    </t>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    
+    </data>
+    
+
+</odoo>
