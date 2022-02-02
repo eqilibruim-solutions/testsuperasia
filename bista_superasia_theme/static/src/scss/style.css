@@ -1771,11 +1771,12 @@ border-radius: 4px;
 font-size: 16px;
 background-color: white;
 }
-#select2-drop{
-    /*width: 260px !important;*/
+/* #select2-drop{
+    width: 260px !important; 
     width: 100% !important;
     left : auto !important;
-}
+} 
+*/
 
 
 .left-fixed-sidebar{
