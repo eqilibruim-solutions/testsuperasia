@@ -18,7 +18,7 @@
                             <div class="row">
                             <div class="col-12 col-sm-2 col-md-2 logo float-left pt-2">
                                 <div class="text-light float-left">
-                                    <t t-if="selected_partner">
+                                    <!-- <t t-if="selected_partner">
                                         <a href="/sales-rep/sale" class="font-weight-bold text-white">
                                             <i class="fa fa-angle-left"></i> Back
                                         </a>
@@ -27,7 +27,10 @@
                                         <a href="/sales-rep/catalogue" class="font-weight-bold text-white">
                                             <i class="fa fa-angle-left"></i> Back
                                         </a>
-                                    </t>
+                                    </t> -->
+                                    <a href="#" onclick="history.back()" class="font-weight-bold text-white">
+                                        <i class="fa fa-angle-left"></i> Back
+                                    </a>
                                 </div>
                             </div>
                             <div class="col-12 col-md-7 col-sm-7 text-center">
