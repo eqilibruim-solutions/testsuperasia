@@ -80,6 +80,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div t-if="b2b_partner_ids" class="alert alert-info col-12 text-center">
+                            <p>Total Accounts: <t t-esc="len(b2b_partner_ids)"/></p>
+                        </div>
+                    </div>
+                </div>
                 <!-- ======= Accounts Table Section ======= -->
                 <div class="accounts-table section-bg">
                     <div class="mt-4">

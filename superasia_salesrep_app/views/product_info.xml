@@ -28,7 +28,7 @@
                                             <i class="fa fa-angle-left"></i> Back
                                         </a>
                                     </t> -->
-                                    <a href="#" onclick="history.back()" class="font-weight-bold text-white">
+                                    <a href="javascript: window.history.back()" class="font-weight-bold text-white">
                                         <i class="fa fa-angle-left"></i> Back
                                     </a>
                                 </div>
