@@ -1,1 +1,1 @@
-from . import models
+from . import models, stock_picking
