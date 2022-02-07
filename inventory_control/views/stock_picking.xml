@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- stock.picking.type inherit form view -->
+    <record id="bista_view_picking_type_form_inh" model="ir.ui.view">
+        <field name="name">stock.picking.type.inherit.view.form</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="responsible_user" />
+            </xpath>
+            
+        </field>
+    </record>    
+
+</odoo>

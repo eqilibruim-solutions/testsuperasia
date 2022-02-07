@@ -12,6 +12,7 @@
     # always loaded
     'data': [
         'views/views.xml',
+        'views/stock_picking.xml',
     ],
     'qweb': [
         "static/src/xml/barcode_extended.xml",
